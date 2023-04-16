@@ -239,8 +239,7 @@ import net.minecraft.block.material.Material;
             this.setItemStackToSlot(EquipmentSlotType.CHEST, ${mappedMCItemToItemStackCode(data.equipmentBody, 1)});
             </#if>
             <#if !data.equipmentLeggings.isEmpty()>
-            this.setItemStackToSlot(
-					EquipmentSlotType.LEGS, ${mappedMCItemToItemStackCode(data.equipmentLeggings, 1)});
+            this.setItemStackToSlot(EquipmentSlotType.LEGS, ${mappedMCItemToItemStackCode(data.equipmentLeggings, 1)});
             </#if>
             <#if !data.equipmentBoots.isEmpty()>
             this.setItemStackToSlot(EquipmentSlotType.FEET, ${mappedMCItemToItemStackCode(data.equipmentBoots, 1)});
