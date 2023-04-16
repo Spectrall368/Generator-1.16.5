@@ -34,6 +34,7 @@
 
 package ${package}.item.extension;
 
+<#compress>
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}ItemExtension {
 
 	<#if data.hasDispenseBehavior || data.compostLayerChance gt 0>
@@ -46,6 +47,7 @@ package ${package}.item.extension;
 		    <#if data.hasDispenseBehavior>
                 DispenserBlock.registerDispenseBehavior(${mappedMCItemToItem(data.item)}, new OptionalDispenseBehavior() {
                     public ItemStack dispenseStack(IBlockSource blockSource, ItemStack stack) {
+                        <#assign hasSuccessCondition = hasProcedure(data.dispenseSuccessCondition)>
                         ItemStack itemstack = stack.copy();
                         World world = blockSource.getWorld();
                         Direction direction = blockSource.getBlockState().get(DispenserBlock.FACING);
@@ -53,19 +55,23 @@ package ${package}.item.extension;
                         int y = blockSource.getBlockPos().getY();
                         int z = blockSource.getBlockPos().getZ();
 
+    			<#if hasSuccessCondition>
                         this.setSuccessful(<@procedureOBJToConditionCode data.dispenseSuccessCondition/>);
+    			</#if>
 
                         <#if hasProcedure(data.dispenseResultItemstack)>
                             boolean success = this.isSuccessful();
                             <#if hasReturnValueOf(data.dispenseResultItemstack, "itemstack")>
-                                return <@procedureOBJToItemstackCode data.dispenseResultItemstack/>;
+                                return <@procedureOBJToItemstackCode data.dispenseResultItemstack, false/>;
                             <#else>
                                 <@procedureOBJToCode data.dispenseResultItemstack/>
-                                if(success) itemstack.shrink(1);
+    				<#if hasSuccessCondition>if(success)</#if>
+    				itemstack.shrink(1);
                                 return itemstack;
                             </#if>
                         <#else>
-                            if(this.isSuccessful()) itemstack.shrink(1);
+                            <#if hasSuccessCondition>if(this.isSuccess())</#if>
+			    itemstack.shrink(1);
                             return itemstack;
                         </#if>
                     }
@@ -90,5 +96,5 @@ package ${package}.item.extension;
             }
         }
     </#if>
-}
+}</#compress>
 <#-- @formatter:on -->
