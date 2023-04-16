@@ -193,7 +193,7 @@ import ${package}.${JavaModName};
 								return false;
 							}
 					<#elseif component.getClass().getSimpleName() == "InputSlot">
-							<#if component.inputLimit.toString()?has_content>
+						<#if component.inputLimit.toString()?has_content>
 							@Override public boolean isItemValid(ItemStack stack) {
 								<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
 									<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "") + "\"">
@@ -202,7 +202,7 @@ import ${package}.${JavaModName};
 									return ${mappedMCItemToItem(component.inputLimit)} == itemstack.getItem();
 								</#if>
 							}
-							</#if>
+						</#if>
 						<#elseif component.getClass().getSimpleName() == "OutputSlot">
             	            @Override public boolean isItemValid(ItemStack stack) {
 								return false;
