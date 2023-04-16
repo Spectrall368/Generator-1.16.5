@@ -116,7 +116,3 @@ public static class CustomPortalSize ${mcc.getClassBody("net.minecraft.block.Por
 	.replace("state.isIn(BlockTags.FIRE) || state.isIn(Blocks.NETHER_PORTAL)", "state.getBlock() == portal")
 	.replace("Blocks.NETHER_PORTAL.getDefaultState()", "portal.getDefaultState()")
 	.replace("return state.isPortalFrame(blockReader, pos);", "return state.getBlock() ==" + mappedBlockToBlock(data.portalFrame) + ";")}
-	
-	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
-		ItemBlockRenderTypes.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}_PORTAL.get(), renderType -> renderType == RenderType.translucent());
-	}
