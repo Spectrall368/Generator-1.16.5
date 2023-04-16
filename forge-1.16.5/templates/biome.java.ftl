@@ -358,7 +358,7 @@ import java.util.HashMap;
 
 				biome = new Biome.Builder()
 						.precipitation(Biome.RainType.<#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>RAIN<#else>SNOW</#if><#else>NONE</#if>)
-						.category(Biome.Category.${data.biomeCategory?replace("UNDERGROUND", "NONE")?replace("MOUNTAIN", "NONE")})
+						.category(Biome.Category.NONE)
 						.depth(${data.baseHeight}f)
 						.scale(${data.heightVariation}f)
 						.temperature(${data.temperature}f)
@@ -375,13 +375,6 @@ import java.util.HashMap;
 	}
 
 	@Override public void init(FMLCommonSetupEvent event) {
-		<#if data.biomeDictionaryTypes?has_content>
-			BiomeDictionary.addTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)),
-			<#list data.biomeDictionaryTypes as biomeDictionaryType>
-				BiomeDictionary.Type.${generator.map(biomeDictionaryType, "biomedictionarytypes")}<#if biomeDictionaryType?has_next>,</#if>
-			</#list>
-			);
-		</#if>
 		<#if data.spawnBiome>
 			BiomeManager.addBiome(
 				BiomeManager.BiomeType.
