@@ -3,5 +3,5 @@ templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/potion/@NAMEPotionEffect.java"
 
 localizationkeys:
-  - key: effect.@registryname
+  - key: effect.@modid.@registryname
     mapto: effectName
