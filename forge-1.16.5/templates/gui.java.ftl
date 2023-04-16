@@ -192,7 +192,7 @@ import ${package}.${JavaModName};
 							@Override public boolean isItemValid(ItemStack stack) {
 								return false;
 							}
-					<#elseif component.getClass().getSimpleName() == "InputSlot">
+						<#elseif component.getClass().getSimpleName() == "InputSlot">
 						<#if component.inputLimit.toString()?has_content>
 							@Override public boolean isItemValid(ItemStack stack) {
 								<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
