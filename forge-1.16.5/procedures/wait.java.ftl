@@ -3,9 +3,9 @@ new Object() {
 
     private int ticks = 0;
     private float waitTicks;
-    private LevelAccessor world;
+    private IWorld world;
 
-    public void start(LevelAccessor world, int waitTicks) {
+    public void start(IWorld world, int waitTicks) {
 		this.waitTicks = waitTicks;
 		MinecraftForge.EVENT_BUS.register(this);
 		this.world = world;
