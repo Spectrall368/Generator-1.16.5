@@ -2,7 +2,7 @@ templates:
   - template: enchantment.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/enchantment/@NAMEEnchantment.java"
 
-field_exclusions: [excludeItems, excludeEnchantments]
+field_exclusions: [compatibleItems, compatibleEnchantments]
 
 localizationkeys:
   - key: enchantment.@modid.@registryname
