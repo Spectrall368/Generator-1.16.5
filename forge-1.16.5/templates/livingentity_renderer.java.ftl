@@ -133,12 +133,6 @@ package ${package}.entity.renderer;
 	}
     </#if>
 
-	<#if data.mobModelName == "Villager">
-	@Override protected void scale(${name}Entity villager, PoseStack poseStack, float f) {
-		poseStack.scale(0.9375f, 0.9375f, 0.9375f);
-	}
-	</#if>
-
     <#if data.getModelCode()?? && !data.isBuiltInModel() >
         ${data.getModelCode().toString()
         .replace("extends ModelBase", "extends EntityModel<Entity>")
@@ -205,4 +199,3 @@ package ${package}.entity.renderer;
 	    }
 	</#if>
 </#macro>
-
