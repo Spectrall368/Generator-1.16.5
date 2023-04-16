@@ -46,7 +46,7 @@ package ${package}.gui.overlay;
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent(priority = EventPriority.${data.priority})
 	<#if generator.map(data.overlayTarget, "screens") == "Ingame">
-	public static void eventHandler(RenderGameOverlayEvent.Post event) {
+	public static void eventHandler(RenderGuiEvent.Post event) {
 		if (event.getType() == RenderGameOverlayEvent.ElementType.HELMET) {
 			int w = event.getWindow().getScaledWidth();
 			int h = event.getWindow().getScaledHeight();
