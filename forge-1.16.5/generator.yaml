@@ -53,12 +53,6 @@ base_templates:
     writer: file
     name: "@RESROOT/META-INF/mods.toml"
 
-sources_setup_tasks:
-  - task: copy_models
-    type: JAVA_viatemplate
-    template: javamodel.java.ftl
-    to: "@SRCROOT/@BASEPACKAGEPATH/client/model"
-
 language_file:
   format: json
   root_folder: "@MODASSETSROOT/lang/"
