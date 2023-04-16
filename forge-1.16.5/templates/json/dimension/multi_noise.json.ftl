@@ -1,7 +1,4 @@
 <#-- @formatter:off -->
-
-<#include "../../biomeutils.ftl">
-
 <#assign biomesmap = fp.file("utils/defaultbiomes.json")?eval_json/>
 
 <#macro multiNoiseSource>
@@ -46,12 +43,11 @@
                       "erosion": 0,
                       "depth": 0,
                       "offset": 0
-                    }
+        }
                   </#if>
               </#if>
           </#if>
-        }
-        <#if biome?has_next>,</#if>
+          <#if biome?has_next>,</#if>
       </#list>
     ]
 }
