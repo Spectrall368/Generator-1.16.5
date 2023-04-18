@@ -194,7 +194,7 @@ import ${package}.${JavaModName};
 								return <@procedureOBJToConditionCode component.disablePlacement false true/>;
 							}
 						<#elseif component.inputLimit.toString()?has_content>
-							@Override public boolean mayPlace(ItemStack stack) {
+							@Override public boolean isItemValid(ItemStack stack) {
 								<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
 									<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "") + "\"">
 									return stack.is(ItemTags.create(new ResourceLocation(${tag})));
