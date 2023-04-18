@@ -1,5 +1,4 @@
 templates:
   - template: dispensebehaviour.java.ftl
     condition: hasDispenseBehavior
-    deleteWhenConditionFalse: true
     name: "@SRCROOT/@BASEPACKAGEPATH/item/extension/@NAMEItemExtension.java"
