@@ -1,1 +1,1 @@
-ConstantHeight.of(${input$value})
+WallHeight.valueOf(${input$value})
