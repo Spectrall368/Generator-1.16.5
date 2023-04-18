@@ -13,7 +13,7 @@
 				capability.fill(new FluidStack(${(field$fluid.replace("CUSTOM:", ""))}Block.still, _amount), IFluidHandler.FluidAction.EXECUTE)
 				</#if>
 			<#else>
-			capability.fill(new FluidStack(Fluids.${generator.map(field$fluid, "fluid")}, _amount), IFluidHandler.FluidAction.EXECUTE)
+			capability.fill(new FluidStack(Fluids.${generator.map(field$fluid, "fluids")}, _amount), IFluidHandler.FluidAction.EXECUTE)
 			</#if>
 		);
 }
