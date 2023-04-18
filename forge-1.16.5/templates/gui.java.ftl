@@ -161,7 +161,7 @@ import ${package}.${JavaModName};
 						${(component.y - my / 2)?int + 1}) {
 
 					<#if hasProcedure(component.disablePickup) || component.disablePickup.getFixedValue()>
-						@Override public boolean canTakeStack(PlayerEntity player) {
+						@Override public boolean canTakeStack(PlayerEntity entity) {
 							return <@procedureOBJToConditionCode component.disablePickup false true/>;
 						}
 					</#if>
