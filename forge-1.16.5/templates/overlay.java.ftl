@@ -85,8 +85,8 @@ package ${package}.gui.overlay;
 					<#if hasProcedure(component.displayCondition)>
 										if (<@procedureOBJToConditionCode component.displayCondition/>) {
 					</#if>
-										RenderSystem.setShaderTexture(0, new ResourceLocation("${modid}:textures/screens/${component.image}"));
-										Minecraft.getInstance().gui.blit(event.${stackMethodName}(), posX + ${x}, posY + ${y}, 0, 0,
+										Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
+										Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), posX + ${x}, posY + ${y}, 0, 0,
 					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
 					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
 					<#if hasProcedure(component.displayCondition)>}</#if>
