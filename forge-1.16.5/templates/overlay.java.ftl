@@ -66,10 +66,10 @@ package ${package}.gui.overlay;
 
 			PlayerEntity entity = Minecraft.getInstance().player;
 			if (entity != null) {
-				world = entity.level;
-				x = entity.getX();
-				y = entity.getY();
-				z = entity.getZ();
+				world = entity.world;
+				x = entity.getPosX();
+				y = entity.getPosY();
+				z = entity.getPosZ();
 			}
 
 			<#if hasTextures>
