@@ -1,1 +1,1 @@
-(Registry.ENTITY_TYPE.getId(${input$entity}.getType().toString())
+(Registry.ENTITY_TYPE.getId(${input$entity}.getType()).toString())
