@@ -244,7 +244,7 @@ import ${package}.${JavaModName};
 					20, 20, new StringTextComponent("${component.text}"), <#if hasProcedure(component.isCheckedProcedure)>
         	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
 
-        	${getName()}gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
+        	${component.getName()}gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
         	this.addButton(${component.getName()});
 		</#list>
 	}
