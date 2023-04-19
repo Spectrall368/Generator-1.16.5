@@ -102,6 +102,15 @@ package ${package}.gui.overlay;
 							<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>"${component.text.getFixedValue()}"</#if>,
 							posX + ${x}, posY + ${y}, ${component.color.getRGB()});
 	            </#list>
+				<#list data.getComponentsOfType("EntityModel") as component>
+					if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity livingEntity) {
+						<#if hasProcedure(component.displayCondition)>
+							if (<@procedureOBJToConditionCode component.displayCondition/>)
+						</#if>
+						InventoryScreen.renderEntityInInventory(posX + ${component.x - 202}, posY + ${component.y - 100},
+							${component.scale}, 0, 0, livingEntity);
+					}
+				</#list>
 			}
 
 			<#if data.hasTextures()>
@@ -112,6 +121,5 @@ package ${package}.gui.overlay;
 			</#if>
 		}
 	}
-
 }
 <#-- @formatter:on -->
