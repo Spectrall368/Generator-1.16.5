@@ -240,8 +240,8 @@ import ${package}.${JavaModName};
 e -> {
 	<#if hasProcedure(component.onClick)>
 	    if (<@procedureOBJToConditionCode component.displayCondition/>) {
-			${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}ButtonMessage(${btid}, x, y, z));
-			${name}ButtonMessage.handleButtonAction(entity, ${btid}, x, y, z);
+			${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Gui.ButtonPressedMessage(${btid}, x, y, z));
+			${name}Gui.handleButtonAction(entity, ${btid}, x, y, z);
 		}
 	</#if>
 }
