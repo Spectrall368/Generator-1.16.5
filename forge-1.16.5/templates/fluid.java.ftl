@@ -242,7 +242,6 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 
-	<#if data.extendsForgeFlowingFluid()>
 	public static abstract class CustomFlowingFluid extends ForgeFlowingFluid {
 		public CustomFlowingFluid(Properties properties) {
 			super(properties);
@@ -254,7 +253,6 @@ import net.minecraftforge.common.property.Properties;
 		public IParticleData getDripParticleData() {
 			return ${data.dripParticle};
 		}
-		</#if>
 
 		<#if data.flowStrength != 1>
 		@Override public Vector3d getFlow(IBlockReader world, BlockPos pos, FluidState fluidstate) {
