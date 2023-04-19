@@ -472,7 +472,6 @@ public void performBonemeal(ServerWorld world, Random random, BlockPos pos, Bloc
 	"world": "world",
 	"blockstate": "blockstate"
 	}/>
-		</#if>
-		}
 	</#if>
+}
 </#macro>
