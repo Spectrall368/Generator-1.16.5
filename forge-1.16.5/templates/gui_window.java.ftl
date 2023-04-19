@@ -97,12 +97,12 @@ import ${package}.${JavaModName};
 		</#if>
 
 		<#list data.getComponentsOfType("Image") as component>
-				<#if hasProcedure(component.displayCondition)>if (<@procedureOBJToConditionCode component.displayCondition/>) {</#if>
-					Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
-					this.blit(ms, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int}, 0, 0,
-						${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
-						${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
-				<#if hasProcedure(component.displayCondition)>}</#if>
+			<#if hasProcedure(component.displayCondition)>if (<@procedureOBJToConditionCode component.displayCondition/>) {</#if>
+				Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
+				this.blit(ms, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int}, 0, 0,
+					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
+					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
+			<#if hasProcedure(component.displayCondition)>}</#if>
 		</#list>
 
 		RenderSystem.disableBlend();
@@ -131,12 +131,12 @@ import ${package}.${JavaModName};
 
 	@Override protected void drawGuiContainerForegroundLayer(MatrixStack ms, int mouseX, int mouseY) {
 		<#list data.getComponentsOfType("Label") as component>
-				<#if hasProcedure(component.displayCondition)>
-				if (<@procedureOBJToConditionCode component.displayCondition/>)
-				</#if>
-		    	this.font.draw(poseStack,
-					<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>"${component.text.getFixedValue()}"</#if>,
-					${(component.x - mx / 2)?int}, ${(component.y - my / 2)?int}, ${component.color.getRGB()});
+			<#if hasProcedure(component.displayCondition)>
+			if (<@procedureOBJToConditionCode component.displayCondition/>)
+			</#if>
+			this.font.draw(poseStack,
+				<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>"${component.text.getFixedValue()}"</#if>,
+				${(component.x - mx / 2)?int}, ${(component.y - my / 2)?int}, ${component.color.getRGB()});
 		</#list>
 	}
 
@@ -151,36 +151,37 @@ import ${package}.${JavaModName};
 
 		<#assign btid = 0>
 		<#list data.getComponentsOfType("TextField") as component>
-				${component.getName()} = new TextFieldWidget(this.font, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-				${component.width}, ${component.height}, new StringTextComponent("${component.placeholder}"))
-				<#if component.placeholder?has_content>
-				{
-					{
+			${component.getName()} = new TextFieldWidget(this.font, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+			${component.width}, ${component.height}, new StringTextComponent("${component.placeholder}"))
+			<#if component.placeholder?has_content>
+			{
+					setSuggestion("${component.placeholder}");
+				}
+
+				@Override public void writeText(String text) {
+					super.writeText(text);
+
+					if(getText().isEmpty())
 						setSuggestion("${component.placeholder}");
-					}
+					else
+						setSuggestion(null);
+				}
 
-					@Override public void writeText(String text) {
-						super.writeText(text);
+				@Override public void setCursorPosition(int pos) {
+					super.setCursorPosition(pos);
 
-						if(getText().isEmpty())
-							setSuggestion("${component.placeholder}");
-						else
-							setSuggestion(null);
-					}
-
-					@Override public void setCursorPosition(int pos) {
-						super.setCursorPosition(pos);
-
-						if(getText().isEmpty())
-							setSuggestion("${component.placeholder}");
-						else
-							setSuggestion(null);
+					if(getText().isEmpty())
+						setSuggestion("${component.placeholder}");
+					else
+						setSuggestion(null);
 					}
 				}
-				</#if>;
-                guistate.put("text:${component.getName()}", ${component.getName()});
-				${component.getName()}.setMaxStringLength(32767);
-                this.children.add(this.${component.getName()});
+			}
+			</#if>;
+			${component.getName()}.setMaxStringLength(32767);
+
+        	guistate.put("text:${component.getName()}", ${component.getName()});
+			this.children.add(this.${component.getName()});
 		</#list>
 
 		<#list data.getComponentsOfType("Button") as component>
@@ -204,11 +205,12 @@ import ${package}.${JavaModName};
 		</#list>
 
 		<#list data.getComponentsOfType("Checkbox") as component>
-            	${component.getName()} = new CheckboxButton(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-            	    20, 20, new StringTextComponent("${component.text}"), <#if hasProcedure(component.isCheckedProcedure)>
-            	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
-                ${getName()}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
-                this.addButton(${component.getName()});
+        	${component.getName()} = new CheckboxButton(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+					20, 20, new StringTextComponent("${component.text}"), <#if hasProcedure(component.isCheckedProcedure)>
+        	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
+
+        	${getName()}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
+        	this.addButton(${component.getName()});
 		</#list>
 	}
 
