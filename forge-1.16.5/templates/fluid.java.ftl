@@ -352,5 +352,6 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 	</#if>
+    }
 }
 <#-- @formatter:on -->
