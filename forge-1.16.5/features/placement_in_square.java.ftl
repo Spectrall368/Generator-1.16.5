@@ -1,1 +1,1 @@
-InSquarePlacement.spread(),
+SquarePlacement.spread(),
