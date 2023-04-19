@@ -179,7 +179,7 @@ import ${package}.${JavaModName};
 			<#if component.placeholder?has_content>
 			{
 					setSuggestion("${component.placeholder}");
-				}
+				};
 
 				public void writeText(String text) {
 					super.writeText(text);
