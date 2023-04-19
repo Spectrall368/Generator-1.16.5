@@ -710,21 +710,7 @@ import net.minecraft.util.SoundEvent;
 		</#if>
 
         <#if data.isBonemealable>
-		@Override public boolean isValidBonemealTarget(BlockGetter worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
-		<#if hasProcedure(isBonemealTargetCondition)>
-			if (worldIn instanceof LevelAccessor world) {
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
-			return <@procedureOBJToConditionCode isBonemealTargetCondition/>;
-			}
-		return false;
-		<#else>
-		return true;
-		</#if>
-		}
-
-		@Override public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState blockstate) {
+		@Override public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
 		<#if hasProcedure(bonemealSuccessCondition)>
 			int x = pos.getX();
 			int y = pos.getY();
@@ -735,7 +721,7 @@ import net.minecraft.util.SoundEvent;
 		</#if>
 		}
 
-		@Override public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState blockstate) {
+		@Override public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
 		<#if hasProcedure(onBonemealSuccess)>
 		<@procedureCode onBonemealSuccess, {
 			"x": "pos.getX()",
