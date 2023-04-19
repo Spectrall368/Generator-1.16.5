@@ -719,7 +719,6 @@ import net.minecraft.block.material.Material;
 		return true;
 	}
 
-	@Override
 	public boolean canBeCollidedWith() {
 		<#if hasProcedure(data.solidBoundingBox)>
 		Entity entity = this;
