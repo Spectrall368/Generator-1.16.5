@@ -385,7 +385,7 @@ import java.util.HashMap;
 				<#elseif (data.temperature > 1.0)>
 					DESERT
 				</#if>,
-				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)), ${data.biomeWeight})
+				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)),
 			);
         </#if>
 	}
