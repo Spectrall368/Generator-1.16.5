@@ -452,7 +452,7 @@
 
 <#macro bonemealEvents isBonemealTargetCondition="" bonemealSuccessCondition="" onBonemealSuccess="">
 <#if data.isBonemealable>
-@Override public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
+public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
 <#if hasProcedure(bonemealSuccessCondition)>
 	int x = pos.getX();
 	int y = pos.getY();
@@ -463,7 +463,7 @@
 	</#if>
 	}
 
-@Override public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
+public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
 	<#if hasProcedure(onBonemealSuccess)>
 	<@procedureCode onBonemealSuccess, {
 	"x": "pos.getX()",
