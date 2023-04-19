@@ -53,6 +53,14 @@ import ${package}.${JavaModName};
 	    CheckboxButton ${component.getName()};
 	</#list>
 
+	<#list data.getComponentsOfType("Button") as component>
+		Button ${component.getName()};
+	</#list>
+
+	<#list data.getComponentsOfType("ImageButton") as component>
+		ImageButton ${component.getName()};
+	</#list>
+
 	public ${name}GuiWindow(${name}Gui.GuiContainerMod container, PlayerInventory inventory, ITextComponent text) {
 		super(container, inventory, text);
 		this.world = container.world;
@@ -149,7 +157,6 @@ import ${package}.${JavaModName};
 		super.init(minecraft, width, height);
 		minecraft.keyboardListener.enableRepeatEvents(true);
 
-		<#assign btid = 0>
 		<#list data.getComponentsOfType("TextField") as component>
 			${component.getName()} = new TextFieldWidget(this.font, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
 			${component.width}, ${component.height}, new StringTextComponent("${component.placeholder}"))
@@ -184,24 +191,37 @@ import ${package}.${JavaModName};
 			this.children.add(this.${component.getName()});
 		</#list>
 
+		<#assign btid = 0>
+
 		<#list data.getComponentsOfType("Button") as component>
-				this.addButton(new Button(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-					${component.width}, ${component.height}, new StringTextComponent("${component.text}"), e -> {
-						if (<@procedureOBJToConditionCode component.displayCondition/>) {
-							${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Gui.ButtonPressedMessage(${btid}, x, y, z));
-							${name}Gui.handleButtonAction(entity, ${btid}, x, y, z);
-						}
-					}
-				)
-                <#if hasProcedure(component.displayCondition)>
-                {
-					@Override public void render(MatrixStack ms, int gx, int gy, float ticks) {
-						if (<@procedureOBJToConditionCode component.displayCondition/>)
-							super.render(ms, gx, gy, ticks);
-					}
-				}
-				</#if>);
-				<#assign btid +=1>
+			${component.getName()} = new Button(
+				this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+				${component.width}, ${component.height},
+				new StringTextComponent("gui.${modid}.${registryname}.${component.getName()}"),
+				<@buttonOnClick component/>
+			)<@buttonDisplayCondition component/>;
+
+			guistate.put("button:${component.getName()}", ${component.getName()});
+			this.addButton(${component.getName()});
+
+			<#assign btid +=1>
+		</#list>
+
+		<#list data.getComponentsOfType("ImageButton") as component>
+			${component.getName()} = new ImageButton(
+				this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+				${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
+				0, 0, ${component.getHeight(w.getWorkspace())},
+				new ResourceLocation("${modid}:textures/screens/atlas/${component.getName()}.png"),
+				${component.getWidth(w.getWorkspace())},
+				${component.getHeight(w.getWorkspace()) * 2},
+				<@buttonOnClick component/>
+			)<@buttonDisplayCondition component/>;
+
+			guistate.put("button:${component.getName()}", ${component.getName()});
+			this.addButton(${component.getName()});
+
+			<#assign btid +=1>
 		</#list>
 
 		<#list data.getComponentsOfType("Checkbox") as component>
@@ -215,4 +235,26 @@ import ${package}.${JavaModName};
 	}
 
 }
+
+<#macro buttonOnClick component>
+e -> {
+	<#if hasProcedure(component.onClick)>
+	    if (<@procedureOBJToConditionCode component.displayCondition/>) {
+			${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}ButtonMessage(${btid}, x, y, z));
+			${name}ButtonMessage.handleButtonAction(entity, ${btid}, x, y, z);
+		}
+	</#if>
+}
+</#macro>
+
+<#macro buttonDisplayCondition component>
+<#if hasProcedure(component.displayCondition)>
+{
+	@Override public void render(MatrixStack ms, int gx, int gy, float ticks) {
+		if (<@procedureOBJToConditionCode component.displayCondition/>)
+			super.render(ms, gx, gy, ticks);
+	}
+}
+</#if>
+</#macro>
 <#-- @formatter:on -->
