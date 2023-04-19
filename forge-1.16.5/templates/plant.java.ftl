@@ -37,6 +37,7 @@ package ${package}.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundEvent;
 
+<#compress>
 @${JavaModName}Elements.ModElement.Tag public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
 	@ObjectHolder("${modid}:${registryname}")
@@ -707,6 +708,10 @@ import net.minecraft.util.SoundEvent;
 			<@procedureOBJToCode data.onHitByProjectile/>
 		}
 		</#if>
+		
+	<#if data.isBonemealable>
+	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
+	</#if>
 
 		<#if data.hasTileEntity>
 		@Override public boolean hasTileEntity(BlockState state) {
@@ -750,4 +755,5 @@ import net.minecraft.util.SoundEvent;
 	</#if>
 
 }
+</#compress>
 <#-- @formatter:on -->
