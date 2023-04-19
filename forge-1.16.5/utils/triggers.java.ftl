@@ -464,8 +464,8 @@
 	}
 
 @Override public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
-<#if hasProcedure(onBonemealSuccess)>
-<@procedureCode onBonemealSuccess, {
+	<#if hasProcedure(onBonemealSuccess)>
+	<@procedureCode onBonemealSuccess, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
 	"z": "pos.getZ()",
