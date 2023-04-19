@@ -37,6 +37,7 @@ package ${package}.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundEvent;
 
+<#compress>
 @${JavaModName}Elements.ModElement.Tag
 public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
@@ -810,6 +811,10 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
         </#if>
 
+	<#if data.isBonemealable>
+	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
+	</#if>
+
 		<#if data.hasInventory>
 			@Override public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
 				TileEntity tileEntity = worldIn.getTileEntity(pos);
@@ -1175,4 +1180,5 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 	</#if>
 
 }
+</#compress>
 <#-- @formatter:on -->
