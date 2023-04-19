@@ -825,7 +825,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         	</#if>
 
         <#if data.isBonemealable>
-		@Override public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
+		public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
 		<#if hasProcedure(bonemealSuccessCondition)>
 			int x = pos.getX();
 			int y = pos.getY();
@@ -836,16 +836,16 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		</#if>
 		}
 
-		@Override public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
-		<#if hasProcedure(onBonemealSuccess)>
-		<@procedureCode onBonemealSuccess, {
+		public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
+			<#if hasProcedure(onBonemealSuccess)>
+			<@procedureCode onBonemealSuccess, {
 			"x": "pos.getX()",
 			"y": "pos.getY()",
 			"z": "pos.getZ()",
 			"world": "world",
 			"blockstate": "blockstate"
 			}/>
-		</#if>
+			</#if>
 		}
 	</#if>
 
