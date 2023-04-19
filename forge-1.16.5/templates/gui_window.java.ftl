@@ -201,10 +201,9 @@ import ${package}.${JavaModName};
 				}
 			}
 			</#if>;
-			${component.getName()}.setMaxStringLength(32767);
-
-        	guistate.put("text:${component.getName()}", ${component.getName()});
-			this.children.add(this.${component.getName()});
+                guistate.put("text:${component.getName()}", ${component.getName()});
+				${component.getName()}.setMaxStringLength(32767);
+                this.children.add(this.${component.getName()});
 		</#list>
 
 		<#assign btid = 0>
