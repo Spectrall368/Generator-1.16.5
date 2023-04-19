@@ -232,7 +232,6 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 
-	<#if data.extendsForgeFlowingFluid()>
 	public static abstract class CustomFlowingFluid extends ForgeFlowingFluid {
 		public CustomFlowingFluid(Properties properties) {
 			super(properties);
@@ -273,7 +272,6 @@ import net.minecraftforge.common.property.Properties;
         	int z = pos.getZ();
         	<@procedureOBJToCode data.beforeReplacingBlock/>
         }
-        </#if>
 
 		public static class Source extends CustomFlowingFluid {
 			public Source(Properties properties) {
