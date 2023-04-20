@@ -60,6 +60,14 @@
     </#if>
 </#function>
 
+<#function mappedBlockToBlockStateProvider mappedBlock>
+    <#if mappedBlock?starts_with("/*@BlockStateProvider*/")>
+        <#return mappedBlock?replace("/*@BlockStateProvider*/", "")>
+    <#else>
+        <#return "BlockStateProvider.simple(" + mappedBlockToBlockStateCode(mappedBlock) + ")">
+    </#if>
+</#function>
+
 <#function mappedElementToRegistryEntry mappedElement>
     <#return JavaModName + generator.isBlock(mappedElement)?then("Blocks", "Items") + "."
     + generator.getRegistryNameFromFullName(mappedElement)?upper_case + transformExtension(mappedElement)?upper_case + ".get()">
@@ -246,4 +254,8 @@
         </#if>
     </#if>
     <#return '{ "Name": "minecraft:air" }'>
+</#function>
+
+<#function toMappedMCItem unmappedValue>
+    <#return generator.toMappedMItemBlock(unmappedValue)>
 </#function>

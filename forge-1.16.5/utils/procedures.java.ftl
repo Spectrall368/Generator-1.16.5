@@ -47,11 +47,11 @@
     </#if>
 </#macro>
 
-<#macro procedureOBJToItemstackCode object="">
+<#macro procedureOBJToConditionCode object="" defaultValue=true invertCondition=false>
     <#if hasProcedure(object)>
-        /*@ItemStack*/ <@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
+        <#if invertCondition>!</#if><@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
     <#else>
-        /*@ItemStack*/ ItemStack.EMPTY
+        ${defaultValue?c}
     </#if>
 </#macro>
 

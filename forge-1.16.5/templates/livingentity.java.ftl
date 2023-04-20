@@ -30,7 +30,6 @@
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
-<#include "particles.java.ftl">
 
 package ${package}.entity;
 
@@ -304,7 +303,7 @@ import net.minecraft.block.material.Material;
             </#if>
 
             <#if data.ranged>
-                this.goalSelector.addGoal(1, new RangedAttackGoal(this, 1.25, 20, 10) {
+                this.goalSelector.addGoal(1, new RangedAttackGoal(this, 1.25, ${data.rangedAttackInterval}, ${data.rangedAttackRadius}f) {
 					@Override public boolean shouldContinueExecuting() {
 						return this.shouldExecute();
 					}
@@ -714,6 +713,23 @@ import net.minecraft.block.material.Material;
    		}
 		</#if>
 
+	<#if data.solidBoundingBox?? && (hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue())>
+	public boolean canCollideWith(Entity entity) {
+		return true;
+	}
+
+	public boolean canBeCollidedWith() {
+		<#if hasProcedure(data.solidBoundingBox)>
+		Entity entity = this;
+		Level world = entity.level;
+		double x = entity.getX();
+		double y = entity.getY();
+		double z = entity.getZ();
+		</#if>
+		return <@procedureOBJToConditionCode data.solidBoundingBox true false/>;
+	}
+	</#if>
+
 		<#if data.isBoss>
 		   @Override public boolean isNonBoss() {
 				return false;
@@ -796,22 +812,11 @@ import net.minecraft.block.material.Material;
 		}
         </#if>
 
-        <#if data.spawnParticles || data.flyingMob>
+        <#if data.flyingMob>
         public void livingTick() {
 			super.livingTick();
 
-			<#if data.flyingMob>
 			this.setNoGravity(true);
-			</#if>
-
-			<#if data.spawnParticles>
-			double x = this.getPosX();
-			double y = this.getPosY();
-			double z = this.getPosZ();
-			Random random = this.rand;
-			Entity entity = this;
-            <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious data.particleAmount data.particleCondition/>
-			</#if>
 		}
         </#if>
 

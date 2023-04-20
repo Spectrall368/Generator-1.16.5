@@ -37,6 +37,7 @@ package ${package}.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundEvent;
 
+<#compress>
 @${JavaModName}Elements.ModElement.Tag public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
 	@ObjectHolder("${modid}:${registryname}")
@@ -708,6 +709,31 @@ import net.minecraft.util.SoundEvent;
 		}
 		</#if>
 
+        <#if data.isBonemealable>
+		public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
+		<#if hasProcedure(bonemealSuccessCondition)>
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
+			return <@procedureOBJToConditionCode bonemealSuccessCondition/>;
+		<#else>
+		return true;
+		</#if>
+		}
+
+		public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
+			<#if hasProcedure(onBonemealSuccess)>
+			<@procedureCode onBonemealSuccess, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"world": "world",
+			"blockstate": "blockstate"
+			}/>
+			</#if>
+		}
+	</#if>
+
 		<#if data.hasTileEntity>
 		@Override public boolean hasTileEntity(BlockState state) {
 			return true;
@@ -750,4 +776,5 @@ import net.minecraft.util.SoundEvent;
 	</#if>
 
 }
+</#compress>
 <#-- @formatter:on -->

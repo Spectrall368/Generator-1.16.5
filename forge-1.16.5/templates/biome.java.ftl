@@ -359,8 +359,6 @@ import java.util.HashMap;
 				biome = new Biome.Builder()
 						.precipitation(Biome.RainType.<#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>RAIN<#else>SNOW</#if><#else>NONE</#if>)
 						.category(Biome.Category.NONE)
-						.depth(${data.baseHeight}f)
-						.scale(${data.heightVariation}f)
 						.temperature(${data.temperature}f)
 						.downfall(${data.rainingPossibility}f)
 						.setEffects(effects)
@@ -387,8 +385,7 @@ import java.util.HashMap;
 				<#elseif (data.temperature > 1.0)>
 					DESERT
 				</#if>,
-				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)), ${data.biomeWeight})
-			);
+				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome))));
         </#if>
 	}
 

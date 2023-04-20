@@ -1,0 +1,9 @@
+_default:
+  - NoOpFeature
+  - NoneFeatureConfiguration
+feature_huge_brown_mushroom:
+  - BigMushroomFeature
+  - BigMushroomFeatureConfig
+feature_huge_fungus:
+  - HugeFungusFeature
+  - HugeFungusConfig

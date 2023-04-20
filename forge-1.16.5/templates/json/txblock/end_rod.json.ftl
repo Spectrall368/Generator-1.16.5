@@ -42,8 +42,7 @@
                 "east":  { "uv": [ 0, 0, 2, 15 ], "texture": "#end_rod" }
             }
         }
-    ],
-    "render_type": "${data.getRenderType()}"
+    ]
 }
 
 <#-- @formatter:on -->

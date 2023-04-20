@@ -31,13 +31,13 @@
 <#include "boundingboxes.java.ftl">
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
-<#include "particles.java.ftl">
 
 package ${package}.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundEvent;
 
+<#compress>
 @${JavaModName}Elements.ModElement.Tag
 public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
@@ -351,6 +351,12 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
 		</#if>
 
+		<#if data.hasTransparency && !data.blockBase?has_content>
+		public VoxelShape getVisualShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+			return VoxelShapes.empty();
+		}
+		</#if>
+
 		<#if data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube()>
 		@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 			<#if data.isBoundingBoxEmpty()>
@@ -581,6 +587,19 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
         </#if>
 
+	<#if data.requiresCorrectTool>
+	@Override public boolean canHarvestBlock(BlockState state, BlockGetter world, BlockPos pos, Player player) {
+		if(player.getInventory().getSelected().getItem() instanceof
+				<#if data.destroyTool == "pickaxe">PickaxeItem
+				<#elseif data.destroyTool == "axe">AxeItem
+				<#elseif data.destroyTool == "shovel">ShovelItem
+				<#elseif data.destroyTool == "hoe">HoeItem
+				<#else>TieredItem</#if> tieredItem);
+			return tieredItem.getTier().getLevel() >= ${data.breakHarvestLevel};
+		return false;
+	}
+	</#if>
+
 		<#if !data.useLootTableForDrops>
 			<#if data.dropAmount != 1 && !(data.customDrop?? && !data.customDrop.isEmpty())>
 			@Override public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
@@ -673,7 +692,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
         </#if>
 
-        <#if hasProcedure(data.onRandomUpdateEvent) || data.spawnParticles>
+        <#if hasProcedure(data.onRandomUpdateEvent)>
 		@OnlyIn(Dist.CLIENT) @Override
 		public void animateTick(BlockState blockstate, World world, BlockPos pos, Random random) {
 			super.animateTick(blockstate, world, pos, random);
@@ -681,10 +700,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			int x = pos.getX();
 			int y = pos.getY();
 			int z = pos.getZ();
-			<#if data.spawnParticles>
-                <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious
-                data.particleAmount data.particleCondition/>
-            </#if>
 			<@procedureOBJToCode data.onRandomUpdateEvent/>
 		}
         </#if>
@@ -807,7 +822,32 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			return result;
 			</#if>
 		}
-        </#if>
+        	</#if>
+
+        <#if data.isBonemealable>
+		public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
+		<#if hasProcedure(bonemealSuccessCondition)>
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
+			return <@procedureOBJToConditionCode bonemealSuccessCondition/>;
+		<#else>
+		return true;
+		</#if>
+		}
+
+		public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
+			<#if hasProcedure(onBonemealSuccess)>
+			<@procedureCode onBonemealSuccess, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"world": "world",
+			"blockstate": "blockstate"
+			}/>
+			</#if>
+		}
+	</#if>
 
 		<#if data.hasInventory>
 			@Override public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
@@ -1174,4 +1214,5 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 	</#if>
 
 }
+</#compress>
 <#-- @formatter:on -->

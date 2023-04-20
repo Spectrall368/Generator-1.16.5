@@ -30,14 +30,6 @@
 <#-- @formatter:off -->
 <#include "procedures.java.ftl">
 
-<#assign hasTextures = data.baseTexture?has_content>
-<#list data.components as component>
-	<#if component.getClass().getSimpleName() == "Image">
-		<#assign hasTextures = true>
-		<#break>
-	</#if>
-</#list>
-
 package ${package}.gui.overlay;
 
 @Mod.EventBusSubscriber public class ${name}Overlay {
@@ -59,25 +51,20 @@ package ${package}.gui.overlay;
 			int posX = w / 2;
 			int posY = h / 2;
 
-			World _world = null;
-			double _x = 0;
-			double _y = 0;
-			double _z = 0;
+			World world = null;
+			double x = 0;
+			double y = 0;
+			double z = 0;
 
 			PlayerEntity entity = Minecraft.getInstance().player;
 			if (entity != null) {
-				_world = entity.world;
-				_x = entity.getPosX();
-				_y = entity.getPosY();
-				_z = entity.getPosZ();
+				world = entity.world;
+				x = entity.getPosX();
+				y = entity.getPosY();
+				z = entity.getPosZ();
 			}
 
-			World world = _world;
-			double x = _x;
-			double y = _y;
-			double z = _z;
-
-			<#if hasTextures>
+			<#if data.hasTextures()>
 				RenderSystem.disableDepthTest();
 				RenderSystem.depthMask(false);
 				RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
@@ -92,31 +79,41 @@ package ${package}.gui.overlay;
 					Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), 0, 0, 0, 0, w, h, w, h);
 				</#if>
 
-				<#list data.components as component>
+				<#list data.getComponentsOfType("Image") as component>
+					<#assign x = component.x - 213>
+					<#assign y = component.y - 120>
+					<#if hasProcedure(component.displayCondition)>
+										if (<@procedureOBJToConditionCode component.displayCondition/>) {
+					</#if>
+										Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
+										Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), posX + ${x}, posY + ${y}, 0, 0,
+					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
+					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
+					<#if hasProcedure(component.displayCondition)>}</#if>
+				</#list>
+
+				<#list data.getComponentsOfType("Label") as component>
 	                <#assign x = component.x - 213>
 	                <#assign y = component.y - 120>
-	                <#if component.getClass().getSimpleName() == "Label">
 						<#if hasProcedure(component.displayCondition)>
 						if (<@procedureOBJToConditionCode component.displayCondition/>)
 						</#if>
 						Minecraft.getInstance().fontRenderer.drawString(event.getMatrixStack(),
 							<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>"${component.text.getFixedValue()}"</#if>,
 							posX + ${x}, posY + ${y}, ${component.color.getRGB()});
-	                <#elseif component.getClass().getSimpleName() == "Image">
-						<#if hasProcedure(component.displayCondition)>
-						if (<@procedureOBJToConditionCode component.displayCondition/>) {
-						</#if>
-						Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
-						Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), posX + ${x}, posY + ${y}, 0, 0,
-							${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
-							${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
-
-						<#if hasProcedure(component.displayCondition)>}</#if>
-	                </#if>
 	            </#list>
+				<#list data.getComponentsOfType("EntityModel") as component>
+					if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity livingEntity) {
+						<#if hasProcedure(component.displayCondition)>
+							if (<@procedureOBJToConditionCode component.displayCondition/>)
+						</#if>
+						InventoryScreen.renderEntityInInventory(posX + ${component.x - 202}, posY + ${component.y - 100},
+							${component.scale}, 0, 0, livingEntity);
+					}
+				</#list>
 			}
 
-			<#if hasTextures>
+			<#if data.hasTextures()>
 				RenderSystem.depthMask(true);
 				RenderSystem.enableDepthTest();
 				RenderSystem.enableAlphaTest();
@@ -124,6 +121,5 @@ package ${package}.gui.overlay;
 			</#if>
 		}
 	}
-
 }
 <#-- @formatter:on -->
