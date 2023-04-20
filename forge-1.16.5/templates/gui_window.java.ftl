@@ -237,7 +237,7 @@ import ${package}.${JavaModName};
 			)<@buttonDisplayCondition component/>;
 
 			guistate.put("button:${component.getName()}", ${component.getName()});
-			this.addButton(${component.getName()});
+			this.addImageButton(${component.getName()});
 
 			<#assign btid +=1>
 		</#list>
@@ -248,7 +248,7 @@ import ${package}.${JavaModName};
         	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
 
         	guistate.put("checkbox:${component.getName()}", ${component.getName()});
-        	this.addButton(${component.getName()});
+        	this.addCheckboxButton(${component.getName()});
 		</#list>
 	}
 
