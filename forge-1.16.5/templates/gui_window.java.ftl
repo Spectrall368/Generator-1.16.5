@@ -39,8 +39,6 @@ import ${package}.${JavaModName};
 
 @OnlyIn(Dist.CLIENT) public class ${name}GuiWindow extends ContainerScreen<${name}Gui.GuiContainerMod> {
 
-	private final static HashMap<String, Object> guistate = ${name}Gui.guistate;
-
 	private World world;
 	private int x, y, z;
 	private PlayerEntity entity;
