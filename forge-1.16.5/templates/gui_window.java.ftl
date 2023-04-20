@@ -28,7 +28,7 @@
 -->
 
 <#-- @formatter:off -->
-<#include "procedures.java.ftl">
+<#include "../procedures.java.ftl">
 
 <#assign mx = data.W - data.width>
 <#assign my = data.H - data.height>
