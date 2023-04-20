@@ -172,8 +172,8 @@ import java.util.HashMap;
 					<#if data.vanillaTreeType == "Big trees">
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.JUNGLE_LOG.get().defaultBlockState()")}),
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.JUNGLE_LEAVES.get().defaultBlockState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.JUNGLE_LOG.getDefaultState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.JUNGLE_LEAVES.getDefaultState()")}),
 								new JungleFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 2),
 								new MegaJungleTrunkPlacer(${ct?then(data.minHeight, 10)}, 2, 19),
 								new TwoLayerFeature(1, 1, 2)))
@@ -189,8 +189,8 @@ import java.util.HashMap;
 					<#elseif data.vanillaTreeType == "Savanna trees">
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.ACACIA_LOG.get().defaultBlockState()")}),
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.ACACIA_LEAVES.get().defaultBlockState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.ACACIA_LOG.getDefaultState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.ACACIA_LEAVES.getDefaultState()")}),
 								new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)),
 								new ForkyTrunkPlacer(${ct?then(data.minHeight, 5)}, 2, 2),
 								new TwoLayerFeature(1, 0, 2)))
@@ -206,8 +206,8 @@ import java.util.HashMap;
 					<#elseif data.vanillaTreeType == "Mega pine trees">
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.get().defaultBlockState()")}),
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.get().defaultBlockState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.getDefaultState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.getDefaultState()")}),
 								new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(3, 4)),
 								new GiantTrunkPlacer(${ct?then(data.minHeight, 13)}, 2, 14),
 								new TwoLayerFeature(1, 1, 2)))
@@ -221,8 +221,8 @@ import java.util.HashMap;
 					<#elseif data.vanillaTreeType == "Mega spruce trees">
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.get().defaultBlockState()")}),
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.get().defaultBlockState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.getDefaultState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.getDefaultState()")}),
 								new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(13, 4)),
 								new GiantTrunkPlacer(${ct?then(data.minHeight, 13)}, 2, 14),
 								new TwoLayerFeature(1, 1, 2)))
@@ -236,8 +236,8 @@ import java.util.HashMap;
 					<#elseif data.vanillaTreeType == "Birch trees">
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.BIRCH_LOG.get().defaultBlockState()")}),
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.BIRCH_LEAVES.get().defaultBlockState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.BIRCH_LOG.getDefaultState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.BIRCH_LEAVES.getDefaultState()")}),
 								new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
 								new StraightTrunkPlacer(${ct?then(data.minHeight, 5)}, 2, 0),
 								new TwoLayerFeature(1, 0, 1)))
@@ -253,8 +253,8 @@ import java.util.HashMap;
 					<#else>
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.OAK_LOG.get().defaultBlockState()")}),
-								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.OAK_LEAVES.get().defaultBlockState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.OAK_LOG.getDefaultState()")}),
+								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.OAK_LEAVES.getDefaultState()")}),
 								new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
 								new StraightTrunkPlacer(${ct?then(data.minHeight, 4)}, 2, 0),
 								new TwoLayerFeature(1, 0, 1)))
@@ -295,35 +295,35 @@ import java.util.HashMap;
 				<#if (data.mushroomsPerChunk > 0)>
 				biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 						Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
-								new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM.get().defaultBlockState()), SimpleBlockPlacer.PLACER))
+								new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM.getDefaultState()), SimpleBlockPlacer.PLACER))
 								.tries(${data.mushroomsPerChunk}).func_227317_b_().build()));
 				biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 						Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
-								new SimpleBlockStateProvider(Blocks.RED_MUSHROOM.get().defaultBlockState()), SimpleBlockPlacer.PLACER))
+								new SimpleBlockStateProvider(Blocks.RED_MUSHROOM.getDefaultState()), SimpleBlockPlacer.PLACER))
 								.tries(${data.mushroomsPerChunk}).func_227317_b_().build()));
 				</#if>
 
 				<#if (data.bigMushroomsChunk > 0)>
 				biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 						Feature.HUGE_BROWN_MUSHROOM.withConfiguration(new BigMushroomFeatureConfig(
-								new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM_BLOCK.get().defaultBlockState().with(HugeMushroomBlock.UP, Boolean.TRUE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)),
-								new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.get().defaultBlockState().with(HugeMushroomBlock.UP, Boolean.FALSE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk})));
+								new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM_BLOCK.getDefaultState().with(HugeMushroomBlock.UP, Boolean.TRUE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)),
+								new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.getDefaultState().with(HugeMushroomBlock.UP, Boolean.FALSE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk})));
 				biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 						Feature.HUGE_RED_MUSHROOM.withConfiguration(new BigMushroomFeatureConfig(
-								new SimpleBlockStateProvider(Blocks.RED_MUSHROOM_BLOCK.get().defaultBlockState().with(HugeMushroomBlock.DOWN, Boolean.FALSE)),
-								new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.get().defaultBlockState().with(HugeMushroomBlock.UP, Boolean.FALSE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk})));
+								new SimpleBlockStateProvider(Blocks.RED_MUSHROOM_BLOCK.getDefaultState().with(HugeMushroomBlock.DOWN, Boolean.FALSE)),
+								new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.getDefaultState().with(HugeMushroomBlock.UP, Boolean.FALSE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk})));
 				</#if>
 
 				<#if (data.sandPatchesPerChunk > 0)>
 				biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
-						Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.SAND.get().defaultBlockState(), FeatureSpread.func_242253_a(2, 4), 2,
+						Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.SAND.getDefaultState(), FeatureSpread.func_242253_a(2, 4), 2,
 								ImmutableList.of(${mappedBlockToBlockStateCode(data.groundBlock)}, ${mappedBlockToBlockStateCode(data.undergroundBlock)})))
 								.withPlacement(Features.Placements.SEAGRASS_DISK_PLACEMENT).func_242731_b(${data.sandPatchesPerChunk}));
 				</#if>
 
 				<#if (data.gravelPatchesPerChunk > 0)>
 				biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
-						Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.GRAVEL.get().defaultBlockState(), FeatureSpread.func_242253_a(2, 3), 2,
+						Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.GRAVEL.getDefaultState(), FeatureSpread.func_242253_a(2, 3), 2,
 								ImmutableList.of(${mappedBlockToBlockStateCode(data.groundBlock)}, ${mappedBlockToBlockStateCode(data.undergroundBlock)})))
 								.withPlacement(Features.Placements.SEAGRASS_DISK_PLACEMENT).func_242731_b(${data.gravelPatchesPerChunk}));
 				</#if>
@@ -337,7 +337,7 @@ import java.util.HashMap;
 				<#if (data.cactiPerChunk > 0)>
 				biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 						Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
-								new SimpleBlockStateProvider(Blocks.CACTUS.get().defaultBlockState()), new ColumnBlockPlacer(1, 2)))
+								new SimpleBlockStateProvider(Blocks.CACTUS.getDefaultState()), new ColumnBlockPlacer(1, 2)))
 								.tries(${data.cactiPerChunk}).func_227317_b_().build()));
 				</#if>
 
@@ -462,7 +462,7 @@ import java.util.HashMap;
 
 		@Override ${mcc.getMethod("net.minecraft.world.gen.treedecorator.CocoaTreeDecorator", "func_225576_a_", "ISeedReader", "Random", "List", "List", "Set", "MutableBoundingBox")
 			.replace("this.field_227417_b_", "0.2F")
-			.replace("Blocks.COCOA.get().defaultBlockState().with(CocoaBlock.AGE,Integer.valueOf(p_225576_2_.nextInt(3))).with(CocoaBlock.HORIZONTAL_FACING,direction)",
+			.replace("Blocks.COCOA.getDefaultState().with(CocoaBlock.AGE,Integer.valueOf(p_225576_2_.nextInt(3))).with(CocoaBlock.HORIZONTAL_FACING,direction)",
 				mappedBlockToBlockStateCode(data.treeFruits))}
 
 	}
