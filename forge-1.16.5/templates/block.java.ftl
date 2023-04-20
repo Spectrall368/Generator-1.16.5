@@ -352,7 +352,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		</#if>
 
 		<#if data.hasTransparency && !data.blockBase?has_content>
-		public VoxelShape getVisualShape(BlockState state, BlockView world, BlockPos pos, EntityContext context) {
+		public VoxelShape getVisualShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 			return VoxelShapes.empty();
 		}
 		</#if>
