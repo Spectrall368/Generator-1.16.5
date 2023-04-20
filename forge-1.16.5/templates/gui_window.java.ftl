@@ -213,9 +213,9 @@ import ${package}.${JavaModName};
 
 		<#list data.getComponentsOfType("Button") as component>
 			${component.getName()} = new Button(
-			this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+				this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
 				${component.width}, ${component.height},
-				new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"), e -> {
+				new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"),
 				<@buttonOnClick component/>
 			)<@buttonDisplayCondition component/>;
 
