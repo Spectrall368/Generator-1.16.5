@@ -34,6 +34,7 @@ package ${package}.world.biome;
 
 import net.minecraftforge.common.BiomeManager;
 import net.minecraft.block.material.Material;
+net.minecraft.block.Block.getDefaultState;
 import java.util.ArrayList;
 import java.util.HashMap;
 
