@@ -594,7 +594,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 				<#elseif data.destroyTool == "axe">AxeItem
 				<#elseif data.destroyTool == "shovel">ShovelItem
 				<#elseif data.destroyTool == "hoe">HoeItem
-				<#else>TieredItem</#if> tieredItem)
+				<#else>TieredItem</#if> tieredItem);
 			return tieredItem.getTier().getLevel() >= ${data.breakHarvestLevel};
 		return false;
 	}
