@@ -54,9 +54,6 @@ import net.minecraftforge.common.property.Properties;
 		super(instance, ${data.getModElement().getSortID()});
 
 		FMLJavaModLoadingContext.get().getModEventBus().register(new FluidRegisterHandler());
-
-		MinecraftForge.EVENT_BUS.register(this);
-		FMLJavaModLoadingContext.get().getModEventBus().register(new FeatureRegisterHandler());
 	}
 
 	private static class FluidRegisterHandler {
@@ -113,13 +110,8 @@ import net.minecraftforge.common.property.Properties;
                     <#if data.generateBucket>.bucket(() -> bucket)</#if>
 					.block(() -> block);
 
-		<#if data.extendsForgeFlowingFluid()>
-		still = (FlowingFluid) new CustomFlowingFluid.Source(fluidproperties).setRegistryName("${registryname}");
-		flowing = (FlowingFluid) new CustomFlowingFluid.Flowing(fluidproperties).setRegistryName("${registryname}_flowing");
-		<#else>
 		still = (FlowingFluid) new ForgeFlowingFluid.Source(fluidproperties).setRegistryName("${registryname}");
 		flowing = (FlowingFluid) new ForgeFlowingFluid.Flowing(fluidproperties).setRegistryName("${registryname}_flowing");
-		</#if>
 
 		elements.blocks.add(() -> new FlowingFluidBlock(still,
 			<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
@@ -251,6 +243,7 @@ import net.minecraftforge.common.property.Properties;
 		public IParticleData getDripParticleData() {
 			return ${data.dripParticle};
 		}
+		</#if>
 
 		<#if data.flowStrength != 1>
 		@Override public Vector3d getFlow(IBlockReader world, BlockPos pos, FluidState fluidstate) {
@@ -279,7 +272,6 @@ import net.minecraftforge.common.property.Properties;
         	int z = pos.getZ();
         	<@procedureOBJToCode data.beforeReplacingBlock/>
         }
-        </#if>
 
 		public static class Source extends CustomFlowingFluid {
 			public Source(Properties properties) {
@@ -360,78 +352,6 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 	</#if>
-
-	<#if (data.spawnWorldTypes?size > 0)>
-	private static Feature<BlockStateFeatureConfig> feature = null;
-	private static ConfiguredFeature<?, ?> configuredFeature = null;
-
-	private static class FeatureRegisterHandler {
-
-		@SubscribeEvent public void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-			feature = new LakesFeature(BlockStateFeatureConfig.field_236455_a_) {
-				@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
-					RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-					boolean dimensionCriteria = false;
-
-    				<#list data.spawnWorldTypes as worldType>
-						<#if worldType=="Surface">
-							if(dimensionType == World.OVERWORLD)
-								dimensionCriteria = true;
-						<#elseif worldType=="Nether">
-							if(dimensionType == World.THE_NETHER)
-								dimensionCriteria = true;
-						<#elseif worldType=="End">
-							if(dimensionType == World.THE_END)
-								dimensionCriteria = true;
-						<#else>
-							if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
-									new ResourceLocation("${generator.getResourceLocationForModElement(worldType.toString().replace("CUSTOM:", ""))}")))
-								dimensionCriteria = true;
-						</#if>
-					</#list>
-
-					if(!dimensionCriteria)
-						return false;
-
-					<#if hasProcedure(data.generateCondition)>
-					int x = pos.getX();
-					int y = pos.getY();
-					int z = pos.getZ();
-					if (!<@procedureOBJToConditionCode data.generateCondition/>)
-						return false;
-					</#if>
-
-					return super.generate(world, generator, rand, pos, config);
-				}
-			};
-
-			configuredFeature = feature
-					.withConfiguration(new BlockStateFeatureConfig(block.getDefaultState()))
-					.withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(${data.frequencyOnChunks})));
-
-			event.getRegistry().register(feature.setRegistryName("${registryname}_lakes"));
-			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}_lakes"), configuredFeature);
-		}
-
-	}
-
-	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		<#if data.restrictionBiomes?has_content>
-				boolean biomeCriteria = false;
-			<#list data.restrictionBiomes as restrictionBiome>
-				<#if restrictionBiome.canProperlyMap()>
-					if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-						biomeCriteria = true;
-				</#if>
-			</#list>
-				if (!biomeCriteria)
-					return;
-		</#if>
-
-		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS)
-				.add(() -> configuredFeature);
-	}
-	</#if>
-
+    }
 }
 <#-- @formatter:on -->
