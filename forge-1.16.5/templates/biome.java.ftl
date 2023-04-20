@@ -175,7 +175,7 @@ import java.util.HashMap;
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.JUNGLE_LOG.getDefaultState()")}),
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.JUNGLE_LEAVES.getDefaultState()")}),
 								new JungleFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 2),
-								new MegaJungleTrunkPlacer(${ct?then(data.minHeight, 32]?min, 10)}, 2, 19),
+								new MegaJungleTrunkPlacer(${ct?then(data.minHeight, 32)?min, 10)}, 2, 19),
 								new TwoLayerFeature(1, 1, 2)))
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
@@ -192,7 +192,7 @@ import java.util.HashMap;
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.ACACIA_LOG.getDefaultState()")}),
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.ACACIA_LEAVES.getDefaultState()")}),
 								new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)),
-								new ForkyTrunkPlacer(${ct?then(data.minHeight, 32]?min, 5)}, 2, 2),
+								new ForkyTrunkPlacer(${ct?then(data.minHeight, 32)?min, 5)}, 2, 2),
 								new TwoLayerFeature(1, 0, 2)))
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
@@ -209,7 +209,7 @@ import java.util.HashMap;
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.getDefaultState()")}),
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.getDefaultState()")}),
 								new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(3, 4)),
-								new GiantTrunkPlacer(${ct?then(data.minHeight, 32]?min, 13)}, 2, 14),
+								new GiantTrunkPlacer(${ct?then(data.minHeight, 32)?min, 13)}, 2, 14),
 								new TwoLayerFeature(1, 1, 2)))
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
@@ -224,7 +224,7 @@ import java.util.HashMap;
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.getDefaultState()")}),
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.getDefaultState()")}),
 								new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(13, 4)),
-								new GiantTrunkPlacer(${ct?then(data.minHeight, 32]?min, 13)}, 2, 14),
+								new GiantTrunkPlacer(${ct?then(data.minHeight, 32)?min, 13)}, 2, 14),
 								new TwoLayerFeature(1, 1, 2)))
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
@@ -239,7 +239,7 @@ import java.util.HashMap;
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.BIRCH_LOG.getDefaultState()")}),
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.BIRCH_LEAVES.getDefaultState()")}),
 								new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
-								new StraightTrunkPlacer(${ct?then(data.minHeight, 32]?min, 5)}, 2, 0),
+								new StraightTrunkPlacer(${ct?then(data.minHeight, 32)?min, 5)}, 2, 0),
 								new TwoLayerFeature(1, 0, 1)))
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
@@ -256,7 +256,7 @@ import java.util.HashMap;
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.OAK_LOG.getDefaultState()")}),
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.OAK_LEAVES.getDefaultState()")}),
 								new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
-								new StraightTrunkPlacer(${ct?then(data.minHeight, 32]?min, 4)}, 2, 0),
+								new StraightTrunkPlacer(${ct?then(data.minHeight, 32)?min, 4)}, 2, 0),
 								new TwoLayerFeature(1, 0, 1)))
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
