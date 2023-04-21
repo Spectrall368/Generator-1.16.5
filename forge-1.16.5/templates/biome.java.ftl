@@ -389,7 +389,7 @@ import java.util.HashMap;
 				</#if>,
 				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)), ${data.biomeWeight})
 			);
-        </#if>
+		</#if>
 	}
 
 	<#if (data.treeVines?has_content && !data.treeVines.isEmpty())>
