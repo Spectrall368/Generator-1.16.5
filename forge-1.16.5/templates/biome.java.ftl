@@ -180,7 +180,7 @@ import java.util.HashMap;
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								<#else>
-									.setIgnoreVines()
+									.setDecorators(ImmutableList.of(TrunkVineTreeDecorator.field_236879_b_, LeaveVineTreeDecorator.field_236871_b_))
 								</#if>
 							.build())
 							.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
