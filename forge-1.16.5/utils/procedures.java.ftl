@@ -1,24 +1,42 @@
 <#-- @formatter:off -->
+<#macro procedureDependenciesCode requiredDependencies dependencies={}>
+    <#assign deps_filtered = [] />
+    <#list requiredDependencies as dependency>
+        <#list dependencies as name, value>
+            <#if dependency.getName() == name>
+                <#assign deps_filtered += [value] />
+            </#if>
+        </#list>
+    </#list>
+
+    <#list deps_filtered as value>${value}<#if value?has_next>,</#if></#list>
+</#macro>
+
+<#macro procedureCode object dependencies={}>
+    ${object.getName()}Procedure.execute(<@procedureDependenciesCode object.getDependencies(generator.getWorkspace()) dependencies/>);
+</#macro>
+
+<#macro procedureCodeWithOptResult object type defaultResult dependencies={}>
+    <#if hasReturnValueOf(object, type)>
+        return <@procedureCode object dependencies/>
+    <#else>
+        <@procedureCode object dependencies/>
+        return ${defaultResult};
+    </#if>
+</#macro>
+
 <#macro procedureToRetvalCode name dependencies customVals={}>
     <#assign depsBuilder = []>
 
     <#list dependencies as dependency>
-        <#if !customVals[dependency.getName()]?? >
-            <#assign depsBuilder += ["\"" + dependency.getName() + "\", " + dependency.getName()]>
+        <#if !customVals[dependency.getName()]?has_content>
+            <#assign depsBuilder += [dependency.getName()]>
+        <#else>
+            <#assign depsBuilder += [customVals[dependency.getName()]]>
         </#if>
     </#list>
 
-    <#list customVals as key, value>
-        <#assign depsBuilder += ["\"" + key + "\", " + value]>
-    </#list>
-
-    <#if depsBuilder?size == 0>
-        ${(name)}Procedure.executeProcedure(Collections.emptyMap())
-    <#else>
-        ${(name)}Procedure.executeProcedure(Stream.of(
-        <#list depsBuilder as dep>new AbstractMap.SimpleEntry<>(${dep})<#if dep?has_next>,</#if></#list>
-        ).collect(HashMap::new, (_m, _e) -> _m.put(_e.getKey(), _e.getValue()), Map::putAll))
-    </#if>
+    ${(name)}Procedure.execute(<#list depsBuilder as dep>${dep}<#if dep?has_next>,</#if></#list>)
 </#macro>
 
 <#macro procedureToCode name dependencies customVals={}>
@@ -31,11 +49,11 @@
     </#if>
 </#macro>
 
-<#macro procedureOBJToConditionCode object="">
+<#macro procedureOBJToConditionCode object="" defaultValue=true invertCondition=false>
     <#if hasProcedure(object)>
-        <@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
+        <#if invertCondition>!</#if><@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
     <#else>
-        true
+        ${defaultValue?c}
     </#if>
 </#macro>
 
@@ -47,14 +65,6 @@
     </#if>
 </#macro>
 
-<#macro procedureOBJToConditionCode object="" defaultValue=true invertCondition=false>
-    <#if hasProcedure(object)>
-        <#if invertCondition>!</#if><@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
-    <#else>
-        ${defaultValue?c}
-    </#if>
-</#macro>
-
 <#macro procedureOBJToStringCode object="">
     <#if hasProcedure(object)>
         <@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
@@ -63,11 +73,20 @@
     </#if>
 </#macro>
 
-<#macro procedureOBJToActionResultTypeCode object="">
+<#macro procedureOBJToItemstackCode object="" addMarker=true>
+    <#if addMarker>/*@ItemStack*/</#if>
     <#if hasProcedure(object)>
         <@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
     <#else>
-        ActionResultType.PASS
+        ItemStack.EMPTY
+    </#if>
+</#macro>
+
+<#macro procedureOBJToInteractionResultCode object="">
+    <#if hasProcedure(object)>
+        <@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
+    <#else>
+        InteractionResult.PASS
     </#if>
 </#macro>
 
