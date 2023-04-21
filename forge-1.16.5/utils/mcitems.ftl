@@ -6,7 +6,7 @@
         <#return mappedBlock?keep_before("/*@?*/") + "?" + mappedBlockToBlockStateCode(outputs?keep_before("/*@:*/"))
             + ":" + mappedBlockToBlockStateCode(outputs?keep_after("/*@:*/")) + ")">
     <#else>
-        <#return mappedBlockToBlock(mappedBlock) + ".defaultBlockState()">
+        <#return mappedBlockToBlock(mappedBlock) + ".getDefaultState()">
     </#if>
 </#function>
 
