@@ -5,8 +5,7 @@ buildfileversion: 36.2.39
 subversion: 1.0.4
 
 java_models:
-  key: mpc-1.16.x
-  compatible: [mcp-1.15.x]
+  key: legacy
   requested_key_words: [ModelRenderer, ~ModelPart]
 
 # gradle task definitions
