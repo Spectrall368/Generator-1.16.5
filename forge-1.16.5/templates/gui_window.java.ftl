@@ -29,6 +29,7 @@
 
 <#-- @formatter:off -->
 <#include "procedures.java.ftl">
+<#include "tokens.ftl">
 
 <#assign mx = data.W - data.width>
 <#assign my = data.H - data.height>
@@ -159,7 +160,7 @@ import ${package}.${JavaModName};
 			if (<@procedureOBJToConditionCode component.displayCondition/>)
 			</#if>
 			this.font.drawString(ms,
-				<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new StringTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
+				<#if hasProcedure(component.text)>"${translateTokens(JavaConventions.escapeStringForJava(component.text))}"<#else>new StringTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
 				${(component.x - mx / 2)?int}, ${(component.y - my / 2)?int}, ${component.color.getRGB()});
 		</#list>
 	}
