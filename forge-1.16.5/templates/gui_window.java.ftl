@@ -246,7 +246,7 @@ import ${package}.${JavaModName};
         	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
 
         	${name}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
-        	this.addButton(${component.getName()});
+        	this.children.add(this.${component.getName()});
 		</#list>
 	}
 
