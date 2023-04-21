@@ -28,7 +28,7 @@
 -->
 
 <#-- @formatter:off -->
-<#include "../procedures.java.ftl">
+<#include "procedures.java.ftl">
 
 <#assign mx = data.W - data.width>
 <#assign my = data.H - data.height>
@@ -95,11 +95,11 @@ import ${package}.${JavaModName};
 			<#assign followMouse = component.followMouseMovement>
 			<#assign x = (component.x - mx/2)?int>
 			<#assign y = (component.y - my/2)?int>
-			if (<@procedureOBJToConditionCode component.entityModel/> instanceof Entity entity) {
+			if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity livingEntity) {
 				<#if hasProcedure(component.displayCondition)>
 					if (<@procedureOBJToConditionCode component.displayCondition/>)
 				</#if>
-				InventoryScreen.renderEntityInInventory(this.leftPos + ${x + 11}, this.topPos + ${y + 21}, ${component.scale},
+				MinecraftClient.getInstance().getEntityRenderDispatcher().render(entity, this.guiLeft +${x + 11}, this.guiTop + ${y + 21},${component.scale}, mouseX, mouseY, matrixStack, vertexConsumerProvider),
 					<#if followMouse>(float) Math.atan((this.guiLeft + ${x + 11} - mouseX) / 40.0)<#else>0</#if>,
 					<#if followMouse>(float) Math.atan((this.guiTop + ${y + 21 - 50} - mouseY) / 40.0)<#else>0</#if>,
 					livingEntity
@@ -158,8 +158,8 @@ import ${package}.${JavaModName};
 			<#if hasProcedure(component.displayCondition)>
 			if (<@procedureOBJToConditionCode component.displayCondition/>)
 			</#if>
-		    	this.font.drawString(ms,
-				<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
+			this.font.drawString(ms,
+				<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new StringTranslatableComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
 				${(component.x - mx / 2)?int}, ${(component.y - my / 2)?int}, ${component.color.getRGB()});
 		</#list>
 	}
@@ -175,18 +175,18 @@ import ${package}.${JavaModName};
 
 		<#list data.getComponentsOfType("TextField") as component>
 			${component.getName()} = new TextFieldWidget(this.font, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-			${component.width}, ${component.height}, new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"))
+			${component.width}, ${component.height}, new StringTranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"))
 			<#if component.placeholder?has_content>
 			{
 				{
-					setSuggestion(new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
+					setSuggestion(new StringTranslatableComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
 				}
 
 				@Override public void writeText(String text) {
 					super.writeText(text);
 
 					if (getText().isEmpty())
-						setSuggestion(new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
+						setSuggestion(new StringTranslatableComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
 					else
 						setSuggestion(null);
 				}
@@ -195,7 +195,7 @@ import ${package}.${JavaModName};
 					super.setCursorPosition(pos);
 
 					if (getText().isEmpty())
-						setSuggestion(new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
+						setSuggestion(new StringTranslatableComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
 					else
 						setSuggestion(null);
 				}
@@ -211,15 +211,15 @@ import ${package}.${JavaModName};
 
 		<#list data.getComponentsOfType("Button") as component>
 			${component.getName()} = new Button(
-				this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-				${component.width}, ${component.height},
-				new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"),
+			this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+					${component.width}, ${component.height},
+					new StringTranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"),
 				<@buttonOnClick component/>
 			)<@buttonDisplayCondition component/>;
-
+			
 			guistate.put("button:${component.getName()}", ${component.getName()});
-			this.addButton(${component.getName()});
-
+			this.children.add(this.${component.getName()});
+			
 			<#assign btid +=1>
 		</#list>
 
@@ -235,18 +235,18 @@ import ${package}.${JavaModName};
 			)<@buttonDisplayCondition component/>;
 
 			guistate.put("button:${component.getName()}", ${component.getName()});
-			this.addImageButton(${component.getName()});
+			this.children.add(this.${component.getName()});
 
 			<#assign btid +=1>
 		</#list>
 
 		<#list data.getComponentsOfType("Checkbox") as component>
         	${component.getName()} = new CheckboxButton(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-					20, 20, new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"), <#if hasProcedure(component.isCheckedProcedure)>
+					20, 20, new StringTranslatableComponent("gui.${modid}.${registryname}.${component.getName()}"), <#if hasProcedure(component.isCheckedProcedure)>
         	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
 
-        	guistate.put("checkbox:${component.getName()}", ${component.getName()});
-        	this.addCheckboxButton(${component.getName()});
+        	${name}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
+        	this.addButton(${component.getName()});
 		</#list>
 	}
 
@@ -256,8 +256,8 @@ import ${package}.${JavaModName};
 e -> {
 	<#if hasProcedure(component.onClick)>
 	    if (<@procedureOBJToConditionCode component.displayCondition/>) {
-			${JavaModName}.PACKET_HANDLER.sendToServer(new ${getName()}Gui.ButtonPressedMessage(${btid}, x, y, z));
-			${getName()}Gui.handleButtonAction(entity, ${btid}, x, y, z);
+			${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Gui.ButtonPressedMessage(${btid}, x, y, z));
+			${name}Gui.handleButtonAction(entity, ${btid}, x, y, z);
 		}
 	</#if>
 }
