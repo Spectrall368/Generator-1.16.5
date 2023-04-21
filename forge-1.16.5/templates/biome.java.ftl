@@ -170,7 +170,6 @@ import java.util.HashMap;
 					</#if>
 
 					<#if data.vanillaTreeType == "Big trees">
-				<#if data.vanillaTreeType == "Big trees">
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
 								new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.JUNGLE_LOG.getDefaultState()")}),
