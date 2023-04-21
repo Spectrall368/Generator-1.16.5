@@ -1,4 +1,5 @@
 name: Minecraft Forge for @minecraft (@buildfileversion)
+basefeatures: [model_java]
 status: deprecated
 buildfileversion: 36.2.39
 subversion: 1.0.4
