@@ -372,6 +372,7 @@ import java.util.HashMap;
 
 	}
 
+	@Override public void init(FMLCommonSetupEvent event) {
 		<#if data.spawnBiome>
 			BiomeManager.addBiome(
 				BiomeManager.BiomeType.
