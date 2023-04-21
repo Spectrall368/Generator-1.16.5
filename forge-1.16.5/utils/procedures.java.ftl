@@ -82,11 +82,11 @@
     </#if>
 </#macro>
 
-<#macro procedureOBJToActionResultTypeCode object="">
+<#macro procedureOBJToInteractionResultCode object="">
     <#if hasProcedure(object)>
         <@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) />
     <#else>
-        ActionResultType.PASS
+        InteractionResult.PASS
     </#if>
 </#macro>
 
