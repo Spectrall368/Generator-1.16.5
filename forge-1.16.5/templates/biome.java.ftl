@@ -164,6 +164,12 @@ import java.util.HashMap;
                     </#if>
                 </#if>
 
+				<#if (data.treesPerChunk > 0)>
+					<#assign ct = data.treeType == data.TREES_CUSTOM>
+					<#if ct>
+					</#if>
+
+					<#if data.vanillaTreeType == "Big trees">
 				<#if data.vanillaTreeType == "Big trees">
 					biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 							Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
