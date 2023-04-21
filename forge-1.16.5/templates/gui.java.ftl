@@ -161,8 +161,8 @@ import ${package}.${JavaModName};
 						${(component.y - my / 2)?int + 1}) {
 
 					<#if hasProcedure(component.disablePickup) || component.disablePickup.getFixedValue()>
-						@Override public boolean canTakeStack(PlayerEntity entity) {
-							return <@procedureOBJToConditionCode component.disablePickup false true/>;
+					@Override public boolean canTakeStack(PlayerEntity entity) {
+						return <@procedureOBJToConditionCode component.disablePickup false true/>;
 						}
 					</#if>
 
@@ -190,7 +190,7 @@ import ${package}.${JavaModName};
 
 					<#if component.getClass().getSimpleName() == "InputSlot">
 						<#if hasProcedure(component.disablePlacement) || component.disablePlacement.getFixedValue()>
-							@Override public boolean isItemValid(ItemStack stack) {
+							@Override public boolean isItemValid(ItemStack itemstack) {
 								return <@procedureOBJToConditionCode component.disablePlacement false true/>;
 							}
 						<#elseif component.inputLimit.toString()?has_content>
@@ -202,7 +202,7 @@ import ${package}.${JavaModName};
 									return ${mappedMCItemToItem(component.inputLimit)} == stack.getItem();
 								</#if>
 							}
-						</#if>
+							</#if>
 						<#elseif component.getClass().getSimpleName() == "OutputSlot">
 						@Override public boolean isItemValid(ItemStack stack) {
 								return false;
