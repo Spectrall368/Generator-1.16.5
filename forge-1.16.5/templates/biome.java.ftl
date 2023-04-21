@@ -373,21 +373,6 @@ import java.util.HashMap;
 	}
 
 	@Override public void init(FMLCommonSetupEvent event) {
-		<#if data.spawnBiome>
-			BiomeManager.addBiome(
-				BiomeManager.BiomeType.
-				<#if (data.temperature < -0.25)>
-					ICY
-				<#elseif (data.temperature > -0.25) && (data.temperature <= 0.15)>
-					COOL
-				<#elseif (data.temperature > 0.15) && (data.temperature <= 1.0)>
-					WARM
-				<#elseif (data.temperature > 1.0)>
-					DESERT
-				</#if>,
-				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)))
-			);
-        </#if>
 	}
 
 	<#if (data.treeVines?has_content && !data.treeVines.isEmpty())>
