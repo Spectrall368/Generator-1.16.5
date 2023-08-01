@@ -1,1 +1,0 @@
-WallHeight.valueOf(${input$value})

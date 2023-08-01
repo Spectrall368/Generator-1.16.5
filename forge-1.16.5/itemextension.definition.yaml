@@ -1,4 +1,0 @@
-templates:
-  - template: dispensebehaviour.java.ftl
-    condition: hasDispenseBehavior
-    name: "@SRCROOT/@BASEPACKAGEPATH/item/extension/@NAMEItemExtension.java"
