@@ -121,7 +121,7 @@ import ${package}.${JavaModName};
 		<#list data.components as component>
 			<#if component.getClass().getSimpleName() == "TextField">
 		    if(${component.getName()}.isFocused())
-		    	return ${component.name}.keyPressed(key, b, c);
+		    	return ${component.getName()}.keyPressed(key, b, c);
 			</#if>
 		</#list>
 
