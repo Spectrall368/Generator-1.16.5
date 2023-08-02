@@ -143,7 +143,7 @@ import ${package}.${JavaModName};
 				<#if hasProcedure(component.displayCondition)>
 				if (<@procedureOBJToConditionCode component.displayCondition/>)
 				</#if>
-		    	this.font.drawString(ms, <#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>"${component.text.getFixedValue()}"</#if>,
+		    	this.font.drawString(ms, <#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslatableComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
 					${(component.x - mx / 2)?int}, ${(component.y - my / 2)?int}, ${component.color.getRGB()});
 			</#if>
 		</#list>
@@ -162,18 +162,18 @@ import ${package}.${JavaModName};
 		<#list data.components as component>
 			<#if component.getClass().getSimpleName() == "TextField">
 				${component.getName()} = new TextFieldWidget(this.font, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-				${component.width}, ${component.height}, new StringTextComponent("${component.placeholder}"))
+				${component.width}, ${component.height}, new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}"))
 				<#if component.placeholder?has_content>
 				{
 					{
-						setSuggestion("${component.placeholder}");
+						setSuggestion(new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
 					}
 
 					@Override public void writeText(String text) {
 						super.writeText(text);
 
-						if(getText().isEmpty())
-							setSuggestion("${component.placeholder}");
+						if (getText().isEmpty())
+							setSuggestion(new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
 						else
 							setSuggestion(null);
 					}
@@ -181,8 +181,8 @@ import ${package}.${JavaModName};
 					@Override public void setCursorPosition(int pos) {
 						super.setCursorPosition(pos);
 
-						if(getText().isEmpty())
-							setSuggestion("${component.placeholder}");
+						if (getText().isEmpty())
+							setSuggestion(new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
 						else
 							setSuggestion(null);
 					}
@@ -193,7 +193,7 @@ import ${package}.${JavaModName};
                 this.children.add(this.${component.getName()});
 			<#elseif component.getClass().getSimpleName() == "Button">
 				this.addButton(new Button(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-					${component.width}, ${component.height}, new StringTextComponent("${component.text}"), e -> {
+					${component.width}, ${component.height}, new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}"), e -> {
 						if (<@procedureOBJToConditionCode component.displayCondition/>) {
 							${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Gui.ButtonPressedMessage(${btid}, x, y, z));
 							${name}Gui.handleButtonAction(entity, ${btid}, x, y, z);
@@ -211,7 +211,7 @@ import ${package}.${JavaModName};
 				<#assign btid +=1>
 			<#elseif component.getClass().getSimpleName() == "Checkbox">
             	${component.getName()} = new CheckboxButton(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
-            	    20, 20, new StringTextComponent("${component.text}"), <#if hasProcedure(component.isCheckedProcedure)>
+            	    20, 20, new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}"), <#if hasProcedure(component.isCheckedProcedure)>
             	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
                 ${name}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
                 this.addButton(${component.getName()});
