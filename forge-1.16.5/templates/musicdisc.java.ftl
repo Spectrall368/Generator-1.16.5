@@ -50,10 +50,10 @@ public class ${name}Item extends ${JavaModName}Elements.ModElement{
 
 		public MusicDiscItemCustom() {
 			<#if data.music.getUnmappedValue().startsWith("CUSTOM:")>
-			super(0, ${JavaModName}Elements.sounds.get(new ResourceLocation("${data.music}")),
+			super(${data.analogOutput}, ${JavaModName}Elements.sounds.get(new ResourceLocation("${data.music}")),
 					new Item.Properties().group(${data.creativeTab}).maxStackSize(1).rarity(Rarity.RARE));
 			<#else>
-			super(0, (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")),
+			super(${data.analogOutput}, (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")),
 					new Item.Properties().group(${data.creativeTab}).maxStackSize(1).rarity(Rarity.RARE));
 			</#if>
 			setRegistryName("${registryname}");
