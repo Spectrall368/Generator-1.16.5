@@ -134,9 +134,11 @@ package ${package}.entity.renderer;
     </#if>
 
 	<#if data.mobModelName == "Villager">
-	@Override protected void scale(${name}Entity villager, PoseStack poseStack, float f) {
-		poseStack.scale(0.9375f, 0.9375f, 0.9375f);
-	}
+	@OnlyIn(Dist.CLIENT) public void render(${name}Entity villager, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	matrixStack.push();
+       	matrixStack.scale(0.9375f, 0.9375f, 0.9375f);
+       	matrixStack.pop();
+    	}
 	</#if>
 
     <#if data.getModelCode()?? && !data.isBuiltInModel() >
