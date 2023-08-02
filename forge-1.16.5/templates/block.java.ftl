@@ -31,7 +31,6 @@
 <#include "boundingboxes.java.ftl">
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
-<#include "particles.java.ftl">
 
 package ${package}.block;
 
@@ -673,7 +672,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
         </#if>
 
-        <#if hasProcedure(data.onRandomUpdateEvent) || data.spawnParticles>
+	<#if hasProcedure(data.onRandomUpdateEvent)>
 		@OnlyIn(Dist.CLIENT) @Override
 		public void animateTick(BlockState blockstate, World world, BlockPos pos, Random random) {
 			super.animateTick(blockstate, world, pos, random);
@@ -681,10 +680,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			int x = pos.getX();
 			int y = pos.getY();
 			int z = pos.getZ();
-			<#if data.spawnParticles>
-                <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious
-                data.particleAmount data.particleCondition/>
-            </#if>
 			<@procedureOBJToCode data.onRandomUpdateEvent/>
 		}
         </#if>
