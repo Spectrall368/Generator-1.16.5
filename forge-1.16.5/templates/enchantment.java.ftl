@@ -80,7 +80,7 @@ public class ${name}Enchantment extends ${JavaModName}Elements.ModElement{
 		@Override public boolean canApplyAtEnchantingTable(ItemStack stack) {
 			List<Item> compatibleItems = new ArrayList<>();
 			<#list data.compatibleItems as compatibleItem>
-			compatibleItems.add(${compatibleItem}<#if compatibleItem?index_of("Blocks.") == 0>asItem()</#if>);
+			compatibleItems.add(${compatibleItem}<#if compatibleItem?index_of("Blocks.") == 0>.asItem()</#if>);
 			</#list>
 			Item item = stack.getItem();
 			return <#if data.excludeItems>!</#if>compatibleItems.contains(item);
