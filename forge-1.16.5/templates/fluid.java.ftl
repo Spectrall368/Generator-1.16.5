@@ -83,7 +83,7 @@ import net.minecraftforge.common.property.Properties;
 					.density(${data.density})
 					.viscosity(${data.viscosity})
 					.temperature(${data.temperature})
-					<#if data.isGas>.gaseous()</#if>
+					<#if data.density lt 0>.gaseous()</#if>
 					.rarity(Rarity.${data.rarity})
 					<#if data.emptySound?has_content && data.emptySound.getMappedValue()?has_content>
 					.sound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.emptySound}")))
