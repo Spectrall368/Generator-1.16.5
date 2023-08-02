@@ -67,6 +67,14 @@
     </#if>
 </#function>
 
+<#function mappedBlockToBlockStateProvider mappedBlock>
+    <#if mappedBlock?starts_with("/*@BlockStateProvider*/")>
+        <#return mappedBlock?replace("/*@BlockStateProvider*/", "")>
+    <#else>
+        <#return "BlockStateProvider.simple(" + mappedBlockToBlockStateCode(mappedBlock) + ")">
+    </#if>
+</#function>
+
 <#function mappedElementToClassName mappedElement>
     <#return generator.getElementPlainName(mappedElement) + generator.isRecipeTypeBlockOrBucket(mappedElement)?then("Block", "Item")>
 </#function>
