@@ -109,6 +109,10 @@ public static class CustomPortalBlock extends NetherPortalBlock {
 
 }
 
+	@Override @OnlyIn(Dist.CLIENT) public void clientLoad(FMLClientSetupEvent event) {
+		RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent());
+	}
+
 public static class CustomPortalSize ${mcc.getClassBody("net.minecraft.block.PortalSize")
 	.replace("PortalSize", "CustomPortalSize")
 	.replace("blockstate, 18);", "blockstate, 18);\nif (this.world instanceof ServerWorld) ((ServerWorld) this.world).getPointOfInterestManager().add(pos, poi);")
@@ -116,4 +120,3 @@ public static class CustomPortalSize ${mcc.getClassBody("net.minecraft.block.Por
 	.replace("state.isIn(BlockTags.FIRE) || state.isIn(Blocks.NETHER_PORTAL)", "state.getBlock() == portal")
 	.replace("Blocks.NETHER_PORTAL.getDefaultState()", "portal.getDefaultState()")
 	.replace("return state.isPortalFrame(blockReader, pos);", "return state.getBlock() ==" + mappedBlockToBlock(data.portalFrame) + ";")}
-
