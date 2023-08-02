@@ -7,7 +7,6 @@ templates:
     writer: json
     name: "@MODASSETSROOT/models/item/@registryname_spawn_egg.json"
     condition: hasSpawnEgg
-    deleteWhenConditionFalse: true
 
 unmodifiable_ai_bases: [Bat, MagmaCube, Slime]
 
