@@ -59,20 +59,20 @@ import java.util.HashMap;
 						.withGrassColor(${data.grassColor?has_content?then(data.grassColor.getRGB(), 9470285)})
 						<#if data.ambientSound?has_content && data.ambientSound.getMappedValue()?has_content>
 						.setAmbientSound((net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.ambientSound}")))
-                        </#if>
+                        			</#if>
 						<#if data.moodSound?has_content && data.moodSound.getMappedValue()?has_content>
-                        .setMoodSound(new MoodSoundAmbience((net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.moodSound}")), ${data.moodSoundDelay}, 8, 2))
-                        </#if>
+                       				.setMoodSound(new MoodSoundAmbience((net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.moodSound}")), ${data.moodSoundDelay}, 8, 2))
+                        			</#if>
 						<#if data.additionsSound?has_content && data.additionsSound.getMappedValue()?has_content>
-                        .setAdditionsSound(new SoundAdditionsAmbience((net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.additionsSound}")), 0.0111D))
-                        </#if>
+                        			.setAdditionsSound(new SoundAdditionsAmbience((net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.additionsSound}")), 0.0111D))
+                        			</#if>
 						<#if data.music?has_content && data.music.getMappedValue()?has_content>
-                        .setMusic(new BackgroundMusicSelector((net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")), 12000, 24000, true))
-                        </#if>
-                        <#if data.spawnParticles>
-                        .setParticle(new ParticleEffectAmbience(${data.particleToSpawn}, ${data.particlesProbability / 100}f))
-                        </#if>
-                        .build();
+                        			.setMusic(new BackgroundMusicSelector((net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")), 12000, 24000, true))
+                        			</#if>
+                       				<#if data.spawnParticles>
+                        			.setParticle(new ParticleEffectAmbience(${data.particleToSpawn}, ${data.particlesProbability / 100}f))
+                        			</#if>
+                        			.build();
 
 				BiomeGenerationSettings.Builder biomeGenerationSettings = new BiomeGenerationSettings.Builder()
 						.withSurfaceBuilder(SurfaceBuilder.DEFAULT.func_242929_a(
@@ -180,7 +180,7 @@ import java.util.HashMap;
 								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								<#else>
-									.setDecorators(ImmutableList.of(TrunkVineTreeDecorator.field_236879_b_, LeaveVineTreeDecorator.field_236871_b_))
+									.setIgnoreVines()
 								</#if>
 							.build())
 							.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
@@ -358,7 +358,7 @@ import java.util.HashMap;
 
 				biome = new Biome.Builder()
 						.precipitation(Biome.RainType.<#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>RAIN<#else>SNOW</#if><#else>NONE</#if>)
-						.category(Biome.Category.${data.biomeCategory?replace("UNDERGROUND", "NONE")?replace("MOUNTAIN", "NONE")})
+						.category(Biome.Category.NONE)
 						.depth(${data.baseHeight}f)
 						.scale(${data.heightVariation}f)
 						.temperature(${data.temperature}f)
@@ -375,13 +375,6 @@ import java.util.HashMap;
 	}
 
 	@Override public void init(FMLCommonSetupEvent event) {
-		<#if data.biomeDictionaryTypes?has_content>
-			BiomeDictionary.addTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)),
-			<#list data.biomeDictionaryTypes as biomeDictionaryType>
-				BiomeDictionary.Type.${generator.map(biomeDictionaryType, "biomedictionarytypes")}<#if biomeDictionaryType?has_next>,</#if>
-			</#list>
-			);
-		</#if>
 		<#if data.spawnBiome>
 			BiomeManager.addBiome(
 				BiomeManager.BiomeType.
