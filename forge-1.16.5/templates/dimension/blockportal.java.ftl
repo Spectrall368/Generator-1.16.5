@@ -109,8 +109,8 @@ public static class CustomPortalBlock extends NetherPortalBlock {
 
 }
 
-	@Override @OnlyIn(Dist.CLIENT) public void clientLoad(FMLClientSetupEvent event) {
-		RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent());
+	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
+		RenderTypeLookup.setRenderLayer(portal, RenderType.getTranslucent());
 	}
 
 public static class CustomPortalSize ${mcc.getClassBody("net.minecraft.block.PortalSize")
