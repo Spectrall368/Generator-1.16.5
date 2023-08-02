@@ -70,7 +70,7 @@ public class ${name}Enchantment extends ${JavaModName}Elements.ModElement{
 		@Override protected boolean canApplyTogether(Enchantment ench) {
 			List<Enchantment> compatibleEnchantments = new ArrayList<>();
 			<#list data.compatibleEnchantments as compatibleEnchantment>
-			compatibleEnchantments.add(Enchantments.${compatibleEnchantment});
+			compatibleEnchantments.add(${compatibleEnchantment});
 			</#list>
 			return <#if data.excludeEnchantments>!</#if>compatibleEnchantments.contains(ench);
         }
@@ -80,7 +80,7 @@ public class ${name}Enchantment extends ${JavaModName}Elements.ModElement{
 		@Override public boolean canApplyAtEnchantingTable(ItemStack stack) {
 			List<Item> compatibleItems = new ArrayList<>();
 			<#list data.compatibleItems as compatibleItem>
-			compatibleItems.add(Items.${compatibleItem});
+			compatibleItems.add(${compatibleItem}<#if compatibleItem?startsWith("Blocks.")>asItem()</#if>);
 			</#list>
 			Item item = stack.getItem();
 			return <#if data.excludeItems>!</#if>compatibleItems.contains(item);
