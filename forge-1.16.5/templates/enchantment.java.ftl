@@ -68,17 +68,23 @@ public class ${name}Enchantment extends ${JavaModName}Elements.ModElement{
 
         <#if data.compatibleEnchantments?has_content>
 		@Override protected boolean canApplyTogether(Enchantment ench) {
-		    return <#if data.excludeEnchantments>!</#if>List.of(
-                <#list data.compatibleEnchantments as compatibleEnchantment>${compatibleEnchantment}<#sep>,</#list>).contains(ench);
-		}
+			List<Enchantment> compatibleEnchantments = new ArrayList<>();
+			<#list data.compatibleEnchantments as compatibleEnchantment>
+			compatibleEnchantments.add(Enchantments.${compatibleEnchantment});
+			</#list>
+			return <#if data.excludeEnchantments>!</#if>compatibleEnchantments.contains(ench);
+        }
         </#if>
 
         <#if data.compatibleItems?has_content>
 		@Override public boolean canApplyAtEnchantingTable(ItemStack stack) {
+			List<Item> compatibleItems = new ArrayList<>();
+			<#list data.compatibleItems as compatibleItem>
+			compatibleItems.add(Items.${compatibleItem});
+			</#list>
 			Item item = stack.getItem();
-			return <#if data.excludeItems>!</#if>List.of(
-                <#list data.compatibleItems as compatibleItem>${mappedMCItemToItem(compatibleItem)}<#sep>,</#list>).contains(item);
-		}
+			return <#if data.excludeItems>!</#if>compatibleItems.contains(item);
+        }
         </#if>
 
 		@Override public boolean isTreasureEnchantment() {
