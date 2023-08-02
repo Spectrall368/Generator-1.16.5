@@ -30,6 +30,7 @@
 <#-- @formatter:off -->
 <#include "boundingboxes.java.ftl">
 <#include "procedures.java.ftl">
+<#include "triggers.java.ftl">
 <#include "mcitems.ftl">
 
 package ${package}.block;
@@ -324,7 +325,18 @@ import net.minecraft.util.SoundEvent;
 	}
 	</#if>
 
-	public static class BlockCustomFlower extends <#if data.plantType == "normal">Flower<#elseif data.plantType == "growapable">SugarCane<#elseif data.plantType == "double">DoublePlant</#if>Block {
+<#compress>
+<#assign interfaces = []>
+<#if data.hasTileEntity>
+	<#assign interfaces += ["EntityBlock"]>
+</#if>
+<#if data.isBonemealable>
+	<#assign interfaces += ["BonemealableBlock"]>
+</#if>
+	public static class BlockCustomFlower extends <#if data.plantType == "normal">Flower<#elseif data.plantType == "growapable">SugarCane<#elseif data.plantType == "double">DoublePlant</#if>Block
+	<#if interfaces?size gt 0>
+		implements ${interfaces?join(",")}
+	</#if>{
 
 		public BlockCustomFlower() {
 			super(<#if data.plantType == "normal">
@@ -708,6 +720,10 @@ import net.minecraft.util.SoundEvent;
 		}
 		</#if>
 
+	<#if data.isBonemealable>
+	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
+	</#if>
+
 		<#if data.hasTileEntity>
 		@Override public boolean hasTileEntity(BlockState state) {
 			return true;
@@ -750,4 +766,5 @@ import net.minecraft.util.SoundEvent;
 	</#if>
 
 }
+</#compress>
 <#-- @formatter:on -->
