@@ -157,6 +157,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 					builder.putAll(super.getAttributeModifiers(slot));
 					builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Item modifier", (double) ${data.damageVsEntity - 2}, AttributeModifier.Operation.ADDITION));
 					builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Item modifier", -2.4, AttributeModifier.Operation.ADDITION));
+				return builder.build();
 				}
 				return super.getAttributeModifiers(slot);
 			}
