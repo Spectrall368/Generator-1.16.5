@@ -6,8 +6,8 @@ templates:
     writer: json
     name: "@MODDATAROOT/worldgen/configured_surface_builder/@registryname.json"
 
-field_inclusions: [heightVariation, baseHeight, rainingPossibility, temperature, biomeCategory,
-                   parent, foliageColor, grassColor, airColor, waterColor, waterFogColor, spawnEntries,
+field_inclusions: [heightVariation, baseHeight, rainingPossibility, temperature, foliageColor,
+                   grassColor, airColor, waterColor, waterFogColor, spawnEntries,
                    defaultFeatures, name, groundBlock, undergroundBlock, spawnWoodlandMansion,
                    spawnMineshaft, spawnMineshaftMesa, spawnSwampHut, spawnStronghold, spawnPillagerOutpost,
                    spawnShipwreck, spawnShipwreckBeached, oceanRuinType, spawnBuriedTreasure, spawnOceanMonument,
