@@ -57,10 +57,10 @@ package ${package}.network;
 		buffer.writeInt(message.z);
 	}
 
-	public static void handler(${name}GUISlotChangedMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+	public static void handler(${name}ButtonPressedMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
 		NetworkEvent.Context context = contextSupplier.get();
 		context.enqueueWork(() -> {
-			Player entity = context.getSender();
+			PlayerEntity entity = context.getSender();
 			int buttonID = message.buttonID;
 			int x = message.x;
 			int y = message.y;
@@ -99,7 +99,7 @@ package ${package}.network;
 	}
 
 	@SubscribeEvent public static void registerMessage(FMLCommonSetupEvent event) {
-		${JavaModName}.addNetworkMessage(${name}GUISlotChangedMessage.class, ${name}GUISlotChangedMessage::buffer, ${name}GUISlotChangedMessage::new, ${name}GUISlotChangedMessage::handler);
+		${JavaModName}.addNetworkMessage(${name}ButtonPressedMessage.class, ${name}ButtonPressedMessage::buffer, ${name}ButtonPressedMessage::new, ${name}ButtonPressedMessage::handler);
 	}
 
 }
