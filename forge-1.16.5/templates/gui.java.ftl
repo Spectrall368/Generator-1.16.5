@@ -159,6 +159,7 @@ import ${package}.${JavaModName};
             	    this.customSlots.put(${component.id}, this.addSlot(new SlotItemHandler(internal, ${component.id},
 						${(component.x - mx / 2)?int + 1},
 						${(component.y - my / 2)?int + 1}) {
+					</#if>
 
 					<#if hasProcedure(component.disablePickup) || component.disablePickup.getFixedValue()>
 					@Override public boolean canTakeStack(PlayerEntity entity) {
