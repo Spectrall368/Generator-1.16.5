@@ -4,7 +4,7 @@ if (${input$entity} instanceof LivingEntity _entLootTbl && !_entLootTbl.level.is
 	DamageSource _dsLootTbl = _entLootTbl.getLastDamageSource();
 	if (_dsLootTbl == null) _dsLootTbl = DamageSource.GENERIC;
 	for (ItemStack itemstackiterator : _entLootTbl.getServer().getLootTables().get(${toResourceLocation(input$location)})
-			.getRandomItems(new LootContext.Builder((ServerLevel) _entLootTbl.level)
+			.getRandomItems(new LootContext.Builder((ServerWorld) _entLootTbl.world)
 					.withParameter(LootContextParams.THIS_ENTITY, _entLootTbl)
 					.withOptionalParameter(LootContextParams.LAST_DAMAGE_PLAYER, _entLootTbl.getLastHurtByMob() instanceof Player _player ?  _player : null)
 					.withParameter(LootContextParams.DAMAGE_SOURCE, _dsLootTbl)
