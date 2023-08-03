@@ -713,7 +713,7 @@ import net.minecraft.block.material.Material;
    		}
 		</#if>
 
-	<#if hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue()>
+	<#if data.solidBoundingBox?? && (hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue())>
 	@Override
 	public boolean canCollideWith(Entity entity) {
 		return true;
