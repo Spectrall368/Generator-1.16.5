@@ -1,8 +1,14 @@
 templates:
-  - template: gui.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/gui/@NAMEGui.java"
+  - template: gui_container.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/inventory/@NAMEMenu.java"
   - template: gui_window.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/gui/@NAMEGuiWindow.java"
+    name: "@SRCROOT/@BASEPACKAGEPATH/client/gui/@NAMEScreen.java"
+  - template: gui_msg_button.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/network/@NAMEButtonMessage.java"
+    condition: hasButtonEvents()
+  - template: gui_msg_slot.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/network/@NAMESlotMessage.java"
+    condition: hasSlotEvents()
 
 localizationkeys:
   - fromlist: data.getFixedTextLabels()
