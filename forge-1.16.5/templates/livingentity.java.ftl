@@ -221,11 +221,11 @@ import net.minecraft.block.material.Material;
             	setCustomNameVisible(true);
             </#if>
 
-			<#if !data.doesDespawnWhenIdle>
+		<#if !data.doesDespawnWhenIdle>
 				enablePersistence();
-            </#if>
+            	</#if>
 
-			<#if !data.equipmentMainHand.isEmpty()>
+		<#if !data.equipmentMainHand.isEmpty()>
             this.setItemStackToSlot(EquipmentSlotType.MAINHAND, ${mappedMCItemToItemStackCode(data.equipmentMainHand, 1)});
             </#if>
             <#if !data.equipmentOffHand.isEmpty()>
@@ -713,6 +713,24 @@ import net.minecraft.block.material.Material;
    		}
 		</#if>
 
+	<#if hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue()>
+	@Override
+	public boolean canCollideWith(Entity entity) {
+		return true;
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		<#if hasProcedure(data.solidBoundingBox)>
+		Entity entity = this;
+		IWorld world = entity.world;
+		double x = entity.getX();
+		double y = entity.getY();
+		double z = entity.getZ();
+		</#if>
+		return <@procedureOBJToConditionCode data.solidBoundingBox true false/>;
+	}
+	</#if>
 		<#if data.isBoss>
 		   @Override public boolean isNonBoss() {
 				return false;
