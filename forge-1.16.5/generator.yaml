@@ -6,7 +6,7 @@ subversion: 1.0.5
 
 java_models:
   key: legacy
-  requested_key_words: [ModelRenderer, ~ModelPart]
+  requested_key_words: [ModelRenderer, ~ModelPart, ~texHeight]
 
 # gradle task definitions
 gradle:
