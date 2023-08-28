@@ -134,11 +134,9 @@ package ${package}.entity.renderer;
     </#if>
 
 	<#if data.mobModelName == "Villager">
-	@OnlyIn(Dist.CLIENT) public void render(${name}Entity villager, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int packedLightIn) {
-	matrixStack.push();
-       	matrixStack.scale(0.9375f, 0.9375f, 0.9375f);
-       	matrixStack.pop();
-    	}
+	@OnlyIn(Dist.CLIENT) protected void preRenderCallback(${name}Entity villagerEntity, MatrixStack matrixStackIn, float f) {
+		matrixStackIn.scale(0.9375f, 0.9375f, 0.9375f);
+	}
 	</#if>
 
     <#if data.getModelCode()?? && !data.isBuiltInModel() >
