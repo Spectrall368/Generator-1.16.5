@@ -345,11 +345,17 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
 		</#if>
 
-		<#if !data.blockBase?? || data.blockBase == "Leaves" || data.lightOpacity != 0>
+		<#if !data.blockBase?? || data.blockBase == "Leaves" || data.lightOpacity != 15>
 		@Override public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
 			return ${data.lightOpacity};
 		}
 		</#if>
+
+	<#if data.hasTransparency && !data.blockBase?has_content>
+	@Override public VoxelShape getRaytraceShape(BlockState state, IBlockReader world, BlockPos pos) {
+		return VoxelShapes.empty();
+	}
+	</#if>
 
 		<#if data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube()>
 		@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
