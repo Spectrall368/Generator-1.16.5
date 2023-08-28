@@ -1,4 +1,3 @@
-<#include "tokens.ftl">
 <#include "procedures.java.ftl">
 
 <#macro particles type particleObj radious amount condition="">
