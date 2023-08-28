@@ -239,8 +239,7 @@ import net.minecraft.block.material.Material;
             this.setItemStackToSlot(EquipmentSlotType.CHEST, ${mappedMCItemToItemStackCode(data.equipmentBody, 1)});
             </#if>
             <#if !data.equipmentLeggings.isEmpty()>
-            this.setItemStackToSlot(
-					EquipmentSlotType.LEGS, ${mappedMCItemToItemStackCode(data.equipmentLeggings, 1)});
+            this.setItemStackToSlot(EquipmentSlotType.LEGS, ${mappedMCItemToItemStackCode(data.equipmentLeggings, 1)});
             </#if>
             <#if !data.equipmentBoots.isEmpty()>
             this.setItemStackToSlot(EquipmentSlotType.FEET, ${mappedMCItemToItemStackCode(data.equipmentBoots, 1)});
@@ -322,7 +321,17 @@ import net.minecraft.block.material.Material;
 		@Override public boolean canDespawn(double distanceToClosestPlayer) {
 			return false;
 		}
-        </#if>
+       		</#if>
+
+	<#if data.mobModelName == "Biped">
+	@Override public double getYOffset() {
+		return -0.35D;
+	}
+	<#elseif data.mobModelName == "Silverfish">
+	@Override public double getYOffset() {
+		return 0.1D;
+	}
+	</#if>
 
 		<#if data.mountedYOffset != 0>
 		@Override public double getMountedYOffset() {
