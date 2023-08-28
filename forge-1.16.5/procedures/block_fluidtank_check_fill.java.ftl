@@ -13,7 +13,7 @@
 					_retval.set(capability.fill(new FluidStack(${(field$fluid.replace("CUSTOM:", ""))}Block.still, amount), IFluidHandler.FluidAction.SIMULATE))
 					</#if>
 				<#else>
-				_retval.set(capability.fill(new FluidStack(Fluids.${generator.map(field$fluid, "fluid")}, amount), IFluidHandler.FluidAction.SIMULATE))
+				_retval.set(capability.fill(new FluidStack(Fluids.${generator.map(field$fluid, "fluids")}, amount), IFluidHandler.FluidAction.SIMULATE))
 				</#if>
 		);
 		return _retval.get();
