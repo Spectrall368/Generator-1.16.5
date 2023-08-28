@@ -111,9 +111,7 @@ package ${package}.particle;
 			</#if>
 
 			<#if hasProcedure(data.additionalExpiryCondition)>
-			double x = this.posX;
-			double y = this.posY;
-			double z = this.posZ;
+			World world = this.world;
 			if (<@procedureOBJToConditionCode data.additionalExpiryCondition/>)
 				this.setExpired();
 			</#if>
