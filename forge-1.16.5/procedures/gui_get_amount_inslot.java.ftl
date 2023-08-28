@@ -1,7 +1,7 @@
 (new Object(){
 	public int getAmount(int sltid) {
-			if(${input$entity} instanceof ServerPlayerEntity) {
-				Container _current = ((ServerPlayerEntity) ${input$entity}).openContainer;
+			if(${input$entity} instanceof PlayerEntity) {
+				Container _current = ((PlayerEntity) ${input$entity}).openContainer;
 				if(_current instanceof Supplier) {
 					Object invobj = ((Supplier) _current).get();
 					if(invobj instanceof Map) {
