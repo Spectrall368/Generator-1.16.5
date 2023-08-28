@@ -4,6 +4,12 @@ templates:
   - template: json/bucket.json.ftl
     writer: json
     name: "@MODASSETSROOT/models/item/@registryname_bucket.json"
+  - template: json/fluid_states.json.ftl
+    writer: json
+    name: "@MODASSETSROOT/blockstates/@registryname.json"
+  - template: json/fluid.json.ftl
+    writer: json
+    name: "@MODASSETSROOT/models/block/@registryname.json"
 
 global_templates:
   - template: json/fluidtag.json.ftl
