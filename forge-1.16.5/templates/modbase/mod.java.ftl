@@ -2,9 +2,8 @@
 /*
  *    MCreator note:
  *
- *    If you lock base mod element files, you can edit this file and the proxy files
- *    and they won't get overwritten. If you change your mod package or modid, you
- *    need to apply these changes to this file MANUALLY.
+ *    If you lock base mod element files, you can edit this file and it won't get overwritten.
+ *    If you change your modid or package, you need to apply these changes to this file MANUALLY.
  *
  *    Settings in @Mod annotation WON'T be changed in case of the base mod element
  *    files lock too, so you need to set them manually here in such case.
@@ -16,19 +15,19 @@
  *    will be REGENERATED on each build.
  *
  */
-
 package ${package};
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod("${modid}")
-public class ${JavaModName} {
+@Mod("${modid}") public class ${JavaModName} {
 
 	public static final Logger LOGGER = LogManager.getLogger(${JavaModName}.class);
 
+	public static final String MODID = "${modid}";
+
 	private static final String PROTOCOL_VERSION = "1";
-	public static final SimpleChannel PACKET_HANDLER = NetworkRegistry.newSimpleChannel(new ResourceLocation("${modid}", "${modid}"),
+	public static final SimpleChannel PACKET_HANDLER = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, MODID),
 		() -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 
 	public ${JavaModName}Elements elements;
@@ -82,8 +81,6 @@ public class ${JavaModName} {
 		@SubscribeEvent public void serverLoad(FMLServerStartingEvent event) {
 			this.parent.elements.getElements().forEach(element -> element.serverLoad(event));
 		}
-
 	}
-
 }
 <#-- @formatter:on -->
