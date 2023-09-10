@@ -133,13 +133,7 @@ package ${package}.entity.renderer;
 	}
     </#if>
 
-	<#if data.mobModelName == "Villager">
-	@OnlyIn(Dist.CLIENT) protected void preRenderCallback(${name}Entity villagerEntity, MatrixStack matrixStackIn, float f) {
-		matrixStackIn.scale(0.9375f, 0.9375f, 0.9375f);
-	}
-	</#if>
-
-    <#if data.getModelCode()?? && !data.isBuiltInModel() >
+    <#if data.getModelCode()?? && !data.isBuiltInModel()>
         ${data.getModelCode().toString()
         .replace("extends ModelBase", "extends EntityModel<Entity>")
         .replace("GlStateManager.translate", "GlStateManager.translated")
@@ -182,8 +176,7 @@ package ${package}.entity.renderer;
 
 <#macro renderConditions>
     <#if hasProcedure(data.transparentModelCondition)>
-        @Override
-	    protected boolean isVisible(LivingEntity _ent) {
+        @Override protected boolean isVisible(LivingEntity _ent) {
 	        Entity entity = _ent;
 	        World world = entity.world;
 	        double x = entity.getPosX();
@@ -194,8 +187,7 @@ package ${package}.entity.renderer;
 	</#if>
 
     <#if hasProcedure(data.isShakingCondition)>
-        @Override
-	    protected boolean func_230495_a_(LivingEntity _ent) {
+        @Override protected boolean func_230495_a_(LivingEntity _ent) {
 	        Entity entity = _ent;
 	        World world = entity.world;
 	        double x = entity.getPosX();
