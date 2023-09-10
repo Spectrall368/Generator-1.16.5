@@ -345,7 +345,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
 		</#if>
 
-		<#if !data.blockBase?? || data.blockBase == "Leaves" || data.lightOpacity != 15>
+		<#if !data.blockBase?? || data.blockBase == "Leaves" || data.lightOpacity != 0>
 		@Override public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
 			return ${data.lightOpacity};
 		}
@@ -562,8 +562,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		</#if>
 
         <#if data.plantsGrowOn>
-        @Override
-		public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction direction, IPlantable plantable) {
+        @Override public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction direction, IPlantable plantable) {
 			return true;
 		}
         </#if>
@@ -581,8 +580,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		</#if>
 
         <#if data.canRedstoneConnect>
-        @Override
-		public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
+        @Override public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
 			return true;
 		}
         </#if>
@@ -648,8 +646,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         </#if>
 
 		<#if hasProcedure(data.onRedstoneOn) || hasProcedure(data.onRedstoneOff) || hasProcedure(data.onNeighbourBlockChanges)>
-		@Override
-		public void neighborChanged(BlockState blockstate, World world, BlockPos pos, Block neighborBlock, BlockPos fromPos, boolean moving) {
+		@Override public void neighborChanged(BlockState blockstate, World world, BlockPos pos, Block neighborBlock, BlockPos fromPos, boolean moving) {
 			super.neighborChanged(blockstate, world, pos, neighborBlock, fromPos, moving);
 			int x = pos.getX();
 			int y = pos.getY();
@@ -680,8 +677,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         </#if>
 
         <#if hasProcedure(data.onRandomUpdateEvent) || data.spawnParticles>
-		@OnlyIn(Dist.CLIENT) @Override
-		public void animateTick(BlockState blockstate, World world, BlockPos pos, Random random) {
+		@OnlyIn(Dist.CLIENT) @Override public void animateTick(BlockState blockstate, World world, BlockPos pos, Random random) {
 			super.animateTick(blockstate, world, pos, random);
 			PlayerEntity entity = Minecraft.getInstance().player;
 			int x = pos.getX();
@@ -696,8 +692,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         </#if>
 
         <#if hasProcedure(data.onDestroyedByPlayer)>
-		@Override
-		public boolean removedByPlayer(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, boolean willHarvest, FluidState fluid) {
+		@Override public boolean removedByPlayer(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, boolean willHarvest, FluidState fluid) {
 			boolean retval = super.removedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
 			int x = pos.getX();
 			int y = pos.getY();
@@ -763,8 +758,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		</#if>
 
         <#if hasProcedure(data.onBlockPlayedBy)>
-		@Override
-		public void onBlockPlacedBy(World world, BlockPos pos, BlockState blockstate, LivingEntity entity, ItemStack itemstack) {
+		@Override public void onBlockPlacedBy(World world, BlockPos pos, BlockState blockstate, LivingEntity entity, ItemStack itemstack) {
 			super.onBlockPlacedBy(world, pos, blockstate, entity, itemstack);
 			int x = pos.getX();
 			int y = pos.getY();
@@ -774,8 +768,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         </#if>
 
         <#if hasProcedure(data.onRightClicked) || data.shouldOpenGUIOnRightClick()>
-		@Override
-		public ActionResultType onBlockActivated(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, Hand hand, BlockRayTraceResult hit) {
+		@Override public ActionResultType onBlockActivated(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, Hand hand, BlockRayTraceResult hit) {
 			super.onBlockActivated(blockstate, world, pos, entity, hand, hit);
 
 			int x = pos.getX();
