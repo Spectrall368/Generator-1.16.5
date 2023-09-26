@@ -10,3 +10,14 @@ feature_simple_block:
   - Feature<BlockStateFeatureConfig>
   - BlockStateFeatureConfig
   - BlockStateFeatureConfig.field_236455_a_
+feature_block_pile:
+  - BlockPileFeature
+  - BlockStateProvidingFeatureConfig
+  - BlockStateProvidingFeatureConfig.field_236453_a_
+feature_huge_brown_mushroom:
+  - HugeFungusFeature
+  - HugeFungusConfig
+  - HugeFungusConfig.field_236298_a_
+feature_huge_red_mushroom:
+  - HugeFungusFeature
+  - HugeFungusConfig.field_236298_a_
