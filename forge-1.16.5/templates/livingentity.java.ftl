@@ -304,7 +304,7 @@ import net.minecraft.block.material.Material;
             </#if>
 
             <#if data.ranged>
-                this.goalSelector.addGoal(1, new RangedAttackGoal(this, 1.25, 20, 10) {
+                this.goalSelector.addGoal(1, new RangedAttackGoal(this, 1.25, ${data.rangedAttackInterval}, ${data.rangedAttackRadius}f) {
 					@Override public boolean shouldContinueExecuting() {
 						return this.shouldExecute();
 					}
