@@ -31,12 +31,14 @@
 <#include "boundingboxes.java.ftl">
 <#include "procedures.java.ftl">
 <#include "mcitems.ftl">
+<#include "triggers.java.ftl">
 
 package ${package}.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundEvent;
 
+<#compress>
 @${JavaModName}Elements.ModElement.Tag public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
 	@ObjectHolder("${modid}:${registryname}")
@@ -323,8 +325,17 @@ import net.minecraft.util.SoundEvent;
 				.add(() -> configuredFeature);
 	}
 	</#if>
-
-	public static class BlockCustomFlower extends <#if data.plantType == "normal">Flower<#elseif data.plantType == "growapable">SugarCane<#elseif data.plantType == "double">DoublePlant</#if>Block {
+<#assign interfaces = []>
+<#if data.hasTileEntity>
+	<#assign interfaces += ["EntityBlock"]>
+</#if>
+<#if data.isBonemealable>
+	<#assign interfaces += ["BonemealableBlock"]>
+</#if>
+	public static class BlockCustomFlower extends <#if data.plantType == "normal">Flower<#elseif data.plantType == "growapable">SugarCane<#elseif data.plantType == "double">DoublePlant</#if>Block
+	<#if interfaces?size gt 0>
+		implements ${interfaces?join(",")}
+	</#if>{
 
 		public BlockCustomFlower() {
 			super(<#if data.plantType == "normal">
@@ -708,6 +719,10 @@ import net.minecraft.util.SoundEvent;
 		}
 		</#if>
 
+	<#if data.isBonemealable>
+	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
+	</#if>
+
 		<#if data.hasTileEntity>
 		@Override public boolean hasTileEntity(BlockState state) {
 			return true;
@@ -750,4 +765,5 @@ import net.minecraft.util.SoundEvent;
 	</#if>
 
 }
+</#compress>
 <#-- @formatter:on -->
