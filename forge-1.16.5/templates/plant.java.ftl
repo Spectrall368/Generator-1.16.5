@@ -326,9 +326,6 @@ import net.minecraft.util.SoundEvent;
 	}
 	</#if>
 <#assign interfaces = []>
-<#if data.hasTileEntity>
-	<#assign interfaces += ["EntityBlock"]>
-</#if>
 <#if data.isBonemealable>
 	<#assign interfaces += ["BonemealableBlock"]>
 </#if>
