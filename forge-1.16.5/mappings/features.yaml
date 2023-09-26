@@ -14,3 +14,23 @@ feature_block_pile:
   - BlockPileFeature
   - BlockStateProvidingFeatureConfig
   - BlockStateProvidingFeatureConfig.field_236453_a_
+feature_coral_claw:
+  - CoralClawFeature
+  - NoFeatureConfig
+  - NoFeatureConfig.field_236558_a_
+feature_coral_mushroom:
+  - CoralMushroomFeature
+  - NoFeatureConfig
+  - NoFeatureConfig.field_236558_a_
+feature_coral_tree:
+  - CoralTreeFeature
+  - NoFeatureConfig
+  - NoFeatureConfig.field_236558_a_
+feature_forest_rock:
+  - BlockBlobFeature
+  - BlockStateFeatureConfig
+  - BlockStateFeatureConfig.field_236455_a_
+feature_huge_fungus:
+  - HugeFungusFeature
+  - HugeFungusConfig
+  - HugeFungusConfig.field_236298_a_
