@@ -47,9 +47,9 @@ import ${package}.${JavaModName};
 
 	<#list data.components as component>
 		<#if component.getClass().getSimpleName() == "TextField">
-	    TextFieldWidget ${component.name};
+	    TextFieldWidget ${component.getName()};
 		<#elseif component.getClass().getSimpleName() == "Checkbox">
-	    CheckboxButton ${component.name};
+	    CheckboxButton ${component.getName()};
 		</#if>
 	</#list>
 
@@ -81,7 +81,7 @@ import ${package}.${JavaModName};
 
 		<#list data.components as component>
 			<#if component.getClass().getSimpleName() == "TextField">
-				${component.name}.render(ms, mouseX, mouseY, partialTicks);
+				${component.getName()}.render(ms, mouseX, mouseY, partialTicks);
 			</#if>
 		</#list>
 	}
@@ -120,8 +120,8 @@ import ${package}.${JavaModName};
 
 		<#list data.components as component>
 			<#if component.getClass().getSimpleName() == "TextField">
-		    if(${component.name}.isFocused())
-		    	return ${component.name}.keyPressed(key, b, c);
+		    if(${component.getName()}.isFocused())
+		    	return ${component.getName()}.keyPressed(key, b, c);
 			</#if>
 		</#list>
 
@@ -132,7 +132,7 @@ import ${package}.${JavaModName};
 		super.tick();
 		<#list data.components as component>
 			<#if component.getClass().getSimpleName() == "TextField">
-				${component.name}.tick();
+				${component.getName()}.tick();
 			</#if>
 		</#list>
 	}
@@ -162,7 +162,7 @@ import ${package}.${JavaModName};
 		<#assign btid = 0>
 		<#list data.components as component>
 			<#if component.getClass().getSimpleName() == "TextField">
-				${component.name} = new TextFieldWidget(this.font, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+				${component.getName()} = new TextFieldWidget(this.font, this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
 				${component.width}, ${component.height}, new StringTextComponent("${component.placeholder}"))
 				<#if component.placeholder?has_content>
 				{
@@ -189,9 +189,9 @@ import ${package}.${JavaModName};
 					}
 				}
 				</#if>;
-                guistate.put("text:${component.name}", ${component.name});
-				${component.name}.setMaxStringLength(32767);
-                this.children.add(this.${component.name});
+                guistate.put("text:${component.getName()}", ${component.getName()});
+				${component.getName()}.setMaxStringLength(32767);
+                this.children.add(this.${component.getName()});
 			<#elseif component.getClass().getSimpleName() == "Button">
 				this.addButton(new Button(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
 					${component.width}, ${component.height}, new StringTextComponent("${component.text}"), e -> {
@@ -211,11 +211,11 @@ import ${package}.${JavaModName};
 				</#if>);
 				<#assign btid +=1>
 			<#elseif component.getClass().getSimpleName() == "Checkbox">
-            	${component.name} = new CheckboxButton(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
+            	${component.getName()} = new CheckboxButton(this.guiLeft + ${(component.x - mx/2)?int}, this.guiTop + ${(component.y - my/2)?int},
             	    20, 20, new StringTextComponent("${component.text}"), <#if hasProcedure(component.isCheckedProcedure)>
             	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
-                ${name}Gui.guistate.put("checkbox:${component.name}", ${component.name});
-                this.addButton(${component.name});
+                ${name}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
+                this.addButton(${component.getName()});
 			</#if>
 		</#list>
 	}
