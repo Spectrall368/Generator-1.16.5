@@ -30,7 +30,6 @@
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
-<#include "particles.java.ftl">
 
 package ${package}.entity;
 
@@ -226,7 +225,7 @@ import net.minecraft.block.material.Material;
 				enablePersistence();
             </#if>
 
-			<#if !data.equipmentMainHand.isEmpty()>
+	    <#if !data.equipmentMainHand.isEmpty()>
             this.setItemStackToSlot(EquipmentSlotType.MAINHAND, ${mappedMCItemToItemStackCode(data.equipmentMainHand, 1)});
             </#if>
             <#if !data.equipmentOffHand.isEmpty()>
@@ -806,22 +805,11 @@ import net.minecraft.block.material.Material;
 		}
         </#if>
 
-        <#if data.spawnParticles || data.flyingMob>
+        <#if data.flyingMob>
         public void livingTick() {
 			super.livingTick();
 
-			<#if data.flyingMob>
 			this.setNoGravity(true);
-			</#if>
-
-			<#if data.spawnParticles>
-			double x = this.getPosX();
-			double y = this.getPosY();
-			double z = this.getPosZ();
-			Random random = this.rand;
-			Entity entity = this;
-            <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious data.particleAmount data.particleCondition/>
-			</#if>
 		}
         </#if>
 
