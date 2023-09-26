@@ -20,4 +20,5 @@ feature_huge_brown_mushroom:
   - HugeFungusConfig.field_236298_a_
 feature_huge_red_mushroom:
   - HugeFungusFeature
+  - HugeFungusConfig
   - HugeFungusConfig.field_236298_a_
