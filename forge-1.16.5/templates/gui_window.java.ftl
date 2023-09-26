@@ -29,7 +29,6 @@
 
 <#-- @formatter:off -->
 <#include "procedures.java.ftl">
-<#include "tokens.ftl">
 
 <#assign mx = data.W - data.width>
 <#assign my = data.H - data.height>
@@ -144,7 +143,8 @@ import ${package}.${JavaModName};
 				<#if hasProcedure(component.displayCondition)>
 				if (<@procedureOBJToConditionCode component.displayCondition/>)
 				</#if>
-		    	this.font.drawString(ms, "${translateTokens(JavaConventions.escapeStringForJava(component.text))}",
+		    	this.font.drawString(ms,
+					<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>"${component.text.getFixedValue()}"</#if>,
 					${(component.x - mx / 2)?int}, ${(component.y - my / 2)?int}, ${component.color.getRGB()});
 			</#if>
 		</#list>
