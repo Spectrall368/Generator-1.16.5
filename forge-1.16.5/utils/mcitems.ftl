@@ -125,8 +125,7 @@
 <#function mappedMCItemToBlockStateJSON mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("CUSTOM:")>
         <#assign mcitemresourcepath = mappedMCItemToIngameNameNoTags(mappedBlock)/>
-        <#assign ge = w.getWorkspace().getModElementByName(mappedBlock.getUnmappedValue().replace("CUSTOM:", "")
-        .replace(".helmet", "").replace(".body", "").replace(".legs", "").replace(".boots", "").replace(".bucket", ""))/>
+        <#assign ge = w.getWorkspace().getModElementByName(generator.getElementPlainName(mappedBlock.getUnmappedValue()))/>
         <#if ge??>
             <#assign ge = ge.getGeneratableElement() />
 
