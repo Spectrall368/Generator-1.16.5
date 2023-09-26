@@ -31,12 +31,14 @@
 <#include "boundingboxes.java.ftl">
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
+<#include "triggers.java.ftl">
 
 package ${package}.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundEvent;
 
+<#compress>
 @${JavaModName}Elements.ModElement.Tag
 public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
@@ -168,9 +170,16 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			<#else>
 				Block
 			</#if>
+			<#assign interfaces = []>
 			<#if data.isWaterloggable>
-            implements IWaterLoggable
-            </#if> {
+				<#assign interfaces += ["IWaterLoggable"]>
+			</#if>
+			<#if data.isBonemealable>
+				<#assign interfaces += ["BonemealableBlock"]>
+			</#if>
+			<#if interfaces?size gt 0>
+				implements ${interfaces?join(",")}
+			</#if> {
 
 		<#if data.rotationMode == 1 || data.rotationMode == 3>
 		public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
@@ -803,6 +812,10 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
         </#if>
 
+	<#if data.isBonemealable>
+	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
+	</#if>
+
 		<#if data.hasInventory>
 			@Override public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
 				TileEntity tileEntity = worldIn.getTileEntity(pos);
@@ -1168,4 +1181,5 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 	</#if>
 
 }
+</#compress>
 <#-- @formatter:on -->
