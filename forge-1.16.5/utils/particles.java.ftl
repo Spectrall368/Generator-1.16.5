@@ -1,5 +1,3 @@
-<#include "procedures.java.ftl">
-
 <#macro particles type particleObj radious amount condition="">
     <#if type=="Spread">
         <@particlesSpread particleObj radious amount condition/>
