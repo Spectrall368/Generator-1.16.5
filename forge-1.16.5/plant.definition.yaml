@@ -42,7 +42,6 @@ templates:
   - template: json/block_states.json.ftl
     writer: json
     condition: "plantType %= normal"
-    variables: "variant= "
     name: "@MODASSETSROOT/blockstates/@registryname.json"
   - template: json/block_states_gplant.json.ftl
     writer: json
