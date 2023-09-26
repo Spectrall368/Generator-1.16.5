@@ -160,11 +160,11 @@ import ${package}.${JavaModName};
 						${(component.x - mx / 2)?int + 1},
 						${(component.y - my / 2)?int + 1}) {
 
-            	    	<#if component.disableStackInteraction>
-						@Override public boolean canTakeStack(PlayerEntity player) {
-							return false;
-						}
-            	    	</#if>
+					<#if hasProcedure(component.disablePickup) || component.disablePickup.getFixedValue()>
+					@Override public boolean canTakeStack(Player entity) {
+						return <@procedureOBJToConditionCode component.disablePickup false true/>;
+					}
+					</#if>
 
 						<#if hasProcedure(component.onSlotChanged)>
             	        @Override public void onSlotChanged() {
@@ -188,23 +188,23 @@ import ${package}.${JavaModName};
 						}
 						</#if>
 
-						<#if component.disableStackInteraction>
-							@Override public boolean isItemValid(ItemStack stack) {
-								return false;
-							}
-					<#elseif component.getClass().getSimpleName() == "InputSlot">
-							<#if component.inputLimit.toString()?has_content>
+					<#if component.getClass().getSimpleName() == "InputSlot">
+						<#if hasProcedure(component.disablePlacement) || component.disablePlacement.getFixedValue()>
 							@Override public boolean isItemValid(ItemStack itemstack) {
+								return <@procedureOBJToConditionCode component.disablePlacement false true/>;
+							}
+						<#elseif component.inputLimit.toString()?has_content>
+							@Override public boolean isItemValid(ItemStack stack) {
 								<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
 									<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "") + "\"">
-									return itemstack.is(ItemTags.getCollection().getTagByID(new ResourceLocation(${tag})));
+									return stack.is(ItemTags.getCollection().getTagByID(new ResourceLocation(${tag})));
 								<#else>
-									return ${mappedMCItemToItem(component.inputLimit)} == itemstack.getItem();
+									return ${mappedMCItemToItem(component.inputLimit)} == stack.getItem();
 								</#if>
 							}
 							</#if>
 						<#elseif component.getClass().getSimpleName() == "OutputSlot">
-            	            @Override public boolean isItemValid(ItemStack stack) {
+						@Override public boolean isItemValid(ItemStack stack) {
 								return false;
 							}
 						</#if>
