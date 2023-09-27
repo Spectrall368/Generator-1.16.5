@@ -37,6 +37,17 @@ import net.minecraft.block.material.Material;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+<#assign genContinentalness = (data.genContinentalness.min + data.genContinentalness.max) / 2>
+<#assign genContinentalness = genContinentalness?roundTo(3)>
+<#assign genErosion = (data.genErosion.min + data.genErosion.max) / 2>
+<#assign genErosion = genErosion?roundTo(3)>
+<#assign genTemperature = (data.genTemperature.min + data.genTemperature.max) / 2>
+<#assign genTemperature = genTemperature?roundTo(3)>
+<#assign genHumidity = (data.genHumidity.min + data.genHumidity.max) / 2>
+<#assign genHumidity = genHumidity?roundTo(3)>
+<#assign genWeirdness = (data.genWeirdness.min + data.genWeirdness.max) / 2>
+<#assign genWeirdness = genWeirdness?roundTo(3)>
+
 @${JavaModName}Elements.ModElement.Tag public class ${name}Biome extends ${JavaModName}Elements.ModElement{
 
 	public static Biome biome;
@@ -359,10 +370,10 @@ import java.util.HashMap;
 				biome = new Biome.Builder()
 						.precipitation(Biome.RainType.<#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>RAIN<#else>SNOW</#if><#else>NONE</#if>)
 						.category(Biome.Category.NONE)
-						.depth(((${data.genContinentalness.min} + ${data.genContinentalness.max}) / 2)?roundTo(3)f)
-						.scale(((${data.genErosion.min} + ${data.genErosion.max}) / 2)?roundTo(3)f)
-						.temperature(((${data.genTemperature.min} + ${data.genTemperature.max}) / 2)?roundTo(3)f)
-						.downfall(((${data.genHumidity.min} + ${data.genHumidity.max}) / 2)?roundTo(3)f)
+						.depth(${genContinentalness}f)
+						.scale(${genErosion}f)
+						.temperature(${genTemperature}f)
+						.downfall(${genHumidity}f)
 						.setEffects(effects)
 						.withMobSpawnSettings(mobSpawnInfo.copy())
 						.withGenerationSettings(biomeGenerationSettings.build())
@@ -387,7 +398,7 @@ import java.util.HashMap;
 				<#elseif (data.temperature > 1.0)>
 					DESERT
 				</#if>,
-				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)), ((${data.genWeirdness.min} + ${data.genWeirdness.max}) / 2)?roundTo(3))
+				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)), ${genWeirdness})
 			);
         </#if>
 	}
