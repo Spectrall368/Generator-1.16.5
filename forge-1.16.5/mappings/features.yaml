@@ -14,6 +14,14 @@ feature_block_pile:
   - BlockPileFeature
   - BlockStateProvidingFeatureConfig
   - BlockStateProvidingFeatureConfig.field_236453_a_
+feature_huge_brown_mushroom:
+  - BigBrownMushroomFeature
+  - BigMushroomFeatureConfig
+  - BigMushroomFeatureConfig.field_236528_a_
+feature_huge_red_mushroom:
+  - BigRedMushroomFeature
+  - BigMushroomFeatureConfig
+  - BigMushroomFeatureConfig.field_236528_a_
 feature_coral_claw:
   - CoralClawFeature
   - NoFeatureConfig
@@ -34,3 +42,15 @@ feature_huge_fungus:
   - HugeFungusFeature
   - HugeFungusConfig
   - HugeFungusConfig.field_236298_a_
+feature_seagrass:
+  - SeagrassFeature
+  - ProbabilityConfig
+  - ProbabilityConfig.field_236576_b_
+feature_bamboo:
+  - BambooFeature
+  - ProbabilityConfig
+  - ProbabilityConfig.field_236576_b_
+feature_random_patch_simple:
+  - RandomPatchFeature
+  - BlockClusterFeatureConfig
+  - BlockClusterFeatureConfig.field_236587_a_
