@@ -1,1 +1,1 @@
-new ProbabilityFeatureConfiguration(${field$probability})
+new ProbabilityConfig(${field$probability})
