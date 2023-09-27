@@ -1,10 +1,10 @@
 <#-- @formatter:off -->
 {
-    "scale": ${data.heightVariation},
-    "depth": ${data.baseHeight},
+    "scale": ((${data.genErosion.min} + ${data.genErosion.max}) / 2)?roundTo(3),
+    "depth": ((${data.genContinentalness.min} + ${data.genContinentalness.max}) / 2)?roundTo(3),
     "precipitation": <#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>"rain"<#else>"snow"</#if><#else>"none"</#if>,
-    "temperature": ${data.temperature},
-    "downfall": ${data.rainingPossibility},
+    "temperature": ((${data.genTemperature.min} + ${data.genTemperature.max}) / 2)?roundTo(3),
+    "downfall": ((${data.genHumidity.min} + ${data.genHumidity.max}) / 2)?roundTo(3),
     "category": "none",
 	"surface_builder": "${modid}:${registryname}",
 	"spawn_costs": {},
