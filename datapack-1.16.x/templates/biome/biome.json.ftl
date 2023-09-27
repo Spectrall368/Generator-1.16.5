@@ -1,10 +1,19 @@
 <#-- @formatter:off -->
+<#assign genContinentalness = (data.genContinentalness.min + data.genContinentalness.max) / 2>
+<#assign genContinentalness = genContinentalness?string["0.###"]>
+<#assign genErosion = (data.genErosion.min + data.genErosion.max) / 2>
+<#assign genErosion = genErosion?string["0.###"]>
+<#assign genTemperature = (data.genTemperature.min + data.genTemperature.max) / 2>
+<#assign genTemperature = genTemperature?string["0.###"]>
+<#assign genHumidity = (data.genHumidity.min + data.genHumidity.max) / 2>
+<#assign genHumidity = genHumidity?string["0.###"]>
+
 {
-    "scale": ((${data.genErosion.min} + ${data.genErosion.max}) / 2)?roundTo(3),
-    "depth": ((${data.genContinentalness.min} + ${data.genContinentalness.max}) / 2)?roundTo(3),
+    "scale": ${genErosion},
+    "depth": ${genContinentalness},
     "precipitation": <#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>"rain"<#else>"snow"</#if><#else>"none"</#if>,
-    "temperature": ((${data.genTemperature.min} + ${data.genTemperature.max}) / 2)?roundTo(3),
-    "downfall": ((${data.genHumidity.min} + ${data.genHumidity.max}) / 2)?roundTo(3),
+    "temperature": ${genTemperature},
+    "downfall": ${genHumidity},
     "category": "none",
 	"surface_builder": "${modid}:${registryname}",
 	"spawn_costs": {},
