@@ -327,7 +327,7 @@ import net.minecraft.util.SoundEvent;
 	</#if>
 <#assign interfaces = []>
 <#if data.isBonemealable>
-	<#assign interfaces += ["BonemealableBlock"]>
+	<#assign interfaces += ["IGrowable"]>
 </#if>
 	public static class BlockCustomFlower extends <#if data.plantType == "normal">Flower<#elseif data.plantType == "growapable">SugarCane<#elseif data.plantType == "double">DoublePlant</#if>Block
 	<#if interfaces?size gt 0>
