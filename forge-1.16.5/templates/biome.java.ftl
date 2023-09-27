@@ -38,15 +38,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 <#assign genContinentalness = (data.genContinentalness.min + data.genContinentalness.max) / 2>
-<#assign genContinentalness = genContinentalness?roundTo(3)>
+<#assign genContinentalness = genContinentalness?string["0.###"]>
 <#assign genErosion = (data.genErosion.min + data.genErosion.max) / 2>
-<#assign genErosion = genErosion?roundTo(3)>
+<#assign genErosion = genErosion?string["0.###"]>
 <#assign genTemperature = (data.genTemperature.min + data.genTemperature.max) / 2>
-<#assign genTemperature = genTemperature?roundTo(3)>
+<#assign genTemperature = genTemperature?string["0.###"]>
 <#assign genHumidity = (data.genHumidity.min + data.genHumidity.max) / 2>
-<#assign genHumidity = genHumidity?roundTo(3)>
+<#assign genHumidity = genHumidity?string["0.###"]>
 <#assign genWeirdness = (data.genWeirdness.min + data.genWeirdness.max) / 2>
-<#assign genWeirdness = genWeirdness?roundTo(3)>
+<#assign genWeirdness = genWeirdness?string["0.###"]>
 
 @${JavaModName}Elements.ModElement.Tag public class ${name}Biome extends ${JavaModName}Elements.ModElement{
 
