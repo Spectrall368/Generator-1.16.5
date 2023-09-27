@@ -1,7 +1,7 @@
 <#macro bonemealEvents isBonemealTargetCondition="" bonemealSuccessCondition="" onBonemealSuccess="">
 @Override public boolean isValidBonemealTarget(IBlockReader worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
 	<#if hasProcedure(isBonemealTargetCondition)>
-	if (worldIn instanceof LevelAccessor world) {
+	if (worldIn instanceof IWorld world) {
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
