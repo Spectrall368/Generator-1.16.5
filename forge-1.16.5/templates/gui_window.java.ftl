@@ -233,7 +233,7 @@ import ${package}.${JavaModName};
 				<@buttonOnClick component/>
 			)<@buttonDisplayCondition component/>;
 
-			{name}Gui.guistate.put("button:${component.getName()}", ${component.getName()});
+			${name}Gui.guistate.put("button:${component.getName()}", ${component.getName()});
 			this.addButton(${component.getName()});
 
 			<#assign btid +=1>
@@ -244,7 +244,7 @@ import ${package}.${JavaModName};
             	    20, 20, new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}"), <#if hasProcedure(component.isCheckedProcedure)>
         	    <@procedureOBJToConditionCode component.isCheckedProcedure/><#else>false</#if>);
 
-        	{name}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
+        	${name}Gui.guistate.put("checkbox:${component.getName()}", ${component.getName()});
         	this.addButton(${component.getName()});
 		</#list>
 	}
