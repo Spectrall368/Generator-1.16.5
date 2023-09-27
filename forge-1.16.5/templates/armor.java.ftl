@@ -314,8 +314,6 @@ package ${package}.item;
 			renderer.addBox("", x, y, z, dx, dy, dz, delta, texU, texV);
 		}
 		</#if>
-
 	</#if>
-
 }
 <#-- @formatter:on -->
