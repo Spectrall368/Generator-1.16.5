@@ -175,7 +175,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 				<#assign interfaces += ["IWaterLoggable"]>
 			</#if>
 			<#if data.isBonemealable>
-				<#assign interfaces += ["BonemealableBlock"]>
+				<#assign interfaces += ["IGrowable"]>
 			</#if>
 			<#if interfaces?size gt 0>
 				implements ${interfaces?join(",")}
