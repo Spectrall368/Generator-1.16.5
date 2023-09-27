@@ -1,5 +1,5 @@
 <#macro bonemealEvents isBonemealTargetCondition="" bonemealSuccessCondition="" onBonemealSuccess="">
-@Override public boolean isValidBonemealTarget(IBlockReader worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
+@Override public boolean canGrow(IBlockReader worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
 	<#if hasProcedure(isBonemealTargetCondition)>
 	if (worldIn instanceof IWorld world) {
 		int x = pos.getX();
@@ -13,7 +13,7 @@
 	</#if>
 }
 
-@Override public boolean isBonemealSuccess(World world, Random random, BlockPos pos, BlockState blockstate) {
+@Override public boolean canUseBonemeal(World world, Random random, BlockPos pos, BlockState blockstate) {
 	<#if hasProcedure(bonemealSuccessCondition)>
 		int x = pos.getX();
 		int y = pos.getY();
@@ -24,7 +24,7 @@
 	</#if>
 }
 
-@Override public void performBonemeal(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
+@Override public void grow(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
 	<#if hasProcedure(onBonemealSuccess)>
 	<@procedureCode onBonemealSuccess, {
 	"x": "pos.getX()",
