@@ -46,7 +46,7 @@ import java.util.HashMap;
 <#assign genHumidity = (data.genHumidity.min + data.genHumidity.max) / 2>
 <#assign genHumidity = genHumidity?string["0.###"]>
 <#assign genWeirdness = (data.genWeirdness.min + data.genWeirdness.max) / 2>
-<#assign genWeirdness = genWeirdness?string["0.###"]>
+<#assign genWeirdness = genWeirdness?string["0"]>
 
 @${JavaModName}Elements.ModElement.Tag public class ${name}Biome extends ${JavaModName}Elements.ModElement{
 
