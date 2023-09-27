@@ -122,6 +122,5 @@ package ${package}.gui.overlay;
 			</#if>
 		}
 	}
-
 }
 <#-- @formatter:on -->
