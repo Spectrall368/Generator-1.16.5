@@ -359,10 +359,10 @@ import java.util.HashMap;
 				biome = new Biome.Builder()
 						.precipitation(Biome.RainType.<#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>RAIN<#else>SNOW</#if><#else>NONE</#if>)
 						.category(Biome.Category.NONE)
-						.depth((${data.genContinentalness.min} \ ${data.genContinentalness.max})f)
-						.scale((${data.genErosion.min} \ ${data.genErosion.max})f)
-						.temperature((${data.genTemperature.min} \ ${data.genTemperature.max})f)
-						.downfall((${data.genHumidity.min} \ ${data.genHumidity.max})f)
+						.depth(((${data.genContinentalness.min} + ${data.genContinentalness.max}) / 2)?roundTo(3)f)
+						.scale(((${data.genErosion.min} + ${data.genErosion.max}) / 2)?roundTo(3)f)
+						.temperature(((${data.genTemperature.min} + ${data.genTemperature.max}) / 2)?roundTo(3)f)
+						.downfall(((${data.genHumidity.min} + ${data.genHumidity.max}) / 2)?roundTo(3)f)
 						.setEffects(effects)
 						.withMobSpawnSettings(mobSpawnInfo.copy())
 						.withGenerationSettings(biomeGenerationSettings.build())
@@ -387,7 +387,7 @@ import java.util.HashMap;
 				<#elseif (data.temperature > 1.0)>
 					DESERT
 				</#if>,
-				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)), (${data.genWeirdness.min} \ ${data.genWeirdness.max}))
+				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(biome)), ((${data.genWeirdness.min} + ${data.genWeirdness.max}) / 2)?roundTo(3))
 			);
         </#if>
 	}
