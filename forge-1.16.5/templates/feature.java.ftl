@@ -42,7 +42,7 @@ package ${package}.world.feature;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 	
 	public ${name}Feature() {
-		super(${configurationcodec});
+		super(${configuration}.CODEC);
 	}
 	
 	<#if data.hasGenerationConditions() || featuretype == "feature_simple_block">
