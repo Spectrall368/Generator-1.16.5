@@ -68,7 +68,7 @@
 </#function>
 
 <#function mappedElementToClassName mappedElement>
-    <#return generator.getRegistryNameFromFullName(mappedElement) + generator.isRecipeTypeBlockOrBucket(mappedElement)?then("Block", "Item")>
+    <#return generator.getRegistryNameFromFullName(mappedElement)?upper_case + generator.isRecipeTypeBlockOrBucket(mappedElement)?then("Block", "Item")>
 </#function>
 
 <#function transformExtension mappedBlock>
