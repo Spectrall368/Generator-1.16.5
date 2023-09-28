@@ -725,12 +725,12 @@ import net.minecraft.block.material.Material;
 
 	<#if data.solidBoundingBox?? && (hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue())>
 	@Override
-	public boolean canCollideWith(Entity entity) {
+	public boolean canCollide(Entity entity) {
 		return true;
 	}
 
 	@Override
-	public boolean canBeCollidedWith() {
+	public boolean func_241845_aY() {
 		<#if hasProcedure(data.solidBoundingBox)>
 		Entity entity = this;
 		World world = entity.world;
