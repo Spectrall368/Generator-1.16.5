@@ -109,7 +109,7 @@ package ${package}.gui.overlay;
 							if (<@procedureOBJToConditionCode component.displayCondition/>)
 						</#if>
 						InventoryScreen.func_228187_a_(posX + ${component.x - 202}, posY + ${component.y - 100},
-							${component.scale}, 0, 0, livingEntity);
+							${component.scale}, 0, 0, LivingEntity);
 					}
 				</#list>
 			}
