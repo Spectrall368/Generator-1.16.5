@@ -1,1 +1,1 @@
-ModList.get().isLoaded(${input$modid})
+ModList.isLoaded(${input$modid})
