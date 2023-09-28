@@ -18,13 +18,17 @@
         <#return mappedBlock?keep_before("/*@?*/") + "?" + mappedBlockToBlock(outputs?keep_before("/*@:*/"))
             + ":" + mappedBlockToBlock(outputs?keep_after("/*@:*/")) + ")">
     <#elseif mappedBlock?starts_with("CUSTOM:")>
-        <#return mappedElementToClassName(mappedBlock)>
+        <#if !mappedBlock?contains(".")>
+            <#return mappedElementToClassName(mappedBlock) + ".block">
+        <#else>
+            <#return mappedElementToClassName(mappedBlock) + "." + generator.getElementExtension(mappedBlock)>
+        </#if>
     <#else>
         <#return mappedBlock>
     </#if>
 </#function>
 
-<#function mappedMCItemToItemStackCode mappedBlock amount=1>
+<#function mappedMCItemToItemStackCode mappedBlock amount>
     <#if mappedBlock?starts_with("/*@ItemStack*/")>
         <#return mappedBlock?replace("/*@ItemStack*/", "")>
     <#elseif mappedBlock?contains("/*@?*/")>
@@ -32,17 +36,15 @@
         <#return mappedBlock?keep_before("/*@?*/") + "?" + mappedMCItemToItemStackCode(outputs?keep_before("/*@:*/"), amount)
             + ":" + mappedMCItemToItemStackCode(outputs?keep_after("/*@:*/"), amount) + ")">
     <#elseif mappedBlock?starts_with("CUSTOM:")>
-        <#return toItemStack(mappedElementToClassName(mappedBlock), amount)>
+        <#if !mappedBlock?contains(".")>
+            <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + ".block"
+            + (amount == 1)?then(")",", (int)(" + amount + "))")>
+        <#else>
+            <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + "."
+            + generator.getElementExtension(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
+        </#if>
     <#else>
-        <#return toItemStack(mappedBlock, amount)>
-    </#if>
-</#function>
-
-<#function toItemStack item amount>
-    <#if amount == 1>
-        <#return "new ItemStack(" + item + ")">
-    <#else>
-        <#return "new ItemStack(" + item + "," + (amount == amount?floor)?then(amount + ")","(int)(" + amount + "))")>
+        <#return "new ItemStack(" + mappedBlock + (amount == 1)?then(")",", (int)(" + amount + "))")>
     </#if>
 </#function>
 
@@ -54,15 +56,19 @@
         <#return mappedBlock?keep_before("/*@?*/") + "?" + mappedMCItemToItem(outputs?keep_before("/*@:*/"))
             + ":" + mappedMCItemToItem(outputs?keep_after("/*@:*/")) + ")">
     <#elseif mappedBlock?starts_with("CUSTOM:")>
-        <#return mappedElementToClassName(mappedBlock) + generator.isBlock(mappedBlock)?then(".asItem()", "")>
+        <#if !mappedBlock?contains(".")>
+            <#return mappedElementToClassName(mappedBlock) + ".block"
+            + generator.isRecipeTypeBlockOrBucket(mappedBlock)?then(".asItem()","")>
+        <#else>
+            <#return mappedElementToClassName(mappedBlock) + "." + generator.getElementExtension(mappedBlock)>
+        </#if>
     <#else>
         <#return mappedBlock + mappedBlock?contains("Blocks.")?then(".asItem()","")>
     </#if>
 </#function>
 
 <#function mappedElementToClassName mappedElement>
-    <#return JavaModName + generator.isBlock(mappedElement)?then("Blocks", "Items") + "."
-    + generator.getRegistryNameFromFullName(mappedElement)?upper_case + transformExtension(mappedElement)?upper_case + ".get()">
+    <#return generator.getRegistryNameFromFullName(mappedElement) + generator.isRecipeTypeBlockOrBucket(mappedElement)?then("Block", "Item")>
 </#function>
 
 <#function transformExtension mappedBlock>
