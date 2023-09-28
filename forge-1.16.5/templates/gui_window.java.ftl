@@ -216,7 +216,7 @@ import ${package}.${JavaModName};
 				<@buttonOnClick component/>
 			)<@buttonDisplayCondition component/>;
 
-			{name}Gui.guistate.put("button:${component.getName()}", ${component.getName()});
+			${name}Gui.guistate.put("button:${component.getName()}", ${component.getName()});
 			this.addButton(${component.getName()});
 
 			<#assign btid +=1>
