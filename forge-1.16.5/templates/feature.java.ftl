@@ -105,6 +105,6 @@ package ${package}.world.feature;
 			if (!biomeCriteria)
 				return;
 		</#if>
-		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(feature.generationStep, "generationsteps")}).add(() -> configuredFeature);
+		event.getGeneration().getFeatures(GenerationStage.Decoration.LOCAL_MODIFICATIONS).add(() -> configuredFeature);
 	}
 }</#compress>
