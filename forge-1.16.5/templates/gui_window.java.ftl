@@ -159,7 +159,7 @@ import ${package}.${JavaModName};
 			if (<@procedureOBJToConditionCode component.displayCondition/>)
 			</#if>
 			this.font.drawString(ms,
-				<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
+				<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString()</#if>,
 				${(component.x - mx / 2)?int}, ${(component.y - my / 2)?int}, ${component.color.getRGB()});
 		</#list>
 	}
