@@ -104,7 +104,7 @@ package ${package}.gui.overlay;
 	            </#list>
 
 				<#list data.getComponentsOfType("EntityModel") as component>
-					if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity livingEntity) {
+					if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity) {
 						<#if hasProcedure(component.displayCondition)>
 							if (<@procedureOBJToConditionCode component.displayCondition/>)
 						</#if>
