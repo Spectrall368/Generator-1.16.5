@@ -102,7 +102,7 @@ import ${package}.${JavaModName};
 				InventoryScreen.func_228187_a_(this.guiLeft + ${x + 11}, this.guiTop + ${y + 21}, ${component.scale},
 					<#if followMouse>(float) Math.atan((this.guiLeft + ${x + 11} - mouseX) / 40.0)<#else>0</#if>,
 					<#if followMouse>(float) Math.atan((this.guiTop + ${y + 21 - 50} - mouseY) / 40.0)<#else>0</#if>,
-					livingEntity
+					LivingEntity
 				);
 			}
 		</#list>
