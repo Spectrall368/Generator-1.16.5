@@ -99,7 +99,7 @@ package ${package}.world.feature;
 					return super.generate(world, generator, rand, pos, config);
 		</#if>
 		}
-	}
+	};
 	</#if>
 			configuredFeature = feature.withConfiguration(${configurationcode})${placementcode};
 
