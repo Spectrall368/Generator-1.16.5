@@ -10,7 +10,7 @@ if (${input$entity} instanceof LivingEntity && !${input$entity}.world.isClientSi
 					.withParameter(LootContextParams.DAMAGE_SOURCE, _dsLootTbl)
 					.withOptionalParameter(LootContextParams.KILLER_ENTITY, _dsLootTbl.getEntity())
 					.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, _dsLootTbl.getDirectEntity())
-					.withParameter(LootContextParams.ORIGIN, LivingEntity.position())
+					.withParameter(LootContextParams.ORIGIN, ${input$entity}.position())
 					.withParameter(LootContextParams.BLOCK_STATE, _entLootTbl.world.getBlockState(${input$entity}.blockPosition()))
 					.withOptionalParameter(LootContextParams.BLOCK_ENTITY, LivingEntity.world.getBlockEntity(${input$entity}.blockPosition()))
 					.withParameter(LootContextParams.TOOL, ${input$entity} instanceof PlayerEntity ? ${input$entity}.getInventory().getSelected() : ${input$entity}.getUseItem())
