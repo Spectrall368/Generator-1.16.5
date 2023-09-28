@@ -54,11 +54,6 @@ import net.minecraftforge.common.property.Properties;
 		super(instance, ${data.getModElement().getSortID()});
 
 		FMLJavaModLoadingContext.get().getModEventBus().register(new FluidRegisterHandler());
-
-		<#if (data.spawnWorldTypes?size > 0)>
-		MinecraftForge.EVENT_BUS.register(this);
-		FMLJavaModLoadingContext.get().getModEventBus().register(new FeatureRegisterHandler());
-		</#if>
 	}
 
 	private static class FluidRegisterHandler {
