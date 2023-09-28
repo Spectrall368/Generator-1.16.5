@@ -1,2 +1,2 @@
 if (${input$entity} instanceof MobEntity)
-	${input$entity}.getNavigation().stop();
+	${input$entity}.getNavigator().clearPath();
