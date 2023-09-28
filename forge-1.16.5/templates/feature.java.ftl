@@ -42,7 +42,7 @@ package ${package}.world.feature;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 	
 	public ${name}Feature() {
-		super(${configuration}.CODEC);
+		super(${configurationcodec});
 	}
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
@@ -101,7 +101,7 @@ package ${package}.world.feature;
 		}
 	}
 	</#if>
-			configuredFeature = feature.withConfiguration(${configurationcode}${placementcode?remove_ending(",")});
+			configuredFeature = feature.withConfiguration(${configurationcode})${placementcode};
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
