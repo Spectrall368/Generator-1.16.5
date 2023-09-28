@@ -95,7 +95,7 @@ import ${package}.${JavaModName};
 			<#assign followMouse = component.followMouseMovement>
 			<#assign x = (component.x - mx/2)?int>
 			<#assign y = (component.y - my/2)?int>
-			if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity livingEntity) {
+			if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity) {
 				<#if hasProcedure(component.displayCondition)>
 					if (<@procedureOBJToConditionCode component.displayCondition/>)
 				</#if>
