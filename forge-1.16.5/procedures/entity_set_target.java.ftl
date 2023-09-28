@@ -1,2 +1,2 @@
 if (${input$entity} instanceof MobEntity && ${input$sourceentity} instanceof LivingEntity)
-	${input$entity}.setTarget(${input$sourceentity});
+	${input$entity}.setAttackTarget(${input$sourceentity});
