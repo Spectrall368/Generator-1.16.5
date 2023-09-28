@@ -46,7 +46,7 @@ package ${package}.world.feature;
 	}
 	
 	<#if data.hasGenerationConditions()>
-	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
+	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, ${configuration} config) {
 		<#if data.restrictionDimensions?has_content>
 			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
 			boolean dimensionCriteria = false;
