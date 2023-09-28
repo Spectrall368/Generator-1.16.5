@@ -47,7 +47,7 @@ package ${package}.world.feature;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-		feature = new ${name}Feature(${configurationcodec}) {
+		feature = new ${name}Feature() {
 	<#if data.hasGenerationConditions() || featuretype == "feature_simple_block">
 			@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
 		<#if data.restrictionDimensions?has_content>
