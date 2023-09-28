@@ -34,6 +34,7 @@
 package ${package}.world.feature;
 
 <#assign configuration = generator.map(featuretype, "features", 1)>
+<#assign configurationcodec = generator.map(featuretype, "features", 2)>
 
 <#compress>
 @Mod.EventBusSubscriber public class ${name}Feature extends ${generator.map(featuretype, "features")} {
@@ -41,7 +42,7 @@ package ${package}.world.feature;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 	
 	public ${name}Feature() {
-		super(${configuration});
+		super(${configurationcodec});
 	}
 	
 	<#if data.hasGenerationConditions()>
@@ -86,7 +87,7 @@ package ${package}.world.feature;
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			feature = new ${name}Feature();
-			configuredFeature = feature.withConfiguration(${configuration})${placementcode};
+			configuredFeature = feature.withConfiguration(${configurationcodec})${placementcode};
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
