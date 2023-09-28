@@ -46,8 +46,8 @@ package ${package}.world.feature;
 	}
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
-	@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-	feature = new ${name}Feature(configurationcodec) {
+		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
+		feature = new ${name}Feature(configurationcodec) {
 	<#if data.hasGenerationConditions() || featuretype == "feature_simple_block">
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
 		<#if data.restrictionDimensions?has_content>
@@ -98,10 +98,10 @@ package ${package}.world.feature;
 		<#else>
 			return super.generate(world, generator, rand, pos, config);
 		</#if>
-	}
+		}
 	}
 	</#if>
-			configuredFeature = feature.withConfiguration(new ${configuration})${placementcode?remove_ending(",")};
+			configuredFeature = feature.withConfiguration(${placementcode?remove_ending(",")};
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
