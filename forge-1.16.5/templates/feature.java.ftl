@@ -101,7 +101,7 @@ package ${package}.world.feature;
 		}
 	}
 	</#if>
-			configuredFeature = feature.withConfiguration(${placementcode?remove_ending(",")});
+			configuredFeature = feature.withConfiguration(${configurationcode}(${placementcode?remove_ending(",")}));
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
