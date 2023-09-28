@@ -24,13 +24,11 @@
 	</#if>
 }
 
-@Override public void grow(ServerWorld serverworld, Random random, BlockPos pos, BlockState blockstate) {
+@Override public void grow(ServerWorld world, Random random, BlockPos pos, BlockState blockstate) {
 	<#if hasProcedure(onBonemealSuccess)>
 	int x = pos.getX();
 	int y = pos.getY();
 	int z = pos.getZ();
-	World world = (World) serverworld;
-	BlockState blockstate = world.getBlockState(pos);
         return <@procedureOBJToConditionCode onBonemealSuccess/>;
 	</#if>
 }
