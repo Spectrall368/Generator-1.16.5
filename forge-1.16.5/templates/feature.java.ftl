@@ -49,65 +49,65 @@ package ${package}.world.feature;
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 		feature = new ${name}Feature(${configurationcodec}) {
 	<#if data.hasGenerationConditions() || featuretype == "feature_simple_block">
-	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
+			@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
 		<#if data.restrictionDimensions?has_content>
-			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-			boolean dimensionCriteria = false;
+					RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
+					boolean dimensionCriteria = false;
 	
 			<#list data.restrictionDimensions as dimension>
 				<#if dimension=="Surface">
-					if(dimensionType == World.OVERWORLD)
-						dimensionCriteria = true;
+							if(dimensionType == World.OVERWORLD)
+								dimensionCriteria = true;
 				<#elseif dimension=="Nether">
-					if(dimensionType == World.THE_NETHER)
-						dimensionCriteria = true;
+							if(dimensionType == World.THE_NETHER)
+								dimensionCriteria = true;
 				<#elseif dimension=="End">
-					if(dimensionType == World.THE_END)
-						dimensionCriteria = true;
+							if(dimensionType == World.THE_END)
+								dimensionCriteria = true;
 				<#else>
-					if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
-							new ResourceLocation("${generator.getResourceLocationForModElement(dimension.toString().replace("CUSTOM:", ""))}")))
-						dimensionCriteria = true;
+							if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
+									new ResourceLocation("${generator.getResourceLocationForModElement(dimension.toString().replace("CUSTOM:", ""))}")))
+								dimensionCriteria = true;
 				</#if>
 			</#list>
 
-			if(!dimensionCriteria)
-				return false;
+					if(!dimensionCriteria)
+						return false;
 		</#if>
 	
 		<#if hasProcedure(data.generateCondition)>
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
-			if (!<@procedureOBJToConditionCode data.generateCondition/>)
-				return false;
+					int x = pos.getX();
+					int y = pos.getY();
+					int z = pos.getZ();
+					if (!<@procedureOBJToConditionCode data.generateCondition/>)
+						return false;
 		</#if>
 
 		<#if featuretype == "feature_simple_block">
-			BlockState state = config.state;
-			if (state.isValidPosition(world, pos)) {
-				if (state.getBlock() instanceof DoublePlantBlock) {
-					if (!world.isAirBlock(pos.up()))
-						return false;
-					((DoublePlantBlock) state.getBlock()).placeAt(world, pos, 2);
-				} else
-					world.setBlockState(pos, config.state, 2);
-				return true;
-			}
-			return false;
+					BlockState state = config.state;
+					if (state.isValidPosition(world, pos)) {
+						if (state.getBlock() instanceof DoublePlantBlock) {
+							if (!world.isAirBlock(pos.up()))
+								return false;
+							((DoublePlantBlock) state.getBlock()).placeAt(world, pos, 2);
+						} else
+							world.setBlockState(pos, config.state, 2);
+						return true;
+					}
+					return false;
 		<#else>
-			return super.generate(world, generator, rand, pos, config);
+					return super.generate(world, generator, rand, pos, config);
 		</#if>
 		}
 	}
 	</#if>
-			configuredFeature = feature.withConfiguration(${configurationcode}(${placementcode?remove_ending(",")}));
+			configuredFeature = feature.withConfiguration(${configurationcode}${placementcode?remove_ending(",")});
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
 		}
 	}
- ${featuretype}
+
 	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content>
 			boolean biomeCriteria = false;
