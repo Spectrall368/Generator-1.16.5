@@ -44,7 +44,7 @@ package ${package}.world.feature;
 		super(${configuration});
 	}
 	
-	<#if data.hasGenerationConditions() || featureblock == "feature_simple_block">
+	<#if data.hasGenerationConditions()>
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
 		<#if data.restrictionDimensions?has_content>
 			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
