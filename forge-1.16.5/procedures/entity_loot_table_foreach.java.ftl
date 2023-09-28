@@ -1,21 +1,21 @@
 <#include "mcelements.ftl">
 <#-- @formatter:off -->
-if (${input$entity} instanceof LivingEntity && !LivingEntity.world.isClientSide() && LivingEntity.getServer() != null) {
-	DamageSource _dsLootTbl = LivingEntity.getLastDamageSource();
+if (${input$entity} instanceof LivingEntity && !${input$entity}.world.isClientSide() && ${input$entity}.getServer() != null) {
+	DamageSource _dsLootTbl = ${input$entity}.getLastDamageSource();
 	if (_dsLootTbl == null) _dsLootTbl = DamageSource.GENERIC;
-	for (ItemStack itemstackiterator : LivingEntity.getServer().getLootTables().get(${toResourceLocation(input$location)})
-			.getRandomItems(new LootContext.Builder((ServerWorld) LivingEntity.world)
-					.withParameter(LootContextParams.THIS_ENTITY, _entLootTbl)
-					.withOptionalParameter(LootContextParams.LAST_DAMAGE_PLAYER, LivingEntity.getLastHurtByMob() instanceof PlayerEntity ?  PlayerEntity : null)
+	for (ItemStack itemstackiterator : ${input$entity}.getServer().getLootTables().get(${toResourceLocation(input$location)})
+			.getRandomItems(new LootContext.Builder((ServerWorld) ${input$entity}.world)
+					.withParameter(LootContextParams.THIS_ENTITY, ${input$entity})
+					.withOptionalParameter(LootContextParams.LAST_DAMAGE_PLAYER, ${input$entity}.getLastHurtByMob() instanceof PlayerEntity ?  ${input$entity} : null)
 					.withParameter(LootContextParams.DAMAGE_SOURCE, _dsLootTbl)
 					.withOptionalParameter(LootContextParams.KILLER_ENTITY, _dsLootTbl.getEntity())
 					.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, _dsLootTbl.getDirectEntity())
 					.withParameter(LootContextParams.ORIGIN, LivingEntity.position())
-					.withParameter(LootContextParams.BLOCK_STATE, _entLootTbl.world.getBlockState(LivingEntity.blockPosition()))
-					.withOptionalParameter(LootContextParams.BLOCK_ENTITY, LivingEntity.world.getBlockEntity(LivingEntity.blockPosition()))
-					.withParameter(LootContextParams.TOOL, LivingEntity instanceof PlayerEntity ? PlayerEntity.getInventory().getSelected() : LivingEntity.getUseItem())
+					.withParameter(LootContextParams.BLOCK_STATE, _entLootTbl.world.getBlockState(${input$entity}.blockPosition()))
+					.withOptionalParameter(LootContextParams.BLOCK_ENTITY, LivingEntity.world.getBlockEntity(${input$entity}.blockPosition()))
+					.withParameter(LootContextParams.TOOL, ${input$entity} instanceof PlayerEntity ? ${input$entity}.getInventory().getSelected() : ${input$entity}.getUseItem())
 					.withParameter(LootContextParams.EXPLOSION_RADIUS, 0f)
-					.withLuck(_entLootTbl instanceof PlayerEntity ? PlayerEntity.getLuck() : 0)
+					.withLuck(${input$entity} instanceof PlayerEntity ? ${input$entity}.getLuck() : 0)
 					.create(LootContextParamSets.EMPTY))) {
 		${statement$foreach}
 	}
