@@ -107,7 +107,7 @@ package ${package}.world.feature;
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
 		}
 	}
-
+ ${featuretype}
 	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content>
 			boolean biomeCriteria = false;
