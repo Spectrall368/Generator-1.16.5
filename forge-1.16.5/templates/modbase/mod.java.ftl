@@ -50,21 +50,35 @@ import org.apache.logging.log4j.Logger;
 		elements.getElements().forEach(element -> element.clientLoad(event));
 	}
 
+	<#if w.hasElementsOfBaseType("block")>
 	@SubscribeEvent public void registerBlocks(RegistryEvent.Register<Block> event) {
 		event.getRegistry().registerAll(elements.getBlocks().stream().map(Supplier::get).toArray(Block[]::new));
 	}
+	</#if>
 
+	<#if w.hasElementsOfBaseType("item")>
 	@SubscribeEvent public void registerItems(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(elements.getItems().stream().map(Supplier::get).toArray(Item[]::new));
 	}
+	</#if>
 
+	<#if w.hasElementsOfType("biome")>
+	@SubscribeEvent public void registerBiomes(RegistryEvent.Register<Biome> event) {
+		event.getRegistry().registerAll(elements.getBiomes().stream().map(Supplier::get).toArray(Biome[]::new));
+	}
+	</#if>
+
+	<#if w.hasElementsOfBaseType("entity")>
 	@SubscribeEvent public void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
 		event.getRegistry().registerAll(elements.getEntities().stream().map(Supplier::get).toArray(EntityType[]::new));
 	}
+	</#if>
 
+	<#if w.hasElementsOfType("enchantment")>
 	@SubscribeEvent public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
 		event.getRegistry().registerAll(elements.getEnchantments().stream().map(Supplier::get).toArray(Enchantment[]::new));
 	}
+	</#if>
 
 	@SubscribeEvent public void registerSounds(RegistryEvent.Register<net.minecraft.util.SoundEvent> event) {
 		elements.registerSounds(event);
