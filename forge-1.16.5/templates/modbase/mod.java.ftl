@@ -62,12 +62,6 @@ import org.apache.logging.log4j.Logger;
 	}
 	</#if>
 
-	<#if w.hasElementsOfType("biome")>
-	@SubscribeEvent public void registerBiomes(RegistryEvent.Register<Biome> event) {
-		event.getRegistry().registerAll(elements.getBiomes().stream().map(Supplier::get).toArray(Biome[]::new));
-	}
-	</#if>
-
 	<#if w.hasElementsOfBaseType("entity")>
 	@SubscribeEvent public void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
 		event.getRegistry().registerAll(elements.getEntities().stream().map(Supplier::get).toArray(EntityType[]::new));
