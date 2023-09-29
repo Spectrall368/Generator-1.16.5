@@ -110,7 +110,7 @@ import net.minecraftforge.common.property.Properties;
                     <#if data.generateBucket>.bucket(() -> bucket)</#if>
 					.block(() -> block);
 
-		<#if data.extendsForgeFlowingFluid()>
+		<#if data.spawnParticles || data.flowStrength != 1 || data.flowCondition != null || data.beforeReplacingBlock != null>
 		still = (FlowingFluid) new CustomFlowingFluid.Source(fluidproperties).setRegistryName("${registryname}");
 		flowing = (FlowingFluid) new CustomFlowingFluid.Flowing(fluidproperties).setRegistryName("${registryname}_flowing");
 		<#else>
@@ -237,7 +237,7 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 
-	<#if data.extendsForgeFlowingFluid()>
+	<#if data.spawnParticles || data.flowStrength != 1 || data.flowCondition != null || data.beforeReplacingBlock != null>
 	public static abstract class CustomFlowingFluid extends ForgeFlowingFluid {
 		public CustomFlowingFluid(Properties properties) {
 			super(properties);
