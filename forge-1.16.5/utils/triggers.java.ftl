@@ -26,7 +26,7 @@
 
 @Override public void grow(ServerWorld worldIn, Random random, BlockPos pos, BlockState state) {
 	<#if hasProcedure(onBonemealSuccess)>
-	<@procedureCode onBonemealSuccess, {
+	<@procedureOBJToConditionCode onBonemealSuccess, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
 	"z": "pos.getZ()",
