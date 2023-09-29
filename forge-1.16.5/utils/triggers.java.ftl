@@ -29,7 +29,7 @@
 	int x = pos.getX();
 	int y = pos.getY();
 	int z = pos.getZ();
-	return <@procedureOBJToConditionCode onBonemealSuccess/>;
+	<@procedureOBJToConditionCode onBonemealSuccess/>;
 	</#if>
 }
 </#macro>
