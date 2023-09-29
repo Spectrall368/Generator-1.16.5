@@ -58,7 +58,7 @@
     <#elseif mappedBlock?starts_with("CUSTOM:")>
         <#if !mappedBlock?contains(".")>
             <#return mappedElementToClassName(mappedBlock) + ".block"
-            + generator.isRecipeTypeBlockOrBucket(mappedBlock)?then(".asItem()","")>
+            + generator.isBlock(mappedBlock)?then(".asItem()","")>
         <#else>
             <#return mappedElementToClassName(mappedBlock) + "." + generator.getElementExtension(mappedBlock)>
         </#if>
@@ -68,7 +68,7 @@
 </#function>
 
 <#function mappedElementToClassName mappedElement>
-    <#return generator.getElementPlainName(mappedElement) + generator.isRecipeTypeBlockOrBucket(mappedElement)?then("Block", "Item")>
+    <#return generator.getElementPlainName(mappedElement) + generator.isBlock(mappedElement)?then("Block", "Item")>
 </#function>
 
 <#function transformExtension mappedBlock>
