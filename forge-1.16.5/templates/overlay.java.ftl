@@ -109,7 +109,7 @@ package ${package}.gui.overlay;
                         if (<@procedureOBJToConditionCode component.displayCondition/>)
                     </#if>
 			        InventoryScreen.drawEntityOnScreen(posX + ${component.x - 202}, posY + ${component.y - 100},
-                        ${component.scale}, ${component.rotationX / 20.0}f, 0, entity);
+                        ${component.scale}, ${component.rotationX / 20.0}f, 0, ((LivingEntity) <@procedureOBJToConditionCode component.entityModel/>);
 			    }
 			</#list>
 
