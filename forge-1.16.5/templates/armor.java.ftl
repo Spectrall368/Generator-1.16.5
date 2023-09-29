@@ -277,7 +277,6 @@ package ${package}.item;
 		}.setRegistryName("${registryname}_boots"));
         </#if>
 	}
-
 	<#if data.getArmorModelsCode()?? >
 	${data.getArmorModelsCode().toString()
 		.replace("extends ModelBase", "extends EntityModel<Entity>")
@@ -314,8 +313,6 @@ package ${package}.item;
 			renderer.addBox("", x, y, z, dx, dy, dz, delta, texU, texV);
 		}
 		</#if>
-
 	</#if>
-
 }
 <#-- @formatter:on -->
