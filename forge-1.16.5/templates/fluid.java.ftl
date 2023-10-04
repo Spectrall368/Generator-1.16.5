@@ -37,6 +37,8 @@ import net.minecraft.entity.ai.attributes.Attributes;
 
 import net.minecraftforge.common.property.Properties;
 
+<#assign extendsForgeFlowingFluid = (data.spawnParticles) || (data.flowStrength != 1) || (data.flowCondition != null) || (data.beforeReplacingBlock != null)>
+
 @${JavaModName}Elements.ModElement.Tag public class ${name}Block extends ${JavaModName}Elements.ModElement{
 
 	@ObjectHolder("${modid}:${registryname}")
@@ -237,7 +239,7 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 
-	<#if data.spawnParticles || data.flowStrength != 1 || data.beforeReplacingBlock != null || data.flowCondition??>
+	<#if extendsForgeFlowingFluid>
 	public static abstract class CustomFlowingFluid extends ForgeFlowingFluid {
 		public CustomFlowingFluid(Properties properties) {
 			super(properties);
