@@ -237,8 +237,7 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 
-<#if hasProcedure(data.flowCondition)>
-	<#if data.spawnParticles || data.flowStrength != 1 || data.beforeReplacingBlock != null>
+	<#if data.spawnParticles || data.flowStrength != 1 || data.beforeReplacingBlock != null || data.flowCondition != null>
 	public static abstract class CustomFlowingFluid extends ForgeFlowingFluid {
 		public CustomFlowingFluid(Properties properties) {
 			super(properties);
@@ -279,7 +278,7 @@ import net.minecraftforge.common.property.Properties;
         	int z = pos.getZ();
         	<@procedureOBJToCode data.beforeReplacingBlock/>
         }
-       		</#if>
+        	</#if>
 
 		public static class Source extends CustomFlowingFluid {
 			public Source(Properties properties) {
@@ -315,7 +314,6 @@ import net.minecraftforge.common.property.Properties;
 		}
 	}
 	</#if>
-</#if>
 
 	<#if data.extendsFluidAttributes()>
 	public static class CustomFluidAttributes extends FluidAttributes {
