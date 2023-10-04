@@ -21,7 +21,7 @@
         <#if !mappedBlock?contains(".")>
             <#return mappedElementToClassName(mappedBlock) + ".block">
         <#else>
-            <#return generator.getRegistryNameForModElement(mappedBlock)>
+            <#return mappedElementToClassName(mappedBlock) + "." + getElementExtension(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock>
@@ -40,7 +40,8 @@
             <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + ".block"
             + (amount == 1)?then(")",", (int)(" + amount + "))")>
         <#else>
-            <#return "new ItemStack("+ generator.getRegistryNameForModElement(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
+            <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + "."
+            + getElementExtension(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
         </#if>
     <#else>
         <#return "new ItemStack(" + mappedBlock + (amount == 1)?then(")",", (int)(" + amount + "))")>
@@ -59,7 +60,7 @@
             <#return mappedElementToClassName(mappedBlock) + ".block"
             + generator.isBlock(mappedBlock)?then(".asItem()","")>
         <#else>
-            <#return generator.getRegistryNameForModElement(mappedBlock)>
+            <#return mappedElementToClassName(mappedBlock) + "." + getElementExtension(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock + mappedBlock?contains("Blocks.")?then(".asItem()","")>
@@ -70,9 +71,14 @@
     <#return generator.getElementPlainName(mappedElement) + generator.isBlock(mappedElement)?then("Block", "Item")>
 </#function>
 
+<#function getElementExtension mappedBlock>
+    <#assign extension = mappedBlock?replace("CUSTOM:", "")>
+    <#return (extension?has_content)?then("" + extension, "")>
+</#function>
+
 <#function transformExtension mappedBlock>
     <#assign extension = mappedBlock?keep_after_last(".")?replace("body", "chestplate")?replace("legs", "leggings")>
-    <#return (extension?has_content)?then("" + extension, "")>
+    <#return (extension?has_content)?then("_" + extension, "")>
 </#function>
 
 <#function mappedMCItemToIngameItemName mappedBlock>
