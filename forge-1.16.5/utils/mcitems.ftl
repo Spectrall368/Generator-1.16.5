@@ -21,7 +21,7 @@
         <#if !mappedBlock?contains(".")>
             <#return mappedElementToClassName(mappedBlock) + ".block">
         <#else>
-            <#return mappedElementToClassName(mappedBlock) + "." + transformExtension(mappedBlock)?upper_case>
+            <#return generator.getRegistryNameForModElement(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock>
@@ -40,8 +40,7 @@
             <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + ".block"
             + (amount == 1)?then(")",", (int)(" + amount + "))")>
         <#else>
-            <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + "."
-            + transformExtension(mappedBlock)?upper_case + (amount == 1)?then(")",", (int)(" + amount + "))")>
+            <#return "new ItemStack("+ generator.getRegistryNameForModElement(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
         </#if>
     <#else>
         <#return "new ItemStack(" + mappedBlock + (amount == 1)?then(")",", (int)(" + amount + "))")>
@@ -60,7 +59,7 @@
             <#return mappedElementToClassName(mappedBlock) + ".block"
             + generator.isBlock(mappedBlock)?then(".asItem()","")>
         <#else>
-            <#return mappedElementToClassName(mappedBlock) + "." + transformExtension(mappedBlock)?upper_case>
+            <#return generator.getRegistryNameForModElement(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock + mappedBlock?contains("Blocks.")?then(".asItem()","")>
