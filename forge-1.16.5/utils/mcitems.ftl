@@ -72,8 +72,18 @@
 </#function>
 
 <#function getElementExtension mappedBlock>
-    <#assign extension = mappedBlock?replace("CUSTOM:", "")>
-    <#return (extension?has_content)?then("" + extension, "")>
+  <#if mappedBlock?contains("_spawn_egg")>
+    <#assign lastIndex = mappedBlock?last_index_of(".")>
+    <#return mappedBlock?substring((lastIndex + 1))>
+  <#else>
+    <#if mappedBlock?contains("body") || mappedBlock?contains("legs") || mappedBlock?contains("helmet") || mappedBlock?contains("boots")>
+      <#assign firstIndex = mappedBlock?index_of(".")>
+      <#assign lastIndex = mappedBlock?last_index_of(".")>
+      <#return mappedBlock?substring(0, firstIndex) + mappedBlock?substring((lastIndex + 1))>
+    <#else>
+      <#return (firstIndex?has_content)?then()>
+    </#if>
+  </#if>
 </#function>
 
 <#function transformExtension mappedBlock>
