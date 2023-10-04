@@ -71,7 +71,6 @@
 </#function>
 
 <#function getElementExtension mappedBlock>
-  <#assign replacedInput = generator.getRegistryNameForModElement(mappedBlock)
   <#assign replacedInput = mappedBlock?replace("CUSTOM:", "")>
   <#assign processedInput = replacedInput?replace(".helmet", "Item.helmet")>
   <#assign processedInput = processedInput?replace(".body", "Item.body")>
