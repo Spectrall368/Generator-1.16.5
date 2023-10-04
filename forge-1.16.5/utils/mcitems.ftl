@@ -60,7 +60,7 @@
             <#return mappedElementToClassName(mappedBlock) + ".block"
             + generator.isBlock(mappedBlock)?then(".asItem()","")>
         <#else>
-            <#return mappedElementToClassName(mappedBlock) + "." + getElementExtension(mappedBlock)>
+            <#return mappedElementToClassName(mappedBlock) + "." + FilenameUtilsPatched?getExtension(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock + mappedBlock?contains("Blocks.")?then(".asItem()","")>
