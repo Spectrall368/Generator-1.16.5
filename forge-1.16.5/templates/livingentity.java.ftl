@@ -38,6 +38,11 @@ import net.minecraft.block.material.Material;
 
 @${JavaModName}Elements.ModElement.Tag public class ${name}Entity extends ${JavaModName}Elements.ModElement {
 
+	<#if data.hasSpawnEgg>
+	@ObjectHolder("${registryname}_spawn_egg")
+	public static final SpawnEggItem spawn_egg = null;
+	</#if>
+
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, ${generator.map(data.mobSpawningType, "mobspawntypes")})
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(${data.trackingRange}).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 					<#if data.immuneToFire>.immuneToFire()</#if>.size(${data.modelWidth}f, ${data.modelHeight}f))
