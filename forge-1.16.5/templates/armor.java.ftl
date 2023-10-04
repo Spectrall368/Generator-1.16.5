@@ -277,7 +277,6 @@ package ${package}.item;
 		}.setRegistryName("${registryname}_boots"));
         </#if>
 	}
-
 	<#if data.getArmorModelsCode()?? >
 	${data.getArmorModelsCode().toString()
 		.replace("extends ModelBase", "extends EntityModel<Entity>")
