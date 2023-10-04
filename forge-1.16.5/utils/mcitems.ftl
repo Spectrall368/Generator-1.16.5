@@ -21,7 +21,7 @@
         <#if !mappedBlock?contains(".")>
             <#return mappedElementToClassName(mappedBlock) + ".block">
         <#else>
-            <#return mappedElementToClassName(mappedBlock) + "." + getElementExtension(mappedBlock)>
+            <#return generator.getRegistryNameForModElement(mappedBlock)?replace("CUSTOM:", "") + "." + getElementExtension(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock>
@@ -40,7 +40,7 @@
             <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + ".block"
             + (amount == 1)?then(")",", (int)(" + amount + "))")>
         <#else>
-            <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + "."
+            <#return "new ItemStack("+ generator.getRegistryNameForModElement(mappedBlock)?replace("CUSTOM:", "") + "."
             + getElementExtension(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
         </#if>
     <#else>
@@ -60,7 +60,7 @@
             <#return mappedElementToClassName(mappedBlock) + ".block"
             + generator.isBlock(mappedBlock)?then(".asItem()","")>
         <#else>
-            <#return mappedElementToClassName(mappedBlock) + "." + getElementExtension(mappedBlock)>
+            <#return generator.getRegistryNameForModElement(mappedBlock)?replace("CUSTOM:", "") + "." + getElementExtension(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock + mappedBlock?contains("Blocks.")?then(".asItem()","")>
@@ -81,7 +81,7 @@
       <#assign lastIndex = mappedBlock?last_index_of(".")>
       <#return mappedBlock?substring(0, firstIndex) + mappedBlock?substring((lastIndex + 1))>
     <#else>
-      <#return (firstIndex?has_content)?then()>
+      <#return (firstIndex?has_content)?then("", "")>
     </#if>
   </#if>
 </#function>
