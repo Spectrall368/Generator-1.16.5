@@ -133,6 +133,16 @@ package ${package}.entity.renderer;
 	}
     </#if>
 
+	<#if data.mobModelName == "Villager">
+        @Override @OnlyIn(Dist.CLIENT) public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+            matrixStack.push();
+            matrixStack.translate(0f, 1.5f - t * 1.5f, 0f);
+            matrixStack.scale(0.9375f, 0.9375f, 0.9375f);
+            Direwolf.render(matrixStack, buffer, packedLight, packedOverlay);
+            matrixStack.pop();
+	}
+	</#if>
+
     <#if data.getModelCode()?? && !data.isBuiltInModel()>
         ${data.getModelCode().toString()
         .replace("extends ModelBase", "extends EntityModel<Entity>")
