@@ -21,7 +21,7 @@
         <#if !mappedBlock?contains(".")>
             <#return mappedElementToClassName(mappedBlock) + ".block">
         <#else>
-            <#return generator.getRegistryNameForModElement(mappedBlock)?replace("CUSTOM:", "") + "." + getElementExtension(mappedBlock)>
+            <#return getElementExtension(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock>
@@ -40,8 +40,7 @@
             <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + ".block"
             + (amount == 1)?then(")",", (int)(" + amount + "))")>
         <#else>
-            <#return "new ItemStack("+ generator.getRegistryNameForModElement(mappedBlock)?replace("CUSTOM:", "") + "."
-            + getElementExtension(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
+            <#return "new ItemStack("+ getElementExtension(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
         </#if>
     <#else>
         <#return "new ItemStack(" + mappedBlock + (amount == 1)?then(")",", (int)(" + amount + "))")>
@@ -60,7 +59,7 @@
             <#return mappedElementToClassName(mappedBlock) + ".block"
             + generator.isBlock(mappedBlock)?then(".asItem()","")>
         <#else>
-            <#return generator.getRegistryNameForModElement(mappedBlock)?replace("CUSTOM:", "") + "." + getElementExtension(mappedBlock)>
+            <#return getElementExtension(mappedBlock)>
         </#if>
     <#else>
         <#return mappedBlock + mappedBlock?contains("Blocks.")?then(".asItem()","")>
@@ -72,18 +71,12 @@
 </#function>
 
 <#function getElementExtension mappedBlock>
-  <#if mappedBlock?contains("_spawn_egg")>
-    <#assign lastIndex = mappedBlock?last_index_of(".")>
-    <#return mappedBlock?substring((lastIndex + 1))>
-  <#else>
-    <#if mappedBlock?contains("body") || mappedBlock?contains("legs") || mappedBlock?contains("helmet") || mappedBlock?contains("boots")>
-      <#assign firstIndex = mappedBlock?index_of(".")>
-      <#assign lastIndex = mappedBlock?last_index_of(".")>
-      <#return mappedBlock?substring(0, firstIndex) + mappedBlock?substring((lastIndex + 1))>
-    <#else>
-      <#return (firstIndex?has_content)?then("", "")>
-    </#if>
-  </#if>
+  <#assign replacedInput = mappedBlock?replace("CUSTOM: ", "")>
+  <#assign processedInput = replacedInput?replace("helmet", "Item.helmet")>
+  <#assign processedInput = processedInput?replace("body", "Item.body")>
+  <#assign processedInput = processedInput?replace("legs", "Item.legs")>
+  <#assign processedInput = processedInput?replace("boots", "Item.boots")>
+  <#return (processedInput?has_content)?then("" + processedInput, "")>
 </#function>
 
 <#function transformExtension mappedBlock>
