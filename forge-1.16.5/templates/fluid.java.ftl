@@ -37,7 +37,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 
 import net.minecraftforge.common.property.Properties;
 
-<#assign extendsForgeFlowingFluid = (data.spawnParticles) || (data.flowStrength != 1) || (data.flowCondition != null) || (data.beforeReplacingBlock != null)>
+<#assign extendsForgeFlowingFluid = (data.spawnParticles) || (data.flowStrength != 1) || (data.beforeReplacingBlock != null)>
 
 @${JavaModName}Elements.ModElement.Tag public class ${name}Block extends ${JavaModName}Elements.ModElement{
 
