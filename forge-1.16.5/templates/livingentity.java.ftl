@@ -39,7 +39,7 @@ import net.minecraft.block.material.Material;
 @${JavaModName}Elements.ModElement.Tag public class ${name}Entity extends ${JavaModName}Elements.ModElement {
 
 	<#if data.hasSpawnEgg>
-	@ObjectHolder("${registryname}_spawn_egg")
+	@ObjectHolder("${modid}:${registryname}_spawn_egg")
 	public static final SpawnEggItem spawn_egg = null;
 	</#if>
 
