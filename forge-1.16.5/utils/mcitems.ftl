@@ -21,7 +21,7 @@
         <#if !mappedBlock?contains(".")>
             <#return mappedElementToClassName(mappedBlock) + ".block">
         <#else>
-            <#return mappedElementToClassName(mappedBlock) + "." + generator.getElementExtension(mappedBlock)>
+            <#return mappedElementToClassName(mappedBlock) + "." + transformExtension(mappedElement)?upper_case>
         </#if>
     <#else>
         <#return mappedBlock>
@@ -41,7 +41,7 @@
             + (amount == 1)?then(")",", (int)(" + amount + "))")>
         <#else>
             <#return "new ItemStack("+ mappedElementToClassName(mappedBlock) + "."
-            + generator.getElementExtension(mappedBlock) + (amount == 1)?then(")",", (int)(" + amount + "))")>
+            + transformExtension(mappedElement)?upper_case + (amount == 1)?then(")",", (int)(" + amount + "))")>
         </#if>
     <#else>
         <#return "new ItemStack(" + mappedBlock + (amount == 1)?then(")",", (int)(" + amount + "))")>
@@ -60,7 +60,7 @@
             <#return mappedElementToClassName(mappedBlock) + ".block"
             + generator.isBlock(mappedBlock)?then(".asItem()","")>
         <#else>
-            <#return mappedElementToClassName(mappedBlock) + "." + generator.getElementExtension(mappedBlock)>
+            <#return mappedElementToClassName(mappedBlock) + "." + transformExtension(mappedElement)?upper_case>
         </#if>
     <#else>
         <#return mappedBlock + mappedBlock?contains("Blocks.")?then(".asItem()","")>
