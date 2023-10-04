@@ -71,11 +71,11 @@
 </#function>
 
 <#function getElementExtension mappedBlock>
-  <#assign replacedInput = mappedBlock?replace("CUSTOM:", "")>
-  <#assign processedInput = replacedInput?replace(".spawn_egg", "Entity.spawn_egg")>
-  <#assign processedInput = replacedInput?replace(".bucket", "Block.bucket")>
-  <#assign processedInput = replacedInput?replace(".portal", "Dimension.portal")>
-  <#assign processedInput = replacedInput?replace(".helmet", "Item.helmet")>
+  <#assign processedInput = mappedBlock?replace("CUSTOM:", "")>
+  <#assign processedInput = processedInput?replace(".spawn_egg", "Entity.spawn_egg")>
+  <#assign processedInput = processedInput?replace(".bucket", "Block.bucket")>
+  <#assign processedInput = processedInput?replace(".portal", "Dimension.portal")>
+  <#assign processedInput = processedInput?replace(".helmet", "Item.helmet")>
   <#assign processedInput = processedInput?replace(".body", "Item.body")>
   <#assign processedInput = processedInput?replace(".legs", "Item.legs")>
   <#assign processedInput = processedInput?replace(".boots", "Item.boots")>
