@@ -73,7 +73,7 @@
 
 <#function transformExtension mappedBlock>
     <#assign extension = mappedBlock?keep_after_last(".")?replace("body", "chestplate")?replace("legs", "leggings")>
-    <#return (extension?has_content)?then("_" + extension, "")>
+    <#return (extension?has_content)?then("" + extension, "")>
 </#function>
 
 <#function mappedMCItemToIngameItemName mappedBlock>
