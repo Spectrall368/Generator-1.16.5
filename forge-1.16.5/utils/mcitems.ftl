@@ -71,11 +71,12 @@
 </#function>
 
 <#function getElementExtension mappedBlock>
-  <#assign replacedInput = mappedBlock?replace("CUSTOM: ", "")>
-  <#assign processedInput = replacedInput?replace("helmet", "Item.helmet")>
-  <#assign processedInput = processedInput?replace("body", "Item.body")>
-  <#assign processedInput = processedInput?replace("legs", "Item.legs")>
-  <#assign processedInput = processedInput?replace("boots", "Item.boots")>
+  <#assign replacedInput = generator.getRegistryNameForModElement(mappedBlock)
+  <#assign replacedInput = mappedBlock?replace("CUSTOM:", "")>
+  <#assign processedInput = replacedInput?replace(".helmet", "Item.helmet")>
+  <#assign processedInput = processedInput?replace(".body", "Item.body")>
+  <#assign processedInput = processedInput?replace(".legs", "Item.legs")>
+  <#assign processedInput = processedInput?replace(".boots", "Item.boots")>
   <#return (processedInput?has_content)?then("" + processedInput, "")>
 </#function>
 
