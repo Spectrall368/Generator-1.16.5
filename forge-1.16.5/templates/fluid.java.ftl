@@ -237,7 +237,7 @@ import net.minecraftforge.common.property.Properties;
 		</#if>
 	}
 
-	<#if data.spawnParticles || data.flowStrength != 1 || hasProcedure(data.flowCondition) || data.beforeReplacingBlock != null>
+	<#if data.spawnParticles || data.flowStrength != 1 || data.flowCondition != null || data.beforeReplacingBlock != null>
 	public static abstract class CustomFlowingFluid extends ForgeFlowingFluid {
 		public CustomFlowingFluid(Properties properties) {
 			super(properties);
