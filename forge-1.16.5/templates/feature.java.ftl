@@ -43,6 +43,9 @@ package ${package}.world.feature;
 	
 	public ${name}Feature() {
 		super(${configurationcodec});
+
+		MinecraftForge.EVENT_BUS.register(this);
+		FMLJavaModLoadingContext.get().getModEventBus().register(new FeatureRegisterHandler());
 	}
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
