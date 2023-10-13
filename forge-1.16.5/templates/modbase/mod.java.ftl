@@ -40,6 +40,13 @@ import org.apache.logging.log4j.Logger;
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientLoad);
 
 		MinecraftForge.EVENT_BUS.register(new ${JavaModName}FMLBusEvents(this));
+
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		<#if w.hasElementsOfType("potioneffect")>${JavaModName}PotionEffects.REGISTRY.register(bus);</#if>
+		<#if w.hasElementsOfType("potion")>${JavaModName}Potions.REGISTRY.register(bus);</#if>
+		<#if w.hasElementsOfType("painting")>${JavaModName}Paintings.REGISTRY.register(bus);</#if>
+		<#if w.hasElementsOfType("enchantment")>${JavaModName}Enchantments.REGISTRY.register(bus);</#if>
+		<#if w.hasElementsOfType("tab")>${JavaModName}Tabs.load();</#if>
 	}
 
 	private void init(FMLCommonSetupEvent event) {
@@ -67,16 +74,6 @@ import org.apache.logging.log4j.Logger;
 		event.getRegistry().registerAll(elements.getEntities().stream().map(Supplier::get).toArray(EntityType[]::new));
 	}
 	</#if>
-
-	<#if w.hasElementsOfType("enchantment")>
-	@SubscribeEvent public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
-		event.getRegistry().registerAll(elements.getEnchantments().stream().map(Supplier::get).toArray(Enchantment[]::new));
-	}
-	</#if>
-
-	@SubscribeEvent public void registerSounds(RegistryEvent.Register<net.minecraft.util.SoundEvent> event) {
-		elements.registerSounds(event);
-	}
 
 	private static class ${JavaModName}FMLBusEvents {
 
