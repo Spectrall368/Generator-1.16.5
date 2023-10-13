@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -40,12 +40,12 @@ package ${package}.init;
 
 	<#list gamerules as gamerule>
 		<#if gamerule.type == "Number">
-		public static final GameRules.RuleKey<GameRules.IntegerValue> ${gamerule.getModElement().getRegistryNameUpper()} =
-				GameRules.register("${thelper.lowercaseFirstLetter(gamerule.getModElement().getName())}",
+	public static final GameRules.RuleKey<GameRules.IntegerValue> ${gamerule.getModElement().getRegistryNameUpper()} =
+				GameRules.register("${gamerule.getModElement().getRegistryName()}",
 				GameRules.Category.${gamerule.category}, GameRules.IntegerValue.create(${gamerule.defaultValueNumber}));
 		<#else>
-		public static final GameRules.RuleKey<GameRules.BooleanValue> ${gamerule.getModElement().getRegistryNameUpper()} =
-				GameRules.register("${thelper.lowercaseFirstLetter(gamerule.getModElement().getName())}",
+	public static final GameRules.RuleKey<GameRules.BooleanValue> ${gamerule.getModElement().getRegistryNameUpper()} =
+				GameRules.register("${gamerule.getModElement().getRegistryName()}",
 				GameRules.Category.${gamerule.category}, GameRules.BooleanValue.create(${gamerule.defaultValueLogic}));
 		</#if>
 	</#list>
