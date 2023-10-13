@@ -1,6 +1,6 @@
 _default: Enchantments.EFFICIENCY
 _mcreator_prefix: "CUSTOM:"
-_mcreator_map_template: "@NAMEEnchantment.enchantment"
+_mcreator_map_template: "@JavaModNameEnchantments.@REGISTRYNAME.get()"
 PROTECTION: Enchantments.PROTECTION
 FIRE_PROTECTION: Enchantments.FIRE_PROTECTION
 FEATHER_FALLING: Enchantments.FEATHER_FALLING
