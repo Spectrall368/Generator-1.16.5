@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -28,15 +29,21 @@
 -->
 
 <#-- @formatter:off -->
-<#include "procedures.java.ftl">
 
-package ${package}.painting;
+/*
+ *    MCreator note: This file will be REGENERATED on each build.
+ */
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}Painting {
-	
-	@SubscribeEvent public static void registerPaintingType(RegistryEvent.Register<PaintingType> event) {
-		event.getRegistry().register(new PaintingType(${data.width}, ${data.height}).setRegistryName("${registryname}"));
-	}
+package ${package}.init;
 
+public class ${JavaModName}Paintings {
+
+	public static final DeferredRegister<PaintingType> REGISTRY = new DeferredRegister<>(ForgeRegistries.PAINTING_TYPES, ${JavaModName}.MODID);
+
+	<#list paintings as painting>
+	public static final RegistryObject<PaintingType> ${painting.getModElement().getRegistryNameUpper()} =
+			REGISTRY.register("${painting.getModElement().getRegistryName()}", () -> new PaintingType(${painting.width}, ${painting.height}));
+	</#list>
 }
+
 <#-- @formatter:on -->
