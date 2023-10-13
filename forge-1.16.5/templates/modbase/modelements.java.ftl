@@ -25,17 +25,8 @@ public class ${JavaModName}Elements {
 	<#if w.hasElementsOfBaseType("entity")>
 	public final List<Supplier<EntityType<?>>> entities = new ArrayList<>();
 	</#if>
-	<#if w.hasElementsOfType("enchantment")>
-	public final List<Supplier<Enchantment>> enchantments = new ArrayList<>();
-	</#if>
-
-	public static Map<ResourceLocation, net.minecraft.util.SoundEvent> sounds = new HashMap<>();
 
 	public ${JavaModName}Elements () {
-		<#list sounds as sound>
-		sounds.put(new ResourceLocation("${modid}" ,"${sound}"), new net.minecraft.util.SoundEvent(new ResourceLocation("${modid}" ,"${sound}")));
-		</#list>
-
 		try {
 			ModFileScanData modFileInfo = ModList.get().getModFileById("${modid}").getFile().getScanResult();
 			Set<ModFileScanData.AnnotationData> annotations = modFileInfo.getAnnotations();
@@ -56,11 +47,6 @@ public class ${JavaModName}Elements {
 		<#if w.hasVariables()>
 		MinecraftForge.EVENT_BUS.register(new ${JavaModName}Variables(this));
 		</#if>
-	}
-
-	public void registerSounds(RegistryEvent.Register<net.minecraft.util.SoundEvent> event) {
-		for (Map.Entry<ResourceLocation, net.minecraft.util.SoundEvent> sound : sounds.entrySet())
-			event.getRegistry().register(sound.getValue().setRegistryName(sound.getKey()));
 	}
 
 	private int messageID = 0;
@@ -90,12 +76,6 @@ public class ${JavaModName}Elements {
 	<#if w.hasElementsOfBaseType("entity")>
 	public List<Supplier<EntityType<?>>> getEntities() {
 		return entities;
-	}
-	</#if>
-
-	<#if w.hasElementsOfType("enchantment")>
-	public List<Supplier<Enchantment>> getEnchantments() {
-		return enchantments;
 	}
 	</#if>
 
