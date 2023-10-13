@@ -38,7 +38,7 @@ package ${package}.init;
 
 public class ${JavaModName}Paintings {
 
-	public static final DeferredRegister<PaintingType> REGISTRY = new DeferredRegister<>(ForgeRegistries.PAINTING_TYPES, ${JavaModName}.MODID);
+	public static final DeferredRegister<PaintingType> REGISTRY = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, ${JavaModName}.MODID);
 
 	<#list paintings as painting>
 	public static final RegistryObject<PaintingType> ${painting.getModElement().getRegistryNameUpper()} =
