@@ -52,12 +52,12 @@ package ${package}.particle;
 		private float angularAcceleration;
 		</#if>
 
-		protected CustomParticle(ClientWorld world, double x, double y, double z, double vx, double vy, double vz, IAnimatedSprite spriteSet) {
+		protected CustomParticle(World world, double x, double y, double z, double vx, double vy, double vz, IAnimatedSprite spriteSet) {
 			super(world, x, y, z);
 			this.spriteSet = spriteSet;
 
-			this.setSize((float) ${data.width}, (float) ${data.height});
-			this.particleScale *= (float) ${data.scale};
+			this.setSize(${data.width}f, ${data.height}f);
+			this.particleScale *= ${data.scale}f;
 
 			<#if (data.maxAgeDiff > 0)>
 			this.maxAge = (int) Math.max(1, ${data.maxAge} + (this.rand.nextInt(${data.maxAgeDiff * 2}) - ${data.maxAgeDiff}));
@@ -65,7 +65,7 @@ package ${package}.particle;
 			this.maxAge = ${data.maxAge};
 			</#if>
 
-			this.particleGravity = (float) ${data.gravity};
+			this.particleGravity = ${data.gravity}f;
 			this.canCollide = ${data.canCollide};
 
 			this.motionX = vx * ${data.speedFactor};
@@ -73,8 +73,8 @@ package ${package}.particle;
 			this.motionZ = vz * ${data.speedFactor};
 
 			<#if data.angularVelocity != 0 || data.angularAcceleration != 0>
-			this.angularVelocity = (float) ${data.angularVelocity};
-			this.angularAcceleration = (float) ${data.angularAcceleration};
+			this.angularVelocity = ${data.angularVelocity}f;
+			this.angularAcceleration = ${data.angularAcceleration}f;
 			</#if>
 
 			<#if data.animate>
@@ -116,7 +116,6 @@ package ${package}.particle;
 				this.setExpired();
 			</#if>
 		}
-
 	}
 
 	@OnlyIn(Dist.CLIENT) private static class CustomParticleFactory implements IParticleFactory<BasicParticleType> {
@@ -130,6 +129,5 @@ package ${package}.particle;
 			return new CustomParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
 		}
 	}
-
 }
 <#-- @formatter:on -->
