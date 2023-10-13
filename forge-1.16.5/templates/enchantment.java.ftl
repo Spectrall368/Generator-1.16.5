@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -32,39 +33,29 @@
 
 package ${package}.enchantment;
 
-@${JavaModName}Elements.ModElement.Tag
-public class ${name}Enchantment extends ${JavaModName}Elements.ModElement{
+public class ${name}Enchantment extends Enchantment {
 
-	@ObjectHolder("${modid}:${registryname}")
-	public static final Enchantment enchantment = null;
-
-	public ${name}Enchantment(${JavaModName}Elements instance) {
-		super(instance, ${data.getModElement().getSortID()});
+	public ${name}Enchantment(EquipmentSlotType... slots) {
+		super(Enchantment.Rarity.${data.rarity}, EnchantmentType.${generator.map(data.type, "enchantmenttypes")}, slots);
 	}
 
-	@Override public void initElements() {
-		elements.enchantments.add(() -> new CustomEnchantment(EquipmentSlotType.MAINHAND).setRegistryName("${registryname}"));
-	}
-
-	public static class CustomEnchantment extends Enchantment {
-
-		public CustomEnchantment(EquipmentSlotType... slots) {
-			super(Enchantment.Rarity.${data.rarity}, EnchantmentType.${generator.map(data.type, "enchantmenttypes")}, slots);
-        }
-
+	<#if data.minLevel != 1>
 		@Override public int getMinLevel() {
 			return ${data.minLevel};
 		}
+	</#if>
 
+	<#if data.maxLevel != 1>
 		@Override public int getMaxLevel() {
 			return ${data.maxLevel};
 		}
+	</#if>
 
-		<#if data.damageModifier != 0>
+	<#if data.damageModifier != 0>
 		@Override public int calcModifierDamage(int level, DamageSource source) {
 			return level * ${data.damageModifier};
 		}
-		</#if>
+	</#if>
 
         <#if data.compatibleEnchantments?has_content>
 		@Override protected boolean canApplyTogether(Enchantment ench) {
@@ -73,8 +64,8 @@ public class ${name}Enchantment extends ${JavaModName}Elements.ModElement{
 			compatibleEnchantments.add(${compatibleEnchantment});
 			</#list>
 			return <#if data.excludeEnchantments>!</#if>compatibleEnchantments.contains(ench);
-        }
-        </#if>
+		}
+	</#if>
 
         <#if data.compatibleItems?has_content>
 		@Override public boolean canApplyAtEnchantingTable(ItemStack stack) {
@@ -84,30 +75,38 @@ public class ${name}Enchantment extends ${JavaModName}Elements.ModElement{
 			</#list>
 			Item item = stack.getItem();
 			return <#if data.excludeItems>!</#if>compatibleItems.contains(item);
-        }
-        </#if>
+		}
+	</#if>
 
+	<#if data.isTreasureEnchantment>
 		@Override public boolean isTreasureEnchantment() {
-			return ${data.isTreasureEnchantment};
+			return true;
 		}
+	</#if>
 
+	<#if data.isCurse>
 		@Override public boolean isCurse() {
-			return ${data.isCurse};
+			return true;
 		}
+	</#if>
 
+	<#if !data.isAllowedOnBooks>
 		@Override public boolean isAllowedOnBooks() {
-			return ${data.isAllowedOnBooks};
+			return false;
 		}
+	</#if>
 
+	<#if !data.canGenerateInLootTables>
 		@Override public boolean canGenerateInLoot() {
-			return ${data.canGenerateInLootTables};
+			return false;
 		}
+	</#if>
 
+	<#if !data.canVillagerTrade>
 		@Override public boolean canVillagerTrade() {
-			return ${data.canVillagerTrade};
+			return false;
 		}
-
+	</#if>
 	}
-
 }
 <#-- @formatter:on -->
