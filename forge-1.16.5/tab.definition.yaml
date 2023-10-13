@@ -1,6 +1,7 @@
-templates:
-  - template: tab.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/itemgroup/@NAMEItemGroup.java"
+global_templates:
+  - template: elementinits/tabs.java.ftl
+    writer: java
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameTabs.java"
 
 localizationkeys:
   - key: itemGroup.tab@registryname
