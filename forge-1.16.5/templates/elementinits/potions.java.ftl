@@ -38,7 +38,7 @@ package ${package}.init;
 
 public class ${JavaModName}Potions {
 
-	public static final DeferredRegister<Potion> REGISTRY = new DeferredRegister<>(ForgeRegistries.POTION_TYPES, ${JavaModName}.MODID);
+	public static final DeferredRegister<Potion> REGISTRY = DeferredRegister.create(ForgeRegistries.POTION_TYPES, ${JavaModName}.MODID);
 
 	<#list potions as potion>
 	<#if potion.effects??><#-- #2988, seems this can become null -->
