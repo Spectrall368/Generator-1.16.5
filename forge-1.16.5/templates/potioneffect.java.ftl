@@ -67,7 +67,7 @@ public class ${name}PotionEffect extends Effect {
 				<@procedureOBJToCode data.onStarted/>
 			}
 		<#else>
-			@Override public void applyAttributesModifiersToEntity(LivingEntity entity, AbstractAttributeMap attributeMapIn, int amplifier) {
+			@Override public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMapIn, int amplifier) {
 				World world = entity.world;
 				double x = entity.getPosX();
 				double y = entity.getPosY();
@@ -88,7 +88,7 @@ public class ${name}PotionEffect extends Effect {
 	</#if>
 
 	<#if hasProcedure(data.onExpired)>
-		@Override public void removeAttributesModifiersFromEntity(LivingEntity entity, AbstractAttributeMap attributeMapIn, int amplifier) {
+		@Override public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMapIn, int amplifier) {
 			super.removeAttributesModifiersFromEntity(entity, attributeMapIn, amplifier);
     				World world = entity.world;
 				double x = entity.getPosX();
