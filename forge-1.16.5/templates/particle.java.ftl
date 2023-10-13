@@ -52,7 +52,7 @@ package ${package}.particle;
 		private float angularAcceleration;
 		</#if>
 
-		protected CustomParticle(World world, double x, double y, double z, double vx, double vy, double vz, IAnimatedSprite spriteSet) {
+		protected CustomParticle(ClientWorld world, double x, double y, double z, double vx, double vy, double vz, IAnimatedSprite spriteSet) {
 			super(world, x, y, z);
 			this.spriteSet = spriteSet;
 
