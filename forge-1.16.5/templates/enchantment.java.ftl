@@ -107,6 +107,5 @@ public class ${name}Enchantment extends Enchantment {
 			return false;
 		}
 	</#if>
-	}
 }
 <#-- @formatter:on -->
