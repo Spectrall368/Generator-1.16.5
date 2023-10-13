@@ -1,6 +1,6 @@
-templates:
-  - template: potion.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/potion/@NAMEPotion.java"
+global_templates:
+  - template: elementinits/potions.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNamePotions.java"
 
 localizationkeys:
   - key: item.minecraft.potion.effect.@registryname
