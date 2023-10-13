@@ -2,7 +2,7 @@ name: Minecraft Forge for @minecraft (@buildfileversion)
 basefeatures: [model_java]
 status: deprecated
 buildfileversion: 36.2.39
-subversion: 1.0.6
+subversion: 1.0.7
 
 java_models:
   key: legacy
@@ -34,24 +34,32 @@ screen_textures_dir: "@MODASSETSROOT/textures/screens"
 armor_textures_dir: "@MODASSETSROOT/textures/models/armor"
 
 base_templates:
-  - template: modbase/modelements.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModNameElements.java"
   - template: modbase/mod.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModName.java"
     canLock: true
-  - template: modbase/variableslist.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModNameVariables.java"
-    condition: hasVariables()
+  - template: modbase/modelements.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModNameElements.java"
+  - template: modbase/mods.toml.ftl
+    writer: file
+    name: "@RESROOT/META-INF/mods.toml"
+  - template: modbase/pack.mcmeta.ftl
+    writer: json
+    name: "@RESROOT/pack.mcmeta"
   - template: modbase/sounds.json.ftl
     writer: json
     name: "@MODASSETSROOT/sounds.json"
     condition: hasSounds()
-  - template: modbase/pack.mcmeta.ftl
-    writer: json
-    name: "@RESROOT/pack.mcmeta"
-  - template: modbase/mods.toml.ftl
+  - template: elementinits/sounds.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameSounds.java"
+    condition: hasSounds()
+  - template: modbase/variableslist.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModNameVariables.java"
+    condition: hasVariables()
+  - template: modbase/accesstransformer.cfg.ftl
     writer: file
-    name: "@RESROOT/META-INF/mods.toml"
+    name: "@RESROOT/META-INF/accesstransformer.cfg"
+    condition_any:
+      - ${w.hasGameRulesOfType('Number') || w.hasGameRulesOfType('Logic')}
 
 language_file:
   format: json
