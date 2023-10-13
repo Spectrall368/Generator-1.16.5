@@ -38,7 +38,7 @@ package ${package}.init;
 
 public class ${JavaModName}Enchantments {
 
-	public static final DeferredRegister<Enchantment> REGISTRY = new DeferredRegister<>(ForgeRegistries.ENCHANTMENTS, ${JavaModName}.MODID);
+	public static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, ${JavaModName}.MODID);
 
 	<#list enchantments as enchantment>
 	public static final RegistryObject<Enchantment> ${enchantment.getModElement().getRegistryNameUpper()} =
