@@ -39,7 +39,6 @@ package ${package}.command;
 			<#if data.permissionLevel != "No requirement">.requires(s -> s.hasPermissionLevel(${data.permissionLevel}))</#if>
 			${argscode}
 		);
-    }
-
+    	}
 }
 <#-- @formatter:on -->
