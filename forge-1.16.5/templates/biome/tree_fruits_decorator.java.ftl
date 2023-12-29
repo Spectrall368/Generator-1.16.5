@@ -37,7 +37,7 @@ public class ${name}FruitDecorator extends CocoaTreeDecorator {
     public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator();
 
     public static com.mojang.serialization.Codec<${name}FruitDecorator> codec;
-    public static TreeDecoratorType<?> tdt;
+    public static TreeDecoratorType tdt;
 
     static {
         codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
@@ -50,7 +50,7 @@ public class ${name}FruitDecorator extends CocoaTreeDecorator {
         super(0.2f);
     }
 
-    @Override protected TreeDecoratorType<?> type() {
+    @Override protected TreeDecoratorType type() {
         return tdt;
     }
 
