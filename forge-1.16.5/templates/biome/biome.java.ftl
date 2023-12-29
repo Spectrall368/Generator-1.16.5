@@ -261,8 +261,7 @@ public class ${name}Biome {
                     </#if>
             	.build())
             	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
-            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))))
-        	);
+            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	</#if>
         </#if>
 
@@ -271,7 +270,7 @@ public class ${name}Biome {
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.RANDOM_PATCH.withConfiguration(Features.Configs.GRASS_PATCH_CONFIG)
                 .withPlacement(Features.Decorators.PATCH_PLACEMENT)
-                .withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 5, ${data.grassPerChunk})))));
+                .withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 5, ${data.grassPerChunk}))));
         </#if>
 
         <#if (data.seagrassPerChunk > 0)>
@@ -279,7 +278,7 @@ public class ${name}Biome {
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.SEAGRASS.withConfiguration(new ProbabilityConfig(0.3F))
                 .func_242731_b(${data.seagrassPerChunk})
-                .withPlacement(Features.Decorators.SEAGRASS_DISK_PLACEMENT)));
+                .withPlacement(Features.Decorators.SEAGRASS_DISK_PLACEMENT));
         </#if>
 
         <#if (data.flowersPerChunk > 0)>
@@ -288,7 +287,7 @@ public class ${name}Biome {
 			    Feature.FLOWER.withConfiguration(Features.Configs.NORMAL_FLOWER_CONFIG)
                 .withPlacement(Features.Placements.VEGETATION_PLACEMENT)
                 .withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
-                .func_242731_b(${data.flowersPerChunk})));
+                .func_242731_b(${data.flowersPerChunk}));
         </#if>
 
         <#if (data.mushroomsPerChunk > 0)>
@@ -296,11 +295,11 @@ public class ${name}Biome {
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
                 new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM.getDefaultState()), SimpleBlockPlacer.PLACER))
-                .tries(${data.mushroomsPerChunk}).func_227317_b_().build())));
+                .tries(${data.mushroomsPerChunk}).func_227317_b_().build()));
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
                 new SimpleBlockStateProvider(Blocks.RED_MUSHROOM.getDefaultState()), SimpleBlockPlacer.PLACER))
-                .tries(${data.mushroomsPerChunk}).func_227317_b_().build())));
+                .tries(${data.mushroomsPerChunk}).func_227317_b_().build()));
         </#if>
 
         <#if (data.bigMushroomsChunk > 0)>
@@ -309,12 +308,12 @@ public class ${name}Biome {
 			    Feature.HUGE_BROWN_MUSHROOM.withConfiguration(new BigMushroomFeatureConfig(
                 new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM_BLOCK.getDefaultState().with(HugeMushroomBlock.UP, Boolean.TRUE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)),
                 new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.getDefaultState().with(HugeMushroomBlock.UP, Boolean.FALSE)
-                .with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk}))));
+                .with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk})));
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.HUGE_RED_MUSHROOM.withConfiguration(new BigMushroomFeatureConfig(
                 new SimpleBlockStateProvider(Blocks.RED_MUSHROOM_BLOCK.getDefaultState().with(HugeMushroomBlock.DOWN, Boolean.FALSE)),
                 new SimpleBlockStateProvider(Blocks.MUSHROOM_STEM.getDefaultState().with(HugeMushroomBlock.UP, Boolean.FALSE)
-                .with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk}))));
+                .with(HugeMushroomBlock.DOWN, Boolean.FALSE)), ${data.bigMushroomsChunk})));
         </#if>
 
         <#if (data.sandPatchesPerChunk > 0)>
@@ -322,7 +321,7 @@ public class ${name}Biome {
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.SAND.getDefaultState(), FeatureSpread.func_242253_a(2, 4), 2,
                 ImmutableList.of(${mappedBlockToBlockStateCode(data.groundBlock)}, ${mappedBlockToBlockStateCode(data.undergroundBlock)})))
-                .withPlacement(Features.Placements.SEAGRASS_DISK_PLACEMENT).func_242731_b(${data.sandPatchesPerChunk})));
+                .withPlacement(Features.Placements.SEAGRASS_DISK_PLACEMENT).func_242731_b(${data.sandPatchesPerChunk}));
         </#if>
 
         <#if (data.gravelPatchesPerChunk > 0)>
@@ -330,14 +329,14 @@ public class ${name}Biome {
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.GRAVEL.getDefaultState(), FeatureSpread.func_242253_a(2, 3), 2,
                 ImmutableList.of(${mappedBlockToBlockStateCode(data.groundBlock)}, ${mappedBlockToBlockStateCode(data.undergroundBlock)})))
-                .withPlacement(Features.Placements.SEAGRASS_DISK_PLACEMENT).func_242731_b(${data.gravelPatchesPerChunk})));
+                .withPlacement(Features.Placements.SEAGRASS_DISK_PLACEMENT).func_242731_b(${data.gravelPatchesPerChunk}));
         </#if>
 
         <#if (data.reedsPerChunk > 0)>
             <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.RANDOM_PATCH.withConfiguration(Features.Configs.SUGAR_CANE_PATCH_CONFIG)
-                .withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(${data.reedsPerChunk})));
+                .withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(${data.reedsPerChunk}));
         </#if>
 
         <#if (data.cactiPerChunk > 0)>
@@ -345,7 +344,7 @@ public class ${name}Biome {
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
                 new SimpleBlockStateProvider(Blocks.CACTUS.getDefaultState()), new ColumnBlockPlacer(1, 2)))
-                .tries(${data.cactiPerChunk}).func_227317_b_().build())));
+                .tries(${data.cactiPerChunk}).func_227317_b_().build()));
         </#if>
 
         <#list data.defaultFeatures as defaultFeature>
