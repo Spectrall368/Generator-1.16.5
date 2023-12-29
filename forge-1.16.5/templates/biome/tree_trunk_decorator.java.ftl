@@ -37,7 +37,7 @@ public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
         public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
 
         public static com.mojang.serialization.Codec<${name}TrunkDecorator> codec;
-        public static TreeDecoratorType<?> tdt;
+        public static TreeDecoratorType tdt;
 
         static {
             codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
@@ -46,8 +46,7 @@ public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
             ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
         }
 
-        @Override
-        protected TreeDecoratorType<?> type() {
+        @Override protected TreeDecoratorType type() {
             return tdt;
         }
 
