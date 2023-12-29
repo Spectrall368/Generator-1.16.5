@@ -43,7 +43,6 @@ public class ${name}Biome {
             ${mappedBlockToBlockStateCode(data.undergroundBlock)},
             ${mappedBlockToBlockStateCode(data.getUnderwaterBlock())}));
 
-    public static Biome createBiome() {
             BiomeAmbience effects = new BiomeAmbience.Builder()
                 .setFogColor(${data.airColor?has_content?then(data.airColor.getRGB(), 12638463)})
                 .setWaterColor(${data.waterColor?has_content?then(data.waterColor.getRGB(), 4159204)})
@@ -68,7 +67,7 @@ public class ${name}Biome {
                 </#if>
                 .build();
 
-        BiomeGenerationSettings.Builder biomeGenerationSettings = new BiomeGenerationSettings.Builder().surfaceBuilder(SURFACE_BUILDER);
+        BiomeGenerationSettings.Builder biomeGenerationSettings = new BiomeGenerationSettings.Builder().withSurfaceBuilder(SURFACE_BUILDER);
 
         <#if data.spawnStronghold>
             biomeGenerationSettings.withStructure(StructureFeatures.STRONGHOLD);
@@ -79,7 +78,7 @@ public class ${name}Biome {
         </#if>
 
         <#if data.spawnMineshaftMesa>
-            biomeGenerationSettings.withStructure(StructureFeatures.MINESHAFT_MESA);
+            biomeGenerationSettings.withStructure(StructureFeatures.MINESHAFT_BADLANDS);
         </#if>
 
         <#if data.spawnPillagerOutpost>
@@ -91,11 +90,11 @@ public class ${name}Biome {
         </#if>
 
         <#if data.spawnWoodlandMansion>
-            biomeGenerationSettings.withStructure(StructureFeatures.WOODLAND_MANSION);
+            biomeGenerationSettings.withStructure(StructureFeatures.MANSION);
         </#if>
 
         <#if data.spawnJungleTemple>
-            biomeGenerationSettings.withStructure(StructureFeatures.JUNGLE_TEMPLE);
+            biomeGenerationSettings.withStructure(StructureFeatures.JUNGLE_PYRAMID);
         </#if>
 
         <#if data.spawnDesertPyramid>
@@ -111,7 +110,7 @@ public class ${name}Biome {
         </#if>
 
         <#if data.spawnOceanMonument>
-            biomeGenerationSettings.withStructure(StructureFeatures.OCEAN_MONUMENT);
+            biomeGenerationSettings.withStructure(StructureFeatures.MONUMENT);
         </#if>
 
         <#if data.spawnShipwreck>
@@ -131,7 +130,7 @@ public class ${name}Biome {
         </#if>
 
         <#if data.spawnNetherBridge>
-            biomeGenerationSettings.withStructure(StructureFeatures.NETHER_BRIDGE);
+            biomeGenerationSettings.withStructure(StructureFeatures.FORTRESS);
         </#if>
 
         <#if data.spawnNetherFossil>
@@ -174,8 +173,7 @@ public class ${name}Biome {
                     </#if>
             	.build())
             	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
-            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))))
-        	);
+            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Savanna trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
                 Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
@@ -192,8 +190,7 @@ public class ${name}Biome {
                     </#if>
             	.build())
             	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
-            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))))
-        	);
+            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Mega pine trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
@@ -208,8 +205,7 @@ public class ${name}Biome {
                     </#if>
             	.build())
             	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
-            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))))
-        	);
+            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Mega spruce trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
@@ -225,8 +221,7 @@ public class ${name}Biome {
                     </#if>
             	.build())
             	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
-            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))))
-        	);
+            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Birch trees">
         	biomeGenerationSettings.withFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
@@ -243,8 +238,7 @@ public class ${name}Biome {
                     </#if>
             	.build())
             	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
-            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))))
-        	);
+            	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#else>
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
@@ -278,7 +272,7 @@ public class ${name}Biome {
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.SEAGRASS.withConfiguration(new ProbabilityConfig(0.3F))
                 .func_242731_b(${data.seagrassPerChunk})
-                .withPlacement(Features.Decorators.SEAGRASS_DISK_PLACEMENT));
+                .withPlacement(Features.Placements.SEAGRASS_DISK_PLACEMENT));
         </#if>
 
         <#if (data.flowersPerChunk > 0)>
@@ -363,7 +357,7 @@ public class ${name}Biome {
 			</#if>
         </#list>
 
-        return new Biome.BiomeBuilder()
+        return new Biome.Builder()
             .precipitation(Biome.RainType.<#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>RAIN<#else>SNOW</#if><#else>NONE</#if>)
             .category(Biome.Category.NONE)
             .depth(${data.baseHeight}f)
@@ -398,7 +392,6 @@ public class ${name}Biome {
 				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(${JavaModName}Biomes.${registryname?upper_case})), ${data.biomeWeight})
 			);
         </#if>
-    }
 
     <#if hasConfiguredFeatures>
     private static final Map<ResourceLocation, ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = new HashMap<>();
