@@ -51,17 +51,8 @@ public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
             return tdt;
         }
 
-        @Override
-        public void place(LevelSimulatedReader levelReader, BiConsumer<BlockPos, BlockState> biConsumer, Random random, List<BlockPos> listBlockPos, List<BlockPos> listBlockPos2) {
-            listBlockPos.forEach(blockpos -> {
-                if (random.nextInt(3) > 0) {
-                    BlockPos bp = blockpos.below();
-                    if (Feature.isAir(levelReader, bp)) {
-                        biConsumer.accept(blockpos, ${mappedBlockToBlockStateCode(data.treeVines)});
-                    }
-                }
-
-            });
-        }
+        @Override protected void func_227424_a_(IWorldWriter ww, BlockPos bp, BooleanProperty bpr, Set<BlockPos> sbc, MutableBoundingBox mbb) {
+                this.func_227423_a_(ww, bp, ${mappedBlockToBlockStateCode(data.treeVines)}, sbc, mbb);
+     		}
 }
 <#-- @formatter:on -->
