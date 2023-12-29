@@ -36,8 +36,8 @@ public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
 
         public static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator();
 
-        public static com.mojang.serialization.Codec<LeaveVineDecorator> codec;
-        public static TreeDecoratorType<?> tdt;
+        public static com.mojang.serialization.Codec<LeaveVineTreeDecorator> codec;
+        public static TreeDecoratorType tdt;
 
         static {
             codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
@@ -46,8 +46,7 @@ public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
             ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
         }
 
-        @Override
-        protected TreeDecoratorType<?> type() {
+        @Override protected TreeDecoratorType type() {
             return tdt;
         }
 
