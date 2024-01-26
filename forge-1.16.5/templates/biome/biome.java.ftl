@@ -43,6 +43,7 @@ public class ${name}Biome extends Biome {
             ${mappedBlockToBlockStateCode(data.undergroundBlock)},
             ${mappedBlockToBlockStateCode(data.getUnderwaterBlock())}));
 
+    public static Biome createBiome() {
             BiomeAmbience effects = new BiomeAmbience.Builder()
                 .setFogColor(${data.airColor?has_content?then(data.airColor.getRGB(), 12638463)})
                 .setWaterColor(${data.waterColor?has_content?then(data.waterColor.getRGB(), 4159204)})
@@ -401,6 +402,7 @@ public class ${name}Biome extends Biome {
     	return configuredFeature;
     }
     </#if>
+    }
 }
 <#macro vinesAndFruits>
 .setDecorators(ImmutableList.of(
