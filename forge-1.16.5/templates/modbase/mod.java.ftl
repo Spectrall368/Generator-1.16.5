@@ -30,9 +30,6 @@ import org.apache.logging.log4j.Logger;
 
 	public ${JavaModName}() {
 		MinecraftForge.EVENT_BUS.register(new ${JavaModName}FMLBusEvents(this));
-		<#if w.hasVariables()>
-		MinecraftForge.EVENT_BUS.register(new ${JavaModName}Variables(this));
-		</#if>
 		elements = new ${JavaModName}Elements();
 
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
