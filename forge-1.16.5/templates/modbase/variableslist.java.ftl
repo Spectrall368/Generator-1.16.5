@@ -187,7 +187,7 @@ import ${package}.${JavaModName};
 
 		public static MapVariables get(IWorld world) {
 			if (world instanceof IServerWorld) {
-				return ((IServerWorld) world).getServer().getWorld(World.OVERWORLD).getSavedData().getOrCreate(MapVariables::new, DATA_NAME);
+				return ((IServerWorld) world).getWorld().getServer().getWorld(World.OVERWORLD).getSavedData().getOrCreate(MapVariables::new, DATA_NAME);
 			} else {
 				return clientSide;
 			}
