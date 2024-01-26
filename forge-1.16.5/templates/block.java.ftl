@@ -684,8 +684,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			int y = pos.getY();
 			int z = pos.getZ();
 			<#if data.spawnParticles>
-                <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious
-                data.particleAmount data.particleCondition/>
+                <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious data.particleAmount/>
             </#if>
 			<@procedureOBJToCode data.onRandomUpdateEvent/>
 		}
@@ -1171,6 +1170,5 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> configuredFeature);
 	}
 	</#if>
-
 }
 <#-- @formatter:on -->
