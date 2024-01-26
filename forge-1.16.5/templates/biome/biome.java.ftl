@@ -36,14 +36,14 @@ package ${package}.world.biome;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraft.sounds.SoundEvent;
 
-public class ${name}Biome extends Biome {
+public class ${name}Biome {
 
 	private static final ConfiguredSurfaceBuilder<?> SURFACE_BUILDER = SurfaceBuilder.DEFAULT.func_242929_a(new SurfaceBuilderConfig(
             ${mappedBlockToBlockStateCode(data.groundBlock)},
             ${mappedBlockToBlockStateCode(data.undergroundBlock)},
             ${mappedBlockToBlockStateCode(data.getUnderwaterBlock())}));
 
-    public static Biome createBiome() {
+    public static Biome ${name}Biome() {
             BiomeAmbience effects = new BiomeAmbience.Builder()
                 .setFogColor(${data.airColor?has_content?then(data.airColor.getRGB(), 12638463)})
                 .setWaterColor(${data.waterColor?has_content?then(data.waterColor.getRGB(), 4159204)})
@@ -393,15 +393,6 @@ public class ${name}Biome extends Biome {
 				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(${JavaModName}Biomes.${registryname?upper_case})), ${data.biomeWeight})
 			);
         </#if>
-
-    <#if hasConfiguredFeatures>
-    private static final Map<ResourceLocation, ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = new HashMap<>();
-
-    private static ConfiguredFeature<?, ?> register(String name, ConfiguredFeature<?, ?> configuredFeature) {
-		CONFIGURED_FEATURES.put(new ResourceLocation(${JavaModName}.MODID, name + "_${registryname}"), configuredFeature);
-    	return configuredFeature;
-    }
-    </#if>
     }
 }
 <#macro vinesAndFruits>
