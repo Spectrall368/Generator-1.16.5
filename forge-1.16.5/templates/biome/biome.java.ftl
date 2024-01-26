@@ -171,7 +171,7 @@ public class ${name}Biome {
                     	.setIgnoreVines()
                     </#if>
             	.build())
-            	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
+            	.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
             	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Savanna trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
@@ -187,7 +187,7 @@ public class ${name}Biome {
                     	.setIgnoreVines()
                     </#if>
             	.build())
-            	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
+            	.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
             	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Mega pine trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
@@ -201,7 +201,7 @@ public class ${name}Biome {
                     	<@vinesAndFruits/>
                     </#if>
             	.build())
-            	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
+            	.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
             	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Mega spruce trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
@@ -211,12 +211,12 @@ public class ${name}Biome {
                     new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(13, 4)),
 		    new GiantTrunkPlacer(${ct?then([data.minHeight, 32]?min, 13)}, 2, 14),
                     new TwoLayerFeature(1, 1, 2)))
-                    .setDecorators(ImmutableList.of(new AlterGroundDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState()))))
+                    .setDecorators(ImmutableList.of(new AlterGroundTreeDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState()))))
                     <#if data.hasVines() || data.hasFruits()>
                     	<@vinesAndFruits/>
                     </#if>
             	.build())
-            	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
+            	.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
             	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Birch trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
