@@ -36,7 +36,7 @@ package ${package}.world.biome;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraft.sounds.SoundEvent;
 
-public class ${name}Biome {
+public class ${name}Biome extends Biome {
 
 	private static final ConfiguredSurfaceBuilder<?> SURFACE_BUILDER = SurfaceBuilder.DEFAULT.func_242929_a(new SurfaceBuilderConfig(
             ${mappedBlockToBlockStateCode(data.groundBlock)},
