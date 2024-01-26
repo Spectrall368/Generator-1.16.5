@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,91 +30,41 @@
 
 <#-- @formatter:off -->
 <#include "procedures.java.ftl">
-
-package ${package}.keybind;
+package ${package}.network;
 
 import ${package}.${JavaModName};
 
-@${JavaModName}Elements.ModElement.Tag public class ${name}KeyBinding extends ${JavaModName}Elements.ModElement {
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}Message {
 
-	@OnlyIn(Dist.CLIENT)
-	private KeyBinding keys;
+	int type, pressedms;
 
-	<#if hasProcedure(data.onKeyReleased)>
-	private long lastpress = 0;
-	</#if>
-
-	public ${name}KeyBinding (${JavaModName}Elements instance) {
-		super(instance, ${data.getModElement().getSortID()});
-
-		elements.addNetworkMessage(KeyBindingPressedMessage.class, KeyBindingPressedMessage::buffer, KeyBindingPressedMessage::new, KeyBindingPressedMessage::handler);
+	public ${name}Message(int type, int pressedms) {
+		this.type = type;
+		this.pressedms = pressedms;
 	}
 
-	@Override @OnlyIn(Dist.CLIENT) public void initElements() {
-		keys = new KeyBinding("key.${modid}.${registryname}", GLFW.GLFW_KEY_${generator.map(data.triggerKey, "keybuttons")}, "key.categories.${data.keyBindingCategoryKey}");
-		ClientRegistry.registerKeyBinding(keys);
-		MinecraftForge.EVENT_BUS.register(this);
+	public ${name}Message(PacketBuffer buffer) {
+		this.type = buffer.readInt();
+		this.pressedms = buffer.readInt();
 	}
 
-	@SubscribeEvent @OnlyIn(Dist.CLIENT) public void onKeyInput(InputEvent.KeyInputEvent event) {
-		<#if hasProcedure(data.onKeyPressed) || hasProcedure(data.onKeyReleased)>
-			if (Minecraft.getInstance().currentScreen == null) {
-				if (event.getKey() == keys.getKey().getKeyCode()) {
-					if(event.getAction() == GLFW.GLFW_PRESS) {
-						<#if hasProcedure(data.onKeyPressed)>
-							${JavaModName}.PACKET_HANDLER.sendToServer(new KeyBindingPressedMessage(0, 0));
-							pressAction(Minecraft.getInstance().player, 0, 0);
-						</#if>
-
-						<#if hasProcedure(data.onKeyReleased)>
-						lastpress = System.currentTimeMillis();
-						</#if>
-					}
-					<#if hasProcedure(data.onKeyReleased)>
-					else if (event.getAction() == GLFW.GLFW_RELEASE) {
-						int dt = (int) (System.currentTimeMillis() - lastpress);
-						${JavaModName}.PACKET_HANDLER.sendToServer(new KeyBindingPressedMessage(1, dt));
-						pressAction(Minecraft.getInstance().player, 1, dt);
-					}
-					</#if>
-				}
-			}
-    	</#if>
+	public static void buffer(${name}Message message, PacketBuffer buffer) {
+		buffer.writeInt(message.type);
+		buffer.writeInt(message.pressedms);
 	}
 
-	public static class KeyBindingPressedMessage {
-
-		int type, pressedms;
-
-		public KeyBindingPressedMessage(int type, int pressedms) {
-			this.type = type;
-			this.pressedms = pressedms;
-		}
-
-		public KeyBindingPressedMessage(PacketBuffer buffer) {
-			this.type = buffer.readInt();
-			this.pressedms = buffer.readInt();
-		}
-
-		public static void buffer(KeyBindingPressedMessage message, PacketBuffer buffer) {
-			buffer.writeInt(message.type);
-			buffer.writeInt(message.pressedms);
-		}
-
-		public static void handler(KeyBindingPressedMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-			NetworkEvent.Context context = contextSupplier.get();
-			context.enqueueWork(() -> {
+	public static void handler(${name}Message message, Supplier<NetworkEvent.Context> contextSupplier) {
+		NetworkEvent.Context context = contextSupplier.get();
+		context.enqueueWork(() -> {
 				<#if hasProcedure(data.onKeyPressed) || hasProcedure(data.onKeyReleased)>
 				pressAction(context.getSender(), message.type, message.pressedms);
 				</#if>
-    		});
-    		context.setPacketHandled(true);
-		}
-
+		});
+		context.setPacketHandled(true);
 	}
 
 	<#if hasProcedure(data.onKeyPressed) || hasProcedure(data.onKeyReleased)>
-	private static void pressAction(PlayerEntity entity, int type, int pressedms) {
+	public static void pressAction(PlayerEntity entity, int type, int pressedms) {
 		World world = entity.world;
 		double x = entity.getPosX();
 		double y = entity.getPosY();
@@ -137,5 +88,8 @@ import ${package}.${JavaModName};
 	}
 	</#if>
 
+	@SubscribeEvent public static void registerMessage(FMLCommonSetupEvent event) {
+		${JavaModName}.addNetworkMessage(${name}Message.class, ${name}Message::buffer, ${name}Message::new, ${name}Message::handler);
+	}
 }
 <#-- @formatter:on -->
