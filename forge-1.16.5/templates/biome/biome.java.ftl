@@ -365,9 +365,8 @@ public class ${name}Biome {
             .build();
     }
 
+    <#if data.spawnBiome>
     public static void init() {
-		Registry.register(WorldGenRegistries.CONFIGURED_SURFACE_BUILDER, new ResourceLocation(${JavaModName}.MODID, "${registryname}"), SURFACE_BUILDER);
-
         <#if data.spawnBiome>
             BiomeManager.addBiome(
 				BiomeManager.BiomeType.
@@ -382,8 +381,8 @@ public class ${name}Biome {
 				</#if>,
 				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(${JavaModName}Biomes.${registryname?upper_case})), ${data.biomeWeight})
 			);
-        </#if>
     }
+    </#if>
 }
 <#macro vinesAndFruits>
 .setDecorators(ImmutableList.of(
