@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,59 +30,47 @@
 
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
+package ${package}.recipes.brewing;
 
-package ${package};
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}BrewingRecipe implements IBrewingRecipe {
 
-@${JavaModName}Elements.ModElement.Tag
-public class ${name}BrewingRecipe extends ${JavaModName}Elements.ModElement {
-
-	public ${name}BrewingRecipe (${JavaModName}Elements instance) {
-		super(instance, ${data.getModElement().getSortID()});
+	@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
+		BrewingRecipeRegistry.addRecipe(new ${name}BrewingRecipe());
 	}
 
-	@Override
-	public void init(FMLCommonSetupEvent event) {
-		BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe());
+	@Override public boolean isInput(ItemStack input) {
+		<#if data.brewingInputStack?starts_with("POTION:")>
+		Item inputItem = input.getItem();
+		return (inputItem == Items.POTION || inputItem == Items.SPLASH_POTION || inputItem == Items.LINGERING_POTION)
+			&& PotionUtils.getPotionFromItem(input) == ${generator.map(data.brewingInputStack?replace("POTION:",""), "potions")};
+		<#elseif data.brewingInputStack?starts_with("TAG:")>
+		return Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation("${data.brewingInputStack?replace("TAG:","")}"))).test(input);
+		<#else>
+		return input.getItem() == ${mappedMCItemToItem(data.brewingInputStack)};
+		</#if>
 	}
 
-	public static class CustomBrewingRecipe implements IBrewingRecipe {
-		@Override
-		public boolean isInput(ItemStack input) {
-			<#if data.brewingInputStack?starts_with("POTION:")>
-			Item inputItem = input.getItem();
-			return (inputItem == Items.POTION || inputItem == Items.SPLASH_POTION || inputItem == Items.LINGERING_POTION)
-				&& PotionUtils.getPotionFromItem(input) == ${generator.map(data.brewingInputStack?replace("POTION:",""), "potions")};
-			<#elseif data.brewingInputStack?starts_with("TAG:")>
-			return ItemTags.getCollection().getTagByID(new ResourceLocation("${data.brewingInputStack?replace("TAG:","")}")).contains(input.getItem());
-			<#else>
-			return input.getItem() == ${mappedMCItemToItem(data.brewingInputStack)};
-			</#if>
-		}
+	@Override public boolean isIngredient(ItemStack ingredient) {
+		<#if data.brewingIngredientStack?starts_with("TAG:")>
+		return Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation("${data.brewingIngredientStack?replace("TAG:","")}"))).test(ingredient);
+		<#else>
+		return ingredient.getItem() == ${mappedMCItemToItem(data.brewingIngredientStack)};
+		</#if>
+	}
 
-		@Override
-		public boolean isIngredient(ItemStack ingredient) {
-			<#if data.brewingIngredientStack?starts_with("TAG:")>
-			return ItemTags.getCollection().getTagByID(new ResourceLocation("${data.brewingIngredientStack?replace("TAG:","")}")).contains(ingredient.getItem());
-			<#else>
-			return ingredient.getItem() == ${mappedMCItemToItem(data.brewingIngredientStack)};
-			</#if>
-		}
-
-		@Override
-		public ItemStack getOutput(ItemStack input, ItemStack ingredient) {
-			if (isInput(input) && isIngredient(ingredient)) {
-				<#if data.brewingReturnStack?starts_with("POTION:")>
-				return PotionUtils.addPotionToItemStack(
-					<#if data.brewingInputStack?starts_with("POTION:")>
-					new ItemStack(input.getItem())
-					<#else>
-					new ItemStack(Items.POTION)
-					</#if>, ${generator.map(data.brewingReturnStack?replace("POTION:",""), "potions")});
+	@Override public ItemStack getOutput(ItemStack input, ItemStack ingredient) {
+		if (isInput(input) && isIngredient(ingredient)) {
+			<#if data.brewingReturnStack?starts_with("POTION:")>
+			return PotionUtils.addPotionToItemStack(
+				<#if data.brewingInputStack?starts_with("POTION:")>
+				new ItemStack(input.getItem())
 				<#else>
-				return ${mappedMCItemToItemStackCode(data.brewingReturnStack, 1)};
-				</#if>
-			}
-			return ItemStack.EMPTY;
+				new ItemStack(Items.POTION)
+				</#if>, ${generator.map(data.brewingReturnStack?replace("POTION:",""), "potions")});
+			<#else>
+			return ${mappedMCItemToItemStackCode(data.brewingReturnStack, 1)};
+			</#if>
 		}
+		return ItemStack.EMPTY;
 	}
 }
