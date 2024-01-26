@@ -45,7 +45,7 @@ package ${package}.init;
 
     <#list biomes as biome>
     public static final RegistryObject<Biome> ${biome.getModElement().getRegistryNameUpper()}
-        = REGISTRY.register("${biome.getModElement().getRegistryName()}", () -> new ${biome.getModElement().getName()}Biome.createBiome());
+        = REGISTRY.register("${biome.getModElement().getRegistryName()}", () -> new ${biome.getModElement().getName()}Biome());
     </#list>
 
 	<#if spawn_overworld?has_content>
