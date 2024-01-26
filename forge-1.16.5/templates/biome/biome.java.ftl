@@ -119,7 +119,7 @@ public class ${name}Biome {
         </#if>
 
         <#if data.spawnShipwreckBeached>
-            biomeGenerationSettings.withStructure(StructureFeatures.SHIPWRECH_BEACHED);
+            biomeGenerationSettings.withStructure(StructureFeatures.SHIPWRECK_BEACHED);
         </#if>
 
         <#if data.spawnBuriedTreasure>
@@ -162,10 +162,9 @@ public class ${name}Biome {
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.JUNGLE_LOG.getDefaultState()")}),
-                    new MegaJungleTrunkPlacer(${ct?then([data.minHeight, 32]?min, 10)}, 2, 19),
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.JUNGLE_LEAVES.getDefaultState()")}),
-                    new SimpleBlockStateProvider(Blocks.OAK_SAPLING.getDefaultState()),
                     new JungleFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 2),
+		    new MegaJungleTrunkPlacer(${ct?then([data.minHeight, 32]?min, 10)}, 2, 19),
                     new TwoLayerFeature(1, 1, 2)))
                     <#if data.hasVines() || data.hasFruits()>
                     	<@vinesAndFruits/>
@@ -179,10 +178,9 @@ public class ${name}Biome {
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
                 Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.ACACIA_LOG.getDefaultState()")}),
-                    new ForkyTrunkPlacer(${ct?then([data.minHeight, 32]?min, 5)}, 2, 2),
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.ACACIA_LEAVES.getDefaultState()")}),
-                    new SimpleBlockStateProvider(Blocks.ACACIA_SAPLING.getDefaultState()),
                     new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)),
+		    new ForkyTrunkPlacer(${ct?then([data.minHeight, 32]?min, 5)}, 2, 2),
                     new TwoLayerFeature(1, 0, 2)))
                     <#if data.hasVines() || data.hasFruits()>
                     	<@vinesAndFruits/>
@@ -196,10 +194,9 @@ public class ${name}Biome {
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.getDefaultState()")}),
-                    new GiantTrunkPlacer(${ct?then([data.minHeight, 32]?min, 13)}, 2, 14),
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.getDefaultState()")}),
-                    new SimpleBlockStateProvider(Blocks.SPRUCE_SAPLING.getDefaultState()),
                     new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(3, 4)),
+		    new GiantTrunkPlacer(${ct?then([data.minHeight, 32]?min, 13)}, 2, 14),
                     new TwoLayerFeature(1, 1, 2)))
                     <#if data.hasVines() || data.hasFruits()>
                     	<@vinesAndFruits/>
@@ -211,10 +208,9 @@ public class ${name}Biome {
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.SPRUCE_LOG.getDefaultState()")}),
-                    new GiantTrunkPlacer(${ct?then([data.minHeight, 32]?min, 13)}, 2, 14),
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.SPRUCE_LEAVES.getDefaultState()")}),
-                    new SimpleBlockStateProvider(Blocks.SPRUCE_SAPLING.getDefaultState()),
                     new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(13, 4)),
+		    new GiantTrunkPlacer(${ct?then([data.minHeight, 32]?min, 13)}, 2, 14),
                     new TwoLayerFeature(1, 1, 2)))
                     .setDecorators(ImmutableList.of(new AlterGroundDecorator(new SimpleBlockStateProvider(Blocks.PODZOL.getDefaultState()))))
                     <#if data.hasVines() || data.hasFruits()>
@@ -224,13 +220,12 @@ public class ${name}Biome {
             	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
             	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#elseif data.vanillaTreeType == "Birch trees">
-        	biomeGenerationSettings.withFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+        	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.BIRCH_LOG.getDefaultState()")}),
-                    new StraightTrunkPlacer(${ct?then([data.minHeight, 32]?min, 5)}, 2, 0),
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.BIRCH_LEAVES.getDefaultState()")}),
-                    new SimpleBlockStateProvider(Blocks.BIRCH_SAPLING.getDefaultState()),
                     new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+                    new StraightTrunkPlacer(${ct?then([data.minHeight, 32]?min, 5)}, 2, 0),
                     new TwoLayerFeature(1, 0, 1)))
                     <#if data.hasVines() || data.hasFruits()>
                     	<@vinesAndFruits/>
@@ -238,16 +233,15 @@ public class ${name}Biome {
                     	.setIgnoreVines()
                     </#if>
             	.build())
-            	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
+            	.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
             	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	<#else>
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.TREE.withConfiguration((new BaseTreeFeatureConfig.Builder(
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeStem), "Blocks.OAK_LOG.getDefaultState()")}),
-                    new StraightTrunkPlacer(${ct?then([data.minHeight, 32]?min, 4)}, 2, 0),
                     new SimpleBlockStateProvider(${ct?then(mappedBlockToBlockStateCode(data.treeBranch), "Blocks.OAK_LEAVES.getDefaultState()")}),
-                    new SimpleBlockStateProvider(Blocks.OAK_SAPLING.getDefaultState()),
                     new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+		    new StraightTrunkPlacer(${ct?then([data.minHeight, 32]?min, 4)}, 2, 0),
                     new TwoLayerFeature(1, 0, 1)))
                     <#if data.hasVines() || data.hasFruits()>
                     	<@vinesAndFruits/>
@@ -255,7 +249,7 @@ public class ${name}Biome {
                     	.setIgnoreVines()
                     </#if>
             	.build())
-            	.withPlacement(Features.Decorators.HEIGHTMAP_PLACEMENT)
+            	.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
             	.withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
         	</#if>
         </#if>
@@ -373,10 +367,6 @@ public class ${name}Biome {
 
     public static void init() {
 		Registry.register(WorldGenRegistries.CONFIGURED_SURFACE_BUILDER, new ResourceLocation(${JavaModName}.MODID, "${registryname}"), SURFACE_BUILDER);
-
-        <#if hasConfiguredFeatures>
-        CONFIGURED_FEATURES.forEach((resourceLocation, configuredFeature) -> Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, resourceLocation, configuredFeature));
-        </#if>
 
         <#if data.spawnBiome>
             BiomeManager.addBiome(
