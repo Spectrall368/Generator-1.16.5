@@ -46,7 +46,7 @@ public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
             ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
         }
 
-        @Override protected TreeDecoratorType type() {
+        @Override protected TreeDecoratorType func_230380_a_() {
             return tdt;
         }
 
