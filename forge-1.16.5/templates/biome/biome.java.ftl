@@ -30,11 +30,10 @@
 
 <#-- @formatter:off -->
 <#include "../mcitems.ftl">
-<#assign hasConfiguredFeatures = false/>
 package ${package}.world.biome;
 
 import net.minecraftforge.common.BiomeManager;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.SoundEvent;
 
 public class ${name}Biome {
 
@@ -258,7 +257,7 @@ public class ${name}Biome {
             <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.RANDOM_PATCH.withConfiguration(Features.Configs.GRASS_PATCH_CONFIG)
-                .withPlacement(Features.Decorators.PATCH_PLACEMENT)
+                .withPlacement(Features.Placements.PATCH_PLACEMENT)
                 .withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 5, ${data.grassPerChunk}))));
         </#if>
 
@@ -378,7 +377,7 @@ public class ${name}Biome {
 				<#elseif (data.temperature > 1.0)>
 					DESERT
 				</#if>,
-				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(${JavaModName}Biomes.${registryname?upper_case})), ${data.biomeWeight})
+				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(${JavaModName}Biomes.${data.getModElement().getRegistryNameUpper()}.get())), ${data.biomeWeight})
 			);
     }
     </#if>
