@@ -37,7 +37,7 @@ package ${package}.item.extension;
 <#compress>
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}ItemExtension {
 		@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
-			DispenserBlock.registerBehavior(${mappedMCItemToItem(data.item)}, new OptionalDispenseItemBehavior() {
+			DispenserBlock.registerBehavior(${mappedMCItemToItem(data.item)}, new OptionalDispenseBehavior() {
 				public ItemStack dispenseStack(IBlockSource blockSource, ItemStack stack) {
 					<#assign hasSuccessCondition = hasProcedure(data.dispenseSuccessCondition)>
 					ItemStack itemstack = stack.copy();
@@ -67,6 +67,6 @@ package ${package}.item.extension;
 						return itemstack;
 					</#if>
 				}
-			}));
+			});
 		}
 }</#compress>
