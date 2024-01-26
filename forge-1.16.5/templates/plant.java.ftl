@@ -384,16 +384,16 @@ import net.minecraft.util.SoundEvent;
 			</#if>
 		</#if>
 
-		<#if data.customBoundingBox && data.boundingBoxes??>
-		@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-			<#if data.isBoundingBoxEmpty()>
-				return VoxelShapes.empty();
-			<#else>
-				<#if !data.disableOffset> Vector3d offset = state.getOffset(world, pos); </#if>
-				<@makeBoundingBox data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.disableOffset "north"/>
-			</#if>
-		}
+	<#if data.customBoundingBox && data.boundingBoxes??>
+	@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+		<#if data.isBoundingBoxEmpty()>
+			return VoxelShapes.empty();
+		<#else>
+			<#if !data.disableOffset> Vec3d offset = state.getOffset(world, pos); </#if>
+			<@boundingBoxWithRotation data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.disableOffset 0/>
 		</#if>
+	}
+	</#if>
 
         <#if data.isReplaceable>
         @Override public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
@@ -748,6 +748,5 @@ import net.minecraft.util.SoundEvent;
 
 	}
 	</#if>
-
 }
 <#-- @formatter:on -->
