@@ -63,7 +63,7 @@ public class ${name}Enchantment extends Enchantment {
 			<#list data.compatibleEnchantments as compatibleEnchantment>
 			compatibleEnchantments.add(${compatibleEnchantment});
 			</#list>
-			return <#if data.excludeEnchantments>!</#if>compatibleEnchantments.contains(ench);
+			return <#if data.excludeEnchantments>this != ench && !</#if>compatibleEnchantments.contains(ench);
 		}
 	</#if>
 
