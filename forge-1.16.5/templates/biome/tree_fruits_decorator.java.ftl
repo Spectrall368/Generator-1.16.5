@@ -50,7 +50,7 @@ public class ${name}FruitDecorator extends CocoaTreeDecorator {
         super(0.2f);
     }
 
-    @Override protected TreeDecoratorType type() {
+    @Override protected TreeDecoratorType func_230380_a_() {
         return tdt;
     }
 
