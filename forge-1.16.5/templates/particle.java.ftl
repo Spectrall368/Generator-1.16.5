@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,105 +30,98 @@
 
 <#-- @formatter:off -->
 <#include "procedures.java.ftl">
+package ${package}.client.particle;
+<#compress>
 
-package ${package}.particle;
+@OnlyIn(Dist.CLIENT) public class ${name}Particle extends SpriteTexturedParticle {
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}Particle {
-
-	public static final BasicParticleType particle = new BasicParticleType(${data.alwaysShow});
-
-	@SubscribeEvent public static void registerParticleType(RegistryEvent.Register<ParticleType<?>> event) {
-		event.getRegistry().register(particle.setRegistryName("${registryname}"));
+	public static ${name}IParticleFactory factory(IAnimatedSprite spriteSet) {
+		return new ${name}IParticleFactory(spriteSet);
 	}
 
-	@OnlyIn(Dist.CLIENT) @SubscribeEvent public static void registerParticle(ParticleFactoryRegisterEvent event) {
-		Minecraft.getInstance().particles.registerFactory(particle, CustomParticleFactory::new);
-	}
-
-	@OnlyIn(Dist.CLIENT) private static class CustomParticle extends SpriteTexturedParticle {
-
-		private final IAnimatedSprite spriteSet;
-		<#if data.angularVelocity != 0 || data.angularAcceleration != 0>
-		private float angularVelocity;
-		private float angularAcceleration;
-		</#if>
-
-		protected CustomParticle(ClientWorld world, double x, double y, double z, double vx, double vy, double vz, IAnimatedSprite spriteSet) {
-			super(world, x, y, z);
-			this.spriteSet = spriteSet;
-
-			this.setSize(${data.width}f, ${data.height}f);
-			this.particleScale *= ${data.scale}f;
-
-			<#if (data.maxAgeDiff > 0)>
-			this.maxAge = (int) Math.max(1, ${data.maxAge} + (this.rand.nextInt(${data.maxAgeDiff * 2}) - ${data.maxAgeDiff}));
-			<#else>
-			this.maxAge = ${data.maxAge};
-			</#if>
-
-			this.particleGravity = ${data.gravity}f;
-			this.canCollide = ${data.canCollide};
-
-			this.motionX = vx * ${data.speedFactor};
-			this.motionY = vy * ${data.speedFactor};
-			this.motionZ = vz * ${data.speedFactor};
-
-			<#if data.angularVelocity != 0 || data.angularAcceleration != 0>
-			this.angularVelocity = ${data.angularVelocity}f;
-			this.angularAcceleration = ${data.angularAcceleration}f;
-			</#if>
-
-			<#if data.animate>
-			this.selectSpriteWithAge(spriteSet);
-			<#else>
-			this.selectSpriteRandomly(spriteSet);
-			</#if>
-		}
-
-		<#if data.renderType == "LIT">
-   		@Override public int getBrightnessForRender(float partialTick) {
-			return 15728880;
-   		}
-		</#if>
-
-		@Override public IParticleRenderType getRenderType() {
-			return IParticleRenderType.PARTICLE_SHEET_${data.renderType};
-		}
-
-		@Override public void tick() {
-			super.tick();
-
-			<#if data.angularVelocity != 0 || data.angularAcceleration != 0>
-			this.prevParticleAngle = this.particleAngle;
-			this.particleAngle += this.angularVelocity;
-			this.angularVelocity += this.angularAcceleration;
-			</#if>
-
-			<#if data.animate>
-			if(!this.isExpired) {
-				<#assign frameCount = data.getTextureTileCount()>
-				this.setSprite(this.spriteSet.get((this.age / ${data.frameDuration}) % ${frameCount} + 1, ${frameCount}));
-			}
-			</#if>
-
-			<#if hasProcedure(data.additionalExpiryCondition)>
-			World world = this.world;
-			if (<@procedureOBJToConditionCode data.additionalExpiryCondition/>)
-				this.setExpired();
-			</#if>
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT) private static class CustomParticleFactory implements IParticleFactory<BasicParticleType> {
+	@OnlyIn(Dist.CLIENT) public static class ${name}IParticleFactory implements IParticleFactory<BasicParticleType> {
 		private final IAnimatedSprite spriteSet;
 
-		public CustomParticleFactory(IAnimatedSprite spriteSet) {
+		public ${name}IParticleFactory(IAnimatedSprite spriteSet) {
 			this.spriteSet = spriteSet;
 		}
 
 		public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			return new CustomParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+			return new ${name}Particle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
 		}
 	}
+
+	private final IAnimatedSprite spriteSet;
+	
+	<#if data.angularVelocity != 0 || data.angularAcceleration != 0>
+	private float angularVelocity;
+	private float angularAcceleration;
+	</#if>
+
+	protected ${name}Particle(ClientWorld world, double x, double y, double z, double vx, double vy, double vz, IAnimatedSprite spriteSet) {
+		super(world, x, y, z);
+		this.spriteSet = spriteSet;
+
+		this.setSize(${data.width}f, ${data.height}f);
+		<#if data.scale != 1>this.particleScale *= ${data.scale}f;</#if>
+
+		<#if (data.maxAgeDiff > 0)>
+		this.maxAge = (int) Math.max(1, ${data.maxAge} + (this.rand.nextInt(${data.maxAgeDiff * 2}) - ${data.maxAgeDiff}));
+		<#else>
+		this.maxAge = ${data.maxAge};
+		</#if>
+
+		this.particleGravity = ${data.gravity}f;
+		this.canCollide = ${data.canCollide};
+
+		this.motionX = vx * ${data.speedFactor};
+		this.motionY = vy * ${data.speedFactor};
+		this.motionZ = vz * ${data.speedFactor};
+
+		<#if data.angularVelocity != 0 || data.angularAcceleration != 0>
+		this.angularVelocity = ${data.angularVelocity}f;
+		this.angularAcceleration = ${data.angularAcceleration}f;
+		</#if>
+
+		<#if data.animate>
+		this.selectSpriteWithAge(spriteSet);
+		<#else>
+		this.selectSpriteRandomly(spriteSet);
+		</#if>
+	}
+
+	<#if data.renderType == "LIT">
+	@Override public int getBrightnessForRender(float partialTick) {
+		return 15728880;
+	}
+	</#if>
+
+	@Override public IParticleRenderType getRenderType() {
+		return IParticleRenderType.PARTICLE_SHEET_${data.renderType};
+	}
+
+	@Override public void tick() {
+		super.tick();
+
+		<#if data.angularVelocity != 0 || data.angularAcceleration != 0>
+		this.prevParticleAngle = this.particleAngle;
+		this.particleAngle += this.angularVelocity;
+		this.angularVelocity += this.angularAcceleration;
+		</#if>
+
+		<#if data.animate>
+		if(!this.isExpired) {
+			<#assign frameCount = data.getTextureTileCount()>
+			this.setSprite(this.spriteSet.get((this.age / ${data.frameDuration}) % ${frameCount} + 1, ${frameCount}));
+		}
+		</#if>
+
+		<#if hasProcedure(data.additionalExpiryCondition)>
+		World world = this.world;
+		if (<@procedureOBJToConditionCode data.additionalExpiryCondition/>)
+			this.setExpired();
+		</#if>
+	}
 }
+</#compress>
 <#-- @formatter:on -->
