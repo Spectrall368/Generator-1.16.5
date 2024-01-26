@@ -43,7 +43,7 @@ public class ${name}Biome {
             ${mappedBlockToBlockStateCode(data.undergroundBlock)},
             ${mappedBlockToBlockStateCode(data.getUnderwaterBlock())}));
 
-    public static Biome ${name}Biome() {
+    public static Biome createBiome() {
             BiomeAmbience effects = new BiomeAmbience.Builder()
                 .setFogColor(${data.airColor?has_content?then(data.airColor.getRGB(), 12638463)})
                 .setWaterColor(${data.waterColor?has_content?then(data.waterColor.getRGB(), 4159204)})
