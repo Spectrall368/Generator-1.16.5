@@ -29,7 +29,6 @@ import org.apache.logging.log4j.Logger;
 	public ${JavaModName}Elements elements;
 
 	public ${JavaModName}() {
-		MinecraftForge.EVENT_BUS.register(new ${JavaModName}FMLBusEvents(this));
 		elements = new ${JavaModName}Elements();
 
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -44,6 +43,7 @@ import org.apache.logging.log4j.Logger;
 		bus.register(this);
 		bus.addListener(this::init);
 		bus.addListener(this::clientLoad);
+		MinecraftForge.EVENT_BUS.register(new ${JavaModName}FMLBusEvents(this));
 	}
 
 	private static final String PROTOCOL_VERSION = "1";
