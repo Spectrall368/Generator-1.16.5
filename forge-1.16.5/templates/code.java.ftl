@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -42,41 +43,26 @@
  *
  * This class will be added in the mod root package.
 */
-
 package ${package};
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ${name} {
 
 	public ${name}() {
-
 	}
 
-	@SubscribeEvent
-	public static void init(FMLCommonSetupEvent event) {
+	@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
 		new ${name}();
 	}
 
-    @Mod.EventBusSubscriber
-	private static class ForgeBusEvents {
+    @Mod.EventBusSubscriber private static class ForgeBusEvents {
 
-		// Example Forge bus event registration
-		@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
-
+		@SubscribeEvent public static void serverLoad(FMLServerStartingEvent event) {
 		}
 
-		@SubscribeEvent
-		public static void serverLoad(FMLServerStartingEvent event) {
+		@OnlyIn(Dist.CLIENT) @SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
 
 		}
-
-		@OnlyIn(Dist.CLIENT)
-		@SubscribeEvent
-		public static void clientLoad(FMLClientSetupEvent event) {
-
-		}
-
 	}
-
 }
 <#-- @formatter:on -->
