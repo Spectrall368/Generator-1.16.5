@@ -367,7 +367,6 @@ public class ${name}Biome {
 
     <#if data.spawnBiome>
     public static void init() {
-        <#if data.spawnBiome>
             BiomeManager.addBiome(
 				BiomeManager.BiomeType.
 				<#if (data.temperature < -0.25)>
