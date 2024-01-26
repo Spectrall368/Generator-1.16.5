@@ -820,7 +820,7 @@ import net.minecraft.block.material.Material;
 			double z = this.getPosZ();
 			Random random = this.rand;
 			Entity entity = this;
-            <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious data.particleAmount data.particleCondition/>
+            <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious data.particleAmount/>
 			</#if>
 		}
         </#if>
