@@ -2,7 +2,7 @@ name: Minecraft Forge for @minecraft (@buildfileversion)
 basefeatures: [model_java]
 status: deprecated
 buildfileversion: 36.2.41
-subversion: 1.0.7
+subversion: 1.0.8
 
 java_models:
   key: legacy
@@ -37,29 +37,29 @@ base_templates:
   - template: modbase/mod.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModName.java"
     canLock: true
-  - template: modbase/modelements.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModNameElements.java"
-  - template: modbase/mods.toml.ftl
-    writer: file
-    name: "@RESROOT/META-INF/mods.toml"
-  - template: modbase/pack.mcmeta.ftl
-    writer: json
-    name: "@RESROOT/pack.mcmeta"
+  - template: modbase/variableslist.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/network/@JavaModNameVariables.java"
+    condition: hasVariables()
+  - template: elementinits/sounds.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameSounds.java"
+    condition: hasSounds()
   - template: modbase/sounds.json.ftl
     writer: json
     name: "@MODASSETSROOT/sounds.json"
     condition: hasSounds()
-  - template: elementinits/sounds.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameSounds.java"
-    condition: hasSounds()
-  - template: modbase/variableslist.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModNameVariables.java"
-    condition: hasVariables()
+  - template: modbase/pack.mcmeta.ftl
+    writer: json
+    name: "@RESROOT/pack.mcmeta"
+  - template: modbase/mods.toml.ftl
+    writer: file
+    name: "@RESROOT/META-INF/mods.toml"
   - template: modbase/accesstransformer.cfg.ftl
     writer: file
     name: "@RESROOT/META-INF/accesstransformer.cfg"
     condition_any:
       - ${w.hasGameRulesOfType('Number') || w.hasGameRulesOfType('Logic')}
+  - template: modbase/modelements.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModNameElements.java"
 
 language_file:
   format: json
