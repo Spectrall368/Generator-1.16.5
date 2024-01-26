@@ -357,16 +357,16 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 	}
 	</#if>
 
-		<#if data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube()>
-		@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-			<#if data.isBoundingBoxEmpty()>
-				return VoxelShapes.empty();
-			<#else>
-				<#if !data.disableOffset>Vector3d offset = state.getOffset(world, pos);</#if>
-				<@boundingBoxWithRotation data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.disableOffset data.rotationMode data.enablePitch/>
-			</#if>
-		}
+	<#if data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube()>
+	@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+		<#if data.isBoundingBoxEmpty()>
+			return VoxelShapes.empty();
+		<#else>
+			<#if !data.shouldDisableOffset()>Vec3d offset = state.getOffset(world, pos);</#if>
+			<@boundingBoxWithRotation data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.shouldDisableOffset() data.rotationMode data.enablePitch/>
 		</#if>
+	}
+	</#if>
 
 		<#if data.rotationMode != 0 || data.isWaterloggable>
 		@Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
