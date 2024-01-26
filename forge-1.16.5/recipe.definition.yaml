@@ -19,14 +19,15 @@ templates:
     writer: json
     name: "@RESROOT/data/@[getNamespace()]/recipes/@[getName()].json"
     condition: "recipeType %= Crafting"
-  - template: json/stonecutting.json.ftl
-    writer: json
-    name: "@RESROOT/data/@[getNamespace()]/recipes/@[getName()].json"
-    condition: "recipeType %= Stone cutting"
   - template: json/smithing.json.ftl
     writer: json
     name: "@RESROOT/data/@[getNamespace()]/recipes/@[getName()].json"
     condition: "recipeType %= Smithing"
+  - template: json/stonecutting.json.ftl
+    writer: json
+    name: "@RESROOT/data/@[getNamespace()]/recipes/@[getName()].json"
+    condition: "recipeType %= Stone cutting"
   - template: brewingrecipe.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/@NAMEBrewingRecipe.java"
+    name: "@SRCROOT/@BASEPACKAGEPATH/recipes/brewing/@NAMEBrewingRecipe.java"
     condition: "recipeType %= Brewing"
+    deleteWhenConditionFalse: true
