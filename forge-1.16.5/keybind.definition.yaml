@@ -1,6 +1,10 @@
 templates:
   - template: keybind.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/keybind/@NAMEKeyBinding.java"
+    name: "@SRCROOT/@BASEPACKAGEPATH/network/@NAMEMessage.java"
+
+global_templates:
+  - template: elementinits/keybindings.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameKeyMappings.java"
 
 localizationkeys:
   - key: key.@modid.@registryname
