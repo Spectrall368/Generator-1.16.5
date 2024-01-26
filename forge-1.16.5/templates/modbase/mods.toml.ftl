@@ -6,19 +6,23 @@ license="${settings.getLicense()}"
 modId="${settings.getModID()}"
 version="${settings.getCleanVersion()}"
 displayName="${settings.getModName()}"
-credits="${settings.getCredits()}"
-displayURL="${settings.getWebsiteURL()}"
 <#if settings.getUpdateURL()?has_content>
 updateJSONURL="${settings.getUpdateURL()}"
 </#if>
+<#if settings.getWebsiteURL()?has_content>
+displayURL="${settings.getWebsiteURL()}"
+</#if>
 <#if settings.getModPicture()?has_content>
 logoFile="logo.png"
+</#if>
+<#if settings.getCredits()?has_content>
+credits="${settings.getCredits()}"
 </#if>
 <#if settings.getAuthor()?has_content>
 authors="${settings.getAuthor()}"
 </#if>
 <#if settings.getDescription()?has_content>
-description='''${settings.getDescription()}'''
+description="${settings.getDescription()}"
 </#if>
 
 [[dependencies.${settings.getModID()}]]
@@ -26,7 +30,7 @@ description='''${settings.getDescription()}'''
     mandatory=true
     versionRange="[1.16.5]"
     ordering="NONE"
-    side="BOTH"
+    side="<#if settings.isServerSideOnly()>SERVER<#else>BOTH</#if>"
 
 <#if !settings.isDisableForgeVersionCheck()>
 [[dependencies.${settings.getModID()}]]
