@@ -155,7 +155,6 @@ public class ${name}Biome {
 
         <#if (data.treesPerChunk > 0)>
         	<#assign ct = data.treeType == data.TREES_CUSTOM>
-            <#assign hasConfiguredFeatures = true/>
 
         	<#if data.vanillaTreeType == "Big trees">
         	biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
@@ -254,7 +253,6 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.grassPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 				Feature.RANDOM_PATCH.withConfiguration(Features.Configs.GRASS_PATCH_CONFIG)
                 .withPlacement(Features.Placements.PATCH_PLACEMENT)
@@ -262,7 +260,6 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.seagrassPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.SEAGRASS.withConfiguration(new ProbabilityConfig(0.3F))
                 .func_242731_b(${data.seagrassPerChunk})
@@ -270,7 +267,6 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.flowersPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.FLOWER.withConfiguration(Features.Configs.NORMAL_FLOWER_CONFIG)
                 .withPlacement(Features.Placements.VEGETATION_PLACEMENT)
@@ -279,7 +275,6 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.mushroomsPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
                 new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM.getDefaultState()), SimpleBlockPlacer.PLACER))
@@ -291,7 +286,6 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.bigMushroomsChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.HUGE_BROWN_MUSHROOM.withConfiguration(new BigMushroomFeatureConfig(
                 new SimpleBlockStateProvider(Blocks.BROWN_MUSHROOM_BLOCK.getDefaultState().with(HugeMushroomBlock.UP, Boolean.TRUE).with(HugeMushroomBlock.DOWN, Boolean.FALSE)),
@@ -305,7 +299,6 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.sandPatchesPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.SAND.getDefaultState(), FeatureSpread.func_242253_a(2, 4), 2,
                 ImmutableList.of(${mappedBlockToBlockStateCode(data.groundBlock)}, ${mappedBlockToBlockStateCode(data.undergroundBlock)})))
@@ -313,7 +306,6 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.gravelPatchesPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.DISK.withConfiguration(new SphereReplaceConfig(Blocks.GRAVEL.getDefaultState(), FeatureSpread.func_242253_a(2, 3), 2,
                 ImmutableList.of(${mappedBlockToBlockStateCode(data.groundBlock)}, ${mappedBlockToBlockStateCode(data.undergroundBlock)})))
@@ -321,14 +313,12 @@ public class ${name}Biome {
         </#if>
 
         <#if (data.reedsPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.RANDOM_PATCH.withConfiguration(Features.Configs.SUGAR_CANE_PATCH_CONFIG)
                 .withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(${data.reedsPerChunk}));
         </#if>
 
         <#if (data.cactiPerChunk > 0)>
-            <#assign hasConfiguredFeatures = true/>
             biomeGenerationSettings.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
 			    Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(
                 new SimpleBlockStateProvider(Blocks.CACTUS.getDefaultState()), new ColumnBlockPlacer(1, 2)))
@@ -344,11 +334,11 @@ public class ${name}Biome {
 
         MobSpawnInfo.Builder mobSpawnInfo = new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer();
         <#list data.spawnEntries as spawnEntry>
-			<#assign entity = generator.map(spawnEntry.entity.getUnmappedValue(), "entities", 1)!"null">
-			<#if entity != "null">
-			mobSpawnInfo.withSpawner(${generator.map(spawnEntry.spawnType, "mobspawntypes")},
-				new MobSpawnInfo.Spawners(${entity}, ${spawnEntry.weight}, ${spawnEntry.minGroup}, ${spawnEntry.maxGroup}));
-			</#if>
+		<#assign entity = generator.map(spawnEntry.entity.getUnmappedValue(), "entities", 1)!"null">
+		<#if entity != "null">
+		mobSpawnInfo.withSpawner(${generator.map(spawnEntry.spawnType, "mobspawntypes")},
+			new MobSpawnInfo.Spawners(${entity}, ${spawnEntry.weight}, ${spawnEntry.minGroup}, ${spawnEntry.maxGroup}));
+		</#if>
         </#list>
 
         return new Biome.Builder()
