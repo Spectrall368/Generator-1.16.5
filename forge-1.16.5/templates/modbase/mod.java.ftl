@@ -67,19 +67,6 @@ import org.apache.logging.log4j.Logger;
 		workQueue.add(new AbstractMap.SimpleEntry<>(action, tick));
 	}
 
-	@SubscribeEvent public void tick(TickEvent.ServerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
-			workQueue.forEach(work -> {
-				work.setValue(work.getValue() - 1);
-				if (work.getValue() == 0)
-					actions.add(work);
-			});
-			actions.forEach(e -> e.getKey().run());
-			workQueue.removeAll(actions);
-		}
-	}
-
 	private void init(FMLCommonSetupEvent event) {
 		elements.getElements().forEach(element -> element.init(event));
 	}
@@ -116,6 +103,19 @@ import org.apache.logging.log4j.Logger;
 
 		@SubscribeEvent public void serverLoad(FMLServerStartingEvent event) {
 			this.parent.elements.getElements().forEach(element -> element.serverLoad(event));
+		}
+
+		@SubscribeEvent public void tick(TickEvent.ServerTickEvent event) {
+			if (event.phase == TickEvent.Phase.END) {
+				List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
+				workQueue.forEach(work -> {
+					work.setValue(work.getValue() - 1);
+					if (work.getValue() == 0)
+						actions.add(work);
+				});
+				actions.forEach(e -> e.getKey().run());
+				workQueue.removeAll(actions);
+			}
 		}
 	}
 }
