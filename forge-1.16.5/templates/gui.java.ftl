@@ -48,8 +48,8 @@ import ${package}.${JavaModName};
 	public ${name}Gui(${JavaModName}Elements instance) {
 		super(instance, ${data.getModElement().getSortID()});
 
-		elements.addNetworkMessage(ButtonPressedMessage.class, ButtonPressedMessage::buffer, ButtonPressedMessage::new, ButtonPressedMessage::handler);
-		elements.addNetworkMessage(GUISlotChangedMessage.class, GUISlotChangedMessage::buffer, GUISlotChangedMessage::new, GUISlotChangedMessage::handler);
+		${JavaModName}.addNetworkMessage(ButtonPressedMessage.class, ButtonPressedMessage::buffer, ButtonPressedMessage::new, ButtonPressedMessage::handler);
+		${JavaModName}.addNetworkMessage(GUISlotChangedMessage.class, GUISlotChangedMessage::buffer, GUISlotChangedMessage::new, GUISlotChangedMessage::handler);
 
 		containerType = new ContainerType<>(new GuiContainerModFactory());
 
@@ -466,6 +466,5 @@ import ${package}.${JavaModName};
 			</#if>
 		</#list>
 	}
-
 }
 <#-- @formatter:on -->
