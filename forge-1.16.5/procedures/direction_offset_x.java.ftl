@@ -1,1 +1,1 @@
-(${input$direction}.getXOffset())
+/*@int*/(${input$direction}.getXOffset())

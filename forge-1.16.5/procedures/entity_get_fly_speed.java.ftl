@@ -1,1 +1,1 @@
-((${input$entity} instanceof PlayerEntity)?((PlayerEntity)${input$entity}).abilities.getFlySpeed():0)
+/*@float*/(${input$entity} instanceof PlayerEntity ? ((PlayerEntity) ${input$entity}).abilities.getFlySpeed():0)

@@ -1,1 +1,1 @@
-((${input$entity} instanceof LivingEntity)?((LivingEntity) ${input$entity}).isSleeping():false)
+(${input$entity} instanceof LivingEntity && ((LivingEntity) ${input$entity}).isSleeping())

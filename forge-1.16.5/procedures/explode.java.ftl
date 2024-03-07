@@ -1,3 +1,2 @@
-if(world instanceof World && !((World) world).isRemote) {
-	((World) world).createExplosion(null,(int)${input$x},(int)${input$y},(int)${input$z},(float)${input$power}, Explosion.Mode.${field$mode!"BREAK"});
-}
+if (world instanceof World && !((World) world).isRemote())
+	((World) world).createExplosion(null, ${input$x}, ${input$y}, ${input$z}, ${opt.toFloat(input$power)}, Explosion.Mode.${field$mode!"BREAK"});

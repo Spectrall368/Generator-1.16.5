@@ -1,1 +1,1 @@
-((${input$entity} instanceof LivingEntity)?((LivingEntity) ${input$entity}).isActiveItemStackBlocking():false)
+(${input$entity} instanceof LivingEntity && ((LivingEntity) ${input$entity}).isActiveItemStackBlocking())

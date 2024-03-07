@@ -1,1 +1,1 @@
-(${input$direction}.getYOffset())
+/*@int*/(${input$direction}.getYOffset())

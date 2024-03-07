@@ -1,7 +1,7 @@
 <#include "mcelements.ftl">
 <#-- @formatter:off -->
-(new Object() {
-	public int getFluidTankCapacity(BlockPos pos, int tank) {
+/*@int*/(new Object() {
+	public int getFluidTankCapacity(IWorld world, BlockPos pos, int tank) {
 		AtomicInteger _retval = new AtomicInteger(0);
 		TileEntity _ent = world.getTileEntity(pos);
 		if (_ent != null)
@@ -9,5 +9,5 @@
 				_retval.set(capability.getTankCapacity(tank)));
 		return _retval.get();
 	}
-}.getFluidTankCapacity(${toBlockPos(input$x,input$y,input$z)}, (int)${input$tank}))
+}.getFluidTankCapacity(world, ${toBlockPos(input$x,input$y,input$z)},${opt.toInt(input$tank)}))
 <#-- @formatter:on -->

@@ -1,1 +1,1 @@
-((${input$entity} instanceof MobEntity)?((MobEntity) ${input$entity}).getLeashed():false)
+(${input$entity} instanceof MobEntity ? ((MobEntity) ${input$entity}).getLeashed():false)

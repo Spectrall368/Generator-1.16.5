@@ -1,2 +1,1 @@
-if(${input$entity} instanceof PlayerEntity)
-        ((PlayerEntity) ${input$entity}).closeScreen();
+if(${input$entity} instanceof PlayerEntity) ((PlayerEntity) ${input$entity}).closeScreen();

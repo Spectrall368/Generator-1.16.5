@@ -1,1 +1,1 @@
-if(${input$entity} instanceof LivingEntity)((LivingEntity)${input$entity}).clearActivePotions();
+if(${input$entity} instanceof LivingEntity) ((LivingEntity) ${input$entity}).clearActivePotions();

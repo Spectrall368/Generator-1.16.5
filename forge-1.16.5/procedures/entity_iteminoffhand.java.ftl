@@ -1,1 +1,1 @@
-/*@ItemStack*/((${input$entity} instanceof LivingEntity)?((LivingEntity)${input$entity}).getHeldItemOffhand():ItemStack.EMPTY)
+/*@ItemStack*/(${input$entity} instanceof LivingEntity ? ((LivingEntity) ${input$entity}).getHeldItemOffhand():ItemStack.EMPTY)

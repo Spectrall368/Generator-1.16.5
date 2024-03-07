@@ -1,22 +1,19 @@
 <#include "mcelements.ftl">
 <#-- @formatter:off -->
-(new Object(){
+/*@int*/(new Object(){
 	public int fillTankSimulate(IWorld world, BlockPos pos, int amount) {
 		AtomicInteger _retval = new AtomicInteger(0);
 		TileEntity _ent = world.getTileEntity(pos);
 		if (_ent != null)
 			_ent.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, ${input$direction}).ifPresent(capability ->
 				<#if field$fluid.startsWith("CUSTOM:")>
-					<#if field$fluid.endsWith(":Flowing")>
-					_retval.set(capability.fill(new FluidStack(${(field$fluid.replace("CUSTOM:", "").replace(":Flowing", ""))}Block.flowing, amount), IFluidHandler.FluidAction.SIMULATE))
-					<#else>
-					_retval.set(capability.fill(new FluidStack(${(field$fluid.replace("CUSTOM:", ""))}Block.still, amount), IFluidHandler.FluidAction.SIMULATE))
-					</#if>
+				<#assign fluid = field$fluid?replace("CUSTOM:", "")>
+				_retval.set(capability.fill(new FluidStack(${JavaModName}Fluids.${fluid?ends_with(":Flowing")?then("FLOWING_","")}${generator.getRegistryNameForModElement(fluid?remove_ending(":Flowing"))?upper_case}.get(), amount), IFluidHandler.FluidAction.SIMULATE))
 				<#else>
 				_retval.set(capability.fill(new FluidStack(Fluids.${generator.map(field$fluid, "fluids")}, amount), IFluidHandler.FluidAction.SIMULATE))
 				</#if>
 		);
 		return _retval.get();
 	}
-}.fillTankSimulate(world, ${toBlockPos(input$x,input$y,input$z)},(int)${input$amount}))
+}.fillTankSimulate(world, ${toBlockPos(input$x,input$y,input$z)},${opt.toInt(input$amount)}))
 <#-- @formatter:on -->

@@ -1,6 +1,6 @@
 <#include "mcelements.ftl">
 <#-- @formatter:off -->
-(new Object(){
+/*@int*/(new Object(){
 	public int getMaxEnergyStored(IWorld world, BlockPos pos) {
 		AtomicInteger _retval = new AtomicInteger(0);
 		TileEntity _ent = world.getTileEntity(pos);

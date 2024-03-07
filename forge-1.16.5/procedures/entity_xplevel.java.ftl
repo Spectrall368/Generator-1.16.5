@@ -1,1 +1,1 @@
-((${input$entity} instanceof PlayerEntity)?((PlayerEntity)${input$entity}).experienceLevel:0)
+/*@int*/(${input$entity} instanceof PlayerEntity ? ((PlayerEntity) ${input$entity}).experienceLevel : 0)

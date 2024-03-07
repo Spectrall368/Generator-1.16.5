@@ -1,1 +1,1 @@
-((${input$entity} instanceof LivingEntity)?((LivingEntity) ${input$entity}).isElytraFlying():false)
+(${input$entity} instanceof LivingEntity && ((LivingEntity) ${input$entity}).isElytraFlying())

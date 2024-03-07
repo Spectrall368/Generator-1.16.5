@@ -1,1 +1,1 @@
-(world.getHeight(Heightmap.Type.${field$heightType}, (int) ${input$x}, (int) ${input$z}))
+/*@int*/(world.getHeight(Heightmap.Type.${field$heightType}, ${opt.toInt(input$x)}, ${opt.toInt(input$z)}))

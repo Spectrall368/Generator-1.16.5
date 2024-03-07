@@ -1,1 +1,1 @@
-if(${input$entity} instanceof PlayerEntity)((PlayerEntity)${input$entity}).giveExperiencePoints((int)${input$xpamount});
+if(${input$entity} instanceof PlayerEntity) ((PlayerEntity) ${input$entity}).giveExperiencePoints(${opt.toInt(input$xpamount)});

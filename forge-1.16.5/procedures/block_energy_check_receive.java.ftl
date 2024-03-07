@@ -1,6 +1,6 @@
 <#include "mcelements.ftl">
 <#-- @formatter:off -->
-(new Object(){
+/*@int*/(new Object(){
 	public int receiveEnergySimulate(IWorld world, BlockPos pos, int _amount) {
 		AtomicInteger _retval = new AtomicInteger(0);
 		TileEntity _ent = world.getTileEntity(pos);
@@ -9,5 +9,5 @@
 				_retval.set(capability.receiveEnergy(_amount, true)));
 		return _retval.get();
 	}
-}.receiveEnergySimulate(world, ${toBlockPos(input$x,input$y,input$z)},(int)${input$amount}))
+}.receiveEnergySimulate(world, ${toBlockPos(input$x,input$y,input$z)},${opt.toInt(input$amount)}))
 <#-- @formatter:on -->

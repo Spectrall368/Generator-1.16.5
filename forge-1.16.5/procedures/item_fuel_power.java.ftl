@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-(ForgeHooks.getBurnTime(${mappedMCItemToItemStackCode(input$item, 1)}))
+/*@int*/(ForgeHooks.getBurnTime(${mappedMCItemToItemStackCode(input$item, 1)}))

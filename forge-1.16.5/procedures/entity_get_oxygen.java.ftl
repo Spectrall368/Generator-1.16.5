@@ -1,1 +1,1 @@
-(${input$entity}.getAir())
+/*@int*/(${input$entity}.getAir())

@@ -1,1 +1,1 @@
-((${input$entity} instanceof TameableEntity)?((TameableEntity)${input$entity}).isTamed():false)
+(${input$entity} instanceof TamableEntity ? ((TameableEntity) ${input$entity}).isTamed():false)

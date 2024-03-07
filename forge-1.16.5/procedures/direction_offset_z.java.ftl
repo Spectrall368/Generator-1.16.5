@@ -1,1 +1,1 @@
-(${input$direction}.getZOffset())
+/*@int*/(${input$direction}.getZOffset())

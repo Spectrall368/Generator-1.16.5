@@ -1,1 +1,1 @@
-(${input$entity}.getFireTimer())
+/*@int*/(${input$entity}.getFireTimer())

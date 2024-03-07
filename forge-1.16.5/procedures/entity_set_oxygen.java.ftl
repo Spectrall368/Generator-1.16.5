@@ -1,1 +1,1 @@
-${input$entity}.setAir((int)${input$air});
+${input$entity}.setAir(${opt.toInt(input$air)});

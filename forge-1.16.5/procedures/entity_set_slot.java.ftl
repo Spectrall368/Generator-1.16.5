@@ -1,11 +1,10 @@
 <#include "mcitems.ftl">
 {
-	final ItemStack _setstack = ${mappedMCItemToItemStackCode(input$slotitem, 1)};
-	final int _sltid = (int)(${input$slotid});
-	_setstack.setCount((int) ${input$amount});
+	final int _slotid = ${opt.toInt(input$slotid)};
+	final ItemStack _setstack = ${mappedMCItemToItemStackCode(input$slotitem, 1)}.copy();
+	_setstack.setCount(${opt.toInt(input$amount)});
 	${input$entity}.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(capability -> {
-		if (capability instanceof IItemHandlerModifiable) {
-            ((IItemHandlerModifiable) capability).setStackInSlot(_sltid, _setstack);
-        }
+		if (capability instanceof IItemHandlerModifiable)
+            		((IItemHandlerModifiable) capability).setStackInSlot(_slotid, _setstack);
 	});
 }

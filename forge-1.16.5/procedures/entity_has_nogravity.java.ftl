@@ -1,1 +1,1 @@
-((${input$entity} instanceof LivingEntity)?(${input$entity}.hasNoGravity()):false)
+(${input$entity}.hasNoGravity())

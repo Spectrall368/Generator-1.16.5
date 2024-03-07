@@ -1,10 +1,2 @@
-(new Object(){int check(Entity _entity){
-		if(_entity instanceof LivingEntity){
-		Collection<EffectInstance> effects=((LivingEntity)_entity).getActivePotionEffects();
-		for(EffectInstance effect:effects){
-		if(effect.getPotion()== ${generator.map(field$potion, "effects")})
-		return effect.getDuration();
-		}
-		}
-		return 0;
-		}}.check(${input$entity}))
+/*@int*/(${input$entity} instanceof LivingEntity && ((LivingEntity) ${input$entity}).isPotionActive(${generator.map(field$potion, "effects")}) ?
+    ((LivingEntity) ${input$entity}).getActivePotionEffect(${generator.map(field$potion, "effects")}).getDuration() : 0)

@@ -1,4 +1,4 @@
-(new Object(){
+/*@int*/(new Object(){
 	public int getScore(String score, Entity _ent){
 		Scoreboard _sc = _ent.world.getScoreboard();
 		ScoreObjective _so = _sc.getObjective(score);

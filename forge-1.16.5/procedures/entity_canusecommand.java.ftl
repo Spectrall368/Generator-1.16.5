@@ -1,1 +1,1 @@
-(${input$entity}.hasPermissionLevel((int) ${input$permissionlevel}))
+(${input$entity}.hasPermissionLevel(${opt.toInt(input$permissionlevel)}))

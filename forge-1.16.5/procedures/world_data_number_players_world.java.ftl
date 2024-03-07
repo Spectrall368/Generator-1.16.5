@@ -1,1 +1,1 @@
-(world.getPlayers().size())
+/*@int*/(world.getPlayers().size())

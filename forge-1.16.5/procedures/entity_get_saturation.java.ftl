@@ -1,1 +1,1 @@
-((${input$entity} instanceof PlayerEntity)?((PlayerEntity)${input$entity}).getFoodStats().getSaturationLevel():0)
+(${input$entity} instanceof PlayerEntity ? ((PlayerEntity) ${input$entity}).getFoodStats().getSaturationLevel():0)
