@@ -1,1 +1,1 @@
-(world.getDimensionType().getMoonPhase(world.func_241851_ab()))
+/*@int*/(world.getDimensionType().getMoonPhase(world.func_241851_ab()))

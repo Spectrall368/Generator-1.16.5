@@ -1,1 +1,1 @@
-world.getWorldInfo().isThundering()
+(world.getWorldInfo().isThundering())

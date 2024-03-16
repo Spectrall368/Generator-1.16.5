@@ -1,10 +1,4 @@
-if(${input$entity} instanceof PlayerEntity) {
-	Container _current = ((PlayerEntity) ${input$entity}).openContainer;
-	if(_current instanceof Supplier) {
-		Object invobj = ((Supplier) _current).get();
-		if(invobj instanceof Map) {
-			((Slot) ((Map) invobj).get((int)(${input$slotid}))).putStack(ItemStack.EMPTY);
-			_current.detectAndSendChanges();
-		}
-	}
+if(${input$entity} instanceof PlayerEntity && ((PlayerEntity) ${input$entity}).openContainer instanceof Supplier && ((Supplier) ((PlayerEntity) ${input$entity}).openContainer).get() instanceof Map) {
+	(((Slot) ((Map) ((Supplier) ((PlayerEntity) ${input$entity}).openContainer).get()).get(${opt.toInt(input$slotid)})).putStack(ItemStack.EMPTY);
+	((PlayerEntity) ${input$entity}).openContainer.detectAndSendChanges();
 }

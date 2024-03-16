@@ -7,19 +7,21 @@
 			<#if includeBractets>{</#if>
                 <#if hasProcedure(conditions[0])>
                 @Override public boolean shouldExecute() {
-                	double x = CustomEntity.this.getPosX();
-			        double y = CustomEntity.this.getPosY();
-			        double z = CustomEntity.this.getPosZ();
-			        Entity entity = CustomEntity.this;
+                		double x = ${name}Entity.this.getPosX();
+			        double y = ${name}Entity.this.getPosY();
+			        double z = ${name}Entity.this.getPosZ();
+			        Entity entity = ${name}Entity.this;
+					World world = ${name}Entity.this.world;
                 	return super.shouldExecute() && <@procedureOBJToConditionCode conditions[0]/>;
                 }
                 </#if>
                 <#if hasProcedure(conditions[1])>
                 @Override public boolean shouldContinueExecuting() {
-                	double x = CustomEntity.this.getPosX();
-			        double y = CustomEntity.this.getPosY();
-			        double z = CustomEntity.this.getPosZ();
-			        Entity entity = CustomEntity.this;
+                		double x = ${name}Entity.this.getPosX();
+			        double y = ${name}Entity.this.getPosY();
+			        double z = ${name}Entity.this.getPosZ();
+			        Entity entity = ${name}Entity.this;
+			        World world = ${name}Entity.this.world;
                 	return super.shouldContinueExecuting() && <@procedureOBJToConditionCode conditions[0]/>;
                 }
                 </#if>

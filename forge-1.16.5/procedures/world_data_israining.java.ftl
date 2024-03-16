@@ -1,1 +1,1 @@
-world.getWorldInfo().isRaining()
+(world.getWorldInfo().isRaining())

@@ -1,8 +1,8 @@
 <#include "mcelements.ftl">
-if(world instanceof World) {
-    if(BoneMealItem.applyBonemeal(new ItemStack(Items.BONE_MEAL),(World) world,${toBlockPos(input$x,input$y,input$z)})||
-        BoneMealItem.growSeagrass(new ItemStack(Items.BONE_MEAL),(World) world,${toBlockPos(input$x,input$y,input$z)},(Direction)null)){
-        if(!world.isRemote())
-    	    ((World) world).playEvent(2005,${toBlockPos(input$x,input$y,input$z)},0);
+if (world instanceof World) {
+    BlockPos _bp = ${toBlockPos(input$x,input$y,input$z)};
+    if (BoneMealItem.applyBonemeal(new ItemStack(Items.BONE_MEAL), ((World) world), _bp) || BoneMealItem.growSeagrass(new ItemStack(Items.BONE_MEAL), ((World) world), _bp, null)) {
+    if(!((World) world).isRemote())
+    	((World) world).playEvent(2005, _bp, 0);
     }
 }

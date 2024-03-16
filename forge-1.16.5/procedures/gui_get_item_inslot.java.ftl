@@ -1,15 +1,2 @@
-/*@ItemStack*/(new Object(){
-	public ItemStack getItemStack(int sltid) {
-			Entity _ent = ${input$entity};
-			if(_ent instanceof PlayerEntity) {
-				Container _current = ((PlayerEntity) _ent).openContainer;
-				if(_current instanceof Supplier) {
-					Object invobj = ((Supplier) _current).get();
-					if(invobj instanceof Map) {
-						return ((Slot) ((Map) invobj).get(sltid)).getStack();
-					}
-				}
-			}
-			return ItemStack.EMPTY;
-		}
-	}.getItemStack((int)(${input$slotid})))
+/*@ItemStack*/(${input$entity} instanceof PlayerEntity && ((PlayerEntity) ${input$entity}).openContainer instanceof Supplier && ((Supplier) ((PlayerEntity) ${input$entity}).openContainer).get() instanceof Map ?
+	((Slot) ((Map) ((Supplier) ((PlayerEntity) ${input$entity}).openContainer).get()).get(${opt.toInt(input$slotid)})).getStack() : ItemStack.EMPTY)

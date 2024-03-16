@@ -9,8 +9,8 @@ new Object() {
 		entityToSpawn.setKnockbackStrength(knockback);
 		<#if field$projectile?starts_with("CUSTOM:")>entityToSpawn.setSilent(true);</#if>
 		<#if isPiercing>entityToSpawn.setPierceLevel(piercing);</#if>
-		<#if field$fire?lower_case == "true">entityToSpawn.setFire(100);</#if>
-		<#if field$particles?lower_case == "true">entityToSpawn.setIsCritical(true);</#if>
+		<#if field$fire == "TRUE">entityToSpawn.setFire(100);</#if>
+		<#if field$particles == "TRUE">entityToSpawn.setIsCritical(true);</#if>
 		<#if field$pickup != "DISALLOWED">entityToSpawn.pickupStatus = AbstractArrowEntity.PickupStatus.${field$pickup};</#if>
 		return entityToSpawn;
 }}.getArrow(projectileLevel<#if hasShooter>, ${input$shooter}</#if>, ${opt.toFloat(input$damage)}, ${opt.toInt(input$knockback)}<#if isPiercing>, (byte) ${input$piercing}</#if>)

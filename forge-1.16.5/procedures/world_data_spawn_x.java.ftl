@@ -1,1 +1,1 @@
-(world.getWorldInfo().getSpawnX())
+/*@int*/(world.getWorldInfo().getSpawnX())

@@ -12,7 +12,7 @@
                 <@makeBoundingBox positiveBoxes negativeBoxes facing "floor"/>;
             case WALL:
                 <@makeBoundingBox positiveBoxes negativeBoxes facing "wall"/>;
-            case CEILING:
+            default:
                 <@makeBoundingBox positiveBoxes negativeBoxes facing "ceiling"/>;
         }
     <#else>
@@ -29,20 +29,20 @@
         <#if rotationMode != 5>
             <#assign pitch = (rotationMode == 1 || rotationMode == 3) && enablePitch>
             switch ((Direction) state.get(FACING)) {
-                default:
+                <#if rotationMode == 2 || rotationMode == 4>
+                case UP:
+                    <@makeBoundingBox positiveBoxes negativeBoxes "up"/>;
+                case DOWN:
+                    <@makeBoundingBox positiveBoxes negativeBoxes "down"/>;
+                </#if>
+                case SOUTH:
                     <@checkPitchSupport positiveBoxes negativeBoxes "south" pitch/>
                 case NORTH:
                     <@checkPitchSupport positiveBoxes negativeBoxes "north" pitch/>
                 case EAST:
                     <@checkPitchSupport positiveBoxes negativeBoxes "east" pitch/>
-                case WEST:
+                default:
                     <@checkPitchSupport positiveBoxes negativeBoxes "west" pitch/>
-                <#if rotationMode == 2 || rotationMode == 4>
-                    case UP:
-                        <@makeBoundingBox positiveBoxes negativeBoxes "up"/>;
-                    case DOWN:
-                        <@makeBoundingBox positiveBoxes negativeBoxes "down"/>;
-                </#if>
             }
         <#else>
             switch ((Direction.Axis) state.get(AXIS)) {
@@ -50,7 +50,7 @@
                     <@makeBoundingBox positiveBoxes negativeBoxes "x"/>;
                 case Y:
                     <@makeBoundingBox positiveBoxes negativeBoxes "y"/>;
-                case Z:
+                default:
                     <@makeBoundingBox positiveBoxes negativeBoxes "z"/>;
             }
         </#if>
