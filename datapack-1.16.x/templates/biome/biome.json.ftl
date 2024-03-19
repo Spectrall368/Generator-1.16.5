@@ -1,6 +1,8 @@
 <#-- @formatter:off -->
 <#-- now in dimension: surface and underground block -->
 {
+    "scale": ${data.heightVariation},
+    "depth": ${data.baseHeight},
     "precipitation": <#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>"rain"<#else>"snow"</#if><#else>"none"</#if>,
     "temperature": ${data.temperature},
     "downfall": ${data.rainingPossibility},
@@ -25,7 +27,7 @@
 	},
 	"spawn_costs": {},
     "carvers": {
-		<#if data.defaultFeatures?contains("Caves")>
+		<#if data.defaultFeatures?contains("Lakes")>
     	"air": [
             "minecraft:cave",
             "minecraft:canyon"
