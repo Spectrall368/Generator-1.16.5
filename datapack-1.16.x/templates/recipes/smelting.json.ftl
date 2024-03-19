@@ -1,5 +1,5 @@
 <#-- @formatter:off -->
-<#include "mcitems.ftl">
+<#include "../mcitems.ftl">
 {
     <#if data.group?has_content>"group": "${data.group}",</#if>
     "type": "minecraft:smelting",
@@ -8,8 +8,6 @@
     "ingredient": {
       ${mappedMCItemToIngameItemName(data.smeltingInputStack)}
     },
-    "result": {
-      ${mappedMCItemToIngameItemName(data.smeltingReturnStack)}
-    }
+    "result": "${mappedMCItemToIngameNameNoTags(data.smeltingReturnStack)}"
 }
 <#-- @formatter:on -->
