@@ -13,5 +13,9 @@
   "infiniburn": "minecraft:infiniburn_overworld",
   "min_y": 0,
   "height": 256,
+  <#if var_customeffects?? && var_customeffects == "true">
+  "effects": "${modid}:${registryname}"
+  <#else>
   "effects": "<#if data.hasFog>minecraft:the_nether<#else>minecraft:overworld</#if>"
+  </#if>
 }
