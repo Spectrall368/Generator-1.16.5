@@ -1,5 +1,5 @@
 <#-- @formatter:off -->
-<#include "mcitems.ftl">
+<#include "../mcitems.ftl">
 {
     <#if data.group?has_content>"group": "${data.group}",</#if>
     "type": "minecraft:stonecutting",
@@ -7,6 +7,6 @@
     "ingredient": {
         ${mappedMCItemToIngameItemName(data.stoneCuttingInputStack)}
     },
-    "result": ${mappedMCItemToIngameItemName(data.stoneCuttingReturnStack)?replace("\"item\":", "")}
+    "result": "${mappedMCItemToIngameNameNoTags(data.stoneCuttingReturnStack)}"
 }
 <#-- @formatter:on -->
