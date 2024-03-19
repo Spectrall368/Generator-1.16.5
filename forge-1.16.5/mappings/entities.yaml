@@ -4,8 +4,8 @@ _default:
   - zombie
 _mcreator_prefix: "CUSTOM:"
 _mcreator_map_template:
-  - "@NAMEEntity.CustomEntity"
-  - "@NAMEEntity.entity"
+  - "@NAMEEntity"
+  - "@JavaModNameEntities.@REGISTRYNAME"
   - "@modid:@registryname"
 EntityAgeable: AgeableEntity
 EntityAmbientCreature: AmbientEntity
