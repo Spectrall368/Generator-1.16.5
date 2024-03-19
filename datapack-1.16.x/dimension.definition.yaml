@@ -15,5 +15,4 @@ templates:
     condition: "worldGenType %= End like gen"
     name: "@MODDATAROOT/dimension/@registryname.json"
 
-field_inclusions: [mainFillerBlock, fluidBlock, biomesInDimension, imitateOverworldBehaviour, canRespawnHere,
-                   hasFog, isDark, doesWaterVaporize, sleepResult, hasSkyLight, imitateOverworldBehaviour, worldGenType]
+field_inclusions: [igniterName, portalTexture, texture, portalFrame, enablePortal, portalSound, airColor, portalParticles, igniterTab, luminance, portalMakeCondition, portalUseCondition, whenPortaTriggerlUsed, onPortalTickUpdate, onPlayerEntersDimension, onPlayerLeavesDimension]
