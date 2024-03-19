@@ -9,3 +9,5 @@ templates:
 localizationkeys:
   - key: biome.@modid.@registryname
     mapto: name
+
+field_inclusions: [treesPerChunk, grassPerChunk, seagrassPerChunk, flowersPerChunk, mushroomsPerChunk, bigMushroomsChunk, sandPatchesPerChunk, gravelPatchesPerChunk, reedsPerChunk, cactiPerChunk, customTrees, vanillaTrees, spawnBiome, spawnInCaves, spawnBiomeNether, minHeight, treeVines, treeStem, treeBranch, treeFruits, ambientSound, moodSound, moodSoundDelay, additionsSound, music, spawnParticle, particleToSpawn, particlesProbability, vanillaTreeType, biomeWeight]
