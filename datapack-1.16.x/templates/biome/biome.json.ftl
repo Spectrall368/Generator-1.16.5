@@ -1,13 +1,11 @@
 <#-- @formatter:off -->
+<#-- now in dimension: surface and underground block -->
 {
-    "scale": ${data.heightVariation},
-    "depth": ${data.baseHeight},
     "precipitation": <#if (data.rainingPossibility > 0)><#if (data.temperature > 0.15)>"rain"<#else>"snow"</#if><#else>"none"</#if>,
     "temperature": ${data.temperature},
     "downfall": ${data.rainingPossibility},
     "category": "none",
-	"surface_builder": "${modid}:${registryname}",
-	"spawn_costs": {},
+    "surface_builder": "${modid}:${registryname}",
     "player_spawn_friendly": true,
     "effects": {
     	"foliage_color": ${data.foliageColor?has_content?then(data.foliageColor.getRGB(), 10387789)},
@@ -25,6 +23,7 @@
 		"water_ambient": [],
 		"misc": []
 	},
+	"spawn_costs": {},
     "carvers": {
 		<#if data.defaultFeatures?contains("Caves")>
     	"air": [
@@ -36,7 +35,7 @@
     "features": [
     	<#--RAW_GENERATION-->[],
 		<#--LAKES-->[
-		<#if data.defaultFeatures?contains("Lakes")>
+		<#if data.defaultFeatures?contains("Caves")>
 			"minecraft:lake_water",
 			"minecraft:lake_lava"
 		</#if>
@@ -76,11 +75,10 @@
 		</#list>
     ]
 }
-
 <#function listStructures>
 	<#assign retval = []>
 	<#if data.spawnWoodlandMansion><#assign retval = retval + ["minecraft:mansion"] /></#if>
-	<#if data.spawnMineshaft><#assign retval = retval + ["mineshaft_mesa"] /></#if>
+	<#if data.spawnMineshaft><#assign retval = retval + ["minecraft:mineshaft_mesa"] /></#if>
 	<#if data.spawnMineshaftMesa><#assign retval = retval + ["minecraft:mineshaft"] /></#if>
 	<#if data.spawnStronghold><#assign retval = retval + ["minecraft:stronghold"] /></#if>
 	<#if data.spawnPillagerOutpost><#assign retval = retval + ["minecraft:pillager_outpost"] /></#if>
@@ -101,7 +99,6 @@
 	<#if data.villageType != "none"><#assign retval = retval + ["minecraft:village_${data.villageType}"] /></#if>
 	<#return retval>
 </#function>
-
 <#function getEntitiesOfType entityList type>
 	<#assign retval = []>
 	<#list entityList as entity>
@@ -111,13 +108,12 @@
 	</#list>
 	<#return retval>
 </#function>
-
 <#macro generateEntityList entityList type>
 	<#assign entities = getEntitiesOfType(entityList, type)>
 	<#list entities as entry>
 	<#-- @formatter:off -->
     {
-		"type": "${entry.entity}",
+		"type": "${generator.map(entry.entity.getUnmappedValue(), "entities", 2)}",
 		"weight": ${entry.weight},
 		"minCount": ${entry.minGroup},
 		"maxCount": ${entry.maxGroup}
