@@ -93,10 +93,10 @@
 	<#if data.spawnJungleTemple><#assign retval = retval + ["minecraft:jungle_pyramid"] /></#if>
 	<#if data.spawnIgloo><#assign retval = retval + ["minecraft:igloo"] /></#if>
 	<#if data.spawnBuriedTreasure><#assign retval = retval + ["minecraft:buried_treasure"] /></#if>
-	<#if data.spawnNetherBridge><#assign retval = retval + ["minecraft:buried_treasure"] /></#if>
-	<#if data.spawnNetherFossil><#assign retval = retval + ["minecraft:buried_treasure"] /></#if>
-	<#if data.spawnBastionRemnant><#assign retval = retval + ["minecraft:buried_treasure"] /></#if>
-	<#if data.spawnEndCity><#assign retval = retval + ["minecraft:buried_treasure"] /></#if>
+	<#if data.spawnNetherBridge><#assign retval = retval + ["minecraft:fortress"] /></#if>
+	<#if data.spawnNetherFossil><#assign retval = retval + ["minecraft:nether_fossil"] /></#if>
+	<#if data.spawnBastionRemnant><#assign retval = retval + ["minecraft:bastion_remnant"] /></#if>
+	<#if data.spawnEndCity><#assign retval = retval + ["minecraft:end_city"] /></#if>
 	<#if data.spawnRuinedPortal != "NONE"><#assign retval = retval + ["minecraft:ruined_portal_${data.spawnRuinedPortal?lower_case}"] /></#if>
 	<#if data.villageType != "none"><#assign retval = retval + ["minecraft:village_${data.villageType}"] /></#if>
 	<#return retval>
