@@ -1,5 +1,5 @@
 <#-- @formatter:off -->
-<#include "mcitems.ftl">
+<#include "../mcitems.ftl">
 {
     <#if data.group?has_content>"group": "${data.group}",</#if>
     "type": "minecraft:campfire_cooking",
@@ -8,8 +8,6 @@
     "ingredient": {
       ${mappedMCItemToIngameItemName(data.campfireCookingInputStack)}
     },
-    "result": {
-      ${mappedMCItemToIngameItemName(data.campfireCookingReturnStack)}
-    }
+    "result": "${mappedMCItemToIngameNameNoTags(data.campfireCookingReturnStack)}"
 }
 <#-- @formatter:on -->
