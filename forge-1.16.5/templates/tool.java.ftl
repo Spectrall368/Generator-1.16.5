@@ -123,11 +123,12 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 		@Override public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
 			if (equipmentSlot == EquipmentSlotType.MAINHAND) {
 				ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-				builder.putAll(super.getAttributeModifiers(equipmentSlot));
-				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 2}f, AttributeModifier.Operation.ADDITION));
+				builder.putAll(super.getDefaultAttributeModifiers(equipmentSlot));
+				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 1}f, AttributeModifier.Operation.ADDITION));
 				builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
 				return builder.build();
 			}
+
 			return super.getAttributeModifiers(equipmentSlot);
 		}
 	</#if>
@@ -181,14 +182,14 @@ public class ${name}Item extends Item {
 	@Override public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
 		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
 			ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-			builder.putAll(super.getAttributeModifiers(equipmentSlot));
-			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 2}f, AttributeModifier.Operation.ADDITION));
+			builder.putAll(super.getDefaultAttributeModifiers(equipmentSlot));
+			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 1}f, AttributeModifier.Operation.ADDITION));
 			builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
 			return builder.build();
 		}
 
-   		return super.getAttributeModifiers(equipmentSlot);
-   	}
+		return super.getAttributeModifiers(equipmentSlot);
+	}
 
 	<@commonMethods/>
 }
@@ -226,8 +227,8 @@ public class ${name}Item extends FishingRodItem {
 
 	<#if hasProcedure(data.onRightClickedInAir)>
 	@Override public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity entity, Hand hand) {
-		ActionResult<ItemStack> retval = super.onItemRightClick(world, entity, hand);
-		ItemStack itemstack = retval.getResult();
+		super.onItemRightClick(world, entity, hand);
+		ItemStack itemstack = entity.getHeldItem(hand);
 		<@procedureCode data.onRightClickedInAir, {
 			"x": "entity.getPosX()",
 			"y": "entity.getPosY()",
@@ -237,7 +238,7 @@ public class ${name}Item extends FishingRodItem {
 			"itemstack": "itemstack"
 		}/>
 
-		return retval;
+		return ActionResult.newResult(world.isRemote() ? ActionResultType.SUCCESS : ActionResultType.FAIL, itemstack);
 	}
 	</#if>
 
