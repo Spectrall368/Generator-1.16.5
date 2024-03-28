@@ -34,10 +34,12 @@
 <#include "triggers.java.ftl">
 package ${package}.item;
 
+import net.minecraft.entity.ai.attributes.Attributes;
+
 <#compress>
 <#if data.toolType == "Pickaxe" || data.toolType == "Axe" || data.toolType == "Sword" || data.toolType == "Spade"
 		|| data.toolType == "Hoe" || data.toolType == "Shears" || data.toolType == "MultiTool">
-public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?replace("MultiTool", "Tiered")}Item {
+public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item {
 	public ${name}Item () {
 		super(<#if data.toolType == "Pickaxe" || data.toolType == "Axe" || data.toolType == "Sword"
 				|| data.toolType == "Spade" || data.toolType == "Hoe" || data.toolType == "MultiTool">
@@ -87,10 +89,16 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?repl
 
 				new Item.Properties()
 			 	.group(${data.creativeTab})
+			 	<#if data.immuneToFire>
+			 	.isImmuneToFire()
+			 	</#if>
 		<#elseif data.toolType=="Shears">
-			new ShearsItem(Item.Properties()
+			new ShearsItem(new Item.Properties()
 				.group(${data.creativeTab})
-				.maxDamage(${data.usageCount}))
+				.maxDamage(${data.usageCount})
+			 	<#if data.immuneToFire>
+			 	.isImmuneToFire()
+			 	</#if>)
 		</#if>);
 	}
 
@@ -112,13 +120,15 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?repl
 			return ${data.efficiency}f;
 		}
 
-		@Override public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
-			Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(equipmentSlot);
-				if (equipmentSlot == EquipmentSlotType.MAINHAND) {
-		         		multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 1}f, AttributeModifier.Operation.ADDITION));
-		         		multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
-		      		}
-			return multimap;
+		@Override public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
+			if (equipmentSlot == EquipmentSlotType.MAINHAND) {
+				ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+				builder.putAll(super.getAttributeModifiers(equipmentSlot));
+				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 2}f, AttributeModifier.Operation.ADDITION));
+				builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
+				return builder.build();
+			}
+			return super.getAttributeModifiers(equipmentSlot);
 		}
 	</#if>
 
@@ -144,6 +154,9 @@ public class ${name}Item extends Item {
 		super(new Item.Properties()
 			.group(${data.creativeTab})
 			.maxDamage(${data.usageCount})
+			<#if data.immuneToFire>
+			.isImmuneToFire()
+			</#if>
 		);
 	}
 
@@ -165,14 +178,17 @@ public class ${name}Item extends Item {
 		return ${data.enchantability};
 	}
 
-	@Override public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
-		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(equipmentSlot);
+	@Override public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
 		if (equipmentSlot == EquipmentSlotType.MAINHAND) {
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 1}f, AttributeModifier.Operation.ADDITION));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
+			ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+			builder.putAll(super.getAttributeModifiers(equipmentSlot));
+			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", ${data.damageVsEntity - 2}f, AttributeModifier.Operation.ADDITION));
+			builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
+			return builder.build();
 		}
-		return multimap;
-	}
+
+   		return super.getAttributeModifiers(equipmentSlot);
+   	}
 
 	<@commonMethods/>
 }
@@ -183,6 +199,9 @@ public class ${name}Item extends FishingRodItem {
 		super(new Item.Properties()
 			.group(${data.creativeTab})
 			.maxDamage(${data.usageCount})
+			<#if data.immuneToFire>
+			.isImmuneToFire()
+			</#if>
 		);
 	}
 
@@ -210,9 +229,9 @@ public class ${name}Item extends FishingRodItem {
 		ActionResult<ItemStack> retval = super.onItemRightClick(world, entity, hand);
 		ItemStack itemstack = retval.getResult();
 		<@procedureCode data.onRightClickedInAir, {
-			"x": "entity.posX",
-			"y": "entity.posY",
-			"z": "entity.posZ",
+			"x": "entity.getPosX()",
+			"y": "entity.getPosY()",
+			"z": "entity.getPosZ()",
 			"world": "world",
 			"entity": "entity",
 			"itemstack": "itemstack"
