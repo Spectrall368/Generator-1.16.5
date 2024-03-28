@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2022, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -28,142 +29,38 @@
 -->
 
 <#-- @formatter:off -->
-<#include "procedures.java.ftl">
-
+<#include "triggers.java.ftl">
 package ${package}.item;
 
-@${JavaModName}Elements.ModElement.Tag
-public class ${name}Item extends ${JavaModName}Elements.ModElement{
+public class ${name}Item extends MusicDiscItem {
 
-	@ObjectHolder("${modid}:${registryname}")
-	public static final Item block = null;
-
-	public ${name}Item (${JavaModName}Elements instance) {
-		super(instance, ${data.getModElement().getSortID()});
+	public ${name}Item() {
+		<#if data.music.getUnmappedValue().startsWith("CUSTOM:")>
+		super(${data.analogOutput}, ${JavaModName}Sounds.REGISTRY.get(new ResourceLocation("${data.music}")),
+		<#else>
+		super(${data.analogOutput}, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")),
+		</#if>
+				new Item.Properties().group(${data.creativeTab}).maxStackSize(1).rarity(Rarity.RARE));
 	}
 
-	@Override public void initElements() {
-		elements.items.add(() -> new MusicDiscItemCustom());
-	}
+	<@addSpecialInformation data.specialInformation/>
 
-	public static class MusicDiscItemCustom extends MusicDiscItem {
+	<@onRightClickedInAir data.onRightClickedInAir/>
 
-		public MusicDiscItemCustom() {
-			<#if data.music.getUnmappedValue().startsWith("CUSTOM:")>
-			super(${data.analogOutput}, ${JavaModName}Sounds.REGISTRY.get(new ResourceLocation("${data.music}")),
-					new Item.Properties().group(${data.creativeTab}).maxStackSize(1).rarity(Rarity.RARE));
-			<#else>
-			super(${data.analogOutput}, (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")),
-					new Item.Properties().group(${data.creativeTab}).maxStackSize(1).rarity(Rarity.RARE));
-			</#if>
-			setRegistryName("${registryname}");
-		}
+	<@onItemUsedOnBlock data.onRightClickedOnBlock/>
 
-		<#if data.hasGlow>
-		@Override @OnlyIn(Dist.CLIENT) public boolean hasEffect(ItemStack itemstack) {
-			return true;
-		}
-        </#if>
+	<@onEntityHitWith data.onEntityHitWith/>
 
-		<#if data.specialInfo?has_content>
-		@Override public void addInformation(ItemStack itemstack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-			super.addInformation(itemstack, world, list, flag);
-			<#list data.specialInfo as entry>
-			list.add(new StringTextComponent("${JavaConventions.escapeStringForJava(entry)}"));
-			</#list>
-		}
-		</#if>
+	<@onEntitySwing data.onEntitySwing/>
 
-		<#if hasProcedure(data.onRightClickedInAir)>
-		@Override public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity entity, Hand hand) {
-			ActionResult<ItemStack> ar = super.onItemRightClick(world, entity, hand);
-			ItemStack itemstack = ar.getResult();
-			double x = entity.getPosX();
-			double y = entity.getPosY();
-			double z = entity.getPosZ();
-			<@procedureOBJToCode data.onRightClickedInAir/>
-			return ar;
-		}
-		</#if>
+	<@onCrafted data.onCrafted/>
 
-		<#if hasProcedure(data.onRightClickedOnBlock)>
-		@Override public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-			ActionResultType retval = super.onItemUseFirst(stack, context);
-			World world = context.getWorld();
-			BlockPos pos = context.getPos();
-			PlayerEntity entity = context.getPlayer();
-			Direction direction = context.getFace();
-			BlockState blockstate = world.getBlockState(pos);
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
-			ItemStack itemstack = context.getItem();
-			<#if hasReturnValueOf(data.onRightClickedOnBlock, "actionresulttype")>
-			return <@procedureOBJToActionResultTypeCode data.onRightClickedOnBlock/>;
-			<#else>
-			<@procedureOBJToCode data.onRightClickedOnBlock/>
-			return retval;
-			</#if>
-		}
-		</#if>
+	<@onStoppedUsing data.onStoppedUsing/>
 
-		<#if hasProcedure(data.onEntityHitWith)>
-		@Override public boolean hitEntity(ItemStack itemstack, LivingEntity entity, LivingEntity sourceentity) {
-			boolean retval = super.hitEntity(itemstack, entity, sourceentity);
-			double x = entity.getPosX();
-			double y = entity.getPosY();
-			double z = entity.getPosZ();
-			World world = entity.world;
-			<@procedureOBJToCode data.onEntityHitWith/>
-			return retval;
-		}
-		</#if>
+	<@onItemTick data.onItemInUseTick, data.onItemInInventoryTick/>
 
-		<#if hasProcedure(data.onEntitySwing)>
-		@Override public boolean onEntitySwing(ItemStack itemstack, LivingEntity entity) {
-			boolean retval = super.onEntitySwing(itemstack, entity);
-			double x = entity.getPosX();
-			double y = entity.getPosY();
-			double z = entity.getPosZ();
-			World world = entity.world;
-			<@procedureOBJToCode data.onEntitySwing/>
-			return retval;
-		}
-		</#if>
-
-		<#if hasProcedure(data.onCrafted)>
-		@Override public void onCreated(ItemStack itemstack, World world, PlayerEntity entity) {
-			super.onCreated(itemstack, world, entity);
-			double x = entity.getPosX();
-			double y = entity.getPosY();
-			double z = entity.getPosZ();
-			<@procedureOBJToCode data.onCrafted/>
-		}
-		</#if>
-
-		<#if hasProcedure(data.onStoppedUsing)>
-		@Override
-		public void onPlayerStoppedUsing(ItemStack itemstack, World world, LivingEntity entity, int time) {
-			double x = entity.getPosX();
-			double y = entity.getPosY();
-			double z = entity.getPosZ();
-			<@procedureOBJToCode data.onStoppedUsing/>
-		}
-		</#if>
-
-		<#if hasProcedure(data.onItemInUseTick) || hasProcedure(data.onItemInInventoryTick)>
-		@Override public void inventoryTick(ItemStack itemstack, World world, Entity entity, int slot, boolean selected) {
-			super.inventoryTick(itemstack, world, entity, slot, selected);
-			double x = entity.getPosX();
-			double y = entity.getPosY();
-			double z = entity.getPosZ();
-    		<#if hasProcedure(data.onItemInUseTick)>
-			if (selected)
-				<@procedureOBJToCode data.onItemInUseTick/>
-			</#if>
-    		<@procedureOBJToCode data.onItemInInventoryTick/>
-		}
-		</#if>
-	}
+	<#if data.hasGlow>
+	<@hasGlow data.glowCondition/>
+	</#if>
 }
 <#-- @formatter:on -->
