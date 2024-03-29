@@ -36,7 +36,7 @@ description="${settings.getDescription()}"
 [[dependencies.${settings.getModID()}]]
     modId="forge"
     mandatory=true
-    versionRange="[${generator.getGeneratorBuildFileVersion()}]"
+    versionRange="[1.16.5]"
     ordering="NONE"
     side="BOTH"
 </#if>
