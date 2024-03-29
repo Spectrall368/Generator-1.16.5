@@ -53,11 +53,13 @@ package ${package};
 		new ${name}();
 	}
 
-    @Mod.EventBusSubscriber private static class ForgeBusEvents {
+    	@Mod.EventBusSubscriber private static class ForgeBusEvents {
 
-		@SubscribeEvent public static void serverLoad(ServerStartingEvent event) {}
+		@SubscribeEvent public static void serverLoad(FMLServerStartingEvent event) {
+		}
 
-		@OnlyIn(Dist.CLIENT) @SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {}
+		@OnlyIn(Dist.CLIENT) @SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+		}
 	}
 }
 <#-- @formatter:on -->
