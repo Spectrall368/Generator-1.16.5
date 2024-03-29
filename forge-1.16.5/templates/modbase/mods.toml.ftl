@@ -30,16 +30,7 @@ description="${settings.getDescription()}"
     mandatory=true
     versionRange="[1.16.5]"
     ordering="NONE"
-    side="<#if settings.isServerSideOnly()>SERVER<#else>BOTH</#if>"
-
-<#if !settings.isDisableForgeVersionCheck()>
-[[dependencies.${settings.getModID()}]]
-    modId="forge"
-    mandatory=true
-    versionRange="[${generator.getGeneratorBuildFileVersion()}]"
-    ordering="NONE"
     side="BOTH"
-</#if>
 
 <#list settings.getRequiredMods() as e>
 [[dependencies.${settings.getModID()}]]
