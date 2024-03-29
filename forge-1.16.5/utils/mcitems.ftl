@@ -62,11 +62,11 @@
 
 <#function mappedMCItemToIngredient mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("TAG:")>
-        <#return "Ingredient.of(ItemTags.create(new ResourceLocation(\"" + mappedBlock.getUnmappedValue().replace("TAG:", "") + "\")))">
+        <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getUnmappedValue().replace("TAG:", "") + "\")))">
     <#elseif mappedBlock.getMappedValue(1).startsWith("#")>
-        <#return "Ingredient.of(ItemTags.create(new ResourceLocation(\"" + mappedBlock.getMappedValue(1).replace("#", "") + "\")))">
+        <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getMappedValue(1).replace("#", "") + "\")))">
     <#else>
-        <#return "Ingredient.of(" + mappedMCItemToItemStackCode(mappedBlock, 1) + ")">
+        <#return "Ingredient.fromStacks(" + mappedMCItemToItemStackCode(mappedBlock, 1) + ")">
     </#if>
 </#function>
 
@@ -86,7 +86,7 @@
         </#list>
 
         <#if itemsOnly>
-            <#assign retval = "Ingredient.of(">
+            <#assign retval = "Ingredient.fromItems(">
             <#list mappedBlocks as mappedBlock>
                 <#assign retval += mappedMCItemToItemStackCode(mappedBlock, 1)>
 
@@ -96,15 +96,13 @@
             </#list>
             <#return retval + ")">
         <#else>
-            <#assign retval = "CompoundIngredient.of(">
             <#list mappedBlocks as mappedBlock>
                 <#assign retval += mappedMCItemToIngredient(mappedBlock)>
 
                 <#if mappedBlock?has_next>
-                    <#assign retval += ",">
+                    <#assign retval += " && ">
                 </#if>
             </#list>
-            <#return retval + ")">
         </#if>
     </#if>
 </#function>
