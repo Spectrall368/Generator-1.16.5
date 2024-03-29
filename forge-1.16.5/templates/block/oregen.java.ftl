@@ -98,7 +98,7 @@ package ${package}.world.features.ores;
 			}
 		};
 
-		configuredFeature = feature.withConfiguration(new OreFeatureConfig(${name}RuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
+		configuredFeature = feature.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
 		<#if data.maxGenerateHeight gt 256>
 		.range(256)
 		<#elseif data.maxGenerateHeight lt 0>
