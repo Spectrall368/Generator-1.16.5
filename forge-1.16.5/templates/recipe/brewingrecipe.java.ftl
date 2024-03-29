@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 -->
 
 <#-- @formatter:off -->
-<#include "mcitems.ftl">
+<#include "../mcitems.ftl">
 package ${package}.recipes.brewing;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}BrewingRecipe implements IBrewingRecipe {
@@ -43,25 +43,19 @@ package ${package}.recipes.brewing;
 		Item inputItem = input.getItem();
 		return (inputItem == Items.POTION || inputItem == Items.SPLASH_POTION || inputItem == Items.LINGERING_POTION)
 			&& PotionUtils.getPotionFromItem(input) == ${generator.map(data.brewingInputStack?replace("POTION:",""), "potions")};
-		<#elseif data.brewingInputStack?starts_with("TAG:")>
-		return Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation("${data.brewingInputStack?replace("TAG:","")}"))).test(input);
 		<#else>
-		return input.getItem() == ${mappedMCItemToItem(data.brewingInputStack)};
+		return ${mappedMCItemToIngredient(data.brewingInputStack)}.test(input);
 		</#if>
 	}
 
 	@Override public boolean isIngredient(ItemStack ingredient) {
-		<#if data.brewingIngredientStack?starts_with("TAG:")>
-		return Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation("${data.brewingIngredientStack?replace("TAG:","")}"))).test(ingredient);
-		<#else>
-		return ingredient.getItem() == ${mappedMCItemToItem(data.brewingIngredientStack)};
-		</#if>
+		return ${mappedMCItemToIngredient(data.brewingIngredientStack)}.test(ingredient);
 	}
 
 	@Override public ItemStack getOutput(ItemStack input, ItemStack ingredient) {
 		if (isInput(input) && isIngredient(ingredient)) {
 			<#if data.brewingReturnStack?starts_with("POTION:")>
-			return PotionUtils.addPotionToItemStack(
+			return PotionUtils.setPotion(
 				<#if data.brewingInputStack?starts_with("POTION:")>
 				new ItemStack(input.getItem())
 				<#else>
