@@ -232,7 +232,6 @@ public class ${name}Item extends FishingRodItem {
 }
 </#if>
 </#compress>
-
 <#macro commonMethods>
 	<#if data.stayInGridWhenCrafting>
 		@Override public boolean hasContainerItem() {
