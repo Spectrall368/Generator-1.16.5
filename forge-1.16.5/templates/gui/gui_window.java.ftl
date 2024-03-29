@@ -58,8 +58,8 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 		this.y = container.y;
 		this.z = container.z;
 		this.entity = container.entity;
-		this.imageWidth = ${data.width};
-		this.imageHeight = ${data.height};
+		this.xSize = ${data.width};
+		this.ySize = ${data.height};
 	}
 
 	<#if data.doesPauseGame>
