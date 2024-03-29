@@ -49,7 +49,7 @@
 <#if hasProcedure(procedure) || hurtStack>
 @Override public boolean hitEntity(ItemStack itemstack, LivingEntity entity, LivingEntity sourceentity) {
 	<#if hurtStack>
-		itemstack.damageItem(1, entity, i -> i.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+		itemstack.damageItem(2, entity, i -> i.sendBreakAnimation(EquipmentSlotType.MAINHAND));
 	<#else>
 		boolean retval = super.hitEntity(itemstack, entity, sourceentity);
 	</#if>
@@ -98,9 +98,9 @@
 @Override public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity entity, Hand hand) {
 	ActionResult<ItemStack> ar = super.onItemRightClick(world, entity, hand);
 	<@procedureCode procedure, {
-		"x": "entity.getX()",
-		"y": "entity.getY()",
-		"z": "entity.getZ()",
+		"x": "entity.getPosX()",
+		"y": "entity.getPosY()",
+		"z": "entity.getPosZ()",
 		"world": "world",
 		"entity": "entity",
 		"itemstack": "ar.getResult()"
@@ -163,9 +163,9 @@
 	super.onItemUseFirst(itemstack, context);
 	<@procedureCodeWithOptResult procedure, "actionresulttype", "ActionResultType.SUCCESS", {
 		"world": "context.getWorld()",
-		"x": "context.getPos().getPosX()",
-		"y": "context.getPos().getPosY()",
-		"z": "context.getPos().getPosZ()",
+		"x": "context.getPos().getX()",
+		"y": "context.getPos().getY()",
+		"z": "context.getPos().getZ()",
 		"blockstate": "context.getWorld().getBlockState(context.getPos())",
 		"entity": "context.getPlayer()",
 		"direction": "context.getFace()",
