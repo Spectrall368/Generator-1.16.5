@@ -35,51 +35,50 @@ package ${package}.world.features.ores;
 
 @Mod.EventBusSubscriber public class ${name}Feature {
 
-  private static Feature<OreFeatureConfig> feature = null;
-  private static ConfiguredFeature<?, ?> configuredFeature = null;
-  private static IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = null;
+  	private static Feature<OreFeatureConfig> feature = null;
+  	private static ConfiguredFeature<?, ?> configuredFeature = null;
+	private static IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = null;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class ${name}FeatureRuleTest extends RuleTest {
+	
+		static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
+	  	static final com.mojang.serialization.Codec<${name}FeatureRuleTest> codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
 
-	  static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
-	  static final com.mojang.serialization.Codec<${name}FeatureRuleTest> codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
-
-	  public boolean test(BlockState blockAt, Random random) {
-	    boolean blockCriteria = false;
+	  	public boolean test(BlockState blockAt, Random random) {
+	    		boolean blockCriteria = false;
 
 			<#list data.blocksToReplace as replacementBlock>
 			if(blockAt.getBlock() == ${mappedBlockToBlock(replacementBlock)})
-	      blockCriteria = true;
+	      			blockCriteria = true;
 			</#list>
 
-	    return blockCriteria;
-	  }
+	    		return blockCriteria;
+	  	}
 
-	  protected IRuleTestType<?> getType() {
-	    return CUSTOM_MATCH;
-	  }
+	  	protected IRuleTestType<?> getType() {
+	    		return CUSTOM_MATCH;
+	  	}
 	}
 
 	@SubscribeEvent public void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-	  CUSTOM_MATCH = Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), () -> ${name}FeatureRuleTest.codec);
-	  feature = new OreFeature(OreFeatureConfig.CODEC) {
-	    @Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config) {
-	      RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-	      boolean dimensionCriteria = false;
+		CUSTOM_MATCH = Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), () -> ${name}FeatureRuleTest.codec);
+	  	feature = new OreFeature(OreFeatureConfig.CODEC) {
+	    		@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config) {
+	      			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
+	      			boolean dimensionCriteria = false;
 
-	      <#list data.spawnWorldTypes as worldType>
-  	      <#if worldType=="Surface">
-	      if(dimensionType == World.OVERWORLD)
-	        dimensionCriteria = true;
-  	      <#elseif worldType=="Nether">
+	      			<#list data.spawnWorldTypes as worldType>
+  	      			<#if worldType=="Surface">
+	      			if(dimensionType == World.OVERWORLD)
+	        			dimensionCriteria = true;
+  	      			<#elseif worldType=="Nether">
 				if(dimensionType == World.THE_NETHER)
-				  dimensionCriteria = true;
+					dimensionCriteria = true;
   				<#elseif worldType=="End">
 				if(dimensionType == World.THE_END)
-				  dimensionCriteria = true;
+					dimensionCriteria = true;
   				<#else>
-				if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
-				  new ResourceLocation("${generator.getResourceLocationForModElement(worldType.toString().replace("CUSTOM:", ""))}")))
+				if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${generator.getResourceLocationForModElement(worldType.toString().replace("CUSTOM:", ""))}")))
 					dimensionCriteria = true;
   				</#if>
 				</#list>
@@ -87,7 +86,7 @@ package ${package}.world.features.ores;
 				if(!dimensionCriteria)
 				  return false;
 
-        <#if hasProcedure(data.generateCondition)>
+        			<#if hasProcedure(data.generateCondition)>
 				int x = pos.getX();
 				int y = pos.getY();
 				int z = pos.getZ();
@@ -96,36 +95,37 @@ package ${package}.world.features.ores;
 				</#if>
 
 				return super.generate(world, generator, rand, pos, config);
-				}
-			};
+			}
+		};
 
-			configuredFeature = feature.withConfiguration(new OreFeatureConfig(${name}RuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
-			<#if data.maxGenerateHeight gt 256>
-			.range(256)
-			<#elseif data.maxGenerateHeight lt 0>
-			.range(0)
-			<#else>
-			.range(${data.maxGenerateHeight})
-			</#if>
-			.square().func_242731_b(${data.frequencyPerChunks});
+		configuredFeature = feature.withConfiguration(new OreFeatureConfig(${name}RuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
+		<#if data.maxGenerateHeight gt 256>
+		.range(256)
+		<#elseif data.maxGenerateHeight lt 0>
+		.range(0)
+		<#else>
+		.range(${data.maxGenerateHeight})
+		</#if>
+		.square().func_242731_b(${data.frequencyPerChunks});
 
-			event.getRegistry().register(feature.setRegistryName("${registryname}_ores"));
-			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}_ores"), configuredFeature);
-		}
+		event.getRegistry().register(feature.setRegistryName("${registryname}_ores"));
+		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}_ores"), configuredFeature);
+	}
 
-		@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		  <#if data.restrictionBiomes?has_content>
-		  boolean biomeCriteria = false;
-		  <#list data.restrictionBiomes as restrictionBiome>
-		  <#if restrictionBiome.canProperlyMap()>
-		  if (new ResourceLocation("${restrictionBiome}").equavent.getName())
-		    biomeCriteria = true;
-		  </#if>
-		  </#list>
-		  if (!biomeCriteria)
-		    return;
-		  </#if>
+	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
+		<#if data.restrictionBiomes?has_content>
+		boolean biomeCriteria = false;
+		<#list data.restrictionBiomes as restrictionBiome>
+		<#if restrictionBiome.canProperlyMap()>
+		if (new ResourceLocation("${restrictionBiome}").equavent.getName())
+			biomeCriteria = true;
+		</#if>
+		</#list>
+		if (!biomeCriteria)
+			return;
+		</#if>
 
-		  event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> configuredFeature);
+		event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> configuredFeature);
 	}
 }
+<#-- @formatter:on -->
