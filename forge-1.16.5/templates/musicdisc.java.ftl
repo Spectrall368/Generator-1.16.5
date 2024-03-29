@@ -55,8 +55,6 @@ public class ${name}Item extends MusicDiscItem {
 
 	<@onCrafted data.onCrafted/>
 
-	<@onStoppedUsing data.onStoppedUsing/>
-
 	<@onItemTick data.onItemInUseTick, data.onItemInInventoryTick/>
 
 	<#if data.hasGlow>
