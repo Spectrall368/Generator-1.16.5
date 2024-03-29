@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -71,15 +71,7 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 				}
 
 				public Ingredient getRepairMaterial() {
-					<#if data.repairItems?has_content>
-					return Ingredient.fromStacks(
-						<#list data.repairItems as repairItem>
-						${mappedMCItemToItemStackCode(repairItem,1)}<#sep>,
-						</#list>
-					);
-					<#else>
-					return Ingredient.EMPTY;
-					</#if>
+					return ${mappedMCItemsToIngredient(data.repairItems)};
 				}
 			},
 
@@ -88,17 +80,17 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 			</#if>
 
 				new Item.Properties()
-			 	.group(${data.creativeTab})
-			 	<#if data.immuneToFire>
-			 	.isImmuneToFire()
-			 	</#if>
-		<#elseif data.toolType=="Shears">
+				.group(${data.creativeTab})
+				<#if data.immuneToFire>
+				.isImmuneToFire()
+				</#if>
+		<#elseif data.toolType == "Shears">
 			new ShearsItem(new Item.Properties()
 				.group(${data.creativeTab})
 				.maxDamage(${data.usageCount})
-			 	<#if data.immuneToFire>
-			 	.isImmuneToFire()
-			 	</#if>)
+				<#if data.immuneToFire>
+				.isImmuneToFire()
+				</#if>)
 		</#if>);
 	}
 
@@ -110,11 +102,10 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 		@Override public float getDestroySpeed(ItemStack stack, BlockState blockstate) {
 			return ${data.efficiency}f;
 		}
-
 	<#elseif data.toolType=="MultiTool">
 		@Override public boolean canHarvestBlock(BlockState blockstate) {
-		      return ${data.harvestLevel} >= state.getHarvestLevel();
-		   }
+			return ${data.harvestLevel} >= state.getHarvestLevel();
+		}
 
 		@Override public float getDestroySpeed(ItemStack itemstack, BlockState blockstate) {
 			return ${data.efficiency}f;
@@ -163,16 +154,16 @@ public class ${name}Item extends Item {
 
 	@Override public float getDestroySpeed(ItemStack itemstack, BlockState blockstate) {
 	<#list data.blocksAffected as restrictionBlock>
-        	if (blockstate.getBlock() == ${mappedBlockToBlock(restrictionBlock)})
+                 if (blockstate.getBlock() == ${mappedBlockToBlock(restrictionBlock)})
                  	return ${data.efficiency}f;
-        </#list>
+	</#list>
 		return 1;
 	}
 
 	<@onBlockDestroyedWith data.onBlockDestroyedWithTool, true/>
 
 	<@onEntityHitWith data.onEntityHitWith, true/>
-	
+
 	<@onRightClickedInAir data.onRightClickedInAir/>
 
 	@Override public int getItemEnchantability() {
@@ -207,14 +198,9 @@ public class ${name}Item extends FishingRodItem {
 	}
 
 	<#if data.repairItems?has_content>
-	@Override public boolean getIsRepairable(ItemStack itemstack, ItemStack repairitem) {
-                Item repairItem = repair.getItem();
-                return
-                <#list data.repairItems as repairItem>
-                	repairItem == ${mappedMCItemToItem(repairItem)}
-                	<#if repairItem?has_next>||</#if>
-                </#list>;
-	}
+    	@Override public boolean getIsRepairable(ItemStack itemstack, ItemStack repairitem) {
+			return ${mappedMCItemsToIngredient(data.repairItems)}.test(repairitem);
+    	}
 	</#if>
 
 	@Override public int getItemEnchantability() {
@@ -238,7 +224,7 @@ public class ${name}Item extends FishingRodItem {
 			"itemstack": "itemstack"
 		}/>
 
-		return ActionResult.newResult(world.isRemote() ? ActionResultType.SUCCESS : ActionResultType.FAIL, itemstack);
+		return ActionResult.func_233538_a_(itemstack, world.isRemote());
 	}
 	</#if>
 
@@ -246,6 +232,7 @@ public class ${name}Item extends FishingRodItem {
 }
 </#if>
 </#compress>
+
 <#macro commonMethods>
 	<#if data.stayInGridWhenCrafting>
 		@Override public boolean hasContainerItem() {
@@ -285,8 +272,6 @@ public class ${name}Item extends FishingRodItem {
 	<@onCrafted data.onCrafted/>
 
 	<@onEntitySwing data.onEntitySwing/>
-
-	<@onStoppedUsing data.onStoppedUsing/>
 
 	<@onItemTick data.onItemInUseTick, data.onItemInInventoryTick/>
 
