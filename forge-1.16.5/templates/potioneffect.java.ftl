@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -31,25 +31,14 @@
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
-
 package ${package}.potion;
 
 <#compress>
-public class ${name}PotionEffect extends Effect {
+public class ${name}MobEffect extends MobEffect {
 
-	public ${name}PotionEffect() {
+	public ${name}MobEffect() {
 		super(EffectType.<#if data.isBad>HARMFUL<#elseif data.isBenefitical>BENEFICIAL<#else>NEUTRAL</#if>, ${data.color.getRGB()});
-		}
-
-	@Override public String getName() {
-		return "effect.${modid}.${registryname}";
 	}
-
-	<#if data.isBenefitical>
-		@Override public boolean isBeneficial() {
-			return true;
-		}
-	</#if>
 
 	<#if data.isInstant>
 		@Override public boolean isInstant() {
@@ -60,41 +49,53 @@ public class ${name}PotionEffect extends Effect {
 	<#if hasProcedure(data.onStarted)>
 		<#if data.isInstant>
 			@Override public void affectEntity(Entity source, Entity indirectSource, LivingEntity entity, int amplifier, double health) {
-				World world = entity.world;
-				double x = entity.getPosX();
-				double y = entity.getPosY();
-				double z = entity.getPosZ();
-				<@procedureOBJToCode data.onStarted/>
+				<@procedureCode data.onStarted, {
+					"x": "entity.getPosX()",
+					"y": "entity.getPosY()",
+					"z": "entity.getPosZ()",
+					"world": "entity.world",
+					"entity": "entity",
+					"amplifier": "amplifier"
+				}/>
 			}
 		<#else>
-			@Override public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMapIn, int amplifier) {
-				World world = entity.world;
-				double x = entity.getPosX();
-				double y = entity.getPosY();
-				double z = entity.getPosZ();
-				<@procedureOBJToCode data.onStarted/>
+			@Override public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
+				<@procedureCode data.onStarted, {
+					"x": "entity.getPosX()",
+					"y": "entity.getPosY()",
+					"z": "entity.getPosZ()",
+					"world": "entity.world",
+					"entity": "entity",
+					"amplifier": "amplifier"
+				}/>
 			}
 		</#if>
 	</#if>
 
 	<#if hasProcedure(data.onActiveTick)>
 		@Override public void performEffect(LivingEntity entity, int amplifier) {
-			World world = entity.world;
-			double x = entity.getPosX();
-			double y = entity.getPosY();
-			double z = entity.getPosZ();
-			<@procedureOBJToCode data.onActiveTick/>
+			<@procedureCode data.onActiveTick, {
+				"x": "entity.getPosX()",
+				"y": "entity.getPosY()",
+				"z": "entity.getPosZ()",
+				"world": "entity.world",
+				"entity": "entity",
+				"amplifier": "amplifier"
+			}/>
 		}
 	</#if>
 
 	<#if hasProcedure(data.onExpired)>
-		@Override public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMapIn, int amplifier) {
-			super.removeAttributesModifiersFromEntity(entity, attributeMapIn, amplifier);
-    				World world = entity.world;
-				double x = entity.getPosX();
-				double y = entity.getPosY();
-				double z = entity.getPosZ();
-				<@procedureOBJToCode data.onExpired/>
+		@Override public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
+			super.removeAttributesModifiersFromEntity(entity, attributeMap, amplifier);
+			<@procedureCode data.onExpired, {
+				"x": "entity.getPosX()",
+				"y": "entity.getPosY()",
+				"z": "entity.getPosZ()",
+				"world": "entity.world",
+				"entity": "entity",
+				"amplifier": "amplifier"
+			}/>
 		}
 	</#if>
 
@@ -111,12 +112,12 @@ public class ${name}PotionEffect extends Effect {
 					@Override public boolean shouldRender(EffectInstance effect) {
 						return false;
 					}
-
+		
 					@Override public boolean shouldRenderInvText(EffectInstance effect) {
 						return false;
 					}
 				</#if>
-
+	
 				<#if !data.renderStatusInHUD>
 					@Override public boolean shouldRenderHUD(EffectInstance effect) {
 						return false;
