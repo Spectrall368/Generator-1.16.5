@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -34,11 +34,11 @@ package ${package}.command;
 
 @Mod.EventBusSubscriber public class ${name}Command {
 
-	@SubscribeEvent public static void registerCommands(RegisterCommandsEvent event) {
+	@SubscribeEvent public static void registerCommand(RegisterCommandsEvent event) {
 		event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("${data.commandName}")
 			<#if data.permissionLevel != "No requirement">.requires(s -> s.hasPermissionLevel(${data.permissionLevel}))</#if>
 			${argscode}
 		);
-    	}
+	}
 }
 <#-- @formatter:on -->
