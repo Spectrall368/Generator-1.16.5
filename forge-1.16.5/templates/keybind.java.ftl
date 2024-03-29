@@ -65,7 +65,7 @@ import ${package}.${JavaModName};
 
 	<#if hasProcedure(data.onKeyPressed) || hasProcedure(data.onKeyReleased)>
 	public static void pressAction(PlayerEntity entity, int type, int pressedms) {
-		Level world = entity.world;
+		World world = entity.world;
 		double x = entity.getPosX();
 		double y = entity.getPosY();
 		double z = entity.getPosZ();
