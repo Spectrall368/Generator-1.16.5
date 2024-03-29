@@ -65,13 +65,13 @@ import ${package}.${JavaModName};
 
 	<#if hasProcedure(data.onKeyPressed) || hasProcedure(data.onKeyReleased)>
 	public static void pressAction(PlayerEntity entity, int type, int pressedms) {
-		World world = entity.world;
+		Level world = entity.world;
 		double x = entity.getPosX();
 		double y = entity.getPosY();
 		double z = entity.getPosZ();
 
 		// security measure to prevent arbitrary chunk generation
-		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
+		if (!world.isBlockLoaded(entity.getPosition()))
 			return;
 
 		<#if hasProcedure(data.onKeyPressed)>
