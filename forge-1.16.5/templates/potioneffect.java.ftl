@@ -34,7 +34,7 @@
 package ${package}.potion;
 
 <#compress>
-public class ${name}MobEffect extends MobEffect {
+public class ${name}MobEffect extends Effect {
 
 	public ${name}MobEffect() {
 		super(EffectType.<#if data.isBad>HARMFUL<#elseif data.isBenefitical>BENEFICIAL<#else>NEUTRAL</#if>, ${data.color.getRGB()});
