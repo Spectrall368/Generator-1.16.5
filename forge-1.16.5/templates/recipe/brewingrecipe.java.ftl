@@ -55,7 +55,7 @@ package ${package}.recipes.brewing;
 	@Override public ItemStack getOutput(ItemStack input, ItemStack ingredient) {
 		if (isInput(input) && isIngredient(ingredient)) {
 			<#if data.brewingReturnStack?starts_with("POTION:")>
-			return PotionUtils.setPotion(
+			return PotionUtils.addPotionToItemStack(
 				<#if data.brewingInputStack?starts_with("POTION:")>
 				new ItemStack(input.getItem())
 				<#else>
