@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ public class ${JavaModName}ParticleTypes {
 	public static final DeferredRegister<ParticleType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, ${JavaModName}.MODID);
 
 	<#list particles as particle>
-	public static final RegistryObject<BasicParticleType> ${particle.getModElement().getRegistryNameUpper()} =
+	public static final RegistryObject<SimpleParticleType> ${particle.getModElement().getRegistryNameUpper()} =
 			REGISTRY.register("${particle.getModElement().getRegistryName()}", () -> new BasicParticleType(${particle.alwaysShow}));
 	</#list>
 }
