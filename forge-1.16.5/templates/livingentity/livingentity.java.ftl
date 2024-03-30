@@ -138,7 +138,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		</#if>
 	}
 
-	@Override public Packet<?> createSpawnPacket() {
+	@Override public IPacket<?> createSpawnPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
