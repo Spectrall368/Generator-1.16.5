@@ -4,5 +4,5 @@ global_templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameTabs.java"
 
 localizationkeys:
-  - key: itemGroup.tab@registryname
+  - key: itemGroup.tab_@registryname
     mapto: name
