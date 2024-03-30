@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,31 +29,20 @@
 -->
 
 <#-- @formatter:off -->
-
-<#include "../mcitems.ftl">
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 import net.minecraft.util.SoundEvent;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}Sounds {
+public class ${JavaModName}Sounds {
 
-	public static Map<ResourceLocation, SoundEvent> REGISTRY = new HashMap<>();
+	public static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ${JavaModName}.MODID);
 
-	static {
-		<#list sounds as sound>
-		REGISTRY.put(new ResourceLocation("${modid}" ,"${sound}"), new SoundEvent(new ResourceLocation("${modid}", "${sound}")));
-		</#list>
-	}
-
-	@SubscribeEvent public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-		for (Map.Entry<ResourceLocation, SoundEvent> sound : REGISTRY.entrySet())
-			event.getRegistry().register(sound.getValue().setRegistryName(sound.getKey()));
-	}
+	<#list sounds as sound>
+	public static final RegistryObject<SoundEvent> ${sound.getName()?upper_case?replace(".", "_")?replace("/", "_")?replace(":", "_")?replace("-", "_")} = REGISTRY.register("${sound.getName()}", () ->
+			new SoundEvent(new ResourceLocation("${modid}", "${sound}")));
+	</#list>
 }
-
 <#-- @formatter:on -->
