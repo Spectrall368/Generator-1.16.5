@@ -39,7 +39,7 @@ package ${package}.init;
 	@SubscribeEvent public static void registerParticles(ParticleFactoryRegisterEvent event) {
 		<#list particles as particle>
 		Minecraft.getInstance().particles.registerFactory(${JavaModName}ParticleTypes.${particle.getModElement().getRegistryNameUpper()}.get(),
-					${particle.getModElement().getName()}Particle::provider);
+					${particle.getModElement().getName()}Particle::factory);
 		</#list>
 	}
 }
