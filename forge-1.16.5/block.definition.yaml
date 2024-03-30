@@ -273,38 +273,22 @@ templates:
     condition: "blockBase %= Door"
     writer: json
     name: "@MODASSETSROOT/blockstates/@registryname.json"
-  - template: json/txblock/door_bottom_left.json.ftl
+  - template: json/txblock/door_top.json.ftl
     condition: "blockBase %= Door"
     writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_bottom_left.json"
-  - template: json/txblock/door_bottom_left_open.json.ftl
+    name: "@MODASSETSROOT/models/block/@registryname_top.json"
+  - template: json/txblock/door_top_hinge.json.ftl
     condition: "blockBase %= Door"
     writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_bottom_left_open.json"
-  - template: json/txblock/door_bottom_right.json.ftl
+    name: "@MODASSETSROOT/models/block/@registryname_top_hinge.json"
+  - template: json/txblock/door_bottom.json.ftl
     condition: "blockBase %= Door"
     writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_bottom_right.json"
-  - template: json/txblock/door_bottom_right_open.json.ftl
+    name: "@MODASSETSROOT/models/block/@registryname_bottom.json"
+  - template: json/txblock/door_bottom_hinge.json.ftl
     condition: "blockBase %= Door"
     writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_bottom_right_open.json"
-  - template: json/txblock/door_top_left.json.ftl
-    condition: "blockBase %= Door"
-    writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_top_left.json"
-  - template: json/txblock/door_top_left_open.json.ftl
-    condition: "blockBase %= Door"
-    writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_top_left_open.json"
-  - template: json/txblock/door_top_right.json.ftl
-    condition: "blockBase %= Door"
-    writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_top_right.json"
-  - template: json/txblock/door_top_right_open.json.ftl
-    condition: "blockBase %= Door"
-    writer: json
-    name: "@MODASSETSROOT/models/block/@registryname_top_right_open.json"
+    name: "@MODASSETSROOT/models/block/@registryname_bottom_hinge.json"
 
   # TX: FenceGate templates
   - template: json/txblock/fence_gate_item.json.ftl
