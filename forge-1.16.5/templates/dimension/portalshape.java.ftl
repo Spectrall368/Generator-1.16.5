@@ -34,7 +34,7 @@ package ${package}.world.teleporter;
 
 public class ${name}PortalShape ${mcc.getClassBody("net.minecraft.block.PortalSize")
 	.replace("PortalSize", name + "PortalShape")
-	.replace("blockstate, 18);", "blockstate, 18);\nif (this.world instanceof ServerWorld) ((ServerWorld) this.world).getPointOfInterestManager().add(pos, poi);")
+	.replace("blockstate, 18);", "blockstate, 18);\nif (this.world instanceof ServerWorld) ((ServerWorld) this.world).getPointOfInterestManager().add(pos, " + name + "Teleporter.poi);")
 	.replace("blockstate.isIn(Blocks.NETHER_PORTAL)", "blockstate.getBlock() == " + JavaModName + "Blocks." + registryname?upper_case + "_PORTAL.get()")
 	.replace("state.isIn(BlockTags.FIRE) || state.isIn(Blocks.NETHER_PORTAL)", "state.getBlock() == " + JavaModName + "Blocks." + registryname?upper_case + "_PORTAL.get()")
 	.replace("Blocks.NETHER_PORTAL.getDefaultState()", JavaModName + "Blocks." + registryname?upper_case + "_PORTAL.get().defaultBlockState()")
