@@ -10,8 +10,8 @@ scopes:
     set: <#include "mcitems.ftl"> ${JavaModName}Variables.${name} = ${mappedMCItemToItemStackCode(value, 1)};
   global_world:
     init: public ItemStack ${var.getName()} = ItemStack.EMPTY;
-    read: ${var.getName()} = ItemStack.of(nbt.getCompound("${var.getName()}"));
-    write: nbt.put("${var.getName()}", ${var.getName()}.save(new CompoundNBT()));
+    read: ${var.getName()} = ItemStack.read(nbt.getCompound("${var.getName()}"));
+    write: nbt.put("${var.getName()}", ${var.getName()}.write(new CompoundNBT()));
     get: /*@ItemStack*/${JavaModName}Variables.WorldVariables.get(world).${name}
     set: |
       <#include "mcitems.ftl">
