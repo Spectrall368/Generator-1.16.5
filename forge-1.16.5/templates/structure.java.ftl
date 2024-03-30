@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -30,19 +31,17 @@
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
+package ${package}.world.features;
 
-package ${package}.world.structure;
-
-@Mod.EventBusSubscriber public class ${name}Structure {
+@Mod.EventBusSubscriber public class ${name}Feature {
 
 	private static Feature<NoFeatureConfig> feature = null;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
-
-		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
+		@SubscribeEvent public void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			feature = new Feature<NoFeatureConfig>(NoFeatureConfig.field_236558_a_) {
-				@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, NoFeatureConfig config) {
+				@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
 					int ci = (pos.getX() >> 4) << 4;
 					int ck = (pos.getZ() >> 4) << 4;
 
@@ -88,8 +87,8 @@ package ${package}.world.structure;
 								BlockState blockAt = world.getBlockState(new BlockPos(i, j, k));
 								boolean blockCriteria = false;
 								<#list data.restrictionBlocks as restrictionBlock>
-									if (blockAt.getBlock() == ${mappedBlockToBlock(restrictionBlock)})
-										blockCriteria = true;
+								if (blockAt.getBlock() == ${mappedBlockToBlock(restrictionBlock)})
+									blockCriteria = true;
 								</#list>
 								if (!blockCriteria)
 									continue;
@@ -119,8 +118,7 @@ package ${package}.world.structure;
 							if (template == null)
 								return false;
 
-							template.func_237144_a_(world, spawnTo,
-									new PlacementSettings()
+							template.func_237144_a_(world, spawnTo, new PlacementSettings()
 											.setRotation(rotation)
 											.setRandom(random)
 											.setMirror(mirror)
@@ -139,16 +137,14 @@ package ${package}.world.structure;
 			};
 
 			configuredFeature = feature
-					.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)
+					.withConfiguration(new IFeatureConfig.NO_FEATURE_CONFIG)
 					.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
 
-			event.getRegistry().register(feature.setRegistryName("${registryname}"));
-			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
+			event.getRegistry().register(feature.setRegistryName("${registryname}_structures"));
+			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}_structures"), configuredFeature);
 		}
 
-	}
-
-	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
+	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content>
 				boolean biomeCriteria = false;
 			<#list data.restrictionBiomes as restrictionBiome>
@@ -164,9 +160,7 @@ package ${package}.world.structure;
 		event.getGeneration().getFeatures(GenerationStage.Decoration.
 				<#if data.spawnLocation=="Ground">SURFACE_STRUCTURES
 				<#elseif data.spawnLocation=="Air">RAW_GENERATION
-				<#elseif data.spawnLocation=="Underground">UNDERGROUND_STRUCTURES</#if>)
-			 .add(() -> configuredFeature);
+				<#else>UNDERGROUND_STRUCTURES</#if>).add(() -> configuredFeature);
 	}
-
 }
 <#-- @formatter:on -->
