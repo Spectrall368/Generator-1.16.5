@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -26,12 +27,25 @@
  # to be licensed under the GNU General Public License without this special 
  # exception.
 -->
-public static class TeleporterDimensionMod implements ITeleporter {
+
+<#-- @formatter:off -->
+<#include "../mcitems.ftl">
+package ${package}.world.teleporter;
+
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}Teleporter implements ITeleporter {
+
+	public static final TicketType<BlockPos> CUSTOM_PORTAL = TicketType.create("${registryname}_portal", Vector3i::compareTo, 300);
+	public static PointOfInterestType poi = null;
+
+	@SubscribeEvent public static void registerPointOfInterest(RegistryEvent.Register<PointOfInterestType> event) {
+		poi = new PointOfInterestType("${registryname}_portal", Sets.newHashSet(ImmutableSet.copyOf(${JavaModName}Blocks.${registryname?upper_case}_PORTAL.get().getStateContainer().getValidStates())), 0, 1);
+		ForgeRegistries.POI_TYPES.register(poi);
+	}
 
 	private final ServerWorld world;
 	private final BlockPos entityEnterPos;
 
-	public TeleporterDimensionMod(ServerWorld worldServer, BlockPos entityEnterPos) {
+	public ${name}Teleporter(ServerWorld worldServer, BlockPos entityEnterPos) {
 		this.world = worldServer;
 		this.entityEnterPos = entityEnterPos;
 	}
@@ -39,18 +53,16 @@ public static class TeleporterDimensionMod implements ITeleporter {
 	${mcc.getMethod("net.minecraft.world.Teleporter", "getExistingPortal", "BlockPos", "boolean")
 		.replace("PointOfInterestType.NETHER_PORTAL", "poi")
 		.replace("TicketType.PORTAL", "CUSTOM_PORTAL")
-		.replace("Blocks.NETHER_PORTAL", "portal")}
+		.replace("Blocks.NETHER_PORTAL", JavaModName + "Blocks." + registryname?upper_case + "_PORTAL.get()")}
 
 	${mcc.getMethod("net.minecraft.world.Teleporter", "makePortal", "BlockPos", "Direction.Axis")
 		.replace("Blocks.OBSIDIAN", mappedBlockToBlock(data.portalFrame)?string)
 		.replace(",blockstate,18);", ", blockstate, 18);\nthis.world.getPointOfInterestManager().add(blockpos$mutable, poi);")
-		.replace("Blocks.NETHER_PORTAL", "portal")}
+		.replace("Blocks.NETHER_PORTAL", JavaModName + "Blocks." + registryname?upper_case + "_PORTAL.get()")}
 
 	${mcc.getMethod("net.minecraft.world.Teleporter", "checkRegionForPlacement", "BlockPos", "BlockPos.Mutable", "Direction", "int")}
 
-	@Override
-	public Entity placeEntity(Entity entity, ServerWorld serverworld, ServerWorld server, float yaw,
-			Function<Boolean, Entity> repositionEntity) {
+	@Override public Entity placeEntity(Entity entity, ServerWorld serverworld, ServerWorld server, float yaw, Function<Boolean, Entity> repositionEntity) {
 		PortalInfo portalinfo = getPortalInfo(entity, server);
 
 		if (entity instanceof ServerPlayerEntity) {
@@ -67,8 +79,7 @@ public static class TeleporterDimensionMod implements ITeleporter {
 			Entity entityNew = entity.getType().create(server);
 			if (entityNew != null) {
 				entityNew.copyDataFromOld(entity);
-				entityNew.setLocationAndAngles(portalinfo.pos.x, portalinfo.pos.y, portalinfo.pos.z,
-						portalinfo.rotationYaw, entityNew.rotationPitch);
+				entityNew.setLocationAndAngles(portalinfo.pos.x, portalinfo.pos.y, portalinfo.pos.z, portalinfo.rotationYaw, entityNew.rotationPitch);
 				entityNew.setMotion(portalinfo.motion);
 				server.addFromAnotherDimension(entityNew);
 			}
@@ -92,16 +103,14 @@ public static class TeleporterDimensionMod implements ITeleporter {
 
 			if (blockstate.hasProperty(BlockStateProperties.HORIZONTAL_AXIS)) {
 				direction$axis = blockstate.get(BlockStateProperties.HORIZONTAL_AXIS);
-				TeleportationRepositioner.Result teleportationrepositioner$result = TeleportationRepositioner
-						.findLargestRectangle(this.entityEnterPos, direction$axis, 21, Direction.Axis.Y, 21,
-								pos -> entity.world.getBlockState(pos) == blockstate);
-				vector3d = CustomPortalSize.func_242973_a(teleportationrepositioner$result, direction$axis, entity.getPositionVec(), entity.getSize(entity.getPose()));
+				TeleportationRepositioner.Result teleportationrepositioner$result = TeleportationRepositioner.findLargestRectangle(this.entityEnterPos, direction$axis, 21, Direction.Axis.Y, 21, pos -> entity.world.getBlockState(pos) == blockstate);
+				vector3d = ${name}PortalShape.func_242973_a(teleportationrepositioner$result, direction$axis, entity.getPositionVec(), entity.getSize(entity.getPose()));
 			} else {
 				direction$axis = Direction.Axis.X;
 				vector3d = new Vector3d(0.5, 0, 0);
 			}
 
-			return CustomPortalSize.func_242963_a(server, repositioner, direction$axis, vector3d, entity.getSize(entity.getPose()),
+			return ${name}PortalShape.func_242963_a(server, repositioner, direction$axis, vector3d, entity.getSize(entity.getPose()),
 							entity.getMotion(), entity.rotationYaw, entity.rotationPitch);
 		}).orElse(new PortalInfo(entity.getPositionVec(), Vector3d.ZERO, entity.rotationYaw, entity.rotationPitch));
 	}
@@ -120,5 +129,5 @@ public static class TeleporterDimensionMod implements ITeleporter {
 			return optional;
 		}
 	}
-
 }
+<#-- @formatter:on -->
