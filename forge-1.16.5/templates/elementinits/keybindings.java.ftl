@@ -29,7 +29,6 @@
 -->
 
 <#-- @formatter:off -->
-
 <#include "../procedures.java.ftl">
 /*
  *    MCreator note: This file will be REGENERATED on each build.
@@ -41,37 +40,7 @@ package ${package}.init;
     <#list keybinds as keybind>
 	public static final KeyBinding ${keybind.getModElement().getRegistryNameUpper()} = new KeyBinding(
 			"key.${modid}.${keybind.getModElement().getRegistryName()}", GLFW.GLFW_KEY_${generator.map(keybind.triggerKey, "keybuttons")},
-			"key.categories.${keybind.keyBindingCategoryKey}")
-				<#if hasProcedure(keybind.onKeyReleased) || hasProcedure(keybind.onKeyPressed)>
-				{
-					private boolean isDownOld = false;
-
-					@Override public void setDown(boolean isDown) {
-						super.setDown(isDown);
-
-						if (isDownOld != isDown && isDown) {
-							<#if hasProcedure(keybind.onKeyPressed)>
-								${JavaModName}.PACKET_HANDLER.sendToServer(new ${keybind.getModElement().getName()}Message(0, 0));
-								${keybind.getModElement().getName()}Message.pressAction(Minecraft.getInstance().player, 0, 0);
-							</#if>
-
-							<#if hasProcedure(keybind.onKeyReleased)>
-								${keybind.getModElement().getRegistryNameUpper()}_LASTPRESS = System.currentTimeMillis();
-							</#if>
-						}
-						<#if hasProcedure(keybind.onKeyReleased)>
-						else if (isDownOld != isDown && !isDown) {
-							int dt = (int) (System.currentTimeMillis() - ${keybind.getModElement().getRegistryNameUpper()}_LASTPRESS);
-							${JavaModName}.PACKET_HANDLER.sendToServer(new ${keybind.getModElement().getName()}Message(1, dt));
-							${keybind.getModElement().getName()}Message.pressAction(Minecraft.getInstance().player, 1, dt);
-						}
-						</#if>
-
-						isDownOld = isDown;
-					}
-				}
-				</#if>
-			;
+			"key.categories.${keybind.keyBindingCategoryKey}");
     </#list>
 
 	<#list keybinds as keybind>
@@ -80,19 +49,37 @@ package ${package}.init;
 		</#if>
 	</#list>
 
-	@SubscribeEvent public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+	@SubscribeEvent public static void registerKeyBindings(FMLClientSetupEvent event) {
 		<#list keybinds as keybind>
-			event.register(${keybind.getModElement().getRegistryNameUpper()});
+			ClientRegistry.registerKeyBinding(${keybind.getModElement().getRegistryNameUpper()});
 		</#list>
 	}
 
 	@Mod.EventBusSubscriber({Dist.CLIENT}) public static class KeyEventListener {
 
-		@SubscribeEvent public static void onClientTick(TickEvent.ClientTickEvent event) {
-			if (Minecraft.getInstance().screen == null) {
+		@SubscribeEvent public static void onKeyInput(InputEvent.KeyInputEvent event) {
+			if (Minecraft.getInstance().currentScreen == null) {
 			<#list keybinds as keybind>
 				<#if hasProcedure(keybind.onKeyPressed) || hasProcedure(keybind.onKeyReleased)>
-					${keybind.getModElement().getRegistryNameUpper()}.consumeClick();
+					if (event.getKey() == ${keybind.getModElement().getRegistryNameUpper()}.getKey().getKeyCode()) {
+						if(event.getAction() == GLFW.GLFW_PRESS) {
+								<#if hasProcedure(keybind.onKeyPressed)>
+									${JavaModName}.PACKET_HANDLER.sendToServer(new ${keybind.getModElement().getName()}Message(0, 0));
+									${keybind.getModElement().getName()}Message.pressAction(Minecraft.getInstance().player, 0, 0);
+								</#if>
+
+								<#if hasProcedure(keybind.onKeyReleased)>
+								${keybind.getModElement().getRegistryNameUpper()}_LASTPRESS = System.currentTimeMillis();
+								</#if>
+						}
+						<#if hasProcedure(keybind.onKeyReleased)>
+						else if (event.getAction() == GLFW.GLFW_RELEASE) {
+							int dt = (int) (System.currentTimeMillis() - ${keybind.getModElement().getRegistryNameUpper()}_LASTPRESS);
+							${JavaModName}.PACKET_HANDLER.sendToServer(new ${keybind.getModElement().getName()}Message(1, dt));
+								${keybind.getModElement().getName()}Message.pressAction(Minecraft.getInstance().player, 1, dt);
+						}
+						</#if>
+					}
 				</#if>
 			</#list>
 			}
