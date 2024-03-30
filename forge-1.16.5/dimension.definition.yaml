@@ -1,6 +1,23 @@
 templates:
-  - template: dimension.java.ftl
+  - template: dimension/dimension.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/world/dimension/@NAMEDimension.java"
+  - template: dimension/teleporter.java.ftl
+    condition: enablePortal
+    deleteWhenConditionFalse: true
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/teleporter/@NAMETeleporter.java"
+  - template: dimension/portalshape.java.ftl
+    condition: enablePortal
+    deleteWhenConditionFalse: true
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/teleporter/@NAMEPortalShape.java"
+  - template: dimension/blockportal.java.ftl
+    condition: enablePortal
+    deleteWhenConditionFalse: true
+    name: "@SRCROOT/@BASEPACKAGEPATH/block/@NAMEPortalBlock.java"
+  - template: dimension/portaltrigger.java.ftl
+    condition: enablePortal
+    deleteWhenConditionFalse: true
+    name: "@SRCROOT/@BASEPACKAGEPATH/item/@NAMEItem.java"
+
   - template: json/dimension/dimension_type.json.ftl
     writer: json
     name: "@MODDATAROOT/dimension_type/@registryname.json"
@@ -16,10 +33,7 @@ templates:
     writer: json
     condition: "worldGenType %= End like gen"
     name: "@MODDATAROOT/dimension/@registryname.json"
-  - template: dimension/portaltrigger.java.ftl
-    condition: enablePortal
-    deleteWhenConditionFalse: true
-    name: "@SRCROOT/@BASEPACKAGEPATH/item/@NAMEItem.java"
+
   - template: json/dimension_portal.json.ftl
     writer: json
     name: "@MODASSETSROOT/blockstates/@registryname_portal.json"
