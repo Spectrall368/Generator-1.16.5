@@ -39,9 +39,9 @@ package ${package}.world.features;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
-		@SubscribeEvent public void registerFeature(RegistryEvent.Register<Feature<?>> event) {
+		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			feature = new Feature<NoFeatureConfig>(NoFeatureConfig.field_236558_a_) {
-				@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+				@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, NoFeatureConfig config) {
 					int ci = (pos.getX() >> 4) << 4;
 					int ck = (pos.getZ() >> 4) << 4;
 
@@ -137,14 +137,14 @@ package ${package}.world.features;
 			};
 
 			configuredFeature = feature
-					.withConfiguration(new IFeatureConfig.NO_FEATURE_CONFIG)
+					.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)
 					.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG));
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}_structures"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}_structures"), configuredFeature);
 		}
 
-	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
+	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content>
 				boolean biomeCriteria = false;
 			<#list data.restrictionBiomes as restrictionBiome>
