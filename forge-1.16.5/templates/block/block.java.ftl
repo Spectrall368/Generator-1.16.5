@@ -705,11 +705,11 @@ public class ${name}Block extends
 		@OnlyIn(Dist.CLIENT) public static void blockColorLoad(ColorHandlerEvent.Block event) {
 			event.getBlockColors().register((bs, world, pos, index) -> {
 				<#if data.tintType == "Default foliage">
-					return FoliageColor.getDefault();
+					return FoliageColors.getDefault();
 				<#elseif data.tintType == "Birch foliage">
-					return FoliageColor.getBirch();
+					return FoliageColors.getBirch();
 				<#elseif data.tintType == "Spruce foliage">
-					return FoliageColor.getSpruce();
+					return FoliageColors.getSpruce();
 				<#else>
 					return world != null && pos != null ?
 					<#if data.tintType == "Grass">
