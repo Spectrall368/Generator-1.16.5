@@ -39,7 +39,7 @@ public class ${JavaModName}ParticleTypes {
 	public static final DeferredRegister<ParticleType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, ${JavaModName}.MODID);
 
 	<#list particles as particle>
-	public static final RegistryObject<SimpleParticleType> ${particle.getModElement().getRegistryNameUpper()} =
+	public static final RegistryObject<BasicParticleType> ${particle.getModElement().getRegistryNameUpper()} =
 			REGISTRY.register("${particle.getModElement().getRegistryName()}", () -> new BasicParticleType(${particle.alwaysShow}));
 	</#list>
 }
