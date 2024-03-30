@@ -38,8 +38,7 @@ package ${package}.world.features;
 	private static Feature<NoFeatureConfig> feature = null;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
-		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
+		@SubscribeEvent public void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			feature = new Feature<NoFeatureConfig>(NoFeatureConfig.field_236558_a_) {
 				@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, NoFeatureConfig config) {
 					int ci = (pos.getX() >> 4) << 4;
@@ -144,7 +143,7 @@ package ${package}.world.features;
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}_structures"), configuredFeature);
 		}
 
-	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
+	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content>
 				boolean biomeCriteria = false;
 			<#list data.restrictionBiomes as restrictionBiome>
