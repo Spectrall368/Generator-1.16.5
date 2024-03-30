@@ -77,7 +77,7 @@ package ${package}.init;
 	@SubscribeEvent public static void registerAttributes(EntityAttributeCreationEvent event) {
 		<#list entities as entity>
 			<#if entity.getModElement().getTypeString() == "livingentity">
-				event.put(${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Entity.createAttributes().build());
+				event.put(${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Entity.createAttributes().create());
 			</#if>
 		</#list>
 	}
