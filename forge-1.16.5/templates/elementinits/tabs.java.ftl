@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,13 +29,10 @@
 -->
 
 <#-- @formatter:off -->
-
 <#include "../mcitems.ftl">
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}Tabs {
@@ -46,7 +43,7 @@ public class ${JavaModName}Tabs {
 
 	public static void load() {
         <#list tabs as tab>
-        TAB_${tab.getModElement().getRegistryNameUpper()} = new ItemGroup("tab${tab.getModElement().getRegistryName()}") {
+        TAB_${tab.getModElement().getRegistryNameUpper()} = new ItemGroup("tab_${tab.getModElement().getRegistryName()}") {
 			@Override public ItemStack createIcon() {
 				return ${mappedMCItemToItemStackCode(tab.icon, 1)};
 			}
@@ -57,7 +54,5 @@ public class ${JavaModName}Tabs {
         }<#if tab.showSearch>.setBackgroundImageName("item_search.png")</#if>;
         </#list>
     }
-
 }
-
 <#-- @formatter:on -->
