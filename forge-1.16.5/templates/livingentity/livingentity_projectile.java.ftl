@@ -50,7 +50,7 @@ package ${package}.entity;
 		super(type, entity, world);
 	}
 
-	@Override public Packet<?> createSpawnPacket() {
+	@Override public IPacket<?> createSpawnPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
