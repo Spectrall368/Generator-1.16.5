@@ -1,6 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
- # Copyright (C) 2020 Pylo and contributors
+ # Copyright (C) 2012-2020, Pylo
+ # Copyright (C) 2020-2022, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -27,37 +28,43 @@
  # exception.
 -->
 
-public static class CustomPortalBlock extends NetherPortalBlock {
+<#-- @formatter:off -->
+<#include "../procedures.java.ftl">
+package ${package}.block;
 
-	public CustomPortalBlock() {
+public class ${name}PortalBlock extends NetherPortalBlock {
+
+	public ${name}PortalBlock() {
 		super(Block.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly()
 				.hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel(s -> ${data.portalLuminance}).noDrops());
-		setRegistryName("${registryname}_portal");
 	}
 
+	<#if hasProcedure(data.onPortalTickUpdate)>
 	@Override public void tick(BlockState blockstate, ServerWorld world, BlockPos pos, Random random) {
-		<#if hasProcedure(data.onPortalTickUpdate)>
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
-			<@procedureOBJToCode data.onPortalTickUpdate/>
-		</#if>
+		<@procedureCode data.onPortalTickUpdate, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"world": "world",
+			"blockstate": "blockstate"
+		}/>
 	}
+	</#if>
 
 	<#-- Prevent ZOMBIFIED_PIGLINs from spawning -->
 	@Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 	}
 
 	public void portalSpawn(World world, BlockPos pos) {
-		Optional<CustomPortalSize> optional = CustomPortalSize.func_242964_a(world, pos, Direction.Axis.X);
+		Optional<${name}PortalShape> optional = ${name}PortalShape.func_242964_a(world, pos, Direction.Axis.X);
 		if (optional.isPresent()) {
 			optional.get().placePortalBlocks();
 		}
 	}
 
 	@Override ${mcc.getMethod("net.minecraft.block.NetherPortalBlock", "updatePostPlacement", "BlockState", "Direction", "BlockState", "IWorld", "BlockPos", "BlockPos")
-				   .replace("new PortalSize(", "new CustomPortalSize(")
-				   .replace("NetherPortalBlock.", "CustomPortalBlock.")}
+				   .replace("new PortalSize(", "new "+name+"PortalShape(")
+				   .replace("NetherPortalBlock.", name + "PortalBlock.")}
 
 	@OnlyIn(Dist.CLIENT) @Override public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
 		for (int i = 0; i < 4; i++) {
@@ -82,10 +89,8 @@ public static class CustomPortalBlock extends NetherPortalBlock {
 		<#if data.portalSound.toString()?has_content>
 		if (random.nextInt(110) == 0)
 			world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-					(net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS
-							.getValue(new ResourceLocation(("${data.portalSound}"))), SoundCategory.BLOCKS, 0.5f,
-					random.nextFloat() * 0.4F + 0.8F, false);
-        </#if>
+					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(("${data.portalSound}"))), SoundCategory.BLOCKS, 0.5f, random.nextFloat() * 0.4F + 0.8F, false);
+        	</#if>
 	}
 
 	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
@@ -104,14 +109,9 @@ public static class CustomPortalBlock extends NetherPortalBlock {
 	}
 
 	private void teleportToDimension(Entity entity, BlockPos pos, RegistryKey<World> destinationType) {
-		entity.changeDimension(entity.getServer().getWorld(destinationType), new TeleporterDimensionMod(entity.getServer().getWorld(destinationType), pos));
+		entity.changeDimension(entity.getServer().getWorld(destinationType), new ${name}Teleporter(entity.getServer().getWorld(destinationType), pos));
 	}
-
 }
-
-	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
-		RenderTypeLookup.setRenderLayer(portal, RenderType.getTranslucent());
-	}
 
 public static class CustomPortalSize ${mcc.getClassBody("net.minecraft.block.PortalSize")
 	.replace("PortalSize", "CustomPortalSize")
