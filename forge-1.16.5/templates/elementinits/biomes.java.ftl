@@ -29,11 +29,10 @@
 -->
 
 <#-- @formatter:off -->
-<#include "../mcitems.ftl">
+package ${package}.init;
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-package ${package}.init;
 <#assign spawn_overworld = []>
 <#list biomes as biome>
 	<#if biome.spawnBiome>
@@ -50,7 +49,7 @@ public class ${JavaModName}Biomes {
 
     <#list biomes as biome>
     public static final RegistryObject<Biome> ${biome.getModElement().getRegistryNameUpper()}
-        = REGISTRY.register("${biome.getModElement().getRegistryName()}", ${biome.getModElement().getName()}Biome.createBiome());
+        = REGISTRY.register("${biome.getModElement().getRegistryName()}", () -> ${biome.getModElement().getName()}Biome.createBiome());
     </#list>
 
     <#if spawn_overworld?has_content>
