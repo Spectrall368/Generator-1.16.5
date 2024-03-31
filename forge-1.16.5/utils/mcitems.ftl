@@ -86,7 +86,7 @@
         </#list>
 
         <#if itemsOnly>
-            <#assign retval = "Ingredient.fromItems(">
+            <#assign retval = "Ingredient.fromStacks(">
             <#list mappedBlocks as mappedBlock>
                 <#assign retval += mappedMCItemToItemStackCode(mappedBlock, 1)>
 
