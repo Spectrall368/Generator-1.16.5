@@ -96,7 +96,7 @@
 	<#if data.spawnNetherBridge><#assign retval = retval + ["minecraft:fortress"] /></#if>
 	<#if data.spawnNetherFossil><#assign retval = retval + ["minecraft:nether_fossil"] /></#if>
 	<#if data.spawnBastionRemnant><#assign retval = retval + ["minecraft:bastion_remnant"] /></#if>
-	<#if data.spawnEndCity><#assign retval = retval + ["minecraft:end_city"] /></#if>
+	<#if data.spawnEndCity><#assign retval = retval + ["minecraft:endcity"] /></#if>
 	<#if data.spawnRuinedPortal != "NONE"><#assign retval = retval + ["minecraft:ruined_portal_${data.spawnRuinedPortal?lower_case}"] /></#if>
 	<#if data.villageType != "none"><#assign retval = retval + ["minecraft:village_${data.villageType}"] /></#if>
 	<#return retval>
