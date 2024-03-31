@@ -51,6 +51,10 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 	}
 	</#if>
 
+	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}_PORTAL.get(), RenderType.getCutout());
+	}
+
 	<#-- Prevent ZOMBIFIED_PIGLINs from spawning -->
 	@Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 	}
