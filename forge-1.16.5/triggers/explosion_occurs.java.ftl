@@ -1,16 +1,14 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onExplode(ExplosionEvent.Detonate event) {
-		World world = event.getWorld();
-		Explosion explosion = event.getExplosion();
-		double i=explosion.getPosition().x;
-		double j=explosion.getPosition().y;
-		double k=explosion.getPosition().z;
-		Map<String, Object> dependencies = new HashMap<>();
-		dependencies.put("x",i);
-		dependencies.put("y",j);
-		dependencies.put("z",k);
-		dependencies.put("world",world);
-		dependencies.put("event",event);
-		executeProcedure(dependencies);
+		<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+			"x": "event.getExplosion().getPosition().x",
+			"y": "event.getExplosion().getPosition().y",
+			"z": "event.getExplosion().getPosition().z",
+			"world": "event.getWorld()",
+			"event": "event"
+			}/>
+		</#compress></#assign>
+		execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 	}
-}
