@@ -1,6 +1,6 @@
 _default: Effects.SPEED
 _mcreator_prefix: "CUSTOM:"
-_mcreator_map_template: "@JavaModNamePotionEffects.@REGISTRYNAME.get()"
+_mcreator_map_template: "@JavaModNameMobEffects.@REGISTRYNAME.get()"
 SPEED: Effects.SPEED
 SLOWNESS: Effects.SLOWNESS
 HASTE: Effects.HASTE
