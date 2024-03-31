@@ -6,7 +6,7 @@ templates:
   - template: fluid/fluidattributes.java.ftl
     deleteWhenConditionFalse: true
     condition: extendsFluidAttributes()
-    name: "@SRCROOT/@BASEPACKAGEPATH/fluid/types/@NAMEFluidAttributes.java"
+    name: "@SRCROOT/@BASEPACKAGEPATH/fluid/attributes/@NAMEFluidAttributes.java"
   - template: fluid/fluidbucket.java.ftl
     deleteWhenConditionFalse: true
     condition: generateBucket
