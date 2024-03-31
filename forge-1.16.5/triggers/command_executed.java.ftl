@@ -1,21 +1,20 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onCommand(CommandEvent event) {
 		Entity entity = event.getParseResults().getContext().getSource().getEntity();
 		if (entity != null) {
-			double i = entity.getPosX();
-			double j = entity.getPosY();
-			double k = entity.getPosZ();
-		    CommandContext<CommandSource> ctx = event.getParseResults().getContext().build(event.getParseResults().getReader().getString());
-			Map<String, Object> dependencies = new HashMap<>();
-			dependencies.put("x",i);
-			dependencies.put("y",j);
-			dependencies.put("z",k);
-			dependencies.put("world",entity.world);
-			dependencies.put("entity",entity);
-			dependencies.put("command",event.getParseResults().getReader().getString());
-		    dependencies.put("arguments", ctx);
-			dependencies.put("event",event);
-			executeProcedure(dependencies);
+			<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+				"x": "entity.getPosX()",
+				"y": "entity.getPosY()",
+				"z": "entity.getPosZ()",
+				"world": "entity.world",
+				"entity": "entity",
+				"command": "event.getParseResults().getReader().getString()",
+				"arguments": "event.getParseResults().getContext().build(event.getParseResults().getReader().getString())",
+				"event": "event"
+				}/>
+			</#compress></#assign>
+			execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 		}
 	}
-}
