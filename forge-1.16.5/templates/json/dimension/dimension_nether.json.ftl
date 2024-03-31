@@ -12,7 +12,7 @@
       "bedrock_roof_position": 0,
       "bedrock_floor_position": 0,
       "sea_level": 32,
-      "disable_mob_generation": ${!data.imitateOverworldBehaviour},
+      "disable_mob_generation": false,
       "default_block": ${mappedMCItemToBlockStateJSON(data.mainFillerBlock)},
       "default_fluid": ${mappedMCItemToBlockStateJSON(data.fluidBlock)},
       "noise": {
