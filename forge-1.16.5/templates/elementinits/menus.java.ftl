@@ -36,7 +36,7 @@ package ${package}.init;
 
 public class ${JavaModName}Menus {
 
-	public static final DeferredRegister<ContainerType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.CONTAINER_TYPES, ${JavaModName}.MODID);
+	public static final DeferredRegister<ContainerType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.CONTAINERS, ${JavaModName}.MODID);
 
 	<#list guis as gui>
 	public static final RegistryObject<ContainerType<${gui.getModElement().getName()}Menu>> ${gui.getModElement().getRegistryNameUpper()}
