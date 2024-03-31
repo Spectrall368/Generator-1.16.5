@@ -38,7 +38,7 @@ package ${package}.world.teleporter;
 	public static PointOfInterestType poi = null;
 
 	@SubscribeEvent public static void registerPointOfInterest(RegistryEvent.Register<PointOfInterestType> event) {
-		poi = new PointOfInterestType("${registryname}_portal", Sets.newHashSet(ImmutableSet.copyOf(${JavaModName}Blocks.${registryname?upper_case}_PORTAL.get().getStateContainer().getValidStates())), 0, 1);
+		poi = new PointOfInterestType("${registryname}_portal", Sets.newHashSet(ImmutableSet.copyOf(${JavaModName}Blocks.${registryname?upper_case}_PORTAL.get().getStateContainer().getValidStates())), 0, 1).setRegistryName("${registryname}_portal");
 		ForgeRegistries.POI_TYPES.register(poi);
 	}
 
