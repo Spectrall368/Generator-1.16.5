@@ -47,7 +47,7 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 		if (!this.checkLootAndRead(compound))
 			this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 
-		ContainerHelper.loadAllItems(compound, this.stacks);
+		ItemStackHelper.loadAllItems(compound, this.stacks);
 
 		<#if data.hasEnergyStorage>
 		if(compound.get("energyStorage") != null)
@@ -56,11 +56,11 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 
 		<#if data.isFluidTank>
 		if(compound.get("fluidTank") != null)
-			CapabilityEnergy.FLUID_HANDLER_CAPABILITY.readNBT(fluidTank, null, compound.get("fluidTank"));
+			CapabilityEnergy.ENERGY.readNBT(fluidTank, null, compound.get("fluidTank"));
 		</#if>
 	}
 
-	@Override public void write(CompoundNBT compound) {
+	@Override public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 
 		if (!this.checkLootAndWrite(compound)) {
@@ -163,7 +163,7 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 		@Override public int extractEnergy(int maxExtract, boolean simulate) {
 			int retval = super.extractEnergy(maxExtract, simulate);
 			if(!simulate) {
-				setChanged();
+				markDirty();
 				world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 2);
 			}
 			return retval;
@@ -203,16 +203,16 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
     </#if>
 
 	@Override public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		if (!this.removed && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return handlers[facing.ordinal()].cast();
 
 		<#if data.hasEnergyStorage>
-		if (!this.remove && capability == CapabilityEnergy.ENERGY)
+		if (!this.removed && capability == CapabilityEnergy.ENERGY)
 			return LazyOptional.of(() -> energyStorage).cast();
         </#if>
 
 		<#if data.isFluidTank>
-		if (!this.remove && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+		if (!this.removed && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return LazyOptional.of(() -> fluidTank).cast();
         </#if>
 
