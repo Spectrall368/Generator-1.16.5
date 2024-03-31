@@ -422,7 +422,7 @@ public class ${name}Block extends
 
 	<#if data.isReplaceable>
 	@Override public boolean isReplaceable(BlockState state, BlockItemUseContext context) {
-		return context.getItem() != this.asItem();
+		return context.getItem().getItem() != this.asItem();
 	}
 	</#if>
 
@@ -696,7 +696,7 @@ public class ${name}Block extends
 	    @Override public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
 			TileEntity tileentity = world.getTileEntity(pos);
 			if (tileentity instanceof ${name}BlockEntity)
-				return AbstractContainerMenu.getRedstoneSignalFromContainer(((${name}BlockEntity) tileentity));
+				return Container.calcRedstoneFromInventory(((${name}BlockEntity) tileentity));
 			else
 				return 0;
 		}
