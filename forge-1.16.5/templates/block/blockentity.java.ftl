@@ -74,6 +74,8 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 		<#if data.isFluidTank>
 		compound.put("fluidTank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(fluidTank, null));
 		</#if>
+
+   		return compound;
 	}
 
 	@Override public SUpdateTileEntityPacket getUpdatePacket() {
