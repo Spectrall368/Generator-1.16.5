@@ -33,8 +33,6 @@
 package ${package}.block;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraftforge.common.property.Properties;
 
 public class ${name}Block extends FlowingFluidBlock {
 	public ${name}Block() {
