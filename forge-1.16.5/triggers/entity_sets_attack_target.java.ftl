@@ -1,15 +1,16 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onEntitySetsAttackTarget(LivingSetAttackTargetEvent event) {
-		LivingEntity entity=event.getTarget();
-		LivingEntity sourceentity=event.getEntityLiving();
-		Map<String, Object> dependencies = new HashMap<>();
-		dependencies.put("x", sourceentity.getPosX());
-		dependencies.put("y", sourceentity.getPosY());
-		dependencies.put("z", sourceentity.getPosZ());
-		dependencies.put("world", sourceentity.getEntityWorld());
-		dependencies.put("entity", entity);
-		dependencies.put("sourceentity", sourceentity);
-		dependencies.put("event", event);
-		executeProcedure(dependencies);
+		<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+			"x": "event.getTarget().getPosX()",
+			"y": "event.getTarget().getPosY()",
+			"z": "event.getTarget().getPosZ()",
+			"world": "event.getEntityLiving().getEntityWorld()",
+			"entity": "event.getTarget()",
+			"sourceentity": "event.getEntityLiving()",
+			"event": "event"
+			}/>
+		</#compress></#assign>
+		execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 	}
-}
