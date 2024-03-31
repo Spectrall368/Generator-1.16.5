@@ -1,11 +1,13 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onWorldTick(TickEvent.WorldTickEvent event) {
 		if (event.phase==TickEvent.Phase.END) {
-			IWorld world=event.world;
-			Map<String, Object> dependencies = new HashMap<>();
-			dependencies.put("world",world);
-			dependencies.put("event",event);
-			executeProcedure(dependencies);
+			<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+				"world": "event.world",
+				"event": "event"
+				}/>
+			</#compress></#assign>
+			execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 		}
 	}
-}
