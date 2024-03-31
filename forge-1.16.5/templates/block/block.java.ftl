@@ -177,18 +177,18 @@ public class ${name}Block extends
 	<#if data.transparencyType != "SOLID">
 	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
 		<#if data.transparencyType == "CUTOUT">
-		RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
 		<#elseif data.transparencyType == "CUTOUT_MIPPED">
-		RenderTypeLookup.setRenderLayer(block, RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutoutMipped());
 		<#elseif data.transparencyType == "TRANSLUCENT">
-		RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent());
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getTranslucent());
 		<#else>
-		RenderTypeLookup.setRenderLayer(block, RenderType.getSolid());
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getSolid());
 		</#if>
 	}
 	<#elseif data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
 	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
-		RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
 	}
 	</#if>
 
