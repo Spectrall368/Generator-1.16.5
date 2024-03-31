@@ -663,7 +663,7 @@ public class ${name}Block extends
 			return true;
 		}
 
-		@Override public TileEntity createTileEntity(BlockPos pos, BlockState state) {
+		@Override public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		    return new ${name}BlockEntity();
 		}
 
