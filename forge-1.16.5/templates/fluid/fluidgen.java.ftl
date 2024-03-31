@@ -77,7 +77,7 @@ package ${package}.world.features.lakes;
 			};
 
 			configuredFeature = feature
-		  		.withConfiguration(new BlockStateFeatureConfig(${JavaModName}Fluids.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()))
+		  		.withConfiguration(new BlockStateFeatureConfig(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()))
 		 		.withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(${data.frequencyOnChunks})));
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}_lakes"));
