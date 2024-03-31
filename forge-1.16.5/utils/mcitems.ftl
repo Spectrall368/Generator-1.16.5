@@ -117,7 +117,7 @@
     <#return (extension?has_content)?then("_" + extension, "")>
 </#function>
 
-<#function mappedMCItemToItemObjectJSON mappedBlock>
+<#function mappedMCItemToIngameItemName mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("CUSTOM:")>
         <#assign customelement = generator.getRegistryNameFromFullName(mappedBlock.getUnmappedValue())!""/>
         <#if customelement?has_content>
@@ -130,7 +130,7 @@
     <#elseif mappedBlock.getUnmappedValue().startsWith("TAG:")>
         <#return "\"tag\": \"" + mappedBlock.getUnmappedValue().replace("TAG:", "")?lower_case + "\"">
     <#else>
-        <#assign mapped = mappedBlock.getMappedValue(1) />
+        <#assign mapped = generator.map(mappedBlock.getUnmappedValue(), "blocksitems", 1) />
         <#if mapped.startsWith("#")>
             <#return "\"tag\": \"" + mapped.replace("#", "") + "\"">
         <#elseif mapped.contains(":")>
@@ -141,7 +141,7 @@
     </#if>
 </#function>
 
-<#function mappedMCItemToRegistryName mappedBlock>
+<#function mappedMCItemToIngameNameNoTags mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("CUSTOM:")>
         <#assign customelement = generator.getRegistryNameFromFullName(mappedBlock.getUnmappedValue())!""/>
         <#if customelement?has_content>
@@ -152,7 +152,7 @@
     <#elseif mappedBlock.getUnmappedValue().startsWith("TAG:")>
         <#return "minecraft:air">
     <#else>
-        <#assign mapped = mappedBlock.getMappedValue(1) />
+        <#assign mapped = generator.map(mappedBlock.getUnmappedValue(), "blocksitems", 1) />
         <#if mapped.startsWith("#")>
             <#return "minecraft:air">
         <#elseif mapped.contains(":")>
@@ -165,7 +165,7 @@
 
 <#function mappedMCItemToBlockStateJSON mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("CUSTOM:")>
-        <#assign mcitemresourcepath = mappedMCItemToRegistryName(mappedBlock)/>
+        <#assign mcitemresourcepath = mappedMCItemToIngameNameNoTags(mappedBlock)/>
         <#assign ge = w.getWorkspace().getModElementByName(generator.getElementPlainName(mappedBlock.getUnmappedValue()))/>
         <#if ge??>
             <#assign ge = ge.getGeneratableElement() />
@@ -273,7 +273,7 @@
             </#if>
         </#if>
     <#elseif !mappedBlock.getUnmappedValue().startsWith("TAG:")>
-        <#assign mapped = mappedBlock.getMappedValue(1) />
+        <#assign mapped = generator.map(mappedBlock.getUnmappedValue(), "blocksitems", 1) />
         <#if !mapped.startsWith("#")>
             <#if !mapped.contains(":")>
                 <#assign mapped = "minecraft:" + mapped />
