@@ -1,5 +1,5 @@
 <#-- @formatter:off -->
-<#include "../../mcitems.ftl">
+<#include "../mcitems.ftl">
 <#import "multi_noise.json.ftl" as ms>
 {
   "type": "${modid}:${registryname}",
@@ -12,7 +12,7 @@
       "bedrock_roof_position": -10,
       "bedrock_floor_position": 0,
       "sea_level": 63,
-      "disable_mob_generation": ${!data.imitateOverworldBehaviour},
+      "disable_mob_generation": false,
       "default_block": ${mappedMCItemToBlockStateJSON(data.mainFillerBlock)},
       "default_fluid": ${mappedMCItemToBlockStateJSON(data.fluidBlock)},
       "noise": {
