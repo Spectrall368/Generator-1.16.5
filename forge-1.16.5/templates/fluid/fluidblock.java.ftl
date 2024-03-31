@@ -65,7 +65,7 @@ public class ${name}Block extends FlowingFluidBlock {
 		return true;
 	}
 	<#elseif data.lightOpacity != 1>
-	@Override public int getOpacity(BlockState state, BlockGetter worldIn, BlockPos pos) {
+	@Override public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
 		return ${data.lightOpacity};
 	}
 	</#if>
