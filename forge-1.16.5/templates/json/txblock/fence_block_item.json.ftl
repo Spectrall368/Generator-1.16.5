@@ -8,7 +8,7 @@
 }
 <#else>
 {
-    "parent": "${modid}:block/${registryname}_inventory"
+  "parent": "${modid}:block/${registryname}_inventory"
 }
 </#if>
 <#-- @formatter:on -->
