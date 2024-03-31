@@ -92,6 +92,7 @@ package ${package}.world.dimension;
 					e.printStackTrace();
 				}
 			});
+		}
 	}
 
 	<#if hasProcedure(data.onPlayerLeavesDimension) || hasProcedure(data.onPlayerEntersDimension)>
@@ -106,14 +107,14 @@ package ${package}.world.dimension;
 		if (event.getFrom() == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${registryname}"))) {
 			<@procedureOBJToCode data.onPlayerLeavesDimension/>
 		}
-        </#if>
+        	</#if>
 
 		<#if hasProcedure(data.onPlayerEntersDimension)>
 		if (event.getTo() == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${registryname}"))) {
 			<@procedureOBJToCode data.onPlayerEntersDimension/>
 		}
-        </#if>
+        	</#if>
 	}
-    </#if>
+    	</#if>
 }
 <#-- @formatter:on -->
