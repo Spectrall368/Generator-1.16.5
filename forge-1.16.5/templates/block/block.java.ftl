@@ -514,7 +514,7 @@ public class ${name}Block extends
 				<#elseif data.destroyTool == "axe">AxeItem
 				<#elseif data.destroyTool == "shovel">ShovelItem
 				<#elseif data.destroyTool == "hoe">HoeItem
-				<#else>TieredItem) player.getHeldItemMainhand().getItem()).getTier().getHarvestLevel() >= ${data.breakHarvestLevel};
+				<#else>TieredItem</#if>) player.getHeldItemMainhand().getItem()).getTier().getHarvestLevel() >= ${data.breakHarvestLevel};
 		return false;
 	}
 	</#if>
