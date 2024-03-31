@@ -56,7 +56,7 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 
 		<#if data.isFluidTank>
 		if(compound.get("fluidTank") != null)
-			CapabilityEnergy.ENERGY.readNBT(fluidTank, null, compound.get("fluidTank"));
+			CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(fluidTank, null, compound.get("fluidTank"));
 		</#if>
 	}
 
