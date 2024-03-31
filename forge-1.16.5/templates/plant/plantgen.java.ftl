@@ -123,8 +123,8 @@ package ${package}.world.features.plants;
 			</#if>
 		</#if>;
 
-		event.getRegistry().register(feature.setRegistryName("${registryname}"));
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
+		event.getRegistry().register(feature.setRegistryName("${registryname}_plants"));
+		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}_plants"), configuredFeature);
 	}
 
 	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
