@@ -8,10 +8,10 @@
 }
 <#else>
 {
-    "parent": "item/generated",
-    "textures": {
-      "layer0": "${modid}:blocks/${data.texture}"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "${modid}:blocks/${data.texture}"
+  }
 }
 </#if>
 <#-- @formatter:on -->
