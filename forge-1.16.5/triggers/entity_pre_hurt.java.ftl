@@ -1,23 +1,19 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onEntityAttacked(LivingHurtEvent event) {
 		if (event != null && event.getEntity() != null) {
-			Entity entity = event.getEntity();
-			Entity sourceentity = event.getSource().getTrueSource();
-			double i = entity.getPosX();
-			double j = entity.getPosY();
-			double k = entity.getPosZ();
-			double amount = event.getAmount();
-			World world = entity.world;
-			Map<String, Object> dependencies = new HashMap<>();
-			dependencies.put("x", i);
-			dependencies.put("y", j);
-			dependencies.put("z", k);
-			dependencies.put("amount", amount);
-			dependencies.put("world", world);
-			dependencies.put("entity", entity);
-			dependencies.put("sourceentity", sourceentity);
-			dependencies.put("event", event);
-			executeProcedure(dependencies);
+			<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+				"x": "event.getEntity().getPosX()",
+				"y": "event.getEntity().getPosY()",
+				"z": "event.getEntity().getPosZ()",
+				"world": "event.getEntity().world",
+				"amount": "event.getAmount()",
+				"entity": "event.getEntity()",
+				"sourceentity": "event.getSource().getTrueSource()",
+				"event": "event"
+				}/>
+			</#compress></#assign>
+			execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 		}
 	}
-}
