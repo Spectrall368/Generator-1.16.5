@@ -29,6 +29,7 @@
 -->
 
 <#-- @formatter:off -->
+<#include "../triggers.java.ftl">
 package ${package}.item;
 
 public class ${name}Item extends BucketItem {
