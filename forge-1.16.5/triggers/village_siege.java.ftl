@@ -1,17 +1,15 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onVillageSiege(VillageSiegeEvent event) {
-		PlayerEntity entity=event.getPlayer();
-		double i=event.getAttemptedSpawnPos().x;
-		double j=event.getAttemptedSpawnPos().y;
-		double k=event.getAttemptedSpawnPos().z;
-		IWorld world=event.getWorld();
-		Map<String, Object> dependencies = new HashMap<>();
-		dependencies.put("x", i);
-		dependencies.put("y", j);
-		dependencies.put("z", k);
-		dependencies.put("world", world);
-		dependencies.put("entity", entity);
-		dependencies.put("event", event);
-		executeProcedure(dependencies);
+		<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+			"x": "event.getAttemptedSpawnPos().x",
+			"y": "event.getAttemptedSpawnPos().y",
+			"z": "event.getAttemptedSpawnPos().z",
+			"world": "event.getWorld()",
+			"entity": "event.getPlayer()",
+			"event": "event"
+			}/>
+		</#compress></#assign>
+		execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 	}
-}
