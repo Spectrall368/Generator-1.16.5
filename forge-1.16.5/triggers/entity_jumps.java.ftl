@@ -1,17 +1,15 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onEntityJump(LivingEvent.LivingJumpEvent event) {
-		LivingEntity entity=event.getEntityLiving();
-		double i=entity.getPosX();
-		double j=entity.getPosY();
-		double k=entity.getPosZ();
-		World world=entity.world;
-		Map<String, Object> dependencies = new HashMap<>();
-		dependencies.put("x",i);
-		dependencies.put("y",j);
-		dependencies.put("z",k);
-		dependencies.put("world",world);
-		dependencies.put("entity",entity);
-		dependencies.put("event",event);
-		executeProcedure(dependencies);
+		<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+			"x": "event.getEntityLiving().getPosX()",
+			"y": "event.getEntityLiving().getPosY()",
+			"z": "event.getEntityLiving().getPosZ()",
+			"world": "event.getEntityLiving().world",
+			"entity": "event.getEntityLiving()",
+			"event": "event"
+			}/>
+		</#compress></#assign>
+		execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 	}
-}
