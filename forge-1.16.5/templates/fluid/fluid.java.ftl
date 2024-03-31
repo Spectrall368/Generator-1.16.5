@@ -31,6 +31,8 @@
 <#include "../procedures.java.ftl">
 package ${package}.fluid;
 
+import net.minecraftforge.common.property.Properties;
+
 public abstract class ${name}Fluid extends ForgeFlowingFluid {
 
 	public static final ForgeFlowingFluid.Properties PROPERTIES = new ForgeFlowingFluid.Properties(
