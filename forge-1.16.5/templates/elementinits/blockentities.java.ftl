@@ -36,7 +36,7 @@ package ${package}.init;
 
 public class ${JavaModName}BlockEntities {
 
-	public static final DeferredRegister<TileEntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.TILE_ENTITY_TYPES, ${JavaModName}.MODID);
+	public static final DeferredRegister<TileEntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ${JavaModName}.MODID);
 
 	<#list blockentities as blockentity>
 	public static final RegistryObject<TileEntityType<?>> ${blockentity.getModElement().getRegistryNameUpper()} =
