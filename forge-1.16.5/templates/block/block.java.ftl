@@ -174,8 +174,8 @@ public class ${name}Block extends
 		</#if>
 	}
 
-	@Override @OnlyIn(Dist.CLIENT) public void clientLoad(FMLClientSetupEvent event) {
 	<#if data.transparencyType != "SOLID">
+	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
 		<#if data.transparencyType == "CUTOUT">
 		RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
 		<#elseif data.transparencyType == "CUTOUT_MIPPED">
@@ -185,10 +185,12 @@ public class ${name}Block extends
 		<#else>
 		RenderTypeLookup.setRenderLayer(block, RenderType.getSolid());
 		</#if>
-	<#elseif data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
-		RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
-	</#if>
 	}
+	<#elseif data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
+	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+		RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+	}
+	</#if>
 
 	<#if data.blockBase?has_content && data.blockBase == "Fence">
 	@Override public boolean canConnect(BlockState state, boolean checkattach, Direction face) {
