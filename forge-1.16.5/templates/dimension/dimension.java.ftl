@@ -33,6 +33,7 @@
 <#include "../procedures.java.ftl">
 package ${package}.world.dimension;
 
+<#compress>
 @Mod.EventBusSubscriber public class ${name}Dimension {
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class Fixers {
@@ -62,8 +63,11 @@ package ${package}.world.dimension;
 		}
 
 		@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerDimensionSpecialEffects(FMLClientSetupEvent event) {
-			DimensionRenderInfo customEffect = new DimensionRenderInfo(<#if data.imitateOverworldBehaviour>128<#else>Float.NaN</#if>,
-					true, <#if data.imitateOverworldBehaviour>DimensionRenderInfo.FogType.NORMAL<#else>DimensionRenderInfo.FogType.NONE</#if>, false, false) {
+			DimensionRenderInfo customEffect = new DimensionRenderInfo(<#if data.imitateOverworldBehaviour>128<#else>Float.NaN</#if>, true,
+			<#if data.imitateOverworldBehaviour>DimensionRenderInfo.FogType.NORMAL<#else>DimensionRenderInfo.FogType.NONE</#if>, false, false) {
+			DimensionRenderInfo customEffect = new DimensionRenderInfo(
+				<#if data.imitateOverworldBehaviour>128<#else>Float.NaN</#if>,
+				true, <#if data.imitateOverworldBehaviour>DimensionRenderInfo.FogType.NORMAL<#else>DimensionRenderInfo.FogType.NONE</#if>, false, false) {
 	
 				@Override public Vector3d func_230494_a_(Vector3d color, float sunHeight) {
 					<#if data.airColor?has_content>
@@ -117,4 +121,4 @@ package ${package}.world.dimension;
 	}
     	</#if>
 }
-<#-- @formatter:on -->
+</#compress>
