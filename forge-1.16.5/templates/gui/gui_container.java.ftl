@@ -56,7 +56,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 
 	private boolean bound = false;
 
-	public ${name}Menu(int id, Inventory inv, PacketBuffer extraData) {
+	public ${name}Menu(int id, PlayerInventory inv, PacketBuffer extraData) {
 		super(${JavaModName}Menus.${data.getModElement().getRegistryNameUpper()}.get(), id);
 
 		this.entity = inv.player;
@@ -94,7 +94,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 							this.bound = true;
 						});
 				} else { // might be bound to block
-					BlockEntity ent = inv.player != null ? inv.player.world.getTileEntity(pos) : null;
+					TileEntity ent = inv.player != null ? inv.player.world.getTileEntity(pos) : null;
 					if (ent != null) {
 						ent.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(capability -> {
 							this.internal = capability;
@@ -183,7 +183,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 			ItemStack itemstack = ItemStack.EMPTY;
 			Slot slot = (Slot) this.inventorySlots.get(index);
 
-			if (slot != null && slot.hasItem()) {
+			if (slot != null && slot.getHasStack()) {
 				ItemStack itemstack1 = slot.getStack();
 				itemstack = itemstack1.copy();
 
@@ -203,7 +203,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 				}
 
 				if (itemstack1.getCount() == 0)
-					slot.set(ItemStack.EMPTY);
+					slot.putStack(ItemStack.EMPTY);
 				else
 					slot.onSlotChanged();
 
@@ -216,9 +216,9 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 		}
 
 		<#-- #47997 -->
-		@Override ${mcc.getMethod("net.minecraft.world.inventory.AbstractContainerMenu", "moveItemStackTo", "ItemStack", "int", "int", "boolean")
-			.replace("slot.setChanged();", "slot.set(itemstack);")
-			.replace("!itemstack.isEmpty()", "slot.mayPlace(itemstack) && !itemstack.isEmpty()")}
+		@Override ${mcc.getMethod("net.minecraft.inventory.container.Container", "mergeItemStack", "ItemStack", "int", "int", "boolean")
+			.replace("slot.onSlotChanged();", "slot.putStack(itemstack);")
+			.replace("!itemstack.isEmpty()", "slot.isItemValid(itemstack) && !itemstack.isEmpty()")}
 
 		@Override public void onContainerClosed(PlayerEntity playerIn) {
 			super.onContainerClosed(playerIn);
