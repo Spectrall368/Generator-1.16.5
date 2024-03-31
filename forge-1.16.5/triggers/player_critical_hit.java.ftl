@@ -1,21 +1,18 @@
-@Mod.EventBusSubscriber private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onPlayerCriticalHit(CriticalHitEvent event) {
-		Entity entity=event.getTarget();
-		PlayerEntity sourceentity=event.getPlayer();
-		double i=sourceentity.getPosX();
-		double j=sourceentity.getPosY();
-		double k=sourceentity.getPosZ();
-		World world=sourceentity.world;
-		Map<String, Object> dependencies = new HashMap<>();
-		dependencies.put("x", i);
-		dependencies.put("y", j);
-		dependencies.put("z", k);
-		dependencies.put("world", world);
-		dependencies.put("entity", entity);
-		dependencies.put("sourceentity", sourceentity);
-		dependencies.put("damagemodifier", event.getDamageModifier());
-		dependencies.put("isvanillacritical", event.isVanillaCritical());
-		dependencies.put("event", event);
-		executeProcedure(dependencies);
+		<#assign dependenciesCode><#compress>
+			<@procedureDependenciesCode dependencies, {
+			"x": "event.getPlayer().getPosX()",
+			"y": "event.getPlayer().getPosY()",
+			"z": "event.getPlayer().getPosZ()",
+			"world": "event.getPlayer().world",
+			"entity": "event.getTarget()",
+			"sourceentity": "event.getPlayer()",
+			"damagemodifier": "event.getDamageModifier()",
+			"isvanillacritical": "event.isVanillaCritical()",
+			"event": "event"
+			}/>
+		</#compress></#assign>
+		execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 	}
-}
