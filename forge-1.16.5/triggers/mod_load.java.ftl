@@ -1,5 +1,5 @@
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class GlobalTrigger {
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}Procedure {
 	@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
-		executeProcedure(Collections.emptyMap());
+		execute();
 	}
-}
