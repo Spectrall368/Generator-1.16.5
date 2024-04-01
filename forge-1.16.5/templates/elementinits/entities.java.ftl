@@ -76,6 +76,14 @@ package ${package}.init;
 		</#list>
 	}
 
+	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
+		<#list entities as entity>
+			<#if entity.getModElement().getTypeString() == "livingentity">
+				${entity.getModElement().getName()}Entity.addFeatureToBiomes();
+			</#if>
+		</#list>
+	}
+
 	@SubscribeEvent public static void registerAttributes(EntityAttributeCreationEvent event) {
 		<#list entities as entity>
 			<#if entity.getModElement().getTypeString() == "livingentity">
