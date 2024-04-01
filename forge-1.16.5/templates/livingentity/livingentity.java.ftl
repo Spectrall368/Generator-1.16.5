@@ -50,7 +50,27 @@ import net.minecraft.util.SoundEvent;
 <#if (data.tameable && data.breedable)>
 	<#assign extendsClass = "Tameable">
 </#if>
+<#if data.spawnThisMob>@Mod.EventBusSubscriber</#if>
 public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implements IRangedAttackMob</#if> {
+
+	<#if data.spawnThisMob>
+	@SubscribeEvent public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
+		<#if data.restrictionBiomes?has_content>
+				boolean biomeCriteria = false;
+			<#list data.restrictionBiomes as restrictionBiome>
+				<#if restrictionBiome.canProperlyMap()>
+					if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+						biomeCriteria = true;
+				</#if>
+			</#list>
+			if (!biomeCriteria)
+				return;
+		</#if>
+
+		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), ${data.spawningProbability},
+			${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
+	}
+	</#if>
 
 	<#if data.isBoss>
 	private final ServerBossInfo bossInfo = new ServerBossInfo(this.getDisplayName(),
@@ -696,23 +716,6 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		</#if>
 	}
     </#if>
-	public static void addFeatureToBiomes(BiomeLoadingEvent event) {
-		<#if data.spawnThisMob>
-			<#if data.restrictionBiomes?has_content>
-		boolean biomeCriteria = false;
-		<#list data.restrictionBiomes as restrictionBiome>
-			<#if restrictionBiome.canProperlyMap()>
-		if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-			biomeCriteria = true;
-			</#if>
-		</#list>
-		if (!biomeCriteria)
-			return;
-		</#if>
-
-		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), ${data.spawningProbability}, ${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
-		</#if>
-	}
 
 	public static void init() {
 		FMLJavaModLoadingContext.get().getModEventBus().register(new ${name}Renderer.ModelRegisterHandler());
