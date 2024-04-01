@@ -690,7 +690,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		</#if>
 	}
     </#if>
-	public static void addFeatureToBiomes() {
+	public static void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.spawnThisMob>
 			<#if data.restrictionBiomes?has_content>
 		boolean biomeCriteria = false;
