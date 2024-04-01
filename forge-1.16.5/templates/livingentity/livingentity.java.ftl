@@ -717,10 +717,11 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	}
     </#if>
 
-	public static void init() {
-		FMLJavaModLoadingContext.get().getModEventBus().register(new ${name}Renderer.ModelRegisterHandler());
-		MinecraftForge.EVENT_BUS.register(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get());
+	public static void render() {
+		FMLJavaModLoadingContext.get().getModEventBus().register(new ${name}Renderer.ModelRegisterHandler());	
+	}
 
+	public static void init() {
 		<#if data.spawnThisMob>
 			<#if data.mobSpawningType == "creature">
 			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(),
