@@ -57,7 +57,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		BossInfo.Color.${data.bossBarColor}, BossInfo.Overlay.${data.bossBarType});
 	</#if>
 
-	public ${name}Entity(FMLPlayMessages.SpawnEntity packet, Level world) {
+	public ${name}Entity(FMLPlayMessages.SpawnEntity packet, World world) {
     	this(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), world);
     }
 
@@ -248,7 +248,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			}/>
 		</#if>
 
-		<#if data.flyingMob >
+		<#if data.flyingMob>
 			return false;
 		<#else>
 			return super.onLivingFall(l, d);
@@ -546,7 +546,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 				double d0 = target.getPosY() + target.getEyeHeight() - 1.1;
 				double d1 = target.getPosX() - this.getPosX();
 				double d3 = target.getPosZ() - this.getPosZ();
-				entityarrow.shoot(d1, d0 - entityarrow.getY() + MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F, d3, 1.6F, 12.0F);
+				entityarrow.shoot(d1, d0 - entityarrow.getPosY() + MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F, d3, 1.6F, 12.0F);
 				world.addEntity(entityarrow);
 			<#else>
 				${data.rangedItemType}Entity.shoot(this, target);
@@ -691,13 +691,13 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
     </#if>
 	public static void addFeatureToBiomes() {
 		<#if data.spawnThisMob>
-		<#if data.restrictionBiomes?has_content>
+			<#if data.restrictionBiomes?has_content>
 		boolean biomeCriteria = false;
 		<#list data.restrictionBiomes as restrictionBiome>
-		<#if restrictionBiome.canProperlyMap()>
+			<#if restrictionBiome.canProperlyMap()>
 		if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
 			biomeCriteria = true;
-		</#if>
+			</#if>
 		</#list>
 		if (!biomeCriteria)
 			return;
