@@ -5,8 +5,6 @@ templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/entity/@NAMEEntity.java"
   - template: rangeditem/projectile_renderer.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/client/renderer/@NAMERenderer.java"
-    condition: isCustomModel()
-    deleteWhenConditionFalse: true
   - template: json/rangeditem.json.ftl
     writer: json
     condition: "renderType #= 0"
