@@ -311,8 +311,8 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 		return true;
 	}
 
-	@Override public TileEntity createTileEntity(BlockPos pos, BlockState state) {
-		return new ${name}BlockEntity(pos, state);
+	@Override public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new ${name}BlockEntity();
 	}
 
 	@Override public boolean eventReceived(BlockState state, World world, BlockPos pos, int eventID, int eventParam) {
