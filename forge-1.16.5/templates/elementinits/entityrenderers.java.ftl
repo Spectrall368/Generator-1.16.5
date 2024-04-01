@@ -40,14 +40,14 @@ package ${package}.init;
 		<#list entities as entity>
 			<#if entity.getModElement().getTypeString() == "rangeditem">
 				<#if entity.isCustomModel()>
-				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
+				RenderingRegistry.registerEntityRenderingHandler((EntityType<${entity.getModElement().getName()}Entity>) ${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
 				<#else>
-				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), SpriteRenderer::new);
+				RenderingRegistry.registerEntityRenderingHandler((EntityType<${entity.getModElement().getName()}Entity>) ${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), SpriteRenderer::new);
 				</#if>
 			<#else>
-				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
+				RenderingRegistry.registerEntityRenderingHandler((EntityType<${entity.getModElement().getName()}Entity>) ${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
 				<#if entity.hasCustomProjectile()>
-				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), SpriteRenderer::new);
+				RenderingRegistry.registerEntityRenderingHandler((EntityType<${entity.getModElement().getName()}Entity>) ${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), SpriteRenderer::new);
 				</#if>
 			</#if>
 		</#list>
