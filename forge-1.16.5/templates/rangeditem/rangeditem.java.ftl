@@ -110,11 +110,11 @@ public class ${name}Item extends Item {
 </#compress>
 <#macro arrowShootCode>
 	<#if !data.ammoItem.isEmpty()>
-	ItemStack stack = ShootableItem.getHeldAmmo(entity, e -> e.getItem() == ${mappedMCItemToItem(data.ammoItem)});
+	ItemStack stack = ShootableItem.getHeldAmmo(((ServerPlayerEntity) entityLiving), e -> e.getItem() == ${mappedMCItemToItem(data.ammoItem)});
 
 	if(stack == ItemStack.EMPTY) {
-		for (int i = 0; i < entity.inventory.mainInventory.size(); i++) {
-			ItemStack teststack = entity.inventory.mainInventory.get(i);
+		for (int i = 0; i < ((ServerPlayerEntity) entityLiving).inventory.mainInventory.size(); i++) {
+			ItemStack teststack = ((ServerPlayerEntity) entityLiving).inventory.mainInventory.get(i);
 			if(teststack != null && teststack.getItem() == ${mappedMCItemToItem(data.ammoItem)}) {
 				stack = teststack;
 				break;
@@ -122,28 +122,28 @@ public class ${name}Item extends Item {
 		}
 	}
 
-	if (entity.abilities.isCreativeMode || stack != ItemStack.EMPTY) {
+	if (((ServerPlayerEntity) entityLiving).abilities.isCreativeMode || stack != ItemStack.EMPTY) {
 	</#if>
 
-	${name}Entity entityarrow = ${name}Entity.shoot(world, entity, world.getRandom(), ${data.bulletPower}f, ${data.bulletDamage}, ${data.bulletKnockback});
+	${name}Entity entityarrow = ${name}Entity.shoot(world, ((ServerPlayerEntity) entityLiving), world.getRandom(), ${data.bulletPower}f, ${data.bulletDamage}, ${data.bulletKnockback});
 
-	itemstack.damageItem(1, entity, e -> e.sendBreakAnimation(entity.getActiveHand()));
+	itemstack.damageItem(1, ((ServerPlayerEntity) entityLiving), e -> e.sendBreakAnimation(entity.getActiveHand()));
 
 	<#if !data.ammoItem.isEmpty()>
-	if (entity.abilities.isCreativeMode) {
+	if (((ServerPlayerEntity) entityLiving).abilities.isCreativeMode) {
 		entityarrow.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
 	} else {
 		if (${mappedMCItemToItemStackCode(data.ammoItem, 1)}.isDamageable()){
-			if (stack.attemptDamageItem(1, world.getRandom(), entity)) {
+			if (stack.attemptDamageItem(1, world.getRandom(), (ServerPlayerEntity) entityLiving)) {
 				stack.shrink(1);
 				stack.setDamage(0);
 				if (stack.isEmpty())
-					entity.inventory.deleteStack(stack);
+					((ServerPlayerEntity) entityLiving).inventory.deleteStack(stack);
 			}
 		} else{
 			stack.shrink(1);
 			if (stack.isEmpty())
-				entity.inventory.deleteStack(stack);
+				((ServerPlayerEntity) entityLiving).inventory.deleteStack(stack);
 		}
 	}
 	<#else>
