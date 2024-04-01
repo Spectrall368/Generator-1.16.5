@@ -67,13 +67,15 @@ package ${package}.init;
 	}
 
 	@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
+		event.enqueueWork(() -> {
 		<#list entities as entity>
 			<#if entity.getModElement().getTypeString() == "livingentity">
 				${entity.getModElement().getName()}Entity.init();
-			<#elseif entity.getModElement().getTypeString() == "rangeditem">
+			<#if entity.getModElement().getTypeString() == "rangeditem">
 				${entity.getModElement().getName()}Item.init();
 			</#if>
 		</#list>
+		});
 	}
 
 	@SubscribeEvent public static void registerAttributes(EntityAttributeCreationEvent event) {
