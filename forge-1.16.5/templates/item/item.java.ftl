@@ -212,8 +212,8 @@ public class ${name}Item extends Item {
 					return retval;
 				} else {
 					if (entity instanceof PlayerEntity && !((PlayerEntity) entity).abilities.isCreativeMode) {
-						if (!player.inventory.addItemStackToInventory(retval))
-							player.dropItem(retval, false);
+						if (!((PlayerEntity) entity).inventory.addItemStackToInventory(retval))
+							((PlayerEntity) entity).dropItem(retval, false);
 					}
 					return itemstack;
 				}
@@ -240,8 +240,8 @@ public class ${name}Item extends Item {
 		return new ${name}InventoryCapability();
 	}
 
-	@Override public CompoundTag getShareTag(ItemStack stack) {
-		CompoundTag nbt = stack.getOrCreateTag();
+	@Override public CompoundNBT getShareTag(ItemStack stack) {
+		CompoundNBT nbt = stack.getOrCreateTag();
 		stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(capability -> nbt.put("Inventory", ((ItemStackHandler) capability).serializeNBT()));
 		return nbt;
 	}
