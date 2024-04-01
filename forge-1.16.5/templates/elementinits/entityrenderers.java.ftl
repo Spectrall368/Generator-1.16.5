@@ -39,7 +39,7 @@ package ${package}.init;
 	@SubscribeEvent public static void render(FMLClientSetupEvent event) {
 	<#list entities as entity>
 		<#if entity.getModElement().getTypeString() == "livingentity" || entity.getModElement().getTypeString() == "rangeditem">
-			FMLJavaModLoadingContext.get().getModEventBus().register(new ${name}Renderer.ModelRegisterHandler());
+			FMLJavaModLoadingContext.get().getModEventBus().register(new ${entity.getModElement().getName()}Renderer.ModelRegisterHandler());
 		</#if>
 	</#list>
 	}
