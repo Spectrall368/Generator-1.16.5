@@ -37,13 +37,20 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${JavaModName}EntityRenderers {
 
 	@SubscribeEvent public static void render(FMLClientSetupEvent event) {
-	<#list entities as entity>
-		<#if entity.getModElement().getTypeString() == "livingentity">
-			${entity.getModElement().getName()}Entity.render();
-		<#elseif entity.getModElement().getTypeString() == "rangeditem">
-			${entity.getModElement().getName()}Item.render();
-		</#if>
-	</#list>
+		<#list entities as entity>
+			<#if entity.getModElement().getTypeString() == "rangeditem">
+				<#if entity.isCustomModel()>
+				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
+				<#else>
+				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), SpriteRenderer::new);
+				</#if>
+			<#else>
+				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
+				<#if entity.hasCustomProjectile()>
+				RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), SpriteRenderer::new);
+				</#if>
+			</#if>
+		</#list>
 	}
 }
 <#-- @formatter:on -->
