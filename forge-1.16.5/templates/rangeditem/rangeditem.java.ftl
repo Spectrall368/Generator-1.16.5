@@ -48,10 +48,6 @@ public class ${name}Item extends Item {
 		return new ActionResult(ActionResultType.SUCCESS, entity.getHeldItem(hand));
 	}
 
-	public static void render() {
-		FMLJavaModLoadingContext.get().getModEventBus().register(new ${name}Renderer.ModelRegisterHandler());	
-	}
-
 	<@onEntitySwing data.onEntitySwing/>
 
 	<@addSpecialInformation data.specialInfo/>
