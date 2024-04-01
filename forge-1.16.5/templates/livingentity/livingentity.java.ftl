@@ -689,27 +689,28 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		</#if>
 	}
     </#if>
+	public static void addFeatureToBiomes() {
+		<#if data.spawnThisMob>
+		<#if data.restrictionBiomes?has_content>
+		boolean biomeCriteria = false;
+		<#list data.restrictionBiomes as restrictionBiome>
+		<#if restrictionBiome.canProperlyMap()>
+		if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+			biomeCriteria = true;
+		</#if>
+		</#list>
+		if (!biomeCriteria)
+			return;
+		</#if>
+
+		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(entity, ${data.spawningProbability}, ${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
+		</#if>
+	}
 
 	public static void init() {
 		FMLJavaModLoadingContext.get().getModEventBus().register(new ${name}Renderer.ModelRegisterHandler());
 
 		<#if data.spawnThisMob>
-			@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-			<#if data.restrictionBiomes?has_content>
-				boolean biomeCriteria = false;
-			<#list data.restrictionBiomes as restrictionBiome>
-				<#if restrictionBiome.canProperlyMap()>
-					if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-						biomeCriteria = true;
-				</#if>
-			</#list>
-			if (!biomeCriteria)
-				return;
-			</#if>
-
-				event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(entity, ${data.spawningProbability}, ${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
-			}
-
 			<#if data.mobSpawningType == "creature">
 			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
