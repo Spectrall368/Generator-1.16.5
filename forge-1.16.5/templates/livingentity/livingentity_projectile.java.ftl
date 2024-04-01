@@ -32,7 +32,7 @@
 <#include "../mcitems.ftl">
 package ${package}.entity;
 
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class) public class ${name}EntityProjectile extends AbstractArrowEntity implements IRendersAsItem {
+@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class) public class ${name}EntityProjectile extends AbstractArrowEntity implements IRendersAsItem {
 
 	public ${name}EntityProjectile(FMLPlayMessages.SpawnEntity packet, World world) {
 		super(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), world);
