@@ -387,7 +387,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 
 	@Override public void readAdditional(CompoundNBT compound) {
     	super.readAdditional(compound);
-		Tag inventoryCustom = compound.get("InventoryCustom");
+		INBT inventoryCustom = compound.get("InventoryCustom");
 		if(inventoryCustom instanceof CompoundNBT)
 			inventory.deserializeNBT((CompoundNBT) inventoryCustom);
     }
@@ -403,7 +403,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 				if (sourceentity.isSecondaryUseActive()) {
 			</#if>
 				if(sourceentity instanceof ServerPlayerEntity) {
-					NetworkHooks.openScreen((ServerPlayerEntity) sourceentity, new INamedContainerProvider() {
+					NetworkHooks.openGui((ServerPlayerEntity) sourceentity, new INamedContainerProvider() {
 
 						@Override public ITextComponent getDisplayName() {
 							return new StringTextComponent("${data.mobName}");
@@ -440,11 +440,11 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 				if (this.isTamed()) {
 					if (this.isOwner(sourceentity)) {
 						if (item.isFood() && this.isBreedingItem(itemstack) && this.getHealth() < this.getMaxHealth()) {
-							this.consumeItemFromStack(sourceentity, hand, itemstack);
+							this.consumeItemFromStack(sourceentity, itemstack);
 							this.heal((float)item.getFood().getHealing());
 							retval = ActionResultType.func_233537_a_(this.world.isRemote());
 						} else if (this.isBreedingItem(itemstack) && this.getHealth() < this.getMaxHealth()) {
-							this.consumeItemFromStack(sourceentity, hand, itemstack);
+							this.consumeItemFromStack(sourceentity, itemstack);
 							this.heal(4);
 							retval = ActionResultType.func_233537_a_(this.world.isRemote());
 						} else {
@@ -452,8 +452,8 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 						}
 					}
 				} else if (this.isBreedingItem(itemstack)) {
-					this.consumeItemFromStack(sourceentity, hand, itemstack);
-					if (this.random.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, sourceentity)) {
+					this.consumeItemFromStack(sourceentity, itemstack);
+					if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, sourceentity)) {
 						this.setTamedBy(sourceentity);
 						this.world.setEntityState(this, (byte) 7);
 					} else {
@@ -618,7 +618,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			if (this.isBeingRidden()) {
 				this.rotationYaw = entity.rotationYaw;
 				this.prevRotationYaw = this.rotationYaw;
-				this.rotationPitch(entity.rotationPitch * 0.5F);
+				this.rotationPitch = entity.rotationPitch * 0.5F;
 				this.setRotation(this.rotationYaw, this.rotationPitch);
 				this.jumpMovementFactor = this.getAIMoveSpeed() * 0.15F;
 				this.renderYawOffset = entity.rotationYaw;
@@ -680,8 +680,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		double x = this.getPosX();
 		double y = this.getPosY();
 		double z = this.getPosZ();
+		Random random = this.rand;
 		Entity entity = this;
-		Level world = this.world;
+		World world = this.world;
 		<#if hasProcedure(data.particleCondition)>
 			if(<@procedureOBJToConditionCode data.particleCondition/>)
 		</#if>
@@ -703,7 +704,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			return;
 		</#if>
 
-		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(entity, ${data.spawningProbability}, ${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
+		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), ${data.spawningProbability}, ${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
 		</#if>
 	}
 
@@ -776,7 +777,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	}
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
-		AttributeSupplier.MutableAttribute builder = MobEntity.func_233666_p_();
+		AttributeModifierMap.MutableAttribute builder = MobEntity.func_233666_p_();
 		builder = builder.createMutableAttribute(Attributes.MOVEMENT_SPEED, ${data.movementSpeed});
 		builder = builder.createMutableAttribute(Attributes.MAX_HEALTH, ${data.health});
 		builder = builder.createMutableAttribute(Attributes.ARMOR, ${data.armorBaseValue});
