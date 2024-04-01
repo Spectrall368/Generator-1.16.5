@@ -127,7 +127,7 @@ public class ${name}Item extends Item {
 
 	${name}Entity entityarrow = ${name}Entity.shoot(world, ((ServerPlayerEntity) entityLiving), world.getRandom(), ${data.bulletPower}f, ${data.bulletDamage}, ${data.bulletKnockback});
 
-	itemstack.damageItem(1, ((ServerPlayerEntity) entityLiving), e -> e.sendBreakAnimation(entity.getActiveHand()));
+	itemstack.damageItem(1, ((ServerPlayerEntity) entityLiving), e -> e.sendBreakAnimation(((ServerPlayerEntity) entityLiving).getActiveHand()));
 
 	<#if !data.ammoItem.isEmpty()>
 	if (((ServerPlayerEntity) entityLiving).abilities.isCreativeMode) {
