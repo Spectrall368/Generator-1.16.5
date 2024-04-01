@@ -35,7 +35,7 @@ package ${package}.item.inventory;
 @Mod.EventBusSubscriber(Dist.CLIENT) public class ${name}InventoryCapability implements ICapabilitySerializable<CompoundNBT> {
 
 	@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void onItemDropped(ItemTossEvent event) {
-		if(event.getEntity().getItem() == ${JavaModName}Items.${data.getModElement().getRegistryNameUpper()}.get()) {
+		if(event.getEntityItem().getItem().getItem() == ${JavaModName}Items.${data.getModElement().getRegistryNameUpper()}.get()) {
 			if (Minecraft.getInstance().currentScreen instanceof ${data.guiBoundTo}Screen) {
 				Minecraft.getInstance().player.closeScreen();
 			}
