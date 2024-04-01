@@ -34,7 +34,7 @@
 package ${package}.entity;
 
 <#compress>
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
+@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem {
 
 	public ${name}Entity(FMLPlayMessages.SpawnEntity packet, World world) {
@@ -152,9 +152,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 		</#if>
 		world.addEntity(entityarrow);
 
-		world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), ForgeRegistries.SOUND_EVENTS
-				.getValue(new ResourceLocation("${data.actionSound}")), SoundCategory.PLAYERS, 1, 1f / (random.nextFloat() * 0.5f + 1) + (power / 2));
-
+		world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.actionSound}")), SoundCategory.PLAYERS, 1, 1f / (random.nextFloat() * 0.5f + 1) + (power / 2));
 		return entityarrow;
 	}
 
@@ -163,7 +161,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 		double dx = target.getPosX() - entity.getPosX();
 		double dy = target.getPosY() + target.getEyeHeight() - 1.1;
 		double dz = target.getPosZ() - entity.getPosZ();
-		entityarrow.shoot(dx, dy - entityarrow.getPosY() + MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F, dz, ${data.bulletPower}f * 2, 12.0F);
+		entityarrow.shoot(dx, dy - entityarrow.getPosY() + MathHelper.sqrt(dy * dy + dz * dz) * 0.2F, dz, ${data.bulletPower}f * 2, 12.0F);
 
 		entityarrow.setSilent(true);
 		entityarrow.setDamage(${data.bulletDamage});
@@ -173,9 +171,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 			entityarrow.setFire(100);
 		</#if>
 		entity.world.addEntity(entityarrow);
-		entity.world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), ForgeRegistries.SOUND_EVENTS
-				.getValue(new ResourceLocation("${data.actionSound}")), SoundCategory.PLAYERS, 1, 1f / (new Random().nextFloat() * 0.5f + 1));
-
+		entity.world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.actionSound}")), SoundCategory.PLAYERS, 1, 1f / (new Random().nextFloat() * 0.5f + 1));
 		return entityarrow;
 	}
 }
