@@ -64,7 +64,7 @@ package ${package}.client.screens;
         double _y = 0;
         double _z = 0;
 
-        Player entity = Minecraft.getInstance().player;
+        PlayerEntity entity = Minecraft.getInstance().player;
         if (entity != null) {
             _world = entity.world;
             _x = entity.getPosX();
@@ -125,6 +125,6 @@ package ${package}.client.screens;
             RenderSystem.color4f(1, 1, 1, 1);
         </#if>
         }
-	}
+    }
 }
 <#-- @formatter:on -->
