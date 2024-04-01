@@ -94,6 +94,10 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 		);
 	}
 
+	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
+	}
+
 	<#if data.customBoundingBox && data.boundingBoxes??>
 	@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		<#if data.isBoundingBoxEmpty()>
@@ -120,7 +124,7 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 
 	<#if data.isReplaceable>
 	@Override public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
-		return useContext.getItem() != this.asItem();
+		return useContext.getItem().getItem() != this.asItem();
 	}
 	</#if>
 
