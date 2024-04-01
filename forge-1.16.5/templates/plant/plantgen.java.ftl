@@ -52,7 +52,7 @@ package ${package}.world.features.plants;
     		feature = ${featurename}(BlockClusterFeatureConfig.field_236587_a_) {
     		<#if data.staticPlantGenerationType == "Flower">
 		@Override public BlockState getFlowerToPlace(Random random, BlockPos bp, BlockClusterFeatureConfig fc) {
-			return block.getDefaultState();
+			return ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState();
 		}
     		</#if>
 
