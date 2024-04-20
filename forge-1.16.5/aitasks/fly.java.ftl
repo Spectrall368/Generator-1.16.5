@@ -3,7 +3,7 @@
 this.goalSelector.addGoal(${customBlockIndex+1}, new RandomWalkingGoal(this, ${field$speed}, 20) {
 
     @Override protected Vec3 getPosition() {
-		RandomSource random = ${name}Entity.this.getRNG();
+		Random random = ${name}Entity.this.getRNG();
 		double dir_x = ${name}Entity.this.getPosX() + ((random.nextFloat() * 2 - 1) * 16);
 		double dir_y = ${name}Entity.this.getPosY() + ((random.nextFloat() * 2 - 1) * 16);
 		double dir_z = ${name}Entity.this.getPosZ() + ((random.nextFloat() * 2 - 1) * 16);
