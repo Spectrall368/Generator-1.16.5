@@ -342,14 +342,24 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 				return false;
 		</#if>
 		<#if data.immuneToWither>
-			if (source == DamageSource.WITHER)
-				return false;
-			if (source.getDamageType().equals("witherSkull"))
+			if (source == DamageSource.WITHER || source.getDamageType().equals("witherSkull"))
 				return false;
 		</#if>
 		return super.attackEntityFrom(source, amount);
 	}
     </#if>
+
+	<#if data.immuneToExplosion>
+	@Override public boolean isImmuneToExplosions() {
+		return true;
+	}
+	</#if>
+
+	<#if data.immuneToFire>
+	@Override public boolean isImmuneToFire() {
+		return true;
+	}
+	</#if>
 
 	<#if hasProcedure(data.whenMobDies)>
 	@Override public void onDeath(DamageSource source) {
