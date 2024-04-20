@@ -42,7 +42,7 @@ public class ${name}Renderer extends EntityRenderer<${name}Entity> {
 		model = new ${data.bulletModel}();
 	}
 
-	@Override public void render(${name}Entity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
+	@Override public void render(${name}Entity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		IVertexBuilder vb = bufferIn.getBuffer(RenderType.getEntityCutout(this.getEntityTexture(entityIn)));
 		poseStack.push();
 		poseStack.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90));
