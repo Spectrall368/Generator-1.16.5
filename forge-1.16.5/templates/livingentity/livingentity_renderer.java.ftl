@@ -87,7 +87,7 @@ package ${package}.client.renderer;
 
 <#assign model = model + "<" + name + "Entity>">
 
-public class ${name}Renderer extends <#if humanoid>Biped<#elseif !data.isBuiltInModel()>Mob</#if>Renderer<${name}Entity, ${model}> {
+public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer<${name}Entity, ${model}> {
 
 	public ${name}Renderer(EntityRendererManager context) {
 		${super}
