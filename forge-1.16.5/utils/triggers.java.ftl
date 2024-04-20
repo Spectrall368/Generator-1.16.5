@@ -45,11 +45,11 @@
 </#if>
 </#macro>
 
-<#macro onEntityHitWith procedure="" hurtStack=false>
+<#macro onEntityHitWith procedure="" hurtStack=false hurtStackAmount=2>
 <#if hasProcedure(procedure) || hurtStack>
 @Override public boolean hitEntity(ItemStack itemstack, LivingEntity entity, LivingEntity sourceentity) {
 	<#if hurtStack>
-		itemstack.damageItem(2, entity, i -> i.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+		itemstack.damageItem(${hurtStackAmount}, entity, i -> i.sendBreakAnimation(EquipmentSlotType.MAINHAND));
 	<#else>
 		boolean retval = super.hitEntity(itemstack, entity, sourceentity);
 	</#if>
