@@ -50,8 +50,24 @@ public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
             return tdt;
         }
 
-		@Override protected void func_227424_a_(IWorldWriter ww, BlockPos bp, BooleanProperty bpr, Set<BlockPos> sbc, MutableBoundingBox mbb) {
-			this.func_227423_a_(ww, bp, ${mappedBlockToBlockStateCode(data.treeVines)}, sbc, mbb);
-		}
+	@Override protected void func_227424_a_(IWorldWriter ww, BlockPos bp, BooleanProperty bpr, Set<BlockPos> sbc, MutableBoundingBox mbb) {
+		this.func_227423_a_(ww, bp, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, direction1), sbc, mbb);
+	}
+
+    private static BlockState oriented(BlockState blockstate, Direction direction) {
+        return switch (direction) {
+            case SOUTH:
+		blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
+		break;
+            case EAST:
+		blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
+		break;
+            case WEST:
+		blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
+		break;
+            default:
+		blockstate;
+        };
+    }
 }
 <#-- @formatter:on -->
