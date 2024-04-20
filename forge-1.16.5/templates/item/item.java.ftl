@@ -158,6 +158,10 @@ public class ${name}Item extends Item {
 	@Override public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity entity, Hand hand) {
 		ActionResult<ItemStack> ar = super.onItemRightClick(world, entity, hand);
 
+		<#if (hasProcedure(data.onStoppedUsing) && (data.useDuration > 0))>
+		entity.setActiveHand(hand);
+		</#if>
+
 		<#if data.hasInventory()>
 		if(entity instanceof ServerPlayerEntity) {
 			NetworkHooks.openGui(((ServerPlayerEntity) entity), new INamedContainerProvider() {
@@ -225,7 +229,7 @@ public class ${name}Item extends Item {
 
 	<@onItemUsedOnBlock data.onRightClickedOnBlock/>
 
-	<@onEntityHitWith data.onEntityHitWith/>
+	<@onEntityHitWith data.onEntityHitWith, (data.damageCount != 0 && data.enableMeleeDamage), 1/>
 
 	<@onEntitySwing data.onEntitySwing/>
 
