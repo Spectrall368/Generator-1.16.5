@@ -31,15 +31,15 @@
 <#-- @formatter:off -->
 package ${package}.client.renderer;
 
-public class ${name}Renderer extends EntityRenderer<${name}Entity> {
+public class ${name}Renderer extends <#if !data.isBuiltInModel()>Sprite<#else>Entity</#if>Renderer<${name}Entity> {
 
 	private static final ResourceLocation texture = new ResourceLocation("${modid}:textures/entities/${data.customBulletModelTexture}");
 
-	private final ${data.bulletModel} model;
+	<#if !data.isBuiltInModel()>private final ${data.bulletModel} model;</#if>
 
 	public ${name}Renderer(EntityRendererManager context) {
 		super(context);
-		model = new ${data.bulletModel}();
+		<#if !data.isBuiltInModel()>model = new ${data.bulletModel}();</#if>
 	}
 
 	@Override public void render(${name}Entity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
