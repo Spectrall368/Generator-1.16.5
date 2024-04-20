@@ -34,6 +34,7 @@ package ${package}.client.model;
 ${model.toString()
     .replace("public static class", "public class")
     .replace("extends ModelBase", "extends EntityModel<Entity>")
+    .replace("extends EntityModel", "extends EntityModel<Entity>")
     .replace(" extends EntityModel<Entity>", "<T extends Entity> extends EntityModel<T>")
     .replace("GlStateManager.translate", "GlStateManager.translated")
     .replace("GlStateManager.scale", "GlStateManager.scaled")
