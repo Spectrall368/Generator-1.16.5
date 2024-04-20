@@ -92,6 +92,12 @@ public class ${JavaModName}Blocks {
 			</#list>
 		}
 		</#if>
+
+		@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+			<#list blocks as block>
+				${block.getModElement().getName()}Block.clientLoad(event);
+			</#list>
+		}
 	}
 	</#if>
 }
