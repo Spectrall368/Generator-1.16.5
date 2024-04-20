@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -31,15 +31,15 @@
 <#-- @formatter:off -->
 package ${package}.client.renderer;
 
-public class ${name}Renderer extends <#if !data.isBuiltInModel()>Sprite<#else>Entity</#if>Renderer<${name}Entity> {
+public class ${name}Renderer extends EntityRenderer<${name}Entity> {
 
 	private static final ResourceLocation texture = new ResourceLocation("${modid}:textures/entities/${data.customBulletModelTexture}");
 
-	<#if !data.isBuiltInModel()>private final ${data.bulletModel} model;</#if>
+	private final ${data.bulletModel} model;
 
 	public ${name}Renderer(EntityRendererManager context) {
 		super(context);
-		<#if !data.isBuiltInModel()>model = new ${data.bulletModel}();</#if>
+		model = new ${data.bulletModel}();
 	}
 
 	@Override public void render(${name}Entity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
@@ -47,7 +47,7 @@ public class ${name}Renderer extends <#if !data.isBuiltInModel()>Sprite<#else>En
 		poseStack.push();
 		poseStack.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90));
 		poseStack.rotate(Vector3f.ZP.rotationDegrees(90 + MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch)));
-		<#if !data.isBuiltInModel()>model.render(poseStack, vb, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1f);</#if>
+		model.render(poseStack, vb, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1f);
 		poseStack.pop();
 
 		super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
