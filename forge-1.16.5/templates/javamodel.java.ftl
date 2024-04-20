@@ -57,7 +57,7 @@ ${model
 	
     @OnlyIn(Dist.CLIENT) public static void addBoxHelper(ModelRenderer renderer, int texU, int texV, float x, float y, float z, int dx, int dy, int dz, float delta, boolean mirror) {
      renderer.mirror = mirror;
- 				renderer.addBox("", x, y, z, dx, dy, dz, delta, texU, texV);
+     renderer.addBox("", x, y, z, dx, dy, dz, delta, texU, texV);
     }
-			</#if>
+    </#if>
 <#-- @formatter:on -->
