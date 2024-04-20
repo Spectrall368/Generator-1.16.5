@@ -172,6 +172,12 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	}
 	</#if>
 
+	<#if data.aiBase == "Villager">
+	@Override public ITextComponent getDisplayName() {
+		return this.getType().getName();
+	}
+	</#if>
+
 	<#if data.hasAI>
 	@Override protected void registerGoals() {
 		super.registerGoals();
