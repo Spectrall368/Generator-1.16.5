@@ -47,7 +47,7 @@ public class ${name}Renderer extends <#if !data.isBuiltInModel()>Sprite<#else>En
 		poseStack.push();
 		poseStack.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90));
 		poseStack.rotate(Vector3f.ZP.rotationDegrees(90 + MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch)));
-		model.render(poseStack, vb, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1f);
+		<#if !data.isBuiltInModel()>model.render(poseStack, vb, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1f);</#if>
 		poseStack.pop();
 
 		super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
