@@ -44,7 +44,11 @@ package ${package}.init;
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), SpriteRenderer::new);
 			</#if>
 		<#elseif entity.getModElement().getTypeString() == "rangeditem">
-			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer.ModelRegisterHandler()::new);
+			<#if entity.isCustomModel()>
+			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
+			<#else>
+			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), SpriteRenderer::new);
+			</#if>
 		</#if>
 	</#list>
 	}
