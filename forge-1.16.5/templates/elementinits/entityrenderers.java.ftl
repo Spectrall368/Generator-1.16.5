@@ -46,9 +46,6 @@ package ${package}.init;
 		<#elseif entity.getModElement().getTypeString() == "rangeditem">
 			<#if entity.isCustomModel()>
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
-			<#else>
-			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), SpriteRenderer::new);
-			</#if>
 		</#if>
 	</#list>
 	}
