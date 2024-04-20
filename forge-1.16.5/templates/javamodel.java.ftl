@@ -39,7 +39,7 @@ ${model
     ?replace("RendererModel ", "ModelRenderer ")
     ?replace("RendererModel(", "ModelRenderer(")
     ?replace("private final ModelRenderer", "public final ModelRenderer")
-    .replaceAll("(.*?).cubeList.add(new ModelBox(", "addBoxHelper(")
+    ?replaceAll("(.*?).cubeList.add(new ModelBox(", "addBoxHelper(")
     ?replaceAll(",[\n\r\t\\s]+true\\)\\);", ", true);")
     ?replaceAll(",[\n\r\t\\s]+false\\)\\);", ", false);")
     ?replaceAll("setRotationAngles\\(float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5,[\n\r\t\\s]+Entity[\n\r\t\\s]+e\\)", "setRotationAngles(Entity e, float f, float f1, float f2, float f3, float f4)")
