@@ -32,6 +32,7 @@
 package ${package}.client.model;
 
 ${model
+    ?replace("public static class", "public class")
     ?replace("extends ModelBase", "extends EntityModel<Entity>")
     ?replace("GlStateManager.translate", "GlStateManager.translated")
     ?replace("GlStateManager.scale", "GlStateManager.scaled")
