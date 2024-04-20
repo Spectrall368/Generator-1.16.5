@@ -54,10 +54,24 @@ public class ${name}FruitDecorator extends CocoaTreeDecorator {
         return tdt;
     }
 
-		@Override ${mcc.getMethod("net.minecraft.world.gen.treedecorator.CocoaTreeDecorator", "func_225576_a_", "ISeedReader", "Random", "List", "List", "Set", "MutableBoundingBox")
-			.replace("this.field_227417_b_", "0.2F")
-			.replace("Blocks.COCOA.getDefaultState().with(CocoaBlock.AGE,Integer.valueOf(p_225576_2_.nextInt(3))).with(CocoaBlock.HORIZONTAL_FACING,direction)",
-				mappedBlockToBlockStateCode(data.treeFruits))}
+    @Override ${mcc.getMethod("net.minecraft.world.gen.treedecorator.CocoaTreeDecorator", "func_225576_a_", "ISeedReader", "Random", "List", "List", "Set", "MutableBoundingBox")
+    .replace("this.field_227417_b_", "0.2F")
+    .replace("Blocks.COCOA.getDefaultState().with(CocoaBlock.AGE,Integer.valueOf(p_225576_2_.nextInt(3))).with(CocoaBlock.HORIZONTAL_FACING,direction)", "oriented(" + mappedBlockToBlockStateCode(data.treeFruits) + ", direction1)")
 
+    private static BlockState oriented(BlockState blockstate, Direction direction) {
+        return switch (direction) {
+            case SOUTH:
+		blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
+		break;
+            case EAST:
+		blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
+		break;
+            case WEST:
+		blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
+		break;
+            default:
+		blockstate;
+        };
+    }
 }
 <#-- @formatter:on -->
