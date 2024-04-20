@@ -37,11 +37,11 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${JavaModName}EntityRenderers {
 
 	@SubscribeEvent public static void render(FMLClientSetupEvent event) {
-		EntityRenderers.renders();
+		${JavaModName}EntityRenderers.renders();
 	}
 
 	@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerModels(ModelRegistryEvent event) {
-		EntityRenderers.renders();
+		${JavaModName}EntityRenderers.renders();
 	}
 
 	private static void renders() {
