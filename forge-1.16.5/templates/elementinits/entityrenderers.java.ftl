@@ -38,8 +38,13 @@ package ${package}.init;
 
 	@SubscribeEvent public static void render(FMLClientSetupEvent event) {
 	<#list entities as entity>
-		<#if entity.getModElement().getTypeString() == "livingentity" || entity.getModElement().getTypeString() == "rangeditem">
-			FMLJavaModLoadingContext.get().getModEventBus().register(new ${entity.getModElement().getName()}Renderer.ModelRegisterHandler());
+		<#if entity.getModElement().getTypeString() == "livingentity">
+			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer.ModelRegisterHandler()::new);
+			<#if entity.hasCustomProjectile()>
+			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), SpriteRenderer::new);
+			</#if>
+		<#elseif entity.getModElement().getTypeString() == "rangeditem">
+			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer.ModelRegisterHandler()::new);
 		</#if>
 	</#list>
 	}
