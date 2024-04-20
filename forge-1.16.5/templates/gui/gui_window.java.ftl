@@ -145,14 +145,8 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 		</#list>
 	}
 
-	@Override public void onClose() {
-		super.onClose();
-		Minecraft.getInstance().keyboardListener.enableRepeatEvents(false);
-	}
-
 	@Override public void init(Minecraft minecraft, int width, int height) {
 		super.init(minecraft, width, height);
-		this.minecraft.keyboardListener.enableRepeatEvents(true);
 
 		<#assign btid = 0>
 		<#list data.components as component>
