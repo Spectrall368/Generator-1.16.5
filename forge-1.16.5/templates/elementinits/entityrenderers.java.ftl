@@ -37,6 +37,14 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${JavaModName}EntityRenderers {
 
 	@SubscribeEvent public static void render(FMLClientSetupEvent event) {
+		new EntityRenderers();
+	}
+
+	@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerModels(ModelRegistryEvent event) {
+		new EntityRenderers();
+	}
+
+	private EntityRenderers() {
 	<#list entities as entity>
 		<#if entity.getModElement().getTypeString() == "livingentity">
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
