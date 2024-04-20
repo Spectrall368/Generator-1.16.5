@@ -265,24 +265,35 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 
 	<@onBlockAdded data.onBlockAdded, false, 0/>
 
-	<@onBlockTick data.onTickUpdate, false, 0/>
-
-	<#if data.plantType == "growapable">
-	@Override public void randomTick(BlockState blockstate, ServerWorld world, BlockPos blockpos, Random random) {
+	<#if data.plantType == "growapable" || hasProcedure(data.onTickUpdate)>
+	@Override public void randomTick(BlockState blockstate, ServerWorld world, BlockPos pos, Random random) {
+		<#if data.plantType == "growapable">
 		if (world.isAirBlock(blockpos.up())) {
 			int i = 1;
-			for(;world.getBlockState(blockpos.down(i)).getBlock() == this; ++i);
+			for(;world.getBlockState(pos.down(i)).getBlock() == this; ++i);
 			if (i < ${data.growapableMaxHeight}) {
 				int j = blockstate.get(AGE);
-				if (ForgeHooks.onCropsGrowPre(world, blockpos, blockstate, true)) {
+				if (ForgeHooks.onCropsGrowPre(world, pos, blockstate, true)) {
 					if (j == 15) {
-						world.setBlockState(blockpos.up(), getDefaultState());
-						world.setBlockState(blockpos, blockstate.with(AGE, 0), 4);
-					} else
-						world.setBlockState(blockpos, blockstate.with(AGE, j + 1), 4);
+						world.setBlockState(pos.up(), getDefaultState());
+						world.setBlockState(pos, blockstate.with(AGE, 0), 4);
+					} else {
+						world.setBlockState(pos, blockstate.with(AGE, j + 1), 4);
+					}
 				}
 			}
 		}
+		</#if>
+
+		<#if hasProcedure(data.onTickUpdate)>
+			<@procedureCode data.onTickUpdate, {
+			"x": "pos.getPosX()",
+			"y": "pos.getPosY()",
+			"z": "pos.getPosZ()",
+			"world": "world",
+			"blockstate": "blockstate"
+			}/>
+		</#if>
 	}
 	</#if>
 
