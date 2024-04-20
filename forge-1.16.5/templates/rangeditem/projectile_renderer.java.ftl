@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2022, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -31,81 +31,30 @@
 <#-- @formatter:off -->
 package ${package}.client.renderer;
 
-@OnlyIn(Dist.CLIENT) public class ${name}Renderer {
+public class ${name}Renderer extends EntityRenderer<${name}Entity> {
 
-	public static class ModelRegisterHandler {
+	private static final ResourceLocation texture = new ResourceLocation("${modid}:textures/entities/${data.customBulletModelTexture}");
 
-		@SubscribeEvent @OnlyIn(Dist.CLIENT) public void registerModels(ModelRegistryEvent event) {
-			<#if data.bulletModel != "Default">
-			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), renderManager -> new CustomRender(renderManager));
-			<#else>
-			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), renderManager -> new SpriteRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
-			</#if>
-		}
+	private final ${data.bulletModel} model;
 
+	public ${name}Renderer(EntityRendererManager context) {
+		super(context);
+		model = new ${data.bulletModel}();
 	}
 
-	<#if data.bulletModel != "Default">
-	@OnlyIn(Dist.CLIENT) public static class CustomRender extends EntityRenderer<${name}Entity> {
-		private static final ResourceLocation texture = new ResourceLocation("${modid}:textures/entities/${data.customBulletModelTexture}");
+	@Override public void render(${name}Entity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
+		IVertexBuilder vb = bufferIn.getBuffer(RenderType.getEntityCutout(this.getEntityTexture(entityIn)));
+		poseStack.push();
+		poseStack.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90));
+		poseStack.rotate(Vector3f.ZP.rotationDegrees(90 + MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch)));
+		model.render(poseStack, vb, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1f);
+		poseStack.pop();
 
-		public CustomRender(EntityRendererManager renderManager) {
-			super(renderManager);
-		}
-
-		@Override public void render(${name}Entity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-			IVertexBuilder vb = bufferIn.getBuffer(RenderType.getEntityCutout(this.getEntityTexture(entityIn)));
-			matrixStackIn.push();
-			matrixStackIn.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90));
-			matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90 + MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch)));
-			EntityModel model = new ${data.bulletModel}();
-			model.render(matrixStackIn, vb, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.0625f);
-			matrixStackIn.pop();
-
-			super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-		}
-
-		@Override public ResourceLocation getEntityTexture(${name}Item.ArrowCustomEntity entity) {
-			return texture;
-		}
+		super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
 	}
 
-		<#if data.getModelCode()?? >
-			${data.getModelCode().toString()
-			.replace("extends ModelBase", "extends EntityModel<Entity>")
-			.replace("GlStateManager.translate", "GlStateManager.translated")
-			.replace("GlStateManager.scale", "GlStateManager.scaled")
-			.replace("RendererModel ", "ModelRenderer ")
-			.replace("RendererModel(", "ModelRenderer(")
-			.replaceAll("(.*?)\\.cubeList\\.add\\(new\\sModelBox\\(", "addBoxHelper(")
-			.replaceAll(",[\n\r\t\\s]+true\\)\\);", ", true);")
-			.replaceAll(",[\n\r\t\\s]+false\\)\\);", ", false);")
-			.replaceAll("setRotationAngles\\(float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5,[\n\r\t\\s]+Entity[\n\r\t\\s]+e\\)",
-			"setRotationAngles(Entity e, float f, float f1, float f2, float f3, float f4)")
-			.replaceAll("setRotationAngles\\(float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5,[\n\r\t\\s]+Entity[\n\r\t\\s]+entity\\)",
-			"setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4)")
-	
-			.replaceAll("((super\\.)?)setRotationAngles\\(f,[\n\r\t\\s]+f1,[\n\r\t\\s]+f2,[\n\r\t\\s]+f3,[\n\r\t\\s]+f4,[\n\r\t\\s]+f5,[\n\r\t\\s]+e\\);",
-			"")
-			.replaceAll("((super\\.)?)setRotationAngles\\(f,[\n\r\t\\s]+f1,[\n\r\t\\s]+f2,[\n\r\t\\s]+f3,[\n\r\t\\s]+f4,[\n\r\t\\s]+f5,[\n\r\t\\s]+entity\\);",
-			"")
-	
-			.replaceAll("render\\(Entity[\n\r\t\\s]+entity,[\n\r\t\\s]+float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5\\)",
-			"render(MatrixStack ms, IVertexBuilder vb, int i1, int i2, float f1, float f2, float f3, float f4)")
-			.replaceAll("super\\.render\\(entity,[\n\r\t\\s]+f,[\n\r\t\\s]+f1,[\n\r\t\\s]+f2,[\n\r\t\\s]+f3,[\n\r\t\\s]+f4,[\n\r\t\\s]+f5\\);", "")
-			.replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);")
-			}
-	
-			<#if data.getModelCode().contains(".cubeList.add(new")> <#-- if the model is pre 1.15.2 -->
-			@OnlyIn(Dist.CLIENT) public static void addBoxHelper(ModelRenderer renderer, int texU, int texV, float x, float y, float z, int dx, int dy, int dz, float delta) {
-				addBoxHelper(renderer, texU, texV, x, y, z, dx, dy, dz, delta, renderer.mirror);
-			}
-	
-			@OnlyIn(Dist.CLIENT) public static void addBoxHelper(ModelRenderer renderer, int texU, int texV, float x, float y, float z, int dx, int dy, int dz, float delta, boolean mirror) {
-				renderer.mirror = mirror;
-				renderer.addBox("", x, y, z, dx, dy, dz, delta, texU, texV);
-			}
-			</#if>
-		</#if>
-	</#if>
+	@Override public ResourceLocation getEntityTexture(${name}Entity entity) {
+		return texture;
+	}
 }
+<#-- @formatter:on -->
