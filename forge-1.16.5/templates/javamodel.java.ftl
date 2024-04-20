@@ -51,7 +51,7 @@ ${model.toString()
     .replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);")
 }
 
-    <#if data.model.contains(".cubeList.add(new")> <#-- if the model is pre 1.15.2 -->
+    <#if model.contains(".cubeList.add(new")> <#-- if the model is pre 1.15.2 -->
     @OnlyIn(Dist.CLIENT) public static void addBoxHelper(ModelRenderer renderer, int texU, int texV, float x, float y, float z, int dx, int dy, int dz, float delta) {
      addBoxHelper(renderer, texU, texV, x, y, z, dx, dy, dz, delta, renderer.mirror);
     }
