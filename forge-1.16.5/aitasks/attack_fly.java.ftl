@@ -5,7 +5,7 @@
 <#else>
 	<#assign conditions = ["", ""]>
 </#if>
-this.goalSelector.addGoal(${cbi+1}, new Goal() {
+this.goalSelector.addGoal(${customBlockIndex+1}, new Goal() {
 	{
 		this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
 	}
@@ -48,7 +48,7 @@ this.goalSelector.addGoal(${cbi+1}, new Goal() {
 		if (${name}Entity.this.getBoundingBox().intersects(livingentity.getBoundingBox())) {
 			${name}Entity.this.attackEntityAsMob(livingentity);
 		} else {
-			double d0 = ${name}Entity.this.distanceToSqr(livingentity);
+			double d0 = ${name}Entity.this.getDistanceSq(livingentity);
 			if (d0 < ${field$radius}) {
 				Vector3d vec3d = livingentity.getEyePosition(1);
 				${name}Entity.this.moveController.setMoveTo(vec3d.x, vec3d.y, vec3d.z, ${field$speed});
