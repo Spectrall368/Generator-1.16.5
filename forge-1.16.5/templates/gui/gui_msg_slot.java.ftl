@@ -84,7 +84,7 @@ package ${package}.network;
 		HashMap guistate = ${name}Menu.guistate;
 
 		// security measure to prevent arbitrary chunk generation
-		if (!world.hasChunkAt(new BlockPos(x, y, z)))
+		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
 			return;
 
 		<#list data.components as component>
