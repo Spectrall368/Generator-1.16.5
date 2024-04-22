@@ -74,7 +74,7 @@ package ${package}.world.teleporter;
 
 			entity.moveForced(portalinfo.pos.x, portalinfo.pos.y, portalinfo.pos.z);
 
-			CriteriaTriggers.CHANGED_DIMENSION.testForAll(player, currentWorld.getDimensionKey(), server.getDimensionKey());
+			CriteriaTriggers.CHANGED_DIMENSION.testForAll((ServerPlayerEntity) entity, currentWorld.getDimensionKey(), server.getDimensionKey());
 
 			return entity;
 		} else {
