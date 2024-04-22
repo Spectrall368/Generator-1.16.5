@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 	public static final String MODID = "${modid}";
 
 	public ${JavaModName}() {
-		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(new ${JavaModName}FMLBusEvents(this));
 
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		<#if w.hasElementsOfType("tab")>${JavaModName}Tabs.load();</#if>
@@ -67,16 +67,25 @@ import org.apache.logging.log4j.Logger;
 			workQueue.add(new AbstractMap.SimpleEntry<>(action, tick));
 	}
 
-	@SubscribeEvent public void tick(TickEvent.ServerTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
-			workQueue.forEach(work -> {
-				work.setValue(work.getValue() - 1);
-				if (work.getValue() == 0)
-					actions.add(work);
-			});
-			actions.forEach(e -> e.getKey().run());
-			workQueue.removeAll(actions);
+	private static class ${JavaModName}FMLBusEvents {
+
+		private final ${JavaModName} parent;
+
+		${JavaModName}FMLBusEvents (${JavaModName} parent) {
+			this.parent = parent;
+		}
+
+		@SubscribeEvent public void tick(TickEvent.ServerTickEvent event) {
+			if (event.phase == TickEvent.Phase.END) {
+				List<AbstractMap.SimpleEntry<Runnable, Integer>> actions = new ArrayList<>();
+				workQueue.forEach(work -> {
+					work.setValue(work.getValue() - 1);
+					if (work.getValue() == 0)
+						actions.add(work);
+				});
+				actions.forEach(e -> e.getKey().run());
+				workQueue.removeAll(actions);
+			}
 		}
 	}
 }
