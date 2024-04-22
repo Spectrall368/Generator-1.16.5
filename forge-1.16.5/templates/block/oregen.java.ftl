@@ -117,7 +117,7 @@ package ${package}.world.features.ores;
 		boolean biomeCriteria = false;
 		<#list data.restrictionBiomes as restrictionBiome>
 		<#if restrictionBiome.canProperlyMap()>
-		if (new ResourceLocation("${restrictionBiome}").equavent.getName())
+		if (new ResourceLocation("${restrictionBiome}").equals.getName())
 			biomeCriteria = true;
 		</#if>
 		</#list>
