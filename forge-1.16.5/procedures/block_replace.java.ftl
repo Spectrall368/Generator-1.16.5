@@ -11,7 +11,7 @@ world.setBlockState(${toBlockPos(input$x,input$y,input$z)}, ${mappedBlockToBlock
 	BlockState _bso = world.getBlockState(_bp);
 	for(Map.Entry<Property<?>, Comparable<?>> entry : _bso.getValues().entrySet()) {
 		Property _property = _bs.getBlock().getStateContainer().getProperty(entry.getKey().getName());
-		if (_property != null && _bs.has(_property))
+		if (_property != null && _bs.get(_property))
 			try {
 				_bs = _bs.with(_property, (Comparable) entry.getValue());
 			} catch (Exception e) {}
@@ -34,7 +34,7 @@ world.setBlockState(${toBlockPos(input$x,input$y,input$z)}, ${mappedBlockToBlock
 		_te = world.getTileEntity(_bp);
 		if(_te != null) {
 			try {
-				_te.read(_bnbt);
+				_te.read(world.getBlockState(_bp), _bnbt);
 			} catch(Exception ignored) {}
 		}
 	}
