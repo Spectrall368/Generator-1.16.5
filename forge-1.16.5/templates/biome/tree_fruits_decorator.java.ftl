@@ -61,16 +61,13 @@ public class ${name}FruitDecorator extends CocoaTreeDecorator {
         switch (direction) {
             case SOUTH:
 		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
-		break;
             case EAST:
 		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
-		break;
             case WEST:
 		return blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
-		break;
-            default:
-		return blockstate;
         };
+
+	return blockstate;
     }
 }
 <#-- @formatter:on -->
