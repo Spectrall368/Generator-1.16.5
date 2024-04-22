@@ -53,8 +53,7 @@ ${model.toString()
     .replaceAll("render\\(Entity[\n\r\t\\s]+entity,[\n\r\t\\s]+float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5\\)",
 	"render(MatrixStack ms, IVertexBuilder vb, int i1, int i2, float f1, float f2, float f3, float f4)")
     .replaceAll("super\\.render\\(entity,[\n\r\t\\s]+f,[\n\r\t\\s]+f1,[\n\r\t\\s]+f2,[\n\r\t\\s]+f3,[\n\r\t\\s]+f4,[\n\r\t\\s]+f5\\);", "")
-    .replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);").replace("	}
-}", "	}")}
+    .replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);").substring(0, model.length()-1)}
 
     <#if model.contains(".cubeList.add(new")> <#-- if the model is pre 1.15.2 -->
     @OnlyIn(Dist.CLIENT) public static void addBoxHelper(ModelRenderer renderer, int texU, int texV, float x, float y, float z, int dx, int dy, int dz, float delta) {
