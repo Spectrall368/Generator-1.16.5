@@ -42,7 +42,7 @@
     ?replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);")?remove_ending("}")>
 package ${package}.client.model;
 
-{custom_model.toString()
+${custom_model.toString()
     .replaceAll("(.*?)\\.cubeList\\.add\\(new\\sModelBox\\(", "addBoxHelper(")
     .replaceAll(",[\n\r\t\\s]+true\\)\\);", ", true);")
     .replaceAll(",[\n\r\t\\s]+false\\)\\);", ", false);")
