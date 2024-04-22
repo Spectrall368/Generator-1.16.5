@@ -72,18 +72,6 @@ public class ${JavaModName}Blocks {
 		</#if>
 	</#list>
 
-	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
-		<#list blocks as block>
-			<#if block.getModElement().getTypeString() != "fluid">
-				<#if block.getModElement().getTypeString() != "dimension">
-					${block.getModElement().getName()}Block.clientLoad(event);
-				<#else>
-					${block.getModElement().getName()}PortalBlock.clientLoad(event);
-				</#if>
-			</#if>
-		</#list>
-	}
-
 	<#if hasTintedBlocks || hasTintedBlockItems || hasTransparentBlocks>
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public static class ClientSideHandler {
 	        <#if hasTransparentBlocks>
