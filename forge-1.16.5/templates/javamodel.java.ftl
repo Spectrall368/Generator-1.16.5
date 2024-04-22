@@ -29,20 +29,14 @@
 -->
 
 <#-- @formatter:off -->
-<#assign custom_model = model
-    ?replace("public static class", "public class")
-    ?replace("private final ModelRenderer", "public final ModelRenderer")
-    ?replace("extends ModelBase", "extends EntityModel<Entity>")
-    ?replace("extends EntityModel ", "extends EntityModel<Entity>")
-    ?replace(" extends EntityModel<Entity>", "<T extends Entity> extends EntityModel<T>")
-    ?replace("RendererModel ", "ModelRenderer ")
-    ?replace("RendererModel(", "ModelRenderer(")
-    ?replace("GlStateManager.translate", "GlStateManager.translated")
-    ?replace("GlStateManager.scale", "GlStateManager.scaled")
-    ?replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);")?remove_ending("}")>
 package ${package}.client.model;
+<#assign JModel = model?replace("public static class", "public class")?replace("private final ModelRenderer", "public final ModelRenderer")
+    ?replace("extends ModelBase", "extends EntityModel<Entity>")?replace("extends EntityModel ", "extends EntityModel<Entity>")
+    ?replace(" extends EntityModel<Entity>", "<T extends Entity> extends EntityModel<T>")?replace("RendererModel ", "ModelRenderer ")
+    ?replace("RendererModel(", "ModelRenderer(")?replace("GlStateManager.translate", "GlStateManager.translated")
+    ?replace("GlStateManager.scale", "GlStateManager.scaled")?replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);")?remove_ending("}")>
 
-${custom_model.toString()
+${JModel.toString()
     .replaceAll("(.*?)\\.cubeList\\.add\\(new\\sModelBox\\(", "addBoxHelper(")
     .replaceAll(",[\n\r\t\\s]+true\\)\\);", ", true);")
     .replaceAll(",[\n\r\t\\s]+false\\)\\);", ", false);")
