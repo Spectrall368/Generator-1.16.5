@@ -268,7 +268,7 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 	<#if data.plantType == "growapable" || hasProcedure(data.onTickUpdate)>
 	@Override public void randomTick(BlockState blockstate, ServerWorld world, BlockPos pos, Random random) {
 		<#if data.plantType == "growapable">
-		if (world.isAirBlock(blockpos.up())) {
+		if (world.isAirBlock(pos.up())) {
 			int i = 1;
 			for(;world.getBlockState(pos.down(i)).getBlock() == this; ++i);
 			if (i < ${data.growapableMaxHeight}) {
