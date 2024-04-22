@@ -100,7 +100,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 			"x": "this.getPosX()",
 			"y": "this.getPosY()",
 			"z": "this.getPosZ()",
-			"entity": "entityRayTraceResult.getEntity()",
+			"entity": "entityHitResult.getEntity()",
 			"sourceentity": "this.func_234616_v_()",
 			"immediatesourceentity": "this",
 			"world": "this.world"
@@ -112,9 +112,9 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 	@Override public void func_230299_a_(BlockRayTraceResult blockHitResult) {
 		super.func_230299_a_(blockHitResult);
 		<@procedureCode data.onBulletHitsBlock, {
-			"x": "blockRayTraceResult.getPos().getPosX()",
-			"y": "blockRayTraceResult.getPos().getPosY()",
-			"z": "blockRayTraceResult.getPos().getPosZ()",
+			"x": "blockHitResult.getPos().getPosX()",
+			"y": "blockHitResult.getPos().getPosY()",
+			"z": "blockHitResult.getPos().getPosZ()",
 			"entity": "this.func_234616_v_()",
 			"immediatesourceentity": "this",
 			"world": "this.world"
