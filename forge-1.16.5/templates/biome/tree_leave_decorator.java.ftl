@@ -35,7 +35,6 @@ package ${package}.world.features.treedecorators;
 public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
 
         public static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator();
-
         public static com.mojang.serialization.Codec<LeaveVineTreeDecorator> codec;
         public static TreeDecoratorType tdt;
 
