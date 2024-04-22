@@ -242,7 +242,7 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 				}
 				</#if>
 
-				return groundState.getBlock() == this ||
+				return groundState.isIn(this) ||
 				<#if (data.canBePlacedOn?size > 0)>
 					<@canPlaceOnList data.canBePlacedOn hasProcedure(data.placingCondition)/>
 				</#if>
