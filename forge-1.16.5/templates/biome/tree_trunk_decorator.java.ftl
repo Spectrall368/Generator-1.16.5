@@ -35,7 +35,6 @@ package ${package}.world.features.treedecorators;
 public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
 
         public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
-
         public static com.mojang.serialization.Codec<${name}TrunkDecorator> codec;
         public static TreeDecoratorType tdt;
 
