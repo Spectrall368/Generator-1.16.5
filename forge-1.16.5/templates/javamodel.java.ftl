@@ -67,7 +67,7 @@ ${model.toString()
     </#if>
 
     <#if !model.contains("setRotationAngles")>
-    @Override public void setRotationAngles(Entity e, float 1, float 2, float 3, float 4, float 5) {}
+    @Override public void setRotationAngles(Entity e, float f1, float f2, float f3, float f4, float f5) {}
     </#if>
 }
 <#-- @formatter:on -->
