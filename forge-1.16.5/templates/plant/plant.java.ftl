@@ -391,6 +391,6 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 <#macro canPlaceOnList blockList condition>
 <#if (blockList?size > 1) && condition>(</#if>
 <#list blockList as canBePlacedOn>
-groundState.getBlock() == (${mappedBlockToBlock(canBePlacedOn)})<#sep>||
+groundState.isIn(${mappedBlockToBlock(canBePlacedOn)})<#sep>||
 </#list><#if (blockList?size > 1) && condition>)</#if>
 </#macro>
