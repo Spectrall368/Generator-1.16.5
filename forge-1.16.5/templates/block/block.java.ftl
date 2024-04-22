@@ -174,8 +174,8 @@ public class ${name}Block extends
 		</#if>
 	}
 
-	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
 	<#if data.transparencyType != "SOLID">
+	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
 		<#if data.transparencyType == "CUTOUT">
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
 		<#elseif data.transparencyType == "CUTOUT_MIPPED">
@@ -185,12 +185,12 @@ public class ${name}Block extends
 		<#else>
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getSolid());
 		</#if>
-	<#elseif data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
-		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
-	<#else>
-		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getSolid());
-	</#if>
 	}
+	<#elseif data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
+	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
+	}
+	</#if>
 
 	<#if data.blockBase?has_content && data.blockBase == "Fence">
 	@Override public boolean canConnect(BlockState state, boolean checkattach, Direction face) {
