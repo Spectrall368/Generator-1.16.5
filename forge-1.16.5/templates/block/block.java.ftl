@@ -174,7 +174,7 @@ public class ${name}Block extends
 		</#if>
 	}
 
-	public static void clientLoad(FMLClientSetupEvent event) {
+	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
 	<#if data.transparencyType != "SOLID">
 		<#if data.transparencyType == "CUTOUT">
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
