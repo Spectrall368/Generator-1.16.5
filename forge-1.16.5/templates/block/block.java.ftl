@@ -409,7 +409,7 @@ public class ${name}Block extends
 		}
 		</#if>
 		return <#if hasProcedure(data.placingCondition)>
-		!state.isValidPosition(world, currentPos) ? Blocks.AIR.defaultBlockState() :
+		!state.isValidPosition(world, currentPos) ? Blocks.AIR.getDefaultState() :
 		</#if> super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
 	}
 	</#if>
@@ -541,7 +541,7 @@ public class ${name}Block extends
 		<#elseif data.customDrop?? && !data.customDrop.isEmpty()>
 		@Override public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
 			<#if data.blockBase?has_content && data.blockBase == "Door">
-			if(state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) != DoubleBlockHalf.LOWER)
+			if(state.get(BlockStateProperties.DOUBLE_BLOCK_HALF) != DoubleBlockHalf.LOWER)
 				return Collections.emptyList();
 			</#if>
 
