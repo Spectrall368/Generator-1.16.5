@@ -9,7 +9,7 @@ world.setBlockState(${toBlockPos(input$x,input$y,input$z)}, ${mappedBlockToBlock
 
 	<#if field$state?lower_case == "true">
 	BlockState _bso = world.getBlockState(_bp);
-	for(Map.Entry<IProperty<?>, Comparable<?>> entry : _bso.getValues().entrySet()) {
+	for(Map.Entry<Property<?>, Comparable<?>> entry : _bso.getValues().entrySet()) {
 		Property _property = _bs.getBlock().getStateContainer().getProperty(entry.getKey().getName());
 		if (_property != null && _bs.has(_property))
 			try {
