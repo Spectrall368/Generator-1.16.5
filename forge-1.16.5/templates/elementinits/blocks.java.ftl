@@ -69,7 +69,11 @@ public class ${JavaModName}Blocks {
 
 	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
 		<#list blocks as block>
-			${block.getModElement().getName()}Block.clientLoad(event);
+			<#if block.getModElement().getTypeString() != "dimension">
+				${block.getModElement().getName()}Block.clientLoad(event);
+			<#else>
+				${block.getModElement().getName()}PortalBlock.clientLoad(event);
+			</#if>
 		</#list>
 	}
 
