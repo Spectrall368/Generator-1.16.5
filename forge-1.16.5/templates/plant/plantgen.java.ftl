@@ -50,7 +50,7 @@ package ${package}.world.features.plants;
 
 	@SubscribeEvent public void registerFeature(RegistryEvent.Register<Feature<?>> event) {
     		feature = ${featurename}(BlockClusterFeatureConfig.field_236587_a_) {
-    		<#if data.staticPlantGenerationType == "Flower">
+    		<#if data.staticPlantGenerationType == "Flower" && data.plantType == "normal">
 		@Override public BlockState getFlowerToPlace(Random random, BlockPos bp, BlockClusterFeatureConfig fc) {
 			return ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState();
 		}
@@ -96,8 +96,8 @@ package ${package}.world.features.plants;
 					int k = 1 + random.nextInt(random.nextInt(${data.growapableMaxHeight}) + 1);
 					k = Math.min(${data.growapableMaxHeight}, k);
 					for(int l = 0; l < k; ++l) {
-						if (block.getDefaultState().isValidPosition(world, blockpos)) {
-							world.setBlockState(blockpos.up(l), block.getDefaultState(), 2);
+						if (${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState().isValidPosition(world, blockpos)) {
+							world.setBlockState(blockpos.up(l), ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), 2);
 							generated++;
 						}
 					}
