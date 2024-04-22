@@ -112,9 +112,9 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 	@Override public void func_230299_a_(BlockRayTraceResult blockHitResult) {
 		super.func_230299_a_(blockHitResult);
 		<@procedureCode data.onBulletHitsBlock, {
-			"x": "blockHitResult.getPos().getPosX()",
-			"y": "blockHitResult.getPos().getPosY()",
-			"z": "blockHitResult.getPos().getPosZ()",
+			"x": "blockHitResult.getPos().getX()",
+			"y": "blockHitResult.getPos().getY()",
+			"z": "blockHitResult.getPos().getZ()",
 			"entity": "this.func_234616_v_()",
 			"immediatesourceentity": "this",
 			"world": "this.world"
