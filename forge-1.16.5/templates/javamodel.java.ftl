@@ -31,7 +31,7 @@
 <#-- @formatter:off -->
 package ${package}.client.model;
 
-${model?remove_ending("}").toString()
+${model.toString()
     .replace("public static class", "public class")
     .replace("private final ModelRenderer", "public final ModelRenderer")
     .replace("extends ModelBase", "extends EntityModel<Entity>")
