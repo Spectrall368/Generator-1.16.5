@@ -30,7 +30,8 @@
 
 <#-- @formatter:off -->
 package ${package}.client.model;
-<#assign JModel = model?remove_ending("}")> 
+<#assign JModel = model?remove_ending("}")>
+
 ${JModel.toString()
     .replace("public static class", "public class")
     .replace("private final ModelRenderer", "public final ModelRenderer")
