@@ -59,18 +59,18 @@ public class ${name}FruitDecorator extends CocoaTreeDecorator {
     .replace("Blocks.COCOA.getDefaultState().with(CocoaBlock.AGE,Integer.valueOf(p_225576_2_.nextInt(3))).with(CocoaBlock.HORIZONTAL_FACING,direction)", "oriented(" + mappedBlockToBlockStateCode(data.treeFruits) + ", direction1)")}
 
     private static BlockState oriented(BlockState blockstate, Direction direction) {
-        return switch (direction) {
+        switch (direction) {
             case SOUTH:
-		blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
+		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
 		break;
             case EAST:
-		blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
+		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
 		break;
             case WEST:
-		blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
+		return blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
 		break;
             default:
-		blockstate;
+		return blockstate;
         };
     }
 }
