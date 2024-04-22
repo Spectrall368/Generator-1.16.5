@@ -595,7 +595,7 @@ public class ${name}Block extends
 	<#if hasProcedure(data.onRandomUpdateEvent)>
 	@OnlyIn(Dist.CLIENT) @Override public void animateTick(BlockState blockstate, World world, BlockPos pos, Random random) {
 		super.animateTick(blockstate, world, pos, random);
-		Player entity = Minecraft.getInstance().player;
+		PlayerEntity entity = Minecraft.getInstance().player;
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
