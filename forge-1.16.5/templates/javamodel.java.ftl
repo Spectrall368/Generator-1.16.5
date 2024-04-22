@@ -65,5 +65,9 @@ ${model.toString()
     	renderer.addBox("", x, y, z, dx, dy, dz, delta, texU, texV);
     }
     </#if>
+
+    <#if !model.contains("setRotationAngles")>
+    @Override public void setRotationAngles(Entity e, float 1, float 2, float 3, float 4, float 5) {}
+    </#if>
 }
 <#-- @formatter:on -->
