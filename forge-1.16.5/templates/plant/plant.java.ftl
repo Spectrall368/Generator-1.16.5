@@ -94,7 +94,7 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 		);
 	}
 
-	public static void clientLoad(FMLClientSetupEvent event) {
+	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get(), RenderType.getCutout());
 	}
 
