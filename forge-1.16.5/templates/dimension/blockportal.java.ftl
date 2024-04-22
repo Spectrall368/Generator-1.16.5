@@ -51,7 +51,7 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 	}
 	</#if>
 
-	public static void clientLoad(FMLClientSetupEvent event) {
+	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}_PORTAL.get(), RenderType.getCutout());
 	}
 
