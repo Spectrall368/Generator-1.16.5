@@ -33,10 +33,14 @@
  *    MCreator note: This file will be REGENERATED on each build.
  */
 package ${package}.init;
+<#assign hasTransparentBlocks = false>
 <#assign hasTintedBlocks = false>
 <#assign hasTintedBlockItems = false>
 <#list blocks as block>
 	<#if block.getModElement().getTypeString() == "block">
+	        <#if block.transparencyType != "SOLID" || block.hasTransparency || block.tintType != "No tint">
+	            <#assign hasTransparentBlocks = true>
+	        </#if>
 		<#if block.tintType != "No tint">
 			<#assign hasTintedBlocks = true>
 			<#if block.isItemTinted>
@@ -44,6 +48,7 @@ package ${package}.init;
 			</#if>
 		</#if>
 	<#elseif block.getModElement().getTypeString() == "plant">
+        	<#assign hasTransparentBlocks = true> <#-- Plants always have cutout transparency -->
 		<#if block.tintType != "No tint">
 			<#assign hasTintedBlocks = true>
 			<#if block.isItemTinted>
@@ -79,8 +84,24 @@ public class ${JavaModName}Blocks {
 		</#list>
 	}
 
-	<#if hasTintedBlocks || hasTintedBlockItems>
+	<#if hasTintedBlocks || hasTintedBlockItems || hasTransparentBlocks>
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public static class ClientSideHandler {
+	        <#if hasTransparentBlocks>
+		    @SubscribeEvent public static void clientSetup(FMLClientSetupEvent event) {
+		    	<#list blocks as block>
+	                <#if block.getModElement().getTypeString() == "block">
+	                    <#if block.transparencyType != "SOLID" || block.hasTransparency>
+	                        ${block.getModElement().getName()}Block.registerRenderLayer();
+	                    </#if>
+	                <#elseif block.getModElement().getTypeString() == "plant">
+	                    ${block.getModElement().getName()}Block.registerRenderLayer();
+	                <#elseif block.getModElement().getTypeString() == "dimension">
+	                    ${block.getModElement().getName()}PortalBlock.registerRenderLayer();
+	                </#if>
+	            </#list>
+			}
+	        </#if>
+
 		<#if hasTintedBlocks>
 		@SubscribeEvent public static void blockColorLoad(ColorHandlerEvent.Block event) {
 			<#list blocks as block>
