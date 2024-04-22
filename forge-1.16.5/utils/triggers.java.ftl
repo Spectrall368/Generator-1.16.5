@@ -359,7 +359,7 @@
 <#macro onEntityWalksOn procedure="">
 <#if hasProcedure(procedure)>
 @Override public void onEntityWalk(World world, BlockPos pos, Entity entity) {
-	super.onEntityWalk(world, pos, blockstate, entity);
+	super.onEntityWalk(world, pos, entity);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
