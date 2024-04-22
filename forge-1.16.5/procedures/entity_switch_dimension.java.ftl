@@ -1,18 +1,18 @@
 <#if field$dimension??><#--Here for legacy reasons as field$dimension does not exist in older workspaces-->
 if (${input$entity} instanceof ServerPlayerEntity && !((ServerPlayerEntity) ${input$entity}).world.isRemote()) {
 	<#if field$dimension=="Surface">
-		RegistryKey<World> destinationType = Level.OVERWORLD;
+		RegistryKey<World> destinationType = World.OVERWORLD;
 	<#elseif field$dimension=="Nether">
-		RegistryKey<World> destinationType = Level.NETHER;
+		RegistryKey<World> destinationType = World.THE_NETHER;
 	<#elseif field$dimension=="End">
-		RegistryKey<World> destinationType = Level.END;
+		RegistryKey<World> destinationType = World.THE_END;
 	<#else>
 		RegistryKey<World> destinationType = RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
 			new ResourceLocation("${generator.getResourceLocationForModElement(field$dimension.replace("CUSTOM:", ""))}"));
 	</#if>
-	if (((ServerPlayerEntity) ${input$entity}).world.dimension() == destinationType) return;
+	if (((ServerPlayerEntity) ${input$entity}).world.getDimensionKey() == destinationType) return;
 
-	ServerWorld nextWorld = ((ServerPlayerEntity) ${input$entity}).getWorld(destinationType);
+	ServerWorld nextWorld = ((ServerPlayerEntity) ${input$entity}).getServer().getWorld(destinationType);
 	if (nextWorld != null) {
 		((ServerPlayerEntity) ${input$entity}).connection.sendPacket(new SChangeGameStatePacket(SChangeGameStatePacket.field_241768_e_, 0));
 		((ServerPlayerEntity) ${input$entity}).teleport(nextWorld, ((ServerPlayerEntity) ${input$entity}).getPosX(), ((ServerPlayerEntity) ${input$entity}).getPosY(), ((ServerPlayerEntity) ${input$entity}).getPosZ(), ((ServerPlayerEntity) ${input$entity}).rotationYaw, ((ServerPlayerEntity) ${input$entity}).rotationPitch);
