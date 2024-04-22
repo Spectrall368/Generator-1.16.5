@@ -144,7 +144,7 @@ public class ${name}Block extends
 
 	public ${name}Block() {
 		<#if data.blockBase?has_content && data.blockBase == "Stairs">
-			super(() -> Blocks.AIR.defaultBlockState(), <@blockProperties/>);
+			super(() -> Blocks.AIR.getDefaultState(), <@blockProperties/>);
 		<#elseif data.blockBase?has_content && data.blockBase == "PressurePlate">
 		    <#if data.material.getUnmappedValue() == "WOOD">
 		        super(Sensitivity.EVERYTHING, <@blockProperties/>);
