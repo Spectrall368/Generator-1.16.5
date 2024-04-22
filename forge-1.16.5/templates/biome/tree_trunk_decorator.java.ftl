@@ -51,23 +51,7 @@ public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
         }
 
         @Override protected void func_227424_a_(IWorldWriter ww, BlockPos bp, BooleanProperty bpr, Set<BlockPos> sbc, MutableBoundingBox mbb) {
-                this.func_227423_a_(ww, bp, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, direction1), sbc, mbb);
+                this.func_227423_a_(ww, bp, ${mappedBlockToBlockStateCode(data.treeVines)}, sbc, mbb);
      	}
-
-    private static BlockState oriented(BlockState blockstate, Direction direction) {
-        switch (direction) {
-            case SOUTH:
-		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
-		break;
-            case EAST:
-		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
-		break;
-            case WEST:
-		return blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
-		break;
-            default:
-		return blockstate;
-        };
-    }
 }
 <#-- @formatter:on -->
