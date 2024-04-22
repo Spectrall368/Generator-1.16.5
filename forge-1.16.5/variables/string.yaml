@@ -40,8 +40,8 @@ scopes:
         });
       }
   player_persistent:
-    init: public String instance.${var.getName()} = "${JavaConventions.escapeStringForJava(var.getValue())}";
-    read: ${var.getName()} = nbt.getString("${var.getName()}");
+    init: public String ${var.getName()} = "${JavaConventions.escapeStringForJava(var.getValue())}";
+    read: instance.${var.getName()} = nbt.getString("${var.getName()}");
     write: nbt.putString("${var.getName()}" , instance.${var.getName()});
     get: |
       ((${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES_CAPABILITY, null)
