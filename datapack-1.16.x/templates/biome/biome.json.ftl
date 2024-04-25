@@ -27,7 +27,7 @@
 	},
 	"spawn_costs": {},
     "carvers": {
-		<#if data.defaultFeatures?contains("Lakes")>
+		<#if data.defaultFeatures?contains("Caves")>
     	"air": [
             "minecraft:cave",
             "minecraft:canyon"
@@ -37,7 +37,7 @@
     "features": [
     	<#--RAW_GENERATION-->[],
 		<#--LAKES-->[
-		<#if data.defaultFeatures?contains("Caves")>
+		<#if data.defaultFeatures?contains("Lakes")>
 			"minecraft:lake_water",
 			"minecraft:lake_lava"
 		</#if>
