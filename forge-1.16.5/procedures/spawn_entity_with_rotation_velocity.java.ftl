@@ -8,8 +8,8 @@ if (world instanceof ServerWorld) {
 	entityToSpawn.setMotion(${input$vx}, ${input$vy}, ${input$vz});
 
 	if (entityToSpawn instanceof MobEntity)
-		((MobEntity) entityToSpawn).onInitialSpawn(((ServerWorld) world),world.getDifficultyForLocation(entityToSpawn.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
+		((MobEntity) entityToSpawn).onInitialSpawn(((ServerWorld) world), (ServerWorld) world).getDifficultyForLocation(entityToSpawn.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
 
-	world.addEntity(entityToSpawn);
+	(ServerWorld) world).addEntity(entityToSpawn);
 }
 </#if>
