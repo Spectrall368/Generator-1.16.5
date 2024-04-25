@@ -8,6 +8,6 @@ if (world instanceof ServerWorld) {
 						.setRotation(Rotation.${field$rotation!'NONE'})
 						.setMirror(Mirror.${field$mirror!'NONE'})
 						.setChunk(null)
-						.setIgnoreEntities(false), ((World) world).rand);
+						.setIgnoreEntities(false), ((ServerWorld) world).rand);
 	}
 }
