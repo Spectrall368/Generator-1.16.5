@@ -5,8 +5,8 @@ if (world instanceof ServerWorld) {
 	entityToSpawn.setLocationAndAngles(${input$x}, ${input$y}, ${input$z}, world.getRandom().nextFloat() * 360F, 0);
 
 	if (entityToSpawn instanceof MobEntity)
-        ((MobEntity) entityToSpawn).onInitialSpawn(((ServerWorld) world), world.getDifficultyForLocation(entityToSpawn.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
+        ((MobEntity) entityToSpawn).onInitialSpawn(((ServerWorld) world), (ServerWorld) world).getDifficultyForLocation(entityToSpawn.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
 
-	world.addEntity(entityToSpawn);
+	(ServerWorld) world).addEntity(entityToSpawn);
 }
 </#if>
