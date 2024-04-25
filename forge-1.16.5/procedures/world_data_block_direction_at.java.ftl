@@ -1,14 +1,13 @@
 <#include "mcelements.ftl">
 (new Object() {
 	public Direction getDirection(BlockPos pos){
-		try {
-			BlockState _bs = world.getBlockState(pos);
-			DirectionProperty property = (DirectionProperty) _bs.getBlock().getStateContainer().getProperty("facing");
-			if (property != null)
-				return _bs.get(property);
-			return Direction.getFacingFromAxisDirection(_bs.get((EnumProperty<Direction.Axis>) _bs.getBlock()
-				.getStateContainer().getProperty("axis")), Direction.AxisDirection.POSITIVE);
-		} catch (Exception e) {
-			return Direction.NORTH;
-		}
+		BlockState _bs = world.getBlockState(pos);
+		Property<?> property = _bs.getBlock().getStateContainer().getProperty("facing");
+		if (property != null && _bs.get(property) instanceof Direction)
+			return ((Direction) _bs.get(property));
+		else if (_bs.hasProperty(BlockStateProperties.AXIS))
+			return Direction.getFacingFromAxisDirection(_bs.get(BlockStateProperties.AXIS), Direction.AxisDirection.POSITIVE);
+		else if (_bs.hasProperty(BlockStateProperties.HORIZONTAL_AXIS))
+			return Direction.getFacingFromAxisDirection(_bs.get(BlockStateProperties.HORIZONTAL_AXIS), Direction.AxisDirection.POSITIVE);
+		return Direction.NORTH;
 }}.getDirection(${toBlockPos(input$x,input$y,input$z)}))
