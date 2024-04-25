@@ -1,2 +1,2 @@
-if(world instanceof World && !((World) world).isRemote())
-	((World) world).addEntity(new ExperienceOrbEntity(((World) world), ${input$x}, ${input$y}, ${input$z}, ${opt.toInt(input$xpamount)}));
+if(world instanceof ServerWorld)
+	((ServerWorld) world).addEntity(new ExperienceOrbEntity(((ServerWorld) world), ${input$x}, ${input$y}, ${input$z}, ${opt.toInt(input$xpamount)}));
