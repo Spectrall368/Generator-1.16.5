@@ -87,6 +87,7 @@ public abstract class ${name}Item extends ArmorItem {
 		@Override @OnlyIn(Dist.CLIENT) public BipedModel getArmorModel(LivingEntity living, ItemStack stack, EquipmentSlotType slot, BipedModel defaultModel) {
 			BipedModel armorModel = new BipedModel(1);
 			armorModel.bipedHead = new ${data.helmetModelName}().${data.helmetModelPart};
+			armorModel.bipedHeadwear.showModel = false;
 			armorModel.isSneak = living.isSneaking();
 			armorModel.isSitting = defaultModel.isSitting;
 			armorModel.isChild = living.isChild();
@@ -158,6 +159,7 @@ public abstract class ${name}Item extends ArmorItem {
 		<#if data.leggingsModelName != "Default" && data.getLeggingsModel()??>
 		@Override @OnlyIn(Dist.CLIENT) public BipedModel getArmorModel(LivingEntity living, ItemStack stack, EquipmentSlotType slot, BipedModel defaultModel) {
 			BipedModel armorModel = new BipedModel(1);
+			armorModel.bipedBody = new ${data.bodyModelName}().${data.bodyModelPart};
 
 			<#if data.leggingsModelPartL?has_content>
 			armorModel.bipedLeftLeg = new ${data.leggingsModelName}().${data.leggingsModelPartL};
