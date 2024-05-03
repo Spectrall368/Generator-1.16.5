@@ -39,24 +39,21 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 				.hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel(s -> ${data.portalLuminance}).noDrops());
 	}
 
-	<#if hasProcedure(data.onPortalTickUpdate)>
-	@Override public void tick(BlockState blockstate, ServerWorld world, BlockPos pos, Random random) {
-		<@procedureCode data.onPortalTickUpdate, {
-			"x": "pos.getX()",
-			"y": "pos.getY()",
-			"z": "pos.getZ()",
-			"world": "world",
-			"blockstate": "blockstate"
-		}/>
+	@Override public void randomTick(BlockState blockstate, ServerLevel world, BlockPos pos, Random random) {
+		<#-- Do not call super to prevent ZOMBIFIED_PIGLINs from spawning -->
+		<#if hasProcedure(data.onPortalTickUpdate)>
+			<@procedureCode data.onPortalTickUpdate, {
+				"x": "pos.getX()",
+				"y": "pos.getY()",
+				"z": "pos.getZ()",
+				"world": "world",
+				"blockstate": "blockstate"
+			}/>
+		</#if>
 	}
-	</#if>
 
 	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}_PORTAL.get(), RenderType.getCutout());
-	}
-
-	<#-- Prevent ZOMBIFIED_PIGLINs from spawning -->
-	@Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 	}
 
 	public static void portalSpawn(World world, BlockPos pos) {
