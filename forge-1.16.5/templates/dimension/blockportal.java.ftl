@@ -39,7 +39,7 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 				.hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel(s -> ${data.portalLuminance}).noDrops());
 	}
 
-	@Override public void randomTick(BlockState blockstate, ServerLevel world, BlockPos pos, Random random) {
+	@Override public void randomTick(BlockState blockstate, ServerWorld world, BlockPos pos, Random random) {
 		<#-- Do not call super to prevent ZOMBIFIED_PIGLINs from spawning -->
 		<#if hasProcedure(data.onPortalTickUpdate)>
 			<@procedureCode data.onPortalTickUpdate, {
