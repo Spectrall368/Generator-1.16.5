@@ -457,7 +457,7 @@ public class ${name}Block extends
 	</#if>
 
 	<#if data.creativePickItem?? && !data.creativePickItem.isEmpty()>
-	@Override public ItemStack getPickBlock(BlockState state, HitResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
+	@Override public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		return ${mappedMCItemToItemStackCode(data.creativePickItem, 1)};
 	}
 	</#if>
@@ -578,7 +578,7 @@ public class ${name}Block extends
 
 	<#if hasProcedure(data.onTickUpdate)>
 	@Override public void <#if data.tickRandomly && (data.blockBase?has_content && data.blockBase == "Stairs")>randomTick<#else>tick</#if>
-			(BlockState blockstate, ServerWorld world, BlockPos pos, Random random) {
+		(BlockState blockstate, ServerWorld world, BlockPos pos, Random random) {
 		super.<#if data.tickRandomly && (data.blockBase?has_content && data.blockBase == "Stairs")>randomTick<#else>tick</#if>(blockstate, world, pos, random);
 		int x = pos.getX();
 		int y = pos.getY();
@@ -618,8 +618,7 @@ public class ${name}Block extends
 	<@onBlockPlacedBy data.onBlockPlayedBy/>
 
 	<#if hasProcedure(data.onRightClicked) || data.shouldOpenGUIOnRightClick()>
-	@Override
-	public ActionResultType onBlockActivated(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, Hand hand, BlockRayTraceResult hit) {
+	@Override public ActionResultType onBlockActivated(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, Hand hand, BlockRayTraceResult hit) {
 		super.onBlockActivated(blockstate, world, pos, entity, hand, hit);
 		<#if data.shouldOpenGUIOnRightClick()>
 		if(entity instanceof ServerPlayerEntity) {
