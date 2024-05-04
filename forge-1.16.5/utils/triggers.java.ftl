@@ -79,9 +79,9 @@
 	</#if>
 	<#if hasProcedure(procedure)>
 		<@procedureCode procedure, {
-			"x": "pos.getPosX()",
-			"y": "pos.getPosY()",
-			"z": "pos.getPosZ()",
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
 			"world": "world",
 			"entity": "entity",
 			"itemstack": "itemstack",
