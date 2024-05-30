@@ -29,7 +29,7 @@ description="${settings.getDescription()}"
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5]"
-    ordering="NONE"
+    ordering="AFTER"
     side="<#if settings.isServerSideOnly()>SERVER<#else>BOTH</#if>"
 
 <#if !settings.isDisableForgeVersionCheck()>
