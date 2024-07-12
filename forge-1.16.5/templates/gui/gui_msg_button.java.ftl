@@ -101,6 +101,5 @@ package ${package}.network;
 	@SubscribeEvent public static void registerMessage(FMLCommonSetupEvent event) {
 		${JavaModName}.addNetworkMessage(${name}ButtonMessage.class, ${name}ButtonMessage::buffer, ${name}ButtonMessage::new, ${name}ButtonMessage::handler);
 	}
-
 }
 <#-- @formatter:on -->
