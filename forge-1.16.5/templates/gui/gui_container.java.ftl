@@ -31,9 +31,11 @@
 <#-- @formatter:off -->
 <#include "../mcitems.ftl">
 <#include "../procedures.java.ftl">
+
 <#assign mx = (data.W - data.width) / 2>
 <#assign my = (data.H - data.height) / 2>
 <#assign slotnum = 0>
+
 package ${package}.world.inventory;
 
 import ${package}.${JavaModName};
@@ -56,7 +58,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 
 	private boolean bound = false;
 
-	public ${name}Menu(int id, PlayerInventory inv, PacketBuffer extraData) {
+	public ${name}Menu(int id, Inventory inv, PacketBuffer extraData) {
 		super(${JavaModName}Menus.${data.getModElement().getRegistryNameUpper()}.get(), id);
 
 		this.entity = inv.player;
@@ -111,9 +113,9 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 						${(component.x - mx)?int + 1},
 						${(component.y - my)?int + 1}) {
 
-						<#if component.disableStackInteraction>
-						@Override public boolean canTakeStack(PlayerEntity player) {
-							return false;
+						<#if hasProcedure(component.disablePickup) || component.disablePickup.getFixedValue()>
+						@Override public boolean canTakeStack(PlayerEntity entity) {
+							return <@procedureOBJToConditionCode component.disablePickup false true/>;
 						}
 						</#if>
 
@@ -125,10 +127,9 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 						</#if>
 
 						<#if hasProcedure(component.onTakenFromSlot)>
-						@Override public ItemStack onTake(PlayerEntity entity, ItemStack stack) {
+						@Override public void onTake(PlayerEntity entity, ItemStack stack) {
 							super.onTake(entity, stack);
 							slotChanged(${component.id}, 1, 0);
-							return super.onTake(entity, stack);
 						}
 						</#if>
 
@@ -139,15 +140,20 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 						}
 						</#if>
 
-						<#if component.disableStackInteraction>
-							@Override public boolean isItemValid(ItemStack stack) {
-								return false;
-							}
-						<#elseif component.getClass().getSimpleName() == "InputSlot">
-							<#if component.inputLimit.toString()?has_content>
-							 @Override public boolean isItemValid(ItemStack stack) {
-								 return (${mappedMCItemToItem(component.inputLimit)} == stack.getItem());
-							 }
+						<#if component.getClass().getSimpleName() == "InputSlot">
+							<#if hasProcedure(component.disablePlacement) || component.disablePlacement.getFixedValue()>
+								@Override public boolean isItemValid(ItemStack itemstack) {
+									return <@procedureOBJToConditionCode component.disablePlacement false true/>;
+								}
+							<#elseif component.inputLimit.toString()?has_content>
+								@Override public boolean isItemValid(ItemStack stack) {
+									<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
+										<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "") + "\"">
+										return ItemTags.getCollection().getTagByID(new ResourceLocation(${tag}).contains(stack));
+									<#else>
+										return ${mappedMCItemToItem(component.inputLimit)} == stack.getItem();
+									</#if>
+								}
 							</#if>
 						<#elseif component.getClass().getSimpleName() == "OutputSlot">
 							@Override public boolean isItemValid(ItemStack stack) {
@@ -183,8 +189,8 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 			ItemStack itemstack = ItemStack.EMPTY;
 			Slot slot = (Slot) this.inventorySlots.get(index);
 
-			if (slot != null && slot.getHasStack()) {
-				ItemStack itemstack1 = slot.getStack();
+			if (slot != null && slot.hasItem()) {
+				ItemStack itemstack1 = slot.getItem();
 				itemstack = itemstack1.copy();
 
 				if (index < ${slotnum}) {
@@ -216,7 +222,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 		}
 
 		<#-- #47997 -->
-		@Override ${mcc.getMethod("net.minecraft.inventory.container.Container", "mergeItemStack", "ItemStack", "int", "int", "boolean")
+		@Override ${mcc.getMethod("net.minecraft.world.container.Container", "mergeItemStack", "ItemStack", "int", "int", "boolean")
 			.replace("slot.onSlotChanged();", "slot.putStack(itemstack);")
 			.replace("!itemstack.isEmpty()", "slot.isItemValid(itemstack) && !itemstack.isEmpty()")}
 
@@ -259,6 +265,9 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 			}
 		</#if>
 	<#else>
+		@Override public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+			return ItemStack.EMPTY;
+		}
 		<#if hasProcedure(data.onClosed)>
 			@Override public void onContainerClosed(PlayerEntity playerIn) {
 				super.onContainerClosed(playerIn);
@@ -273,7 +282,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 
 	<#if hasProcedure(data.onTick)>
 		@SubscribeEvent public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-			Player entity = event.player;
+			PlayerEntity entity = event.player;
 			if(event.phase == TickEvent.Phase.END && entity.openContainer instanceof ${name}Menu) {
 				World world = entity.world;
 				double x = entity.getPosX();
