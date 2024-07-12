@@ -65,8 +65,8 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 		this.y = container.y;
 		this.z = container.z;
 		this.entity = container.entity;
-		this.imageWidth = ${data.width};
-		this.imageHeight = ${data.height};
+		this.xSize = ${data.width};
+		this.ySize = ${data.height};
 	}
 
 	<#if data.doesPauseGame>
@@ -111,7 +111,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 		RenderSystem.defaultBlendFunc();
 
 		<#if data.renderBgLayer>
-			Minecraft.getInstance().getTextureManager().bindTexture(0, texture);
+			Minecraft.getInstance().getTextureManager().bindTexture(texture);
 			this.blit(ms, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize);
 		</#if>
 
