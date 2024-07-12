@@ -29,15 +29,8 @@
 -->
 
 <#-- @formatter:off -->
-<#include "tokens.ftl">
 <#include "procedures.java.ftl">
-<#assign hasTextures = data.baseTexture?has_content>
-<#list data.components as component>
-	<#if component.getClass().getSimpleName() == "Image">
-    <#assign hasTextures = true>
-    <#break>
-	</#if>
-</#list>
+<#assign stackMethodName = "getPoseStack">
 package ${package}.client.screens;
 
 @Mod.EventBusSubscriber({Dist.CLIENT}) public class ${name}Overlay {
@@ -46,8 +39,8 @@ package ${package}.client.screens;
 	<#if generator.map(data.overlayTarget, "screens") == "Ingame">
         public static void eventHandler(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.HELMET) {
-            	int w = event.getWindow().getScaledWidth();
-           	int h = event.getWindow().getScaledHeight();
+		int w = event.getWindow().getScaledWidth();
+            	int h = event.getWindow().getScaledHeight();
 	<#else>
         public static void eventHandler(GuiScreenEvent.DrawScreenEvent.Post event) {
             if (event.getGui() instanceof ${generator.map(data.overlayTarget, "screens")}) {
@@ -58,10 +51,10 @@ package ${package}.client.screens;
         int posX = w / 2;
         int posY = h / 2;
 
-	World world = null;
-	double x = 0;
-	double y = 0;
-	double z = 0;
+        World world = null;
+        double x = 0;
+        double y = 0;
+        double z = 0;
 
         PlayerEntity entity = Minecraft.getInstance().player;
         if (entity != null) {
@@ -71,10 +64,9 @@ package ${package}.client.screens;
             z = entity.getPosZ();
         }
 
-        <#if hasTextures>
+        <#if data.hasTextures()>
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
-            RenderSystem.enableBlend();
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                 GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             RenderSystem.color4f(1, 1, 1, 1);
@@ -83,42 +75,52 @@ package ${package}.client.screens;
 
         if (<@procedureOBJToConditionCode data.displayCondition/>) {
             <#if data.baseTexture?has_content>
-                Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${data.baseTexture}"));
+               Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${data.baseTexture}"));
                 Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), 0, 0, 0, 0, w, h, w, h);
             </#if>
 
-            <#list data.components as component>
+            <#list data.getComponentsOfType("Image") as component>
                 <#assign x = component.x - 213>
                 <#assign y = component.y - 120>
-                <#if component.getClass().getSimpleName() == "Label">
+                <#if hasProcedure(component.displayCondition)>
+                        if (<@procedureOBJToConditionCode component.displayCondition/>) {
+                </#if>
+                   Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
+                    Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), posX + ${x}, posY + ${y}, 0, 0,
+                        ${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
+                        ${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
+                <#if hasProcedure(component.displayCondition)>}</#if>
+            </#list>
+
+            <#list data.getComponentsOfType("Label") as component>
+                <#assign x = component.x - 213>
+                <#assign y = component.y - 120>
                     <#if hasProcedure(component.displayCondition)>
                         if (<@procedureOBJToConditionCode component.displayCondition/>)
                     </#if>
-                    Minecraft.getInstance().fontRenderer.drawString(event.getMatrixStack(), "${translateTokens(JavaConventions.escapeStringForJava(component.text))}",
+                    Minecraft.getInstance().fontRenderer.drawString(event.getMatrixStack(),
+                        <#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
                         posX + ${x}, posY + ${y}, ${component.color.getRGB()});
-                <#elseif component.getClass().getSimpleName() == "Image">
-                    <#if hasProcedure(component.displayCondition)>
-                        if (<@procedureOBJToConditionCode component.displayCondition/>) {
-                    </#if>
-                    Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
-                    Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), posX + ${x}, posY + ${y}, 0, 0,
-                    ${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
-                    ${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
-
-                    <#if hasProcedure(component.displayCondition)>}</#if>
-                </#if>
             </#list>
+
+			<#list data.getComponentsOfType("EntityModel") as component>
+			    if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity) {
+			    	<#if hasProcedure(component.displayCondition)>
+                        if (<@procedureOBJToConditionCode component.displayCondition/>)
+                    </#if>
+			        InventoryScreen.drawEntityOnScreen(posX + ${component.x - 202}, posY + ${component.y - 100},
+                        ${component.scale}, ${component.rotationX / 20.0}f, 0, (LivingEntity) <@procedureOBJToConditionCode component.entityModel/>);
+			    }
+			</#list>
         }
 
-        <#if hasTextures>
+        <#if data.hasTextures()>
             RenderSystem.depthMask(true);
-            RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            RenderSystem.disableBlend();
             RenderSystem.enableAlphaTest();
             RenderSystem.color4f(1, 1, 1, 1);
         </#if>
         }
-    }
+	}
 }
 <#-- @formatter:on -->
