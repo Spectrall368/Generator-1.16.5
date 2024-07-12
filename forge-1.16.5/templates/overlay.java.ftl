@@ -30,7 +30,7 @@
 
 <#-- @formatter:off -->
 <#include "procedures.java.ftl">
-<#assign stackMethodName = "getPoseStack">
+<#assign stackMethodName = "getMatrixStack">
 package ${package}.client.screens;
 
 @Mod.EventBusSubscriber({Dist.CLIENT}) public class ${name}Overlay {
