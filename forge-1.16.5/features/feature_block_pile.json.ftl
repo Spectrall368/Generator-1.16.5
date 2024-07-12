@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new BlockStateProvidingFeatureConfig(${mappedBlockToBlockStateProvider(input$block)})
+new BlockStateProvidingFeatureConfig(config.field_227268_a_.getBlockState(random, pos))
