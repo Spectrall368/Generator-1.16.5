@@ -31,11 +31,9 @@
 <#-- @formatter:off -->
 <#include "../mcitems.ftl">
 <#include "../procedures.java.ftl">
-
 <#assign mx = (data.W - data.width) / 2>
 <#assign my = (data.H - data.height) / 2>
 <#assign slotnum = 0>
-
 package ${package}.world.inventory;
 
 import ${package}.${JavaModName};
@@ -58,7 +56,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 
 	private boolean bound = false;
 
-	public ${name}Menu(int id, Inventory inv, PacketBuffer extraData) {
+	public ${name}Menu(int id, PlayerInventory inv, PacketBuffer extraData) {
 		super(${JavaModName}Menus.${data.getModElement().getRegistryNameUpper()}.get(), id);
 
 		this.entity = inv.player;
@@ -127,9 +125,9 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 						</#if>
 
 						<#if hasProcedure(component.onTakenFromSlot)>
-						@Override public void onTake(PlayerEntity entity, ItemStack stack) {
-							super.onTake(entity, stack);
+						@Override public ItemStack onTake(PlayerEntity entity, ItemStack stack) {
 							slotChanged(${component.id}, 1, 0);
+							return super.onTake(entity, stack);
 						}
 						</#if>
 
@@ -189,8 +187,8 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 			ItemStack itemstack = ItemStack.EMPTY;
 			Slot slot = (Slot) this.inventorySlots.get(index);
 
-			if (slot != null && slot.hasItem()) {
-				ItemStack itemstack1 = slot.getItem();
+			if (slot != null && slot.getHasStack()) {
+				ItemStack itemstack1 = slot.getStack();
 				itemstack = itemstack1.copy();
 
 				if (index < ${slotnum}) {
@@ -222,7 +220,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 		}
 
 		<#-- #47997 -->
-		@Override ${mcc.getMethod("net.minecraft.world.container.Container", "mergeItemStack", "ItemStack", "int", "int", "boolean")
+		@Override ${mcc.getMethod("net.minecraft.inventory.container.Container", "mergeItemStack", "ItemStack", "int", "int", "boolean")
 			.replace("slot.onSlotChanged();", "slot.putStack(itemstack);")
 			.replace("!itemstack.isEmpty()", "slot.isItemValid(itemstack) && !itemstack.isEmpty()")}
 
