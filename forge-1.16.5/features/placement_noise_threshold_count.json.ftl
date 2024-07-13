@@ -1,0 +1,1 @@
+Placement.COUNT_NOISE.configure(new NoiseDependant(${field$threshold}, ${field$belowNoise}, ${field$aboveNoise}))
