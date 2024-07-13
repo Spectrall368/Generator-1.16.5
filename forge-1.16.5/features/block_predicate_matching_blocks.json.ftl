@@ -1,5 +1,5 @@
 <#if input$blockSet?starts_with("/*@Tag*/")> <#-- The holder set is a tag -->
-    BlockTags.getCollection().getTagByID(${input$blockSet?remove_beginning("/*@Tag*/")})
+    ${input$blockSet?remove_beginning("/*@Tag*/")}
 <#else> <#-- The holder set is a list of blocks -->
     ImmutableList.of(${input$blockSet})
 </#if>
