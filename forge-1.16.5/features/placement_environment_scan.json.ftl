@@ -1,4 +1,4 @@
-boolean scan_env = false;
+£boolean scan_env = false;
 for(i = 0; i < ${field$maxSteps}; i++) {
   placePos = placePos.<#if generator.map(field$direction, "directions") == "Direction.DOWN">down<#else>up</#if>();
   if(${input$condition}) {
@@ -7,4 +7,4 @@ for(i = 0; i < ${field$maxSteps}; i++) {
   }
 }
 if(!scan_env)
-  return false;
+  return false;^
