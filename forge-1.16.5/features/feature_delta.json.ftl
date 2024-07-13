@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new BasaltDeltasFeature(${mappedBlockToBlockStateCode(input$contents)}, ${mappedBlockToBlockStateCode(input$rim)}, new FeatureSpread(${input$size}), new FeatureSpread(${input$rimSize}))
+new BasaltDeltasFeature(${mappedBlockToBlockStateCode(input$contents)}, ${mappedBlockToBlockStateCode(input$rim)}, FeatureSpread.func_242252_a(${input$size}), new FeatureSpread(${input$rimSize}))
