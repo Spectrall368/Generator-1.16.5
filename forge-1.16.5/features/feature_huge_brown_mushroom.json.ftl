@@ -1,1 +1,2 @@
-new BigMushroomFeatureConfig(config.CODEC.getBlockState(random, pos), config.CODEC.getBlockState(random, pos), ${field$radius})
+<#include "mcitems.ftl">
+new BigMushroomFeatureConfig(${mappedBlockToBlockStateProvider(input$cap)}, ${mappedBlockToBlockStateProvider(input$stem)}, ${field$radius})
