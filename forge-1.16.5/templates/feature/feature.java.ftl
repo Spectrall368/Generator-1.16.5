@@ -100,10 +100,32 @@ package ${package}.world.features;
 	}
 	</#if>
 
+		<#if featuretype == "feature_random_patch_simple">
+		public class CustomBlockPlacer extends BlockPlacer {
+			public static final Codec<CustomBlockPlacer> CODEC;
+			public static final CustomBlockPlacer PLACER = new CustomBlockPlacer();
+			
+			@Override protected BlockPlacerType<?> getBlockPlacerType() {
+				return Registry.register(Registry.BLOCK_PLACER_TYPE, "custom_block_placer", new BlockPlacerType<>(CODEC));
+			}
+
+			@Override public void place(IWorld world, BlockPos pos, BlockState state, Random random) {
+				if(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")})
+					world.setBlockState(pos, state, 2);
+			}
+			
+			static {
+				CODEC = Codec.unit(() -> {
+					return PLACER;
+				});
+			}
+		}
+		</#if>
+
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			feature = new ${name}Feature();
-			configuredFeature = feature.withConfiguration(${configurationcode})${removeParts(placementcode)};
+			configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})${removeParts(placementcode)};
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
