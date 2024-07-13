@@ -121,3 +121,4 @@ package ${package}.world.features;
 		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(feature.generationStep, "generationsteps")}).add(() -> configuredFeature);
 	}
 }
+</#compress>
