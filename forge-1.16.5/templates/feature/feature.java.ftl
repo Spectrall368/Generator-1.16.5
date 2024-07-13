@@ -69,6 +69,10 @@ package ${package}.world.features;
 			if(!dimensionCriteria)
 				return false;
 		</#if>
+
+		<#list extractParts(placementcode) as part>
+		${part}
+		</#list>
 	
 		<#if hasProcedure(data.generateCondition)>
 			int x = placePos.getX();
@@ -80,18 +84,18 @@ package ${package}.world.features;
 
 		<#if featuretype == "feature_simple_block">
 			BlockState state = config.state;
-			if (state.isValidPosition(world, pos)) {
+			if (state.isValidPosition(world, placePos)) {
 				if (state.getBlock() instanceof DoublePlantBlock) {
-					if (!world.isAirBlock(pos.up()))
+					if (!world.isAirBlock(placePos.up()))
 						return false;
-					((DoublePlantBlock) state.getBlock()).placeAt(world, pos, 2);
+					((DoublePlantBlock) state.getBlock()).placeAt(world, placePos, 2);
 				} else
-					world.setBlockState(pos, config.state, 2);
+					world.setBlockState(placePos, config.state, 2);
 				return true;
 			}
 			return false;
 		<#else>
-			return super.generate(world, generator, rand, pos, config);
+			return super.generate(world, generator, rand, placePos, config);
 		</#if>
 	}
 	</#if>
@@ -99,7 +103,7 @@ package ${package}.world.features;
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			feature = new ${name}Feature();
-			configuredFeature = feature.withConfiguration(${configurationcode})${placementcode};
+			configuredFeature = feature.withConfiguration(${configurationcode})${removeParts(placementcode)};
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
@@ -122,3 +126,37 @@ package ${package}.world.features;
 	}
 }
 </#compress>
+<#macro extractParts inputString>
+    <#local startSymbol = "£">
+    <#local endSymbol = "^">
+    <#local parts = []>
+    
+    <#local startIndex = inputString?index_of(startSymbol)>
+    <#local endIndex = inputString?index_of(endSymbol, startIndex)>
+    
+    <#while startIndex != -1 && endIndex != -1>
+        <#local part = inputString?substring(startIndex + 1, endIndex)>
+        <#list parts += [part]>
+        <#local startIndex = inputString?index_of(startSymbol, endIndex)>
+        <#local endIndex = inputString?index_of(endSymbol, startIndex)>
+    </#while>
+    
+    <#return parts>
+</#macro>
+<#macro removeParts inputString>
+    <#local startSymbol = "£">
+    <#local endSymbol = "^">
+    <#local resultString = inputString>
+    
+    <#local startIndex = resultString?index_of(startSymbol)>
+    <#local endIndex = resultString?index_of(endSymbol, startIndex)>
+    
+    <#while startIndex != -1 && endIndex != -1>
+        <#local partToRemove = resultString?substring(startIndex, endIndex + 1)>
+        <#local resultString = resultString?replace(partToRemove, "")>
+        <#local startIndex = resultString?index_of(startSymbol)>
+        <#local endIndex = resultString?index_of(endSymbol, startIndex)>
+    </#while>
+    
+    <#return resultString>
+</#macro>
