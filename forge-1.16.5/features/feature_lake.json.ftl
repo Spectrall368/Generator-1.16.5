@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new BlockStateFeatureConfig(${mappedBlockToBlockStateProvider(input$fluid)})
+new BlockStateFeatureConfig(${mappedBlockToBlockStateCode(input$fluid)})
