@@ -1,0 +1,2 @@
+<#include "mcitems.ftl">
+${mappedBlockToBlockStateCode(input$block)}.isValidPosition(world, placePos<#if (field$x != "0")||(field$y != "0")||(field$z != "0")>.add(${field$x}, ${field$y}, ${field$z})</#if>)
