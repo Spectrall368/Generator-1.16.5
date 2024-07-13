@@ -146,8 +146,8 @@ package ${package}.world.features;
 		</#if>
 		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(feature.generationStep, "generationsteps")}).add(() -> configuredFeature);
 	}
-}
-</#compress>
+}</#compress>
+<#-- @formatter:on -->
 <#macro extractParts inputString>
     <#local startSymbol = "£">
     <#local endSymbol = "^">
