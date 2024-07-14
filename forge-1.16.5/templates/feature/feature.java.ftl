@@ -144,7 +144,7 @@ package ${package}.world.features;
 			if (!biomeCriteria)
 				return;
 		</#if>
-		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(feature.generationStep, "generationsteps")}).add(() -> configuredFeature);
+		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
 	}
 }</#compress>
 <#-- @formatter:on -->
