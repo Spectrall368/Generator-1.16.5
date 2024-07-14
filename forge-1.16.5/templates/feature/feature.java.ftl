@@ -168,6 +168,23 @@ package ${package}.world.features;
 
     <#return parts>
 </#function>
-<#function removeParts inputString>
-    <#return inputString?replace('£[^£^]*\\^', '')>
+<#function removeParts str>
+    <#assign remainingStr = str>
+    <#assign result = str>
+    
+    <#list 1..str?length as i>
+        <#assign startIndex = remainingStr?index_of('£')>
+        <#if startIndex == -1>
+            <#break>
+        </#if>
+        <#assign endIndex = remainingStr?index_of('^', startIndex)>
+        <#if endIndex == -1>
+            <#break>
+        </#if>
+        <#assign part = remainingStr?substring(startIndex + 1, endIndex)>
+        <#assign result = result?replace(part, "")>
+        <#assign remainingStr = remainingStr?substring(endIndex + 1)>
+    </#list>
+
+    <#return result>
 </#function>
