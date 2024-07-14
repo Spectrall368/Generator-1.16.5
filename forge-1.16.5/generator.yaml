@@ -1,8 +1,7 @@
 name: Minecraft Forge for @minecraft (@buildfileversion)
-basefeatures: [model_java]
-status: deprecated
+status: stable
 buildfileversion: 36.2.42
-subversion: 1.0.8
+subversion: 1.0.9
 
 java_models:
   key: legacy
@@ -64,7 +63,6 @@ sources_setup_tasks:
     type: JAVA_viatemplate
     template: javamodel.java.ftl
     to: "@SRCROOT/@BASEPACKAGEPATH/client/model"
-    deleteWhenConditionFalse: true
 
 language_file:
   format: json
