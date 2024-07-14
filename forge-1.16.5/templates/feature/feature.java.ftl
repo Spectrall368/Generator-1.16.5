@@ -148,44 +148,26 @@ package ${package}.world.features;
 	}
 }</#compress>
 <#-- @formatter:on -->
-<#macro extractParts inputString>
-    <#local parts = []>
-    <#local resultString = inputString>
+<#macro extractParts str>
+    <#assign parts = []>
+    <#assign remainingStr = str>
     
-    <#local startIndex = inputString?index_of("£")>
-    <#local endIndex = inputString?index_of("^", startIndex)>
-    
-    <#list 1..countSpecialCharacter(resultString) as i>
-        <#local part = inputString?substring(startIndex + 1, endIndex)>
-        <#local resultString = resultString?replace(part, "")>
-        <#list parts = parts + [part]>
-        <#local startIndex = inputString?index_of("£", endIndex)>
-        <#local endIndex = inputString?index_of("^", startIndex)>
+    <#list 1..str?length as i>
+        <#assign startIndex = remainingStr?index_of('£')>
+        <#if startIndex == -1>
+            <#break>
+        </#if>
+        <#assign endIndex = remainingStr?index_of('^', startIndex)>
+        <#if endIndex == -1>
+            <#break>
+        </#if>
+        <#assign part = remainingStr?substring(startIndex + 1, endIndex)>
+        <#assign parts = parts + [part]>
+        <#assign remainingStr = remainingStr?substring(endIndex + 1)>
     </#list>
-    
+
     <#return parts>
-</#macro>
+</#function>
 <#macro removeParts inputString>
-    <#local resultString = inputString>
-    
-    <#local startIndex = resultString?index_of("£")>
-    <#local endIndex = resultString?index_of("^", startIndex)>
-    
-    <#list 1..countSpecialCharacter(resultString) as i>
-        <#local partToRemove = resultString?substring(startIndex, endIndex + 1)>
-        <#local resultString = resultString?replace(partToRemove, "")>
-        <#local startIndex = resultString?index_of("£")>
-        <#local endIndex = resultString?index_of("^", startIndex)>
-    </#list>
-    
-    <#return resultString>
-</#macro>
-<#function countSpecialCharacter str>
-  <#assign count = 0>
-  <#list str as char>
-    <#if char == "£">
-      <#assign count = count + 1>
-    </#if>
-  </#list>
-  <#return count>
+    <#return inputString?replace('£[^£^]*\\^', '')>
 </#function>
