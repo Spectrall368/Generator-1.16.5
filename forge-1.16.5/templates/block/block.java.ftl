@@ -54,6 +54,9 @@ public class ${name}Block extends
 	<#if data.isWaterloggable>
 		<#assign interfaces += ["IWaterLoggable"]>
 	</#if>
+	<#if data.isBonemealable>
+		<#assign interfaces += ["IGrowable"]>
+	</#if>
 	<#if interfaces?size gt 0>
 		implements ${interfaces?join(",")}
 	</#if>
@@ -654,6 +657,10 @@ public class ${name}Block extends
 		return result;
 		</#if>
 	}
+	</#if>
+
+	<#if data.isBonemealable>
+	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
 	</#if>
 
 	<#if data.hasInventory>
