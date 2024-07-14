@@ -101,7 +101,7 @@ package ${package}.world.features;
 	</#if>
 
 		<#if featuretype == "feature_random_patch_simple">
-		public class CustomBlockPlacer extends BlockPlacer {
+		public static class CustomBlockPlacer extends BlockPlacer {
 			public static final Codec<CustomBlockPlacer> CODEC;
 			public static final CustomBlockPlacer PLACER = new CustomBlockPlacer();
 			
@@ -109,9 +109,9 @@ package ${package}.world.features;
 				return Registry.register(Registry.BLOCK_PLACER_TYPE, "custom_block_placer", new BlockPlacerType<>(CODEC));
 			}
 
-			@Override public void place(IWorld world, BlockPos pos, BlockState state, Random random) {
+			@Override public void place(IWorld world, BlockPos placePos, BlockState state, Random random) {
 				if(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")})
-					world.setBlockState(pos, state, 2);
+					world.setBlockState(placePos, state, 2);
 			}
 			
 			static {
