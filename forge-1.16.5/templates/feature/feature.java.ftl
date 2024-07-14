@@ -75,7 +75,7 @@ package ${package}.world.features;
 		</#list>
 
 		<#if featuretype == "feature_random_patch_simple">
-		if((!${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")}))
+		if(!(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")}))
 			return false;
 		</#if>
 
