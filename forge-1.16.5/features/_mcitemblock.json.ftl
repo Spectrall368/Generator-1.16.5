@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-${mappedBlockToBlock(toMappedMCItem(block))}
+${mappedBlockToBlock(block)}
