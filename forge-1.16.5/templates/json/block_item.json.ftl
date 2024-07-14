@@ -4,8 +4,7 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "${modid}:items/${data.itemTexture}"
-  },
-  "render_type": "translucent"
+  }
 }
 <#else>
 {
