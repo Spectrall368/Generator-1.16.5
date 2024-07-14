@@ -73,7 +73,12 @@ package ${package}.world.features;
 		<#list extractParts(placementcode) as part>
 		${part}
 		</#list>
-	
+
+		<#if featuretype == "feature_random_patch_simple">
+		if((!${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")}))
+			return false;
+		</#if>
+
 		<#if hasProcedure(data.generateCondition)>
 			int x = placePos.getX();
 			int y = placePos.getY();
@@ -99,28 +104,6 @@ package ${package}.world.features;
 		</#if>
 	}
 	</#if>
-
-		<#if featuretype == "feature_random_patch_simple">
-		public static class CustomBlockPlacer extends BlockPlacer {
-			public static final Codec<CustomBlockPlacer> CODEC;
-			public static final CustomBlockPlacer PLACER = new CustomBlockPlacer();
-			
-			@Override protected BlockPlacerType<?> getBlockPlacerType() {
-				return Registry.register(Registry.BLOCK_PLACER_TYPE, "custom_block_placer", new BlockPlacerType<>(CODEC));
-			}
-
-			@Override public void place(IWorld world, BlockPos placePos, BlockState state, Random random) {
-				if(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")})
-					world.setBlockState(placePos, state, 2);
-			}
-			
-			static {
-				CODEC = Codec.unit(() -> {
-					return PLACER;
-				});
-			}
-		}
-		</#if>
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
