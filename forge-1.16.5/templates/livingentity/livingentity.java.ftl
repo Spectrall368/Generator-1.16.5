@@ -631,7 +631,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
    	@Override protected void collideWithNearbyEntities() {}
 	</#if>
 
-	<#if hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue()>
+	<#if data.solidBoundingBox?? && (hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue())>
 	@Override public boolean canCollide(Entity entity) {
 		return true;
 	}
