@@ -8,7 +8,7 @@
 <#else>
 {
   "parent": "forge:item/bucket_drip",
-  "loader": "forge:bucket",
+  "loader": "forge:fluid_container",
   "fluid": "${modid}:${registryname}"
 }
 </#if>
