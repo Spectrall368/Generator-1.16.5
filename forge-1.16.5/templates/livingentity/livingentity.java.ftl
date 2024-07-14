@@ -31,7 +31,6 @@
 <#-- @formatter:off -->
 <#include "../mcitems.ftl">
 <#include "../procedures.java.ftl">
-<#include "../particles.java.ftl">
 package ${package}.entity;
 
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -710,26 +709,11 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	}
     </#if>
 
-    <#if data.spawnParticles || data.flyingMob>
+    <#if data.flyingMob>
     public void livingTick() {
 		super.livingTick();
 
-		<#if data.flyingMob>
 		this.setNoGravity(true);
-		</#if>
-
-		<#if data.spawnParticles>
-		double x = this.getPosX();
-		double y = this.getPosY();
-		double z = this.getPosZ();
-		Random random = this.rand;
-		Entity entity = this;
-		World world = this.world;
-		<#if hasProcedure(data.particleCondition)>
-			if(<@procedureOBJToConditionCode data.particleCondition/>)
-		</#if>
-        <@particles data.particleSpawningShape data.particleToSpawn data.particleSpawningRadious data.particleAmount/>
-		</#if>
 	}
     </#if>
 
