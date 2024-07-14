@@ -99,7 +99,7 @@ package ${package}.client.screens;
                         if (<@procedureOBJToConditionCode component.displayCondition/>)
                     </#if>
                     Minecraft.getInstance().fontRenderer.drawString(event.getMatrixStack(),
-                        <#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
+                        <#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString()</#if>,
                         posX + ${x}, posY + ${y}, ${component.color.getRGB()});
             </#list>
 
