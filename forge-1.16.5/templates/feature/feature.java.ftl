@@ -95,7 +95,7 @@ package ${package}.world.features;
 			}
 			return false;
 		<#else>
-			return super.generate(world, generator, rand, placePos, config);
+			return super.generate(world, generator, random, placePos, config);
 		</#if>
 	}
 	</#if>
@@ -124,6 +124,7 @@ package ${package}.world.features;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
+			Random random = new Random();
 			feature = new ${name}Feature();
 			configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})${removeParts(placementcode)};
 
@@ -169,22 +170,17 @@ package ${package}.world.features;
     <#return parts>
 </#function>
 <#function removeParts str>
-    <#assign remainingStr = str>
-    <#assign result = str>
+    <#assign start = str?index_of("£")>
     
-    <#list 1..str?length as i>
-        <#assign startIndex = remainingStr?index_of('£')>
-        <#if startIndex == -1>
-            <#break>
-        </#if>
-        <#assign endIndex = remainingStr?index_of('^', startIndex)>
-        <#if endIndex == -1>
-            <#break>
-        </#if>
-        <#assign part = remainingStr?substring(startIndex + 1, endIndex)>
-        <#assign result = result?replace(part, "")>
-        <#assign remainingStr = remainingStr?substring(endIndex + 1)>
-    </#list>
+    <#if start == -1>
+        <#return str>
+    </#if>
+    
+    <#assign end = str?index_of("^", start)>
 
-    <#return result>
+    <#if end == -1>
+        <#return str>
+    </#if>
+
+    <#return removeParts(str?substring(0, start) + str?substring(end + 1))>
 </#function>
