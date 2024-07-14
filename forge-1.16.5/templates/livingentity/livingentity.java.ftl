@@ -631,6 +631,23 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
    	@Override protected void collideWithNearbyEntities() {}
 	</#if>
 
+	<#if hasProcedure(data.solidBoundingBox) || data.solidBoundingBox.getFixedValue()>
+	@Override public boolean canCollide(Entity entity) {
+		return true;
+	}
+
+	@Override public boolean func_241845_aY() {
+		<#if hasProcedure(data.solidBoundingBox)>
+		Entity entity = this;
+		World world = entity.world;
+		double x = entity.getPosX();
+		double y = entity.getPosY();
+		double z = entity.getPosZ();
+		</#if>
+		return <@procedureOBJToConditionCode data.solidBoundingBox true false/>;
+	}
+	</#if>
+
 	<#if data.isBoss>
 	@Override public boolean isNonBoss() {
 		return false;
