@@ -17,6 +17,5 @@
   },
   "textures": {
     "particle": "${modid}:blocks/${data.particleTexture?has_content?then(data.particleTexture, data.texture)}"
-  },
-  "render_type": "${data.getRenderType()}"
+  }
 }
