@@ -149,36 +149,33 @@ package ${package}.world.features;
 }</#compress>
 <#-- @formatter:on -->
 <#macro extractParts inputString>
-    <#local startSymbol = "£">
-    <#local endSymbol = "^">
     <#local parts = []>
+    <#local resultString = inputString>
     
-    <#local startIndex = inputString?index_of(startSymbol)>
-    <#local endIndex = inputString?index_of(endSymbol, startIndex)>
+    <#local startIndex = inputString?index_of("£")>
+    <#local endIndex = inputString?index_of("^", startIndex)>
     
-    <#list 1..countSpecialCharacter(inputString) as i>
+    <#list 1..countSpecialCharacter(resultString) as i>
         <#local part = inputString?substring(startIndex + 1, endIndex)>
+        <#local resultString = resultString?replace(part, "")>
         <#list parts = parts + [part]>
-        <#local startIndex = inputString?index_of(startSymbol, endIndex)>
-        <#local endIndex = inputString?index_of(endSymbol, startIndex)>
+        <#local startIndex = inputString?index_of("£", endIndex)>
+        <#local endIndex = inputString?index_of("^", startIndex)>
     </#list>
     
     <#return parts>
 </#macro>
 <#macro removeParts inputString>
-    <#local startSymbol = "£">
-    <#local endSymbol = "^">
     <#local resultString = inputString>
     
-    <#local startIndex = resultString?index_of(startSymbol)>
-    <#local endIndex = resultString?index_of(endSymbol, startIndex)>
+    <#local startIndex = resultString?index_of("£")>
+    <#local endIndex = resultString?index_of("^", startIndex)>
     
-    <#list 1..countSpecialCharacter(inputString) as i>
-	
+    <#list 1..countSpecialCharacter(resultString) as i>
         <#local partToRemove = resultString?substring(startIndex, endIndex + 1)>
         <#local resultString = resultString?replace(partToRemove, "")>
-        <#local startIndex = resultString?index_of(startSymbol)>
-        <#local endIndex = resultString?index_of(endSymbol, startIndex)>
+        <#local startIndex = resultString?index_of("£")>
+        <#local endIndex = resultString?index_of("^", startIndex)>
     </#list>
     
     <#return resultString>
