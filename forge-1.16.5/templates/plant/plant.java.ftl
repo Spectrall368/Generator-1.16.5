@@ -39,7 +39,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundEvent;
 
 <#compress>
-public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif data.plantType == "growapable">SugarCane<#elseif data.plantType == "double">DoublePlant</#if>Block {
+<#assign interfaces = []>
+<#if data.isBonemealable>
+	<#assign interfaces += ["IGrowable"]>
+</#if>
+public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif data.plantType == "growapable">SugarCane<#elseif data.plantType == "double">DoublePlant</#if>Block
+	<#if interfaces?size gt 0>
+		implements ${interfaces?join(",")}
+	</#if>{
 	public ${name}Block() {
 		super(<#if data.plantType == "normal">${generator.map(data.suspiciousStewEffect, "effects")}, ${data.suspiciousStewDuration},</#if>
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
@@ -318,6 +325,10 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 	<@onEntityWalksOn data.onEntityWalksOn/>
 
 	<@onHitByProjectile data.onHitByProjectile/>
+
+	<#if data.isBonemealable>
+	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
+	</#if>
 
 	<#if data.hasTileEntity>
 	@Override public boolean hasTileEntity(BlockState state) {
