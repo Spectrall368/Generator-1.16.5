@@ -8,6 +8,5 @@
           "${texture.getKey()}": "${modid}:blocks/${texture.getValue()}"
         </#list>
       </#if>
-  },
-  "render_type": "${data.getRenderType()}"
+  }
 }
