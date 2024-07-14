@@ -158,7 +158,7 @@ package ${package}.world.features;
     
     <#list 1..countSpecialCharacter(inputString) as i>
         <#local part = inputString?substring(startIndex + 1, endIndex)>
-        <#list parts += [part]>
+        <#list parts = parts + [part]>
         <#local startIndex = inputString?index_of(startSymbol, endIndex)>
         <#local endIndex = inputString?index_of(endSymbol, startIndex)>
     </#list>
