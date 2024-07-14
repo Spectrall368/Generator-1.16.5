@@ -8,6 +8,5 @@
     "south": "${modid}:blocks/${data.textureBack?has_content?then(data.textureBack, data.texture)}",
     "west": "${modid}:blocks/${data.textureRight?has_content?then(data.textureRight, data.texture)}",
     "particle": "${modid}:blocks/${data.particleTexture?has_content?then(data.particleTexture, data.texture)}"
-  },
-  "render_type": "${data.getRenderType()}"
+  }
 }
