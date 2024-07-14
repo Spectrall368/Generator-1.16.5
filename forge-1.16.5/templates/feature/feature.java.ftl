@@ -148,7 +148,7 @@ package ${package}.world.features;
 	}
 }</#compress>
 <#-- @formatter:on -->
-<#macro extractParts str>
+<#function extractParts str>
     <#assign parts = []>
     <#assign remainingStr = str>
     
@@ -168,6 +168,6 @@ package ${package}.world.features;
 
     <#return parts>
 </#function>
-<#macro removeParts inputString>
+<#function removeParts inputString>
     <#return inputString?replace('£[^£^]*\\^', '')>
 </#function>
