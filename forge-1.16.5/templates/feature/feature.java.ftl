@@ -156,12 +156,12 @@ package ${package}.world.features;
     <#local startIndex = inputString?index_of(startSymbol)>
     <#local endIndex = inputString?index_of(endSymbol, startIndex)>
     
-    <#while startIndex != -1 && endIndex != -1>
+    <#list 1..countSpecialCharacter(inputString) as i>
         <#local part = inputString?substring(startIndex + 1, endIndex)>
         <#list parts += [part]>
         <#local startIndex = inputString?index_of(startSymbol, endIndex)>
         <#local endIndex = inputString?index_of(endSymbol, startIndex)>
-    </#while>
+    </#list>
     
     <#return parts>
 </#macro>
@@ -173,12 +173,22 @@ package ${package}.world.features;
     <#local startIndex = resultString?index_of(startSymbol)>
     <#local endIndex = resultString?index_of(endSymbol, startIndex)>
     
-    <#while startIndex != -1 && endIndex != -1>
+    <#list 1..countSpecialCharacter(inputString) as i>
+	
         <#local partToRemove = resultString?substring(startIndex, endIndex + 1)>
         <#local resultString = resultString?replace(partToRemove, "")>
         <#local startIndex = resultString?index_of(startSymbol)>
         <#local endIndex = resultString?index_of(endSymbol, startIndex)>
-    </#while>
+    </#list>
     
     <#return resultString>
 </#macro>
+<#function countSpecialCharacter str>
+  <#assign count = 0>
+  <#list str as char>
+    <#if char == "£">
+      <#assign count = count + 1>
+    </#if>
+  </#list>
+  <#return count>
+</#function>
