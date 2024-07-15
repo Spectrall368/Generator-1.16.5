@@ -16,7 +16,6 @@
       "default_block": ${mappedMCItemToBlockStateJSON(data.mainFillerBlock)},
       "default_fluid": ${mappedMCItemToBlockStateJSON(data.fluidBlock)},
       "noise": {
-        "min_y": 0,
         "height": 256,
         "density_factor": 1,
         "density_offset": -0.46875,
@@ -24,8 +23,6 @@
         "size_vertical": 2,
         "simplex_surface_noise": true,
         "random_density_offset": true,
-        "island_noise_override": false,
-        "amplified": false,
         "sampling": {
           "xz_scale": 1,
           "y_scale": 1,
@@ -44,6 +41,11 @@
         }
       },
       "structures": {
+        "stronghold": {
+          "distance": 32,
+          "spread": 3,
+          "count": 128
+        },
         "structures": {
           "minecraft:bastion_remnant": {
             "spacing": 27,
