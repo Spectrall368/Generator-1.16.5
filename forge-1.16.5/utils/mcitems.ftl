@@ -257,10 +257,6 @@
     <#return '{ "Name": "minecraft:air" }'>
 </#function>
 
-<#function toMappedMCItem unmappedValue>
-    <#return generator.toMappedMItemBlock(unmappedValue)>
-</#function>
-
 <#function mappedMCItemToIngredient mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("TAG:")>
         <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getUnmappedValue().replace("TAG:", "") + "\")))">
