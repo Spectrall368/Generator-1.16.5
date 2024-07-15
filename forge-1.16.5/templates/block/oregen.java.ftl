@@ -32,6 +32,20 @@
 <#include "../procedures.java.ftl">
 <#include "../mcitems.ftl">
 package ${package}.world.features.ores;
+<#if data.maxGenerateHeight gt 256>
+	<#assign maxGenerateHeight = 256>
+<#elseif data.maxGenerateHeight lt 0>
+	<#assign maxGenerateHeight = 0>
+<#else>
+	<#assign maxGenerateHeight = data.maxGenerateHeight>
+</#if>
+<#if data.minGenerateHeight gt 256>
+	<#assign minGenerateHeight = 256>
+<#elseif data.minGenerateHeight lt 0>
+	<#assign minGenerateHeight = 0>
+<#else>
+	<#assign minGenerateHeight = data.minGenerateHeight>
+</#if>
 
 @Mod.EventBusSubscriber public class ${name}Feature {
 
@@ -99,12 +113,12 @@ package ${package}.world.features.ores;
 		};
 
 		configuredFeature = feature.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
-		<#if data.maxGenerateHeight gt 256>
-		.range(256)
-		<#elseif data.maxGenerateHeight lt 0>
-		.range(0)
+		<#if data.generationShape == "UNIFORM">		
+		.withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(${minGenerateHeight}, ${minGenerateHeight}, ${maxGenerateHeight})))
 		<#else>
-		.range(${data.maxGenerateHeight})
+		<#assign averageHeight = (maxGenerateHeight + minGenerateHeight) / 2>
+		<#assign averageHeight = averageHeight?int>
+		.withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(${averageHeight}, ${averageHeight})))
 		</#if>
 		.square().func_242731_b(${data.frequencyPerChunks});
 
