@@ -1,0 +1,1 @@
+((5 + ${input$max}) - (5 + ${input$min}) - ${field$inner} + 1) <= 0 ? (5 + ${input$min}) : (random.nextInt(random.nextInt((5 + ${input$max}) - (5 + ${input$min}) - ${field$inner} + 1) + ${field$inner}) + (5 + ${input$min}))

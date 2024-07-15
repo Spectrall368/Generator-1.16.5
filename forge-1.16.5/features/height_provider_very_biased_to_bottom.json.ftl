@@ -1,0 +1,1 @@
+((5 + ${input$max}) - (5 + ${input$min}) - ${field$inner} + 1) <= 0 ? (5 + ${input$min}) : MathHelper.nextInt(random, (5 + ${input$min}), MathHelper.nextInt(random, (5 + ${input$min}), MathHelper.nextInt(random, (5 + ${input$min}) + ${field$inner}, (5 + ${input$max})) - 1) - 1 + ${field$inner})
