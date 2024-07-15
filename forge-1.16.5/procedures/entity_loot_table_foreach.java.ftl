@@ -1,22 +1,22 @@
 <#include "mcelements.ftl">
 <#-- @formatter:off -->
-if (${input$entity} instanceof LivingEntity _entLootTbl && !_entLootTbl.level.isClientSide() && _entLootTbl.getServer() != null) {
-	DamageSource _dsLootTbl = _entLootTbl.getLastDamageSource();
+if (${input$entity} instanceof LivingEntity && !((LivingEntity) ${input$entity}).world.isRemote() && ((LivingEntity) ${input$entity}).getServer() != null) {
+	DamageSource _dsLootTbl = ((LivingEntity) ${input$entity}).getLastDamageSource();
 	if (_dsLootTbl == null) _dsLootTbl = DamageSource.GENERIC;
-	for (ItemStack itemstackiterator : _entLootTbl.getServer().getLootTables().get(${toResourceLocation(input$location)})
-			.getRandomItems(new LootContext.Builder((ServerLevel) _entLootTbl.level)
-					.withParameter(LootContextParams.THIS_ENTITY, _entLootTbl)
-					.withOptionalParameter(LootContextParams.LAST_DAMAGE_PLAYER, _entLootTbl.getLastHurtByMob() instanceof Player _player ?  _player : null)
-					.withParameter(LootContextParams.DAMAGE_SOURCE, _dsLootTbl)
-					.withOptionalParameter(LootContextParams.KILLER_ENTITY, _dsLootTbl.getEntity())
-					.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, _dsLootTbl.getDirectEntity())
-					.withParameter(LootContextParams.ORIGIN, _entLootTbl.position())
-					.withParameter(LootContextParams.BLOCK_STATE, _entLootTbl.level.getBlockState(_entLootTbl.blockPosition()))
-					.withOptionalParameter(LootContextParams.BLOCK_ENTITY, _entLootTbl.level.getBlockEntity(_entLootTbl.blockPosition()))
-					.withParameter(LootContextParams.TOOL, _entLootTbl instanceof Player _player ? _player.getInventory().getSelected() : _entLootTbl.getUseItem())
-					.withParameter(LootContextParams.EXPLOSION_RADIUS, 0f)
-					.withLuck(_entLootTbl instanceof Player _player ? _player.getLuck() : 0)
-					.create(LootContextParamSets.EMPTY))) {
+	for (ItemStack itemstackiterator : ((LivingEntity) ${input$entity}).getServer().getLootTableManager().getLootTableFromLocation(${toResourceLocation(input$location)})
+			.generate(new LootContext.Builder((ServerWorld) ((LivingEntity) ${input$entity}).world)
+					.withParameter(LootParameters.THIS_ENTITY, (LivingEntity) ${input$entity})
+					.withNullableParameter(LootParameters.LAST_DAMAGE_PLAYER, ((LivingEntity) ${input$entity}).getRevengeTarget() instanceof PlayerEntity ?  ((PlayerEntity) ((LivingEntity) ${input$entity}).getRevengeTarget()) : null)
+					.withParameter(LootParameters.DAMAGE_SOURCE, _dsLootTbl)
+					.withNullableParameter(LootParameters.KILLER_ENTITY, _dsLootTbl.getTrueSource())
+					.withNullableParameter(LootParameters.DIRECT_KILLER_ENTITY, _dsLootTbl.getImmediateSource())
+					.withParameter(LootParameters.field_237457_g_, ((LivingEntity) ${input$entity}).getPositionVec())
+					.withParameter(LootParameters.BLOCK_STATE, ((LivingEntity) ${input$entity}).world.getBlockState(((LivingEntity) ${input$entity}).getPosition()))
+					.withNullableParameter(LootParameters.BLOCK_ENTITY, ((LivingEntity) ${input$entity}).world.getTileEntity(((LivingEntity) ${input$entity}).getPosition()))
+					.withParameter(LootParameters.TOOL, ((LivingEntity) ${input$entity}) instanceof PlayerEntity ? ((PlayerEntity) ((LivingEntity) ${input$entity})).inventory.getSelected() : ((LivingEntity) ${input$entity}).getActiveItemStack())
+					.withParameter(LootParameters.EXPLOSION_RADIUS, 0f)
+					.withLuck(((LivingEntity) ${input$entity}) instanceof PlayerEntity ? ((PlayerEntity) ((LivingEntity) ${input$entity})).getLuck() : 0)
+					.build(LootParameterSets.EMPTY))) {
 		${statement$foreach}
 	}
 }
