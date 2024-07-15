@@ -16,15 +16,12 @@
       "default_block": ${mappedMCItemToBlockStateJSON(data.mainFillerBlock)},
       "default_fluid": ${mappedMCItemToBlockStateJSON(data.fluidBlock)},
       "noise": {
+        "height": 128,
         "density_factor": 0,
         "density_offset": 0.019921875,
-        "simplex_surface_noise": false,
-        "random_density_offset": false,
-        "island_noise_override": false,
-        "amplified": false,
         "size_horizontal": 1,
         "size_vertical": 2,
-        "height": 128,
+        "simplex_surface_noise": false,
         "sampling": {
           "xz_scale": 1,
           "y_scale": 3,
@@ -110,8 +107,8 @@
             "salt": 165745296
           },
           "minecraft:ruined_portal": {
-            "spacing": 40,
-            "separation": 15,
+            "spacing": 25,
+            "separation": 10,
             "salt": 34222645
           },
           "minecraft:shipwreck": {
