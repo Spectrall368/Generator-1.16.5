@@ -1,1 +1,1 @@
-if (!world.isRemote() && world.getServer() != null) world.getServer().getPlayerList().sendMessage(new StringTextComponent(${input$text}));
+if (!world.isRemote() && world instanceof ServerWorld && ((ServerWorld) world).getServer() != null) world.getServer().getPlayerList().sendMessage(new StringTextComponent(${input$text}));
