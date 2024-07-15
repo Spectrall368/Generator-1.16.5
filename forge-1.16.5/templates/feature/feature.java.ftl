@@ -41,10 +41,9 @@ package ${package}.world.features;
 	public ${name}Feature() {
 		super(${generator.map(featuretype, "features", 2)});
 	}
-	
-	<#if data.hasGenerationConditions() || featuretype == "feature_simple_block">
+
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
-			BlockPos placePos = pos;
+		BlockPos placePos = pos;
 		<#if data.restrictionDimensions?has_content>
 			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
 			boolean dimensionCriteria = false;
@@ -103,7 +102,6 @@ package ${package}.world.features;
 			return super.generate(world, generator, random, placePos, config);
 		</#if>
 	}
-	</#if>
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
