@@ -297,13 +297,15 @@
             </#list>
             <#return retval + ")">
         <#else>
+            <#assign retval = "Ingredient.merge(Arrays.asList(">
             <#list mappedBlocks as mappedBlock>
                 <#assign retval += mappedMCItemToIngredient(mappedBlock)>
 
                 <#if mappedBlock?has_next>
-                    <#assign retval += " && ">
+                    <#assign retval += ",">
                 </#if>
             </#list>
+            <#return retval + "))">
         </#if>
     </#if>
 </#function>
