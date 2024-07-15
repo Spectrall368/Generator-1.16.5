@@ -3,6 +3,9 @@ status: deprecated
 buildfileversion: 36.2.42
 subversion: 1.0.9
 
+import:
+  - datapack-1.16.5
+
 java_models:
   key: legacy
   requested_key_words: [ModelRenderer, ~ModelPart, ~texHeight]
