@@ -51,16 +51,16 @@ public class ${name}Biome {
                 .withFoliageColor(${data.foliageColor?has_content?then(data.foliageColor.getRGB(), 10387789)})
                 .withGrassColor(${data.grassColor?has_content?then(data.grassColor.getRGB(), 9470285)})
                 <#if data.ambientSound?has_content && data.ambientSound.getMappedValue()?has_content>
-                    .setAmbientSound(new SoundEvent(new ResourceLocation("${data.ambientSound}")))
+                    .setAmbientSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.ambientSound}")))
                 </#if>
                 <#if data.moodSound?has_content && data.moodSound.getMappedValue()?has_content>
-                    .setMoodSound(new MoodSoundAmbience(new SoundEvent(new ResourceLocation("${data.moodSound}")), ${data.moodSoundDelay}, 8, 2))
+                    .setMoodSound(new MoodSoundAmbience(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.moodSound}")), ${data.moodSoundDelay}, 8, 2))
                 </#if>
                 <#if data.additionsSound?has_content && data.additionsSound.getMappedValue()?has_content>
-                    .setAdditionsSound(new SoundAdditionsAmbience(new SoundEvent(new ResourceLocation("${data.additionsSound}")), 0.0111D))
+                    .setAdditionsSound(new SoundAdditionsAmbience(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.additionsSound}")), 0.0111D))
                 </#if>
                 <#if data.music?has_content && data.music.getMappedValue()?has_content>
-                    .setMusic(new BackgroundMusicSelector(new SoundEvent(new ResourceLocation("${data.music}")), 12000, 24000, true))
+                    .setMusic(new BackgroundMusicSelector(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")), 12000, 24000, true))
                 </#if>
                 <#if data.spawnParticles>
                     .setParticle(new ParticleEffectAmbience(${data.particleToSpawn}, ${data.particlesProbability / 100}f))
