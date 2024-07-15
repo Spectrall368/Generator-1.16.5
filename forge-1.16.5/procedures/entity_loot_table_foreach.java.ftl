@@ -13,7 +13,7 @@ if (${input$entity} instanceof LivingEntity && !((LivingEntity) ${input$entity})
 					.withParameter(LootParameters.field_237457_g_, ((LivingEntity) ${input$entity}).getPositionVec())
 					.withParameter(LootParameters.BLOCK_STATE, ((LivingEntity) ${input$entity}).world.getBlockState(((LivingEntity) ${input$entity}).getPosition()))
 					.withNullableParameter(LootParameters.BLOCK_ENTITY, ((LivingEntity) ${input$entity}).world.getTileEntity(((LivingEntity) ${input$entity}).getPosition()))
-					.withParameter(LootParameters.TOOL, ((LivingEntity) ${input$entity}) instanceof PlayerEntity ? ((PlayerEntity) ((LivingEntity) ${input$entity})).inventory.getSelected() : ((LivingEntity) ${input$entity}).getActiveItemStack())
+					.withParameter(LootParameters.TOOL, ((LivingEntity) ${input$entity}) instanceof PlayerEntity ? ((PlayerEntity) ((LivingEntity) ${input$entity})).inventory.getCurrentItem() : ((LivingEntity) ${input$entity}).getActiveItemStack())
 					.withParameter(LootParameters.EXPLOSION_RADIUS, 0f)
 					.withLuck(((LivingEntity) ${input$entity}) instanceof PlayerEntity ? ((PlayerEntity) ((LivingEntity) ${input$entity})).getLuck() : 0)
 					.build(LootParameterSets.EMPTY))) {
