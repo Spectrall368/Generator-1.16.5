@@ -16,15 +16,13 @@
       "default_block": ${mappedMCItemToBlockStateJSON(data.mainFillerBlock)},
       "default_fluid": ${mappedMCItemToBlockStateJSON(data.fluidBlock)},
       "noise": {
+        "height": 128,
         "density_factor": 0,
         "density_offset": 0,
-        "simplex_surface_noise": true,
-        "random_density_offset": false,
-        "island_noise_override": true,
-        "amplified": false,
         "size_horizontal": 2,
         "size_vertical": 1,
-        "height": 128,
+        "simplex_surface_noise": true,
+        "island_noise_override": true,
         "sampling": {
           "xz_scale": 2,
           "y_scale": 1,
