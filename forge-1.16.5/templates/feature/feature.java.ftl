@@ -42,7 +42,7 @@ package ${package}.world.features;
 		super(${generator.map(featuretype, "features", 2)});
 	}
 	
-	<#if data.hasGenerationConditions() || featureblock == "feature_simple_block">
+	<#if data.hasGenerationConditions() || featuretype == "feature_simple_block">
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
 			BlockPos placePos = pos;
 		<#if data.restrictionDimensions?has_content>
