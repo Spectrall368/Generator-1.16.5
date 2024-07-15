@@ -3,7 +3,6 @@ _mcreator_map_template: "(BasicParticleType) (@JavaModNameParticleTypes.@REGISTR
 _default: ParticleTypes.CRIT
 SPELL_MOB_AMBIENT: ParticleTypes.AMBIENT_ENTITY_EFFECT
 VILLAGER_ANGRY: ParticleTypes.ANGRY_VILLAGER
-BARRIER: ParticleTypes.BARRIER
 WATER_BUBBLE: ParticleTypes.BUBBLE
 CLOUD: ParticleTypes.CLOUD
 CRIT: ParticleTypes.CRIT
@@ -34,7 +33,6 @@ SLIME: ParticleTypes.ITEM_SLIME
 SNOWBALL: ParticleTypes.ITEM_SNOWBALL
 SMOKE_LARGE: ParticleTypes.LARGE_SMOKE
 LAVA: ParticleTypes.LAVA
-TOWN_AURA: ParticleTypes.MYCELIUM
 NOTE: ParticleTypes.NOTE
 POOF: ParticleTypes.POOF
 PORTAL: ParticleTypes.PORTAL
@@ -69,6 +67,3 @@ FALLING_OBSIDIAN_TEAR: ParticleTypes.FALLING_OBSIDIAN_TEAR
 LANDING_OBSIDIAN_TEAR: ParticleTypes.LANDING_OBSIDIAN_TEAR
 REVERSE_PORTAL: ParticleTypes.REVERSE_PORTAL
 WHITE_ASH: ParticleTypes.WHITE_ASH
-SUSPENDED_DEPTH: ParticleTypes.UNDERWATER # Legacy Mapping
-SPELL_MOB: ParticleTypes.WITCH # Legacy Mapping
-SNOW_SHOVEL: ParticleTypes.ITEM_SNOWBALL # Legacy Mapping
