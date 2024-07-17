@@ -1,1 +1,1 @@
-new OreFeatureConfig(new RuleTest[]{<#list input_list$target as target>${target}<#sep>,</#list>}, ${field$discardOnAirChance}, ${field$size})
+new OreFeatureConfig(<#list input_list$target as target>${target}<#sep>,</#list>, ${field$size})
