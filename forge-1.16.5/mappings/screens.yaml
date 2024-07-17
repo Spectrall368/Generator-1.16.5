@@ -75,3 +75,7 @@ ShulkerBox: ShulkerBoxScreen
 SmithingTable: SmithingTableScreen
 Smoker: SmokerScreen
 Stonecutter: StonecutterScreen
+AccessibilityOptions: AccessibilityScreen
+Win: WinGameScreen
+EffectRenderingInventory: DisplayEffectsScreen
+SocialInteractions: SocialInteractionsScreen
