@@ -1,1 +1,2 @@
-new RandomBlockStateMatchRuleTest(${input$blockstate}, ${field$probability})
+<#include "mcitems.ftl">
+new RandomBlockStateMatchRuleTest(${mappedBlockToBlockStateCode(input$blockstate)}, ${field$probability}f)
