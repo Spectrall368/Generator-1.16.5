@@ -41,7 +41,8 @@ import net.minecraftforge.eventbus.api.Event;
 		&& dependency.getType(generator.getWorkspace()) != "BlockState"
 		&& dependency.getType(generator.getWorkspace()) != "ActionResultType"
 		&& dependency.getType(generator.getWorkspace()) != "boolean"
-		&& dependency.getType(generator.getWorkspace()) != "CommandContext<CommandSource>">
+		&& dependency.getType(generator.getWorkspace()) != "CommandContext<CommandSource>"
+		&& dependency.getType(generator.getWorkspace()) != "DamageSource">
 		<#assign nullableDependencies += [dependency.getName()]/>
 	</#if>
 </#list>
