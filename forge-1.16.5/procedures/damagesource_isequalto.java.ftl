@@ -1,1 +1,1 @@
-(damagesource == ${generator.map(field$damagesource, "damagesources")})
+(${input$damagesource} == ${generator.map(field$damagetype, "damagesources")})
