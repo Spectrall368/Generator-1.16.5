@@ -62,8 +62,14 @@ package ${package}.world.features.ores;
 	    		boolean blockCriteria = false;
 
 			<#list data.blocksToReplace as replacementBlock>
-			if(blockAt.getBlock() == ${mappedBlockToBlock(replacementBlock)})
-	      			blockCriteria = true;
+				<#if replacementBlock.getUnmappedValue().startsWith("TAG:")>
+				if (BlockTags.getCollection().getTagByID(new ResourceLocation("${replacementBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":").replace("stone_ore_replaceables", "minecraft:overworld_carver_replaceables")}")).contains(blockAt.getBlock()))
+				<#elseif generator.map(replacementBlock.getUnmappedValue(), "blocksitems", 1).startsWith("#")>
+				if (BlockTags.getCollection().getTagByID(new ResourceLocation("${generator.map(replacementBlock.getUnmappedValue(), "blocksitems", 1).replace("#", "")}")).contains(blockAt.getBlock()))
+				<#else>
+				if(blockAt == ${mappedBlockToBlockStateCode(replacementBlock)})
+				</#if>
+					blockCriteria = true;
 			</#list>
 
 	    		return blockCriteria;
