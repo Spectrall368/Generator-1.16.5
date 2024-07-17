@@ -153,10 +153,16 @@ public class ${name}Item extends Item {
 	}
 
 	@Override public float getDestroySpeed(ItemStack itemstack, BlockState blockstate) {
-	<#list data.blocksAffected as restrictionBlock>
-                 if (blockstate.getBlock() == ${mappedBlockToBlock(restrictionBlock)})
-                 	return ${data.efficiency}f;
-	</#list>
+		<#list data.blocksAffected as replacementBlock>
+			<#if replacementBlock.getUnmappedValue().startsWith("TAG:")>
+			if (BlockTags.getCollection().getTagByID(new ResourceLocation("${replacementBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":").replace("stone_ore_replaceables", "minecraft:overworld_carver_replaceables")}")).contains(blockAt.getBlock()))
+			<#elseif generator.map(replacementBlock.getUnmappedValue(), "blocksitems", 1).startsWith("#")>
+			if (BlockTags.getCollection().getTagByID(new ResourceLocation("${generator.map(replacementBlock.getUnmappedValue(), "blocksitems", 1).replace("#", "")}")).contains(blockAt.getBlock()))
+			<#else>
+			if(blockAt == ${mappedBlockToBlockStateCode(replacementBlock)})
+			</#if>
+				return ${data.efficiency}f;
+		</#list>
 		return 1;
 	}
 
@@ -199,8 +205,8 @@ public class ${name}Item extends FishingRodItem {
 
 	<#if data.repairItems?has_content>
     	@Override public boolean getIsRepairable(ItemStack itemstack, ItemStack repairitem) {
-			return ${mappedMCItemsToIngredient(data.repairItems)}.test(repairitem);
-    	}
+		return ${mappedMCItemsToIngredient(data.repairItems)}.test(repairitem);
+	}
 	</#if>
 
 	@Override public int getItemEnchantability() {
