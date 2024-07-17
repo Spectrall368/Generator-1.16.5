@@ -34,7 +34,7 @@
 package ${package}.world.features.plants;
 <#assign featurename = "new DefaultFlowersFeature">
 <#if data.plantType == "normal">
-	<#if data.staticPlantGenerationType != "Flower">
+	<#if data.generationType != "Flower">
 	<#assign featurename = "new RandomPatchFeature">
 	</#if>
 <#elseif data.plantType == "growapable">
@@ -50,7 +50,7 @@ package ${package}.world.features.plants;
 
 	@SubscribeEvent public void registerFeature(RegistryEvent.Register<Feature<?>> event) {
     		feature = ${featurename}(BlockClusterFeatureConfig.field_236587_a_) {
-    		<#if data.staticPlantGenerationType == "Flower" && data.plantType == "normal">
+    		<#if data.generationType == "Flower" && data.plantType == "normal">
 		@Override public BlockState getFlowerToPlace(Random random, BlockPos bp, BlockClusterFeatureConfig fc) {
 			return ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState();
 		}
@@ -112,8 +112,8 @@ package ${package}.world.features.plants;
 
 	configuredFeature = feature.withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
 		new <#if data.plantType == "double">DoublePlant<#else>Simple</#if>BlockPlacer())).tries(${data.patchSize})
-		<#if data.plantType == "double" && data.doublePlantGenerationType == "Flower">.func_227317_b_()</#if>.build())
-		<#if (data.plantType == "normal" && data.staticPlantGenerationType == "Grass") || (data.plantType == "double" && data.doublePlantGenerationType == "Grass")>
+		<#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>.build())
+		<#if (data.plantType == "normal" || data.plantType == "double") && data.generationType == "Grass">
 		.withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8, 0, ${data.frequencyOnChunks})))
 		<#else>
 			<#if data.plantType == "normal" || data.plantType == "double">
