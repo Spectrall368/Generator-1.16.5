@@ -57,7 +57,7 @@ import net.minecraft.util.SoundEvent;
 
 		return PROFESSIONS.register(name, () -> {
 			PointOfInterestType poiPredicate = POI_TYPES.get(name).poiType;
-			return new VillagerProfession(${JavaModName}.MODID + ":" + name, poiPredicate, poiPredicate, ImmutableSet.of(), ImmutableSet.of(), soundEvent.get());
+			return new VillagerProfession(${JavaModName}.MODID + ":" + name, poiPredicate, ImmutableSet.of(), ImmutableSet.of(), soundEvent.get());
 		});
 	}
 
