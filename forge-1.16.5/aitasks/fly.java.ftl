@@ -1,6 +1,6 @@
 <#-- @formatter:off -->
 <#include "aiconditions.java.ftl">
-this.goalSelector.addGoal(${customBlockIndex+1}, new RandomWalkingGoal(this, ${field$speed}, 20) {
+this.goalSelector.addGoal(${cbi+1}, new RandomWalkingGoal(this, ${field$speed}, 20) {
 
     @Override protected Vector3d getPosition() {
 		Random random = ${name}Entity.this.getRNG();
