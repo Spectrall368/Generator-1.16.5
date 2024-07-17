@@ -82,17 +82,6 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 	@Override public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(ms);
 		super.render(ms, mouseX, mouseY, partialTicks);
-		this.renderHoveredTooltip(ms, mouseX, mouseY);
-
-		<#list data.getComponentsOfType("Tooltip") as component>
-			<#assign x = (component.x - mx/2)?int>
-			<#assign y = (component.y - my/2)?int>
-			<#if hasProcedure(component.displayCondition)>
-				if (<@procedureOBJToConditionCode component.displayCondition/>)
-			</#if>
-				if (mouseX > guiLeft + ${x} && mouseX < guiLeft + ${x + component.width} && mouseY > guiTop + ${y} && mouseY < guiTop + ${y + component.height})
-					this.renderTooltip(ms, <#if hasProcedure(component.text)>new StringTextComponent(<@procedureOBJToStringCode component.text/>)<#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>, mouseX, mouseY);
-		</#list>
 
 		<#list data.getComponentsOfType("TextField") as component>
 				${component.getName()}.render(ms, mouseX, mouseY, partialTicks);
@@ -112,6 +101,18 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 					(LivingEntity) <@procedureOBJToConditionCode component.entityModel/>
 				);
 			}
+		</#list>
+
+		this.renderHoveredTooltip(ms, mouseX, mouseY);
+
+		<#list data.getComponentsOfType("Tooltip") as component>
+			<#assign x = (component.x - mx/2)?int>
+			<#assign y = (component.y - my/2)?int>
+			<#if hasProcedure(component.displayCondition)>
+				if (<@procedureOBJToConditionCode component.displayCondition/>)
+			</#if>
+				if (mouseX > guiLeft + ${x} && mouseX < guiLeft + ${x + component.width} && mouseY > guiTop + ${y} && mouseY < guiTop + ${y + component.height})
+					this.renderTooltip(ms, <#if hasProcedure(component.text)>new StringTextComponent(<@procedureOBJToStringCode component.text/>)<#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>, mouseX, mouseY);
 		</#list>
 	}
 
