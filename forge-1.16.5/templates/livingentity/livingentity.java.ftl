@@ -82,6 +82,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 
 	public ${name}Entity(EntityType<${name}Entity> type, World world) {
     	super(type, world);
+		stepHeight = ${data.stepHeight}f;
 		experienceValue = ${data.xpAmount};
 		setNoAI(${(!data.hasAI)});
 
@@ -681,7 +682,6 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 				this.jumpMovementFactor = this.getAIMoveSpeed() * 0.15F;
 				this.renderYawOffset = entity.rotationYaw;
 				this.rotationYawHead = entity.rotationYaw;
-				this.stepHeight = 1.0F;
 
 				if (entity instanceof LivingEntity) {
 					this.setAIMoveSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
@@ -710,7 +710,6 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 				this.limbSwing += this.limbSwingAmount;
 				return;
 			}
-			this.stepHeight = 0.5F;
 			this.jumpMovementFactor = 0.02F;
 			</#if>
 
