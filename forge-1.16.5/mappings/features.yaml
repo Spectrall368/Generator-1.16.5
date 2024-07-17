@@ -2,6 +2,10 @@ _default:
   - NoOpFeature
   - NoFeatureConfig
   - NoFeatureConfig.field_236558_a_
+feature_no_op:
+  - NoOpFeature
+  - NoFeatureConfig
+  - NoFeatureConfig.field_236558_a_
 feature_lake:
   - LakesFeature
   - BlockStateFeatureConfig
@@ -62,6 +66,10 @@ feature_random_patch_simple:
   - RandomPatchFeature
   - BlockClusterFeatureConfig
   - BlockClusterFeatureConfig.field_236587_a_
+feature_random_patch:
+  - RandomPatchFeature
+  - BlockClusterFeatureConfig
+  - BlockClusterFeatureConfig.field_236587_a_
 feature_ore:
   - OreFeature
   - OreFeatureConfig
@@ -74,3 +82,7 @@ feature_replace_single_block:
   - ReplaceBlockFeature
   - ReplaceBlockConfig
   - ReplaceBlockConfig.field_236604_a_
+feature_simple_random_selector:
+  - SingleRandomFeatureConfig
+  - SingleRandomFeature
+  - SingleRandomFeature.field_236642_a_
