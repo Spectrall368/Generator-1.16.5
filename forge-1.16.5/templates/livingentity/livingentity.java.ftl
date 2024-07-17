@@ -183,6 +183,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		super.registerGoals();
 
 		<#if aicode??>
+			<#if aiblocks?seq_contains("doors_open") || aiblocks?seq_contains("doors_close")>
+				this.getNavigator().getNodeProcessor().setCanOpenDoors(true);
+			</#if>
             ${aicode}
         </#if>
 
