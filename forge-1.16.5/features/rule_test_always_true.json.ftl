@@ -1,0 +1,1 @@
+AlwaysTrueRuleTest.INSTANCE
