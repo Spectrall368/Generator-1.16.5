@@ -68,13 +68,8 @@ public class ${name}Enchantment extends Enchantment {
 	</#if>
 
         <#if data.compatibleItems?has_content>
-		@Override public boolean canApplyAtEnchantingTable(ItemStack stack) {
-			List<Item> compatibleItems = new ArrayList<>();
-			<#list data.compatibleItems as compatibleItem>
-			compatibleItems.add(${mappedMCItemToItem(compatibleItem)});
-			</#list>
-			Item item = stack.getItem();
-			return <#if data.excludeItems>!</#if>compatibleItems.contains(item);
+		@Override public boolean canApplyAtEnchantingTable(ItemStack itemstack) {
+			return <#if data.excludeItems>!</#if>${mappedMCItemsToIngredient(data.compatibleItems)}.test(itemstack);
 		}
 	</#if>
 
