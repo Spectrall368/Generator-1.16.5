@@ -33,10 +33,28 @@
 package ${package}.world.features;
 
 <#assign configuration = generator.map(featuretype, "features", 1)>
+<#assign isRulePresent = (configuration == OreFeatureConfig)>
 <#compress>
 @Mod.EventBusSubscriber public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	private static Feature<${configuration}> feature = null;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
+	<#if isRulePresent>
+	private static IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = null;
+
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class ${name}FeatureRuleTest extends RuleTest {
+		static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
+	  	static final com.mojang.serialization.Codec<${name}FeatureRuleTest> codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
+
+	  	public boolean test(BlockState blockAt, Random random) {
+	    		boolean blockCriteria = false;
+	    		return blockCriteria;
+	  	}
+
+	  	protected IRuleTestType<?> getType() {
+	    		return CUSTOM_MATCH;
+	  	}
+	}
+	</#if>
 	
 	public ${name}Feature() {
 		super(${generator.map(featuretype, "features", 2)});
