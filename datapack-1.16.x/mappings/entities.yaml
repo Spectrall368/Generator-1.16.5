@@ -5,7 +5,7 @@ _default:
 _mcreator_prefix: "CUSTOM:"
 _mcreator_map_template:
   - "@NAMEEntity"
-  - "@JavaModNameEntities.@REGISTRYNAME"
+  - "@JavaModNameEntities.@REGISTRYNAME.get()"
   - "@modid:@registryname"
 EntityAgeable: AgeableEntity
 EntityAmbientCreature: AmbientEntity
