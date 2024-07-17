@@ -38,6 +38,8 @@ public class ${name}Item extends Item {
 		super(new Item.Properties().group(${data.igniterTab}).maxDamage(64));
 	}
 
+	<@addSpecialInformation data.specialInfo/>
+
 	@Override public ActionResultType onItemUse(ItemUseContext context) {
 		PlayerEntity entity = context.getPlayer();
 		BlockPos pos = context.getPos().offset(context.getFace());
