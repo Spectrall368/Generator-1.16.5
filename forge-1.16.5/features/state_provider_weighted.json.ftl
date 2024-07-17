@@ -1,0 +1,1 @@
+/*@BlockStateProvider*/new WeightedBlockStateProvider(WeightedList.<BlockState><#list input_list$entry as entry>func_226313_a_(${entry}.getDefaultState(), ${field_list$weight[entry?index]})<#sep>.</#list>)
