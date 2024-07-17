@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 -->
 
 <#-- @formatter:off -->
+<#include "../procedures.java.ftl">
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
@@ -36,6 +37,9 @@ package ${package}.init;
 <#assign hasBlocks = false>
 <#assign hasDoubleBlocks = false>
 
+<#if w.hasItemsWithCustomProperties()>
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+</#if>
 public class ${JavaModName}Items {
 
 	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, ${JavaModName}.MODID);
@@ -77,7 +81,8 @@ public class ${JavaModName}Items {
 		<#elseif item.getModElement().getTypeString() == "livingentity">
             public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_SPAWN_EGG =
 				REGISTRY.register("${item.getModElement().getRegistryName()}_spawn_egg", () -> new ForgeSpawnEggItem(${JavaModName}Entities.${item.getModElement().getRegistryNameUpper()},
-						${item.spawnEggBaseColor.getRGB()}, ${item.spawnEggDotColor.getRGB()}, new Item.Properties()<#if item.creativeTab??>.group(${item.creativeTab})<#else>.group(ItemGroup.MISC)</#if>));
+					${item.spawnEggBaseColor.getRGB()}, ${item.spawnEggDotColor.getRGB()}, new Item.Properties()<#if item.creativeTab??>.group(${item.creativeTab})<#else>
+                    .group(ItemGroup.MISC)</#if>));
 		<#else>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} =
 				REGISTRY.register("${item.getModElement().getRegistryName()}", () -> new ${item.getModElement().getName()}Item());
@@ -94,6 +99,35 @@ public class ${JavaModName}Items {
 	private static RegistryObject<Item> doubleBlock(RegistryObject<Block> block, ItemGroup tab) {
 		return REGISTRY.register(block.getId().getPath(), () -> new TallBlockItem(block.get(), new Item.Properties().group(tab)));
 	}
+	</#if>
+
+	<#if w.hasItemsWithCustomProperties()>
+	<#compress>
+	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+		event.enqueueWork(() -> {
+		<#list items as item>
+			<#if item.getModElement().getTypeString() == "item">
+				<#list item.customProperties.entrySet() as property>
+				ItemModelsProperties.registerProperty(${item.getModElement().getRegistryNameUpper()}.get(),
+					new ResourceLocation("${modid}:${item.getModElement().getRegistryName()}_${property.getKey()}"),
+					(itemStackToRender, clientWorld, entity) ->
+						<#if hasProcedure(property.getValue())>
+							(float) <@procedureCode property.getValue(), {
+								"x": "entity != null ? entity.getPosX() : 0",
+								"y": "entity != null ? entity.getPosY() : 0",
+								"z": "entity != null ? entity.getPosZ() : 0",
+								"world": "entity != null ? entity.world : clientWorld",
+								"entity": "entity",
+								"itemstack": "itemStackToRender"
+							}, false/>
+						<#else>0</#if>
+				);
+				</#list>
+			</#if>
+		</#list>
+		});
+	}
+	</#compress>
 	</#if>
 }
 <#-- @formatter:on -->
