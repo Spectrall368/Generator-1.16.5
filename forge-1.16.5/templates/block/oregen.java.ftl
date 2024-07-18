@@ -46,15 +46,23 @@ package ${package}.world.features.ores;
 <#else>
 	<#assign minGenerateHeight = data.minGenerateHeight>
 </#if>
+<#assign cond = false>
+<#if data.restrictionBiomes?has_content>
+	<#list data.restrictionBiomes as restrictionBiome>
+		<#if restrictionBiome?contains(":is_")>
+			<#assign cond = true>
+			 <#break>
+		</#if>
+		<#break>
+	</#list>
+</#if>
 
 @Mod.EventBusSubscriber public class ${name}Feature {
-
   	private static Feature<OreFeatureConfig> feature = null;
   	private static ConfiguredFeature<?, ?> configuredFeature = null;
 	private static IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = null;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class ${name}FeatureRuleTest extends RuleTest {
-	
 		static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
 	  	static final com.mojang.serialization.Codec<${name}FeatureRuleTest> codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
 
@@ -84,27 +92,28 @@ package ${package}.world.features.ores;
 		CUSTOM_MATCH = Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), () -> ${name}FeatureRuleTest.codec);
 	  	feature = new OreFeature(OreFeatureConfig.CODEC) {
 	    		@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config) {
-	      			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-	      			boolean dimensionCriteria = false;
+				<#if data.restrictionBiomes?has_content && cond>
+					RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
+					boolean dimensionCriteria = false;
+					<#list data.restrictionBiomes as restrictionBiome>
+							<#if restrictionBiome == "#minecraft:is_overworld">
+								if(dimensionType == World.OVERWORLD)
+									dimensionCriteria = true;
+							<#elseif restrictionBiome == "#minecraft:is_nether">
+								if(dimensionType == World.THE_NETHER)
+									dimensionCriteria = true;
+							<#elseif restrictionBiome == "#minecraft:is_end">
+								if(dimensionType == World.THE_END)
+									dimensionCriteria = true;
+							<#else>
+								if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${restrictionBiome?keep_after("is_")}")))
+									dimensionCriteria = true;
+							</#if>
+					</#list>
 
-	      			<#list data.spawnWorldTypes as worldType>
-  	      			<#if worldType=="Surface">
-	      			if(dimensionType == World.OVERWORLD)
-	        			dimensionCriteria = true;
-  	      			<#elseif worldType=="Nether">
-				if(dimensionType == World.THE_NETHER)
-					dimensionCriteria = true;
-  				<#elseif worldType=="End">
-				if(dimensionType == World.THE_END)
-					dimensionCriteria = true;
-  				<#else>
-				if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${generator.getResourceLocationForModElement(worldType.toString().replace("CUSTOM:", ""))}")))
-					dimensionCriteria = true;
-  				</#if>
-				</#list>
-
-				if(!dimensionCriteria)
-				  return false;
+					if(!dimensionCriteria)
+						return false;
+				</#if>
 
 				return super.generate(world, generator, rand, pos, config);
 			}
@@ -125,17 +134,17 @@ package ${package}.world.features.ores;
 	}
 
 	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		<#if data.restrictionBiomes?has_content>
-		boolean biomeCriteria = false;
-		<#list data.restrictionBiomes as restrictionBiome>
-		<#if restrictionBiome.canProperlyMap()>
-		if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-			biomeCriteria = true;
-		</#if>
-		</#list>
-		if (!biomeCriteria)
-			return;
-		</#if>
+				<#if data.restrictionBiomes?has_content && !cond>
+					boolean biomeCriteria = false;
+					<#list data.restrictionBiomes as restrictionBiome>
+						<#if restrictionBiome.canProperlyMap()>
+						if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+							biomeCriteria = true;
+						</#if>
+					</#list>
+					if (!biomeCriteria)
+						continue;
+				</#if>
 
 		event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> configuredFeature);
 	}
