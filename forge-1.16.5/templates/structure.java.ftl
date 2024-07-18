@@ -31,10 +31,19 @@
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
+<#assign cond = false>
+<#if data.restrictionBiomes?has_content>
+	<#list data.restrictionBiomes as restrictionBiome>
+		<#if restrictionBiome?contains(":is_")>
+			<#assign cond = true>
+			 <#break>
+		</#if>
+		<#break>
+	</#list>
+</#if>
 package ${package}.world.features;
 
 @Mod.EventBusSubscriber public class ${name}Feature {
-
 	private static Feature<NoFeatureConfig> feature = null;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 
@@ -44,28 +53,28 @@ package ${package}.world.features;
 					int ci = (pos.getX() >> 4) << 4;
 					int ck = (pos.getZ() >> 4) << 4;
 
+				<#if data.restrictionBiomes?has_content && cond>
 					RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
 					boolean dimensionCriteria = false;
-
-    				<#list data.spawnWorldTypes as worldType>
-						<#if worldType=="Surface">
-							if(dimensionType == World.OVERWORLD)
-								dimensionCriteria = true;
-						<#elseif worldType=="Nether">
-							if(dimensionType == World.THE_NETHER)
-								dimensionCriteria = true;
-						<#elseif worldType=="End">
-							if(dimensionType == World.THE_END)
-								dimensionCriteria = true;
-						<#else>
-							if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
-									new ResourceLocation("${generator.getResourceLocationForModElement(worldType.toString().replace("CUSTOM:", ""))}")))
-								dimensionCriteria = true;
-						</#if>
+					<#list data.restrictionBiomes as restrictionBiome>
+							<#if restrictionBiome == "#minecraft:is_overworld">
+								if(dimensionType == World.OVERWORLD)
+									dimensionCriteria = true;
+							<#elseif restrictionBiome == "#minecraft:is_nether">
+								if(dimensionType == World.THE_NETHER)
+									dimensionCriteria = true;
+							<#elseif restrictionBiome == "#minecraft:is_end">
+								if(dimensionType == World.THE_END)
+									dimensionCriteria = true;
+							<#else>
+								if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${restrictionBiome?keep_after("is_")}")))
+									dimensionCriteria = true;
+							</#if>
 					</#list>
 
 					if(!dimensionCriteria)
 						return false;
+				</#if>
 
 					if ((random.nextInt(1000000) + 1) <= ${data.spawnProbability}) {
 						int count = random.nextInt(${data.maxCountPerChunk - data.minCountPerChunk + 1}) + ${data.minCountPerChunk};
@@ -144,17 +153,17 @@ package ${package}.world.features;
 		}
 
 	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		<#if data.restrictionBiomes?has_content>
-				boolean biomeCriteria = false;
-			<#list data.restrictionBiomes as restrictionBiome>
-				<#if restrictionBiome.canProperlyMap()>
-					if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-						biomeCriteria = true;
+				<#if data.restrictionBiomes?has_content && !cond>
+					boolean biomeCriteria = false;
+					<#list data.restrictionBiomes as restrictionBiome>
+						<#if restrictionBiome.canProperlyMap()>
+						if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+							biomeCriteria = true;
+						</#if>
+					</#list>
+					if (!biomeCriteria)
+						return;
 				</#if>
-			</#list>
-				if (!biomeCriteria)
-					return;
-		</#if>
 
 		event.getGeneration().getFeatures(GenerationStage.Decoration.
 				<#if data.spawnLocation=="Ground">SURFACE_STRUCTURES
