@@ -115,25 +115,27 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 		return new ResourceLocation("${modid}:textures/entities/${data.mobModelTexture}");
 	}
 
-    <#if hasProcedure(data.transparentModelCondition)>
-        @Override protected boolean isVisible(${name}Entity _ent) {
-	        Entity entity = _ent;
-	        World world = entity.world;
-	        double x = entity.getPosX();
-	        double y = entity.getPosY();
-	        double z = entity.getPosZ();
-		    return !<@procedureOBJToConditionCode data.transparentModelCondition/>;
-	    }
+	<#if data.transparentModelCondition?? && (hasProcedure(data.transparentModelCondition) || data.transparentModelCondition.getFixedValue())>
+	@Override protected boolean isVisible(${name}Entity entity) {
+		<#if hasProcedure(data.transparentModelCondition)>
+		World world = entity.world;
+		double x = entity.getPosX();
+		double y = entity.getPosY();
+		double z = entity.getPosZ();
+		</#if>
+		return <@procedureOBJToConditionCode data.transparentModelCondition false true/>;
+	}
 	</#if>
 
-    <#if hasProcedure(data.isShakingCondition)>
-        @Override protected boolean func_230495_a_(${name}Entity _ent) {
-	        Entity entity = _ent;
-	        World world = entity.world;
-	        double x = entity.getPosX();
-	        double y = entity.getPosY();
-	        double z = entity.getPosZ();
-		    return <@procedureOBJToConditionCode data.isShakingCondition/>;
-	    }
+	<#if data.isShakingCondition?? && (hasProcedure(data.isShakingCondition) || data.isShakingCondition.getFixedValue())>
+	@Override protected boolean func_230495_a_(${name}Entity entity) {
+		<#if hasProcedure(data.isShakingCondition)>
+		World world = entity.world;
+		double x = entity.getPosX();
+		double y = entity.getPosY();
+		double z = entity.getPosZ();
+		</#if>
+		return <@procedureOBJToConditionCode data.isShakingCondition/>;
+	}
 	</#if>
 }
