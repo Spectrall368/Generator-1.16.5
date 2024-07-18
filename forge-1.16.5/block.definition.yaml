@@ -7,7 +7,7 @@ templates:
 
   # Worldgen
   - template: block/oregen.java.ftl
-    condition: doesGenerateInWorld()
+    condition: generateFeature
     name: "@SRCROOT/@BASEPACKAGEPATH/world/features/ores/@NAMEFeature.java"
 
   # Block item templates
