@@ -292,9 +292,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		|| data.immuneToDragonBreath || data.immuneToWither>
 	@Override public boolean attackEntityFrom(DamageSource damagesource, float amount) {
 		<#if hasProcedure(data.whenMobIsHurt)>
-			double x = this.getX();
-			double y = this.getY();
-			double z = this.getZ();
+			double x = this.getPosX();
+			double y = this.getPosY();
+			double z = this.getPosZ();
 			World world = this.world;
 			Entity entity = this;
 			Entity sourceentity = damagesource.getEntity();
