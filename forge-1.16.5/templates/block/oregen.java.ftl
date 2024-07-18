@@ -143,7 +143,7 @@ package ${package}.world.features.ores;
 						</#if>
 					</#list>
 					if (!biomeCriteria)
-						continue;
+						return;
 				</#if>
 
 		event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> configuredFeature);
