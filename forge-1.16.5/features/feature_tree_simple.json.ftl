@@ -22,4 +22,4 @@ new BaseTreeFeatureConfig.Builder(${mappedBlockToBlockStateProvider(input$trunk)
     <@simpleTrunkPlacer "minecraft:mega_jungle_trunk_placer" field$base_height field$height_variation_a field$height_variation_b/>,
     <@twoLayersFeatureSize limit=1 lower_size=1 upper_size=2/>,
   </#if>
-.setDecorators(ImmutableList.of(<#list input_list$decorator as decorator>${decorator}<#sep>,</#list>))
+)<#if field$ignore_vines == "TRUE">.setIgnoreVines()</#if><#if field$force_dirt == "TRUE">.setMaxWaterDepth(0)</#if>.setDecorators(ImmutableList.of(<#list input_list$decorator as decorator>${decorator}<#sep>,</#list>))
