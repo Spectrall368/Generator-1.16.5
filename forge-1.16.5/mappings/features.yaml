@@ -86,3 +86,7 @@ feature_simple_random_selector:
   - SingleRandomFeatureConfig
   - SingleRandomFeature
   - SingleRandomFeature.field_236642_a_
+feature_tree_simple:
+  - TreeFeature
+  - BaseTreeFeatureConfig
+  - BaseTreeFeatureConfig.CODEC
