@@ -290,67 +290,71 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		|| data.immuneToCactus || data.immuneToDrowning || data.immuneToLightning || data.immuneToPotions
 		|| data.immuneToPlayer || data.immuneToExplosion || data.immuneToTrident || data.immuneToAnvil
 		|| data.immuneToDragonBreath || data.immuneToWither>
-	@Override public boolean attackEntityFrom(DamageSource source, float amount) {
+	@Override public boolean attackEntityFrom(DamageSource damagesource, float amount) {
 		<#if hasProcedure(data.whenMobIsHurt)>
-			<@procedureCode data.whenMobIsHurt, {
-				"x": "this.getPosX()",
-				"y": "this.getPosY()",
-				"z": "this.getPosZ()",
-				"entity": "this",
-				"world": "this.world",
-				"sourceentity": "source.getTrueSource()",
-				"damagesource": "source"
-			}/>
+			double x = this.getX();
+			double y = this.getY();
+			double z = this.getZ();
+			World world = this.world;
+			Entity entity = this;
+			Entity sourceentity = damagesource.getEntity();
+			Entity immediatesourceentity = damagesource.getImmediateSource();
+			<#if hasReturnValueOf(data.whenMobIsHurt, "logic")>
+			if (<@procedureOBJToConditionCode data.whenMobIsHurt false true/>)
+				return false;
+			<#else>
+				<@procedureOBJToCode data.whenMobIsHurt/>
+			</#if>
 		</#if>
 		<#if data.immuneToArrows>
-			if (source.getImmediateSource() instanceof AbstractArrowEntity)
+			if (damagesource.getImmediateSource() instanceof AbstractArrowEntity)
 				return false;
 		</#if>
 		<#if data.immuneToPlayer>
-			if (source.getImmediateSource() instanceof PlayerEntity)
+			if (damagesource.getImmediateSource() instanceof PlayerEntity)
 				return false;
 		</#if>
 		<#if data.immuneToPotions>
-			if (source.getImmediateSource() instanceof PotionEntity || source.getImmediateSource() instanceof AreaEffectCloudEntity)
+			if (damagesource.getImmediateSource() instanceof PotionEntity || damagesource.getImmediateSource() instanceof AreaEffectCloudEntity)
 				return false;
 		</#if>
 		<#if data.immuneToFallDamage>
-			if (source == DamageSource.FALL)
+			if (damagesource == DamageSource.FALL)
 				return false;
 		</#if>
 		<#if data.immuneToCactus>
-			if (source == DamageSource.CACTUS)
+			if (damagesource == DamageSource.CACTUS)
 				return false;
 		</#if>
 		<#if data.immuneToDrowning>
-			if (source == DamageSource.DROWN)
+			if (damagesource == DamageSource.DROWN)
 				return false;
 		</#if>
 		<#if data.immuneToLightning>
-			if (source == DamageSource.LIGHTNING_BOLT)
+			if (damagesource == DamageSource.LIGHTNING_BOLT)
 				return false;
 		</#if>
 		<#if data.immuneToExplosion>
-			if (source.isExplosion())
+			if (damagesource.isExplosion())
 				return false;
 		</#if>
 		<#if data.immuneToTrident>
-			if (source.getDamageType().equals("trident"))
+			if (damagesource.getDamageType().equals("trident"))
 				return false;
 		</#if>
 		<#if data.immuneToAnvil>
-			if (source == DamageSource.ANVIL)
+			if (damagesource == DamageSource.ANVIL)
 				return false;
 		</#if>
 		<#if data.immuneToDragonBreath>
-			if (source == DamageSource.DRAGON_BREATH)
+			if (damagesource == DamageSource.DRAGON_BREATH)
 				return false;
 		</#if>
 		<#if data.immuneToWither>
-			if (source == DamageSource.WITHER || source.getDamageType().equals("witherSkull"))
+			if (damagesource == DamageSource.WITHER || damagesource.getDamageType().equals("witherSkull"))
 				return false;
 		</#if>
-		return super.attackEntityFrom(source, amount);
+		return super.attackEntityFrom(damagesource, amount);
 	}
     </#if>
 
@@ -374,6 +378,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			"y": "this.getPosY()",
 			"z": "this.getPosZ()",
 			"sourceentity": "source.getTrueSource()",
+			"immediatesourceentity": "source.getImmediateSource()",
 			"entity": "this",
 			"world": "this.world",
 			"damagesource": "source"
@@ -545,6 +550,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			"z": "this.getPosZ()",
 			"entity": "entity",
 			"sourceentity": "this",
+			"immediatesourceentity": "damageSource.getImmediateSource()",
 			"world": "this.world",
 			"damagesource": "damageSource"
 		}/>
