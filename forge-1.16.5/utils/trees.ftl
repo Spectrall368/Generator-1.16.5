@@ -5,7 +5,7 @@ new ${type}(${height}, ${rand_a}, ${rand_b})
 
 <#-- Macro for foliage placers that only use radius, offset, and optional height parameters -->
 <#macro simpleFoliagePlacer type radius offset height=-1>
-new ${type}(FeatureSpread.func_242252_a(${radius}), FeatureSpread.func_242252_a(${offset})<#if type == "SpruceFoliagePlacer" || type == "PineFoliagePlacer" || type == "MegaPineFoliagePlacer">, FeatureSpread.func_242252_a(${height})<#elseif type == "AcaciaFoliagePlacer" || type == "DarkOakFoliagePlacer"><#else>, ${height}</#if>)
+new ${type}(FeatureSpread.func_242252_a(${radius}), FeatureSpread.func_242252_a(${offset})<#if type == "AcaciaFoliagePlacer" || type == "DarkOakFoliagePlacer"><#else>, ${height}</#if>)
 </#macro>
 
 <#macro twoLayersFeatureSize limit lower_size upper_size>
