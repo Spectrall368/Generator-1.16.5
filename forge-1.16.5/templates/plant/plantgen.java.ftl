@@ -79,14 +79,6 @@ package ${package}.world.features.plants;
 			if(!dimensionCriteria)
 		  		return false;
 
-			<#if hasProcedure(data.generateCondition)>
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
-			if (!<@procedureOBJToConditionCode data.generateCondition/>)
-		 		return false;
-			</#if>
-
 			<#if data.plantType == "growapable">
 			int generated = 0;
 			for(int j = 0; j < ${data.frequencyOnChunks}; ++j) {
@@ -117,10 +109,10 @@ package ${package}.world.features.plants;
 		.withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8, 0, ${data.frequencyOnChunks})))
 		<#else>
 			<#if data.plantType == "normal" || data.plantType == "double">
-		.withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(${data.frequencyOnChunks})
+		.withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
 			<#else>
-		.withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(${data.frequencyOnChunks})
-			</#if>
+		.withPlacement(Features.Placements.PATCH_PLACEMENT)
+			</#if>.func_242731_b(${data.frequencyOnChunks})
 		</#if>;
 
 		event.getRegistry().register(feature.setRegistryName("${registryname}_plants"));
