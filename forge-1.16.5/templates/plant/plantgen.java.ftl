@@ -42,9 +42,18 @@ package ${package}.world.features.plants;
 <#else>
 	<#assign featurename = "new RandomPatchFeature">
 </#if>
+<#assign cond = false>
+<#if data.restrictionBiomes?has_content>
+	<#list data.restrictionBiomes as restrictionBiome>
+		<#if restrictionBiome?contains(":is_")>
+			<#assign cond = true>
+			 <#break>
+		</#if>
+		<#break>
+	</#list>
+</#if>
 
 @Mod.EventBusSubscriber public class ${name}Feature  {
-
 	private static Feature<BlockClusterFeatureConfig> feature = null;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 
@@ -57,27 +66,28 @@ package ${package}.world.features.plants;
     		</#if>
 
 		@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, BlockClusterFeatureConfig config) {
-	  		RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-	  		boolean dimensionCriteria = false;
+			<#if data.restrictionBiomes?has_content && cond>
+				RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
+				boolean dimensionCriteria = false;
+				<#list data.restrictionBiomes as restrictionBiome>
+						<#if restrictionBiome == "#minecraft:is_overworld">
+							if(dimensionType == World.OVERWORLD)
+								dimensionCriteria = true;
+						<#elseif restrictionBiome == "#minecraft:is_nether">
+							if(dimensionType == World.THE_NETHER)
+								dimensionCriteria = true;
+						<#elseif restrictionBiome == "#minecraft:is_end">
+							if(dimensionType == World.THE_END)
+								dimensionCriteria = true;
+						<#else>
+							if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${restrictionBiome?keep_after("is_")}")))
+								dimensionCriteria = true;
+						</#if>
+				</#list>
 
-	  		<#list data.spawnWorldTypes as worldType>
-			<#if worldType=="Surface">
-	  		if(dimensionType == World.OVERWORLD)
-		  		dimensionCriteria = true;
-			<#elseif worldType=="Nether">
-			if(dimensionType == World.THE_NETHER)
-		  		dimensionCriteria = true;
-			<#elseif worldType=="End">
-			if(dimensionType == World.THE_END)
-		  		dimensionCriteria = true;
-	  		<#else>
-			if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${generator.getResourceLocationForModElement(worldType.toString().replace("CUSTOM:", ""))}")))
-      				dimensionCriteria = true;
+				if(!dimensionCriteria)
+					return false;
 			</#if>
-			</#list>
-
-			if(!dimensionCriteria)
-		  		return false;
 
 			<#if data.plantType == "growapable">
 			int generated = 0;
@@ -102,9 +112,9 @@ package ${package}.world.features.plants;
 		}
 	};
 
-	configuredFeature = feature.withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
+	configuredFeature = feature.withConfiguration(new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
 		new <#if data.plantType == "double">DoublePlant<#else>Simple</#if>BlockPlacer())).tries(${data.patchSize})
-		<#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>.build())
+		<#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>.build()
 		<#if (data.plantType == "normal" || data.plantType == "double") && data.generationType == "Grass">
 		.withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8, 0, ${data.frequencyOnChunks})))
 		<#else>
@@ -120,13 +130,13 @@ package ${package}.world.features.plants;
 	}
 
 	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-	<#if data.restrictionBiomes?has_content>
+	<#if data.restrictionBiomes?has_content && !cond>
 		boolean biomeCriteria = false;
 		<#list data.restrictionBiomes as restrictionBiome>
-		<#if restrictionBiome.canProperlyMap()>
-		if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-			biomeCriteria = true;
-		</#if>
+			<#if restrictionBiome.canProperlyMap()>
+			if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+				biomeCriteria = true;
+			</#if>
 		</#list>
 		if (!biomeCriteria)
 			return;
