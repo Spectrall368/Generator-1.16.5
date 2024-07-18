@@ -2,7 +2,7 @@ templates:
   - template: plant/plant.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/block/@NAMEBlock.java"
   - template: plant/plantgen.java.ftl
-    condition: doesGenerateInWorld()
+    condition: generateFeature
     name: "@SRCROOT/@BASEPACKAGEPATH/world/features/plants/@NAMEFeature.java"
   - template: plant/plantblockentity.java.ftl
     condition: hasTileEntity
