@@ -106,14 +106,6 @@ package ${package}.world.features.ores;
 				if(!dimensionCriteria)
 				  return false;
 
-        			<#if hasProcedure(data.generateCondition)>
-				int x = pos.getX();
-				int y = pos.getY();
-				int z = pos.getZ();
-				if (!<@procedureOBJToConditionCode data.generateCondition/>)
-				  return false;
-				</#if>
-
 				return super.generate(world, generator, rand, pos, config);
 			}
 		};
