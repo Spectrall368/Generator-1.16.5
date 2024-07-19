@@ -51,7 +51,7 @@ package ${package}.init;
 			<#if entity.hasCustomProjectile()>
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), renderManager -> new SpriteRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
 			</#if>
-		<#elseif entity.getModElement().getTypeString() == "rangeditem">
+		<#elseif entity.getModElement().getTypeString() == "projectile">
 			<#if entity.isCustomModel()>
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
 			<#else>
