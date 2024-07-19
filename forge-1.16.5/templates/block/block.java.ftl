@@ -241,7 +241,7 @@ public class ${name}Block extends
    	}
 	</#if>
 
-	<@addSpecialInformation data.specialInfo, true/>
+	<@addSpecialInformation data.specialInformation, true/>
 
 	<#if data.displayFluidOverlay>
 	@Override public boolean shouldDisplayFluidOverlay(BlockState state, IBlockDisplayReader world, BlockPos pos, FluidState fluidstate) {
