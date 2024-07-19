@@ -39,7 +39,7 @@ import net.minecraft.entity.merchant.villager.VillagerTrades;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE) public class ${JavaModName}Trades {
 
-	<#if w.hasVillagerTrades(true)>
+	<#if w.getGElementsOfType("villagertrade")?filter(e -> e.hasVillagerTrades(true))?size != 0>
 	@SubscribeEvent public static void registerWanderingTrades(WandererTradesEvent event) {
 		<#list villagertrades as trade>
 			<#list trade.tradeEntries as tradeEntry>
@@ -59,7 +59,7 @@ import net.minecraft.entity.merchant.villager.VillagerTrades;
 	}
 	</#if>
 
-	<#if w.hasVillagerTrades(false)>
+	<#if w.getGElementsOfType("villagertrade")?filter(e -> e.hasVillagerTrades(false))?size != 0>
 	@SubscribeEvent public static void registerTrades(VillagerTradesEvent event) {
 		<#list villagertrades as trade>
 			<#list trade.tradeEntries as tradeEntry>
