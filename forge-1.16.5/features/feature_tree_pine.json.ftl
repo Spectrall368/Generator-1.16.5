@@ -1,3 +1,5 @@
+<#include "mcitems.ftl">
+<#include "trees.ftl">
 new BaseTreeFeatureConfig.Builder(${mappedBlockToBlockStateProvider(input$trunk)}, ${mappedBlockToBlockStateProvider(input$foliage)},
 <#if field$type == "pine">
 new PineFoliagePlacer(FeatureSpread.func_242252_a(1), FeatureSpread.func_242252_a(1), FeatureSpread.func_242253_a(${input$foliage_height}, 1)),
