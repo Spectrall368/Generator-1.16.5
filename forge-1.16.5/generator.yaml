@@ -59,7 +59,7 @@ base_templates:
     writer: file
     name: "@RESROOT/META-INF/accesstransformer.cfg"
     condition_any:
-      - ${w.hasGameRulesOfType('Number') || w.hasGameRulesOfType('Logic')}
+      - "${w.getGElementsOfType('gamerule')?filter(e -> e.type.equals('Number') || e.type.equals('Logic'))?size != 0}"
       - ${w.hasElementsOfType("villagerprofession")}
 
 sources_setup_tasks:
