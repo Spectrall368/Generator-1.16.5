@@ -50,7 +50,7 @@ public class ${name}Item extends Item {
 
 	<@onEntitySwing data.onEntitySwing/>
 
-	<@addSpecialInformation data.specialInfo/>
+	<@addSpecialInformation data.specialInformation/>
 
 	@Override public UseAction getUseAction(ItemStack itemstack) {
 		return UseAction.${data.animation?upper_case};
