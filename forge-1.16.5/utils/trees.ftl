@@ -8,7 +8,7 @@ new ${type}(${height}, ${rand_a}, ${rand_b})
 new ${type}(FeatureSpread.func_242252_a(${radius}), FeatureSpread.func_242252_a(${offset})<#if type == "AcaciaFoliagePlacer" || type == "DarkOakFoliagePlacer"><#else>, ${height}</#if>)
 </#macro>
 
-<#macro twoLayersFeatureSize limit lower_size upper_size>
+<#macro twoLayersFeatureSize limit lower_size upper_size min_clipped_height=-1>
 new TwoLayerFeature(${limit}, ${lower_size}, ${upper_size})
 </#macro>
 
