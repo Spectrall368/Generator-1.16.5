@@ -616,17 +616,31 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
     </#if>
 
 	<#if data.waterMob>
-	@Override public boolean canBreatheUnderwater() {
-    	return true;
-    }
-
-    @Override public boolean isNotColliding(IWorldReader world) {
+    	@Override public boolean isNotColliding(IWorldReader world) {
 		return world.checkNoEntityCollision(this);
 	}
+	</#if>
 
-    @Override public boolean isPushedByWater() {
-		return false;
-    }
+	<#if data.breatheUnderwater?? && (hasProcedure(data.breatheUnderwater) || data.breatheUnderwater.getFixedValue())>
+	@Override public boolean canBreatheUnderwater() {
+		double x = this.getPosX();
+		double y = this.getPosY();
+		double z = this.getPosZ();
+		World world = this.world;
+		Entity entity = this;
+		return <@procedureOBJToConditionCode data.breatheUnderwater true false/>;
+	}
+	</#if>
+
+	<#if data.pushedByFluids?? && (hasProcedure(data.pushedByFluids) || !data.pushedByFluids.getFixedValue())>
+	@Override public boolean isPushedByWater() {
+		double x = this.getPosX();
+		double y = this.getPosY();
+		double z = this.getPosZ();
+		World world = this.world;
+		Entity entity = this;
+		return <@procedureOBJToConditionCode data.pushedByFluids false false/>;
+	}
 	</#if>
 
 	<#if data.disableCollisions>
