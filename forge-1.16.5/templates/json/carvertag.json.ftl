@@ -1,4 +1,3 @@
-
 <#include "../mcitems.ftl">
 {
     "replace": false,
