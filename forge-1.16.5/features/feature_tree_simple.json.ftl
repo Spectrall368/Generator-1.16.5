@@ -26,4 +26,4 @@ new BaseTreeFeatureConfig.Builder(${mappedBlockToBlockStateProvider(input$trunk)
     "trunk_placer": <@simpleTrunkPlacer "FancyTrunkPlacer" field$base_height field$height_variation_a field$height_variation_b/>,
     "minimum_size": <@twoLayersFeatureSize limit=0 lower_size=0 upper_size=0 min_clipped_height=4/>
   </#if>
-)<#if field$ignore_vines == "TRUE">.setIgnoreVines()</#if><#if field$force_dirt == "TRUE">.setMaxWaterDepth(0)</#if>.setDecorators(ImmutableList.of(<#list input_list$decorator as decorator>${decorator}<#sep>,</#list>))
+)<#if field$ignore_vines == "TRUE">.setIgnoreVines()</#if><#if field$force_dirt == "TRUE">.setMaxWaterDepth(0)</#if>.setDecorators(ImmutableList.of(<#list input_list$decorator as decorator>${decorator}<#sep>,</#list>)).build()
