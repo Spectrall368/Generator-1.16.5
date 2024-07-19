@@ -230,6 +230,24 @@
 </#if>
 </#macro>
 
+<#macro piglinNeutral procedure="">
+<#if procedure?has_content && (hasProcedure(procedure) || procedure.getFixedValue())>
+@Override public boolean makesPiglinsNeutral(ItemStack itemstack, LivingEntity entity) {
+	<#if hasProcedure(procedure)>
+		return <@procedureCode procedure, {
+			"x": "entity.getPosX()",
+			"y": "entity.getPosY()",
+			"z": "entity.getPosZ()",
+			"world": "entity.world",
+			"entity": "entity",
+			"itemstack": "itemstack"
+		}/>
+	<#else>
+		return true;
+	</#if>
+}
+</#if>
+</#macro>
 <#-- Block-related triggers -->
 <#macro onDestroyedByExplosion procedure="">
 <#if hasProcedure(procedure)>
