@@ -611,13 +611,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		}
 
 		@Override public boolean isBreedingItem(ItemStack stack) {
-			if (stack == null)
-				return false;
-			<#list data.breedTriggerItems as breedTriggerItem>
-			if (${mappedMCItemToItem(breedTriggerItem)} == stack.getItem())
-				return true;
-                	</#list>
-			return false;
+			return ${mappedMCItemsToIngredient(data.breedTriggerItems)}.test(stack);
 		}
     </#if>
 
