@@ -53,8 +53,6 @@ public class ${name}Item extends MusicDiscItem {
 
 	<@onItemTick data.onItemInUseTick, data.onItemInInventoryTick/>
 
-	<#if data.hasGlow>
 	<@hasGlow data.glowCondition/>
-	</#if>
 }
 <#-- @formatter:on -->
