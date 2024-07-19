@@ -94,7 +94,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 					if (<@procedureOBJToConditionCode component.displayCondition/>)
 				</#if>
 				InventoryScreen.drawEntityOnScreen(this.guiLeft + ${x + 10}, this.guiTop + ${y + 20}, ${component.scale},
-					${component.rotationX / 20.0}f <#if followMouse> + (float) Math.atan((this.leftPos + ${x + 10} - mouseX) / 40.0)</#if>,
+					${component.rotationX / 20.0}f <#if followMouse> + (float) Math.atan((this.guiLeft + ${x + 10} - mouseX) / 40.0)</#if>,
 					<#if followMouse>(float) Math.atan((this.guiTop + ${y + 21 - 50} - mouseY) / 40.0)<#else>0</#if>,
 					(LivingEntity) <@procedureOBJToConditionCode component.entityModel/>
 				);
