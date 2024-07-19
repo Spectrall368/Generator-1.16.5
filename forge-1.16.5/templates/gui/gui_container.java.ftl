@@ -31,8 +31,6 @@
 <#-- @formatter:off -->
 <#include "../mcitems.ftl">
 <#include "../procedures.java.ftl">
-<#assign mx = (data.W - data.width) / 2>
-<#assign my = (data.H - data.height) / 2>
 <#assign slotnum = 0>
 package ${package}.world.inventory;
 
@@ -109,8 +107,8 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 				<#if component.getClass().getSimpleName()?ends_with("Slot")>
 					<#assign slotnum += 1>
 					this.customSlots.put(${component.id}, this.addSlot(new SlotItemHandler(internal, ${component.id},
-						${(component.x - mx)?int + 1},
-						${(component.y - my)?int + 1}) {
+						${component.gx(data.width) + 1},
+						${component.gy(data.height) + 1}) {
 						private final int slot = ${component.id};
 
 						<#if hasProcedure(component.disablePickup) || component.disablePickup.getFixedValue()>
@@ -164,12 +162,12 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 				</#if>
 			</#list>
 
-			<#assign coffx = ((data.width - 176) / 2 + data.inventoryOffsetX)?int>
-			<#assign coffy = ((data.height - 166) / 2 + data.inventoryOffsetY)?int>
+			<#assign coffx = data.getInventorySlotsX()>
+			<#assign coffy = data.getInventorySlotsY()>
 
 			for (int si = 0; si < 3; ++si)
 				for (int sj = 0; sj < 9; ++sj)
-					this.addSlot(new Slot(inv, sj + (si + 1) * 9, ${coffx} + 8 + sj * 18, ${coffy}+ 84 + si * 18));
+					this.addSlot(new Slot(inv, sj + (si + 1) * 9, ${coffx} + 8 + sj * 18, ${coffy} + 84 + si * 18));
 
 			for (int si = 0; si < 9; ++si)
 				this.addSlot(new Slot(inv, si, ${coffx} + 8 + si * 18, ${coffy} + 142));
