@@ -48,9 +48,6 @@ package ${package}.client.screens;
                 int h = event.getGui().height;
 	</#if>
 
-        int posX = w / 2;
-        int posY = h / 2;
-
         World world = null;
         double x = 0;
         double y = 0;
@@ -80,35 +77,32 @@ package ${package}.client.screens;
             </#if>
 
             <#list data.getComponentsOfType("Image") as component>
-                <#assign x = component.x - 213>
-                <#assign y = component.y - 120>
                 <#if hasProcedure(component.displayCondition)>
                         if (<@procedureOBJToConditionCode component.displayCondition/>) {
                 </#if>
                    Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
-                    Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), posX + ${x}, posY + ${y}, 0, 0,
+                    Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), <@calculatePosition component/>, 0, 0,
                         ${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
                         ${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
                 <#if hasProcedure(component.displayCondition)>}</#if>
             </#list>
 
             <#list data.getComponentsOfType("Label") as component>
-                <#assign x = component.x - 213>
-                <#assign y = component.y - 120>
-                    <#if hasProcedure(component.displayCondition)>
-                        if (<@procedureOBJToConditionCode component.displayCondition/>)
-                    </#if>
-                    Minecraft.getInstance().fontRenderer.drawString(event.getMatrixStack(),
-                        <#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString()</#if>,
-                        posX + ${x}, posY + ${y}, ${component.color.getRGB()});
+                <#if hasProcedure(component.displayCondition)>
+                    if (<@procedureOBJToConditionCode component.displayCondition/>)
+                </#if>
+                Minecraft.getInstance().fontRenderer.drawString(event.getMatrixStack(),
+                    <#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString()</#if>,
+                    <@calculatePosition component/>, ${component.color.getRGB()});
             </#list>
 
 			<#list data.getComponentsOfType("EntityModel") as component>
 			    if (<@procedureOBJToConditionCode component.entityModel/> instanceof LivingEntity) {
 			    	<#if hasProcedure(component.displayCondition)>
                         if (<@procedureOBJToConditionCode component.displayCondition/>)
-                    </#if>
-			        InventoryScreen.drawEntityOnScreen(posX + ${component.x - 202}, posY + ${component.y - 100},
+		                </#if>
+
+				InventoryScreen.drawEntityOnScreen(<@calculatePosition component=component x_offset=10 y_offset=20/>,
                         ${component.scale}, ${component.rotationX / 20.0}f, 0, (LivingEntity) <@procedureOBJToConditionCode component.entityModel/>);
 			    }
 			</#list>
@@ -123,4 +117,25 @@ package ${package}.client.screens;
         }
 	}
 }
+<#macro calculatePosition component x_offset=0 y_offset=0>
+	<#if component.anchorPoint.name() == "TOP_LEFT">
+		${component.x + x_offset}, ${component.y + y_offset}
+	<#elseif component.anchorPoint.name() == "TOP_CENTER">
+		w / 2 + ${component.x - (213 - x_offset)}, ${component.y + y_offset}
+	<#elseif component.anchorPoint.name() == "TOP_RIGHT">
+		w - ${427 - (component.x + x_offset)}, ${component.y + y_offset}
+	<#elseif component.anchorPoint.name() == "CENTER_LEFT">
+		${component.x + x_offset}, h / 2 + ${component.y - (120 - y_offset)}
+	<#elseif component.anchorPoint.name() == "CENTER">
+		w / 2 + ${component.x - (213 - x_offset)}, h / 2 + ${component.y - (120 - y_offset)}
+	<#elseif component.anchorPoint.name() == "CENTER_RIGHT">
+		w - ${427 - (component.x + x_offset)}, h / 2 + ${component.y - (120 - y_offset)}
+	<#elseif component.anchorPoint.name() == "BOTTOM_LEFT">
+		${component.x + x_offset}, h - ${240 - (component.y + y_offset)}
+	<#elseif component.anchorPoint.name() == "BOTTOM_CENTER">
+		w / 2 + ${component.x - (213 - x_offset)}, h - ${240 - (component.y + y_offset)}
+	<#elseif component.anchorPoint.name() == "BOTTOM_RIGHT">
+		w - ${427 - (component.x + x_offset)}, h - ${240 - (component.y + y_offset)}
+	</#if>
+</#macro>
 <#-- @formatter:on -->
