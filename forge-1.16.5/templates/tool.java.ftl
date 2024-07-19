@@ -270,7 +270,7 @@ public class ${name}Item extends FishingRodItem {
 		</#if>
 	</#if>
 
-	<@addSpecialInformation data.specialInfo/>
+	<@addSpecialInformation data.specialInformation/>
 
 	<@onItemUsedOnBlock data.onRightClickedOnBlock/>
 
