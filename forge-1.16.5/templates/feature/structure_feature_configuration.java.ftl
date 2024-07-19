@@ -52,7 +52,7 @@ public StructureFeatureConfiguration implements IFeatureConfig {
  public ResourceLocation structure;
  public boolean randomRotation;
  public boolean randomMirror;
- public List<Block> ignoredBlocks;
+ public List<Block> ignoredBlocks = ImmutableList.of();
  public Vec3i offset;
 
  public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<Block> ignoredBlocks, Vec3i offset) {
