@@ -1,3 +1,16 @@
 templates:
   - template: feature/feature.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/world/features/@NAMEFeature.java"
+
+# Templates for custom structure feature
+global_templates:
+  - template: feature/structure_feature.java.ftl
+    writer: java
+    condition: ${w.hasFeaturesWithStructureFeature()}
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/StructureFeature.java"
+    hidden: true
+  - template: feature/structure_feature_configuration.java.ftl
+    writer: java
+    condition: ${w.hasFeaturesWithStructureFeature()}
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/configurations/StructureFeatureConfiguration.java"
+    hidden: true
