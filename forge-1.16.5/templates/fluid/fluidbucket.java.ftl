@@ -40,6 +40,6 @@ public class ${name}Item extends BucketItem {
 			<#if data.creativeTab?has_content>.group(${data.creativeTab})<#else>.group(ItemGroup.MISC)</#if>);
 	}
 
-	<@addSpecialInformation data.specialInfo/>
+	<@addSpecialInformation data.specialInformation/>
 }
 <#-- @formatter:on -->
