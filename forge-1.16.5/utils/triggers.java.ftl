@@ -45,22 +45,6 @@
 </#if>
 </#macro>
 
-<#macro onStoppedUsing procedure="">
-<#if hasProcedure(procedure) && (data.useDuration > 0)>
-@Override public void onPlayerStoppedUsing(ItemStack itemstack, World world, LivingEntity entity, int time) {
-	<@procedureCode data.onStoppedUsing, {
-		"x": "entity.getPosX()",
-		"y": "entity.getPosY()",
-		"z": "entity.getPosZ()",
-		"world": "world",
-		"entity": "entity",
-		"itemstack": "itemstack",
-		"time": "time"
-	}/>
-}
-</#if>
-</#macro>
-
 <#macro onEntityHitWith procedure="" hurtStack=false hurtStackAmount=2>
 <#if hasProcedure(procedure) || hurtStack>
 @Override public boolean hitEntity(ItemStack itemstack, LivingEntity entity, LivingEntity sourceentity) {
