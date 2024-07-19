@@ -1,4 +1,4 @@
-_default: ""
+_default: intentionally_empty
 _mcreator_prefix: "CUSTOM:"
 ambient.cave: ambient.cave
 ambient.underwater.enter: ambient.underwater.enter
