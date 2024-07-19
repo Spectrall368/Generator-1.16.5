@@ -32,13 +32,25 @@
 <#include "procedures.java.ftl">
 package ${package}.command;
 
-@Mod.EventBusSubscriber public class ${name}Command {
+@Mod.EventBusSubscriber<#if data.type == "CLIENTSIDE">(value = Dist.CLIENT)</#if>
+public class ${name}Command {
+		@SubscribeEvent public static void registerCommand(RegisterCommandsEvent event) {
+			<#if data.type == "MULTIPLAYER_ONLY">
+				if (event.getEnvironment() == Commands.EnvironmentType.DEDICATED)
+					<@commandRegistrationCode/>
+			<#elseif data.type == "SINGLEPLAYER_ONLY">
+				if (event.getEnvironment() == Commands.EnvironmentType.INTEGRATED)
+					<@commandRegistrationCode/>
+			<#else>
+				<@commandRegistrationCode/>
+			</#if>
+		}
 
-	@SubscribeEvent public static void registerCommand(RegisterCommandsEvent event) {
-		event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("${data.commandName}")
-			<#if data.permissionLevel != "No requirement">.requires(s -> s.hasPermissionLevel(${data.permissionLevel}))</#if>
-			${argscode}
-		);
-	}
 }
+<#macro commandRegistrationCode>
+	event.getDispatcher().register(Commands.literal("${data.commandName}")
+		<#if data.permissionLevel != "No requirement">.requires(s -> s.hasPermissionLevel(${data.permissionLevel}))</#if>
+		${argscode}
+	);
+</#macro>
 <#-- @formatter:on -->
