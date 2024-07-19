@@ -1,13 +1,13 @@
 <#-- @formatter:off -->
 <#include "../mcitems.ftl">
 {
-    <#if data.group?has_content>"group": "${data.group}",</#if>
     "type": "minecraft:smelting",
+    <#if data.group?has_content>"group": "${data.group}",</#if>
     "experience": ${data.xpReward},
 	"cookingtime": ${data.cookingTime},
     "ingredient": {
-      ${mappedMCItemToIngameItemName(data.smeltingInputStack)}
+      ${mappedMCItemToItemObjectJSON(data.smeltingInputStack)}
     },
-    "result": "${mappedMCItemToIngameNameNoTags(data.smeltingReturnStack)}"
+    "result": "${mappedMCItemToRegistryName(data.smeltingReturnStack)}"
 }
 <#-- @formatter:on -->
