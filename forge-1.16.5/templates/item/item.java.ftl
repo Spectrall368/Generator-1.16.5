@@ -152,7 +152,7 @@ public class ${name}Item extends Item {
 	}
 	</#if>
 
-	<@addSpecialInformation data.specialInfo/>
+	<@addSpecialInformation data.specialInformation/>
 
 	<#if hasProcedure(data.onRightClickedInAir) || data.hasInventory() || (hasProcedure(data.onStoppedUsing) && (data.useDuration > 0))>
 	@Override public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity entity, Hand hand) {
