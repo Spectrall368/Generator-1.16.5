@@ -43,7 +43,7 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
 		}), Codec.BOOL.fieldOf("random_mirror").orElse(false).forGetter((config) -> {
 			return config.randomMirror;
 		}), BlockState.CODEC.listOf().fieldOf("ignored_blocks").forGetter((config) -> {
-		         return config.ignoredBlocks.stream().map(Block::getDefaultState).collect(Collectors.toList());
+		         return config.ignoredBlocks;
 		}), Vector3i.CODEC.optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter((config) -> {
 			return config.offset;
 		})).apply(builder, StructureFeatureConfiguration::new);
