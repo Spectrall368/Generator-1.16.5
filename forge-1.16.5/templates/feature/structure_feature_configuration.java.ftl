@@ -44,16 +44,16 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
 			return config.randomMirror;
 		}), RegistryKeyCodec.create(Registry.BLOCK_KEY).listOf().fieldOf("ignored_blocks").forGetter(config -> {
 			return config.ignoredBlocks;
-		}), Vector3i.offsetCodec(48).optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter(config -> {
+		}), Vector3i.CODEC.optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter(config -> {
 			return config.offset;
 		})).apply(builder, StructureFeatureConfiguration::new);
 	});
 
- public ResourceLocation structure;
- public boolean randomRotation;
- public boolean randomMirror;
- public List<Block> ignoredBlocks = ImmutableList.of();
- public Vector3i offset;
+ public final ResourceLocation structure;
+ public final boolean randomRotation;
+ public final boolean randomMirror;
+ public final List<Block> ignoredBlocks = ImmutableList.of();
+ public final Vector3i offset;
 
  public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<Block> ignoredBlocks, Vector3i offset) {
       this.structure = structure;
