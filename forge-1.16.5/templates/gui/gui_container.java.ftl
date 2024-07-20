@@ -56,7 +56,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 	private boolean bound = false;
 	private Supplier<Boolean> boundItemMatcher = null;
 	private Entity boundEntity = null;
-	private BlockEntity boundBlockEntity = null;
+	private TileEntity boundBlockEntity = null;
 
 	public ${name}Menu(int id, PlayerInventory inv, PacketBuffer extraData) {
 		super(${JavaModName}Menus.${data.getModElement().getRegistryNameUpper()}.get(), id);
