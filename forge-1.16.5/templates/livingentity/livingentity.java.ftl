@@ -75,11 +75,11 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 
 	<#list data.entityDataEntries as entry>
 		<#if entry.value().getClass().getSimpleName() == "Integer">
-			public static final DataParameter<Integer> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, EntityDataSerializers.INT);
+			public static final DataParameter<Integer> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, DataSerializers.VARINT);
 		<#elseif entry.value().getClass().getSimpleName() == "Boolean">
-			public static final DataParameter<Boolean> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, EntityDataSerializers.BOOLEAN);
+			public static final DataParameter<Boolean> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, DataSerializers.BOOLEAN);
 		<#elseif entry.value().getClass().getSimpleName() == "String">
-			public static final DataParameter<String> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, EntityDataSerializers.STRING);
+			public static final DataParameter<String> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, DataSerializers.STRING);
 		</#if>
 	</#list>
 
