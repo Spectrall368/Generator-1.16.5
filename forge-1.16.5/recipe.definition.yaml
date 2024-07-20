@@ -31,4 +31,4 @@ templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/recipes/brewing/@NAMEBrewingRecipe.java"
     condition: "recipeType %= Brewing"
 
-field_exclusions: [cookingBookCategory, craftingBookCategory]
+field_exclusions: [cookingBookCategory, craftingBookCategory, smithingRecipeMaker.cb4]
