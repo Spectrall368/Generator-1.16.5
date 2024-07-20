@@ -1,3 +1,4 @@
+
 <#function transformExtension mappedBlock>
     <#assign extension = mappedBlock?keep_after_last(".")?replace("body", "chestplate")?replace("legs", "leggings")>
     <#return (extension?has_content)?then("_" + extension, "")>
@@ -44,8 +45,8 @@
     <#else>
         <#assign mapped = generator.map(mappedBlock.getUnmappedValue(), "blocksitems", 1) />
         <#if mapped.startsWith("#")>
-            <#if customelement?has_content>
-                <#return "#" + mapped>
+            <#if acceptTags>
+                <#return mapped>
             <#else>
                 <#return "minecraft:air">
             </#if>
