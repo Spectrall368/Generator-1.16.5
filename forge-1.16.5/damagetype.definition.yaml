@@ -1,0 +1,13 @@
+global_templates:
+  - template: elementinits/damagetypes.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameDamageTypes.java"
+
+localizationkeys:
+  - key: death.attack.@registryname
+    mapto: normalDeathMessage
+  - key: death.attack.@registryname.item
+    mapto: itemDeathMessage
+  - key: death.attack.@registryname.player
+    mapto: playerDeathMessage
+
+field_exclusions: [exhaustion]
