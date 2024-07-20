@@ -33,7 +33,7 @@
 package ${package}.world.features;
 
 <#assign configuration = generator.map(featuretype, "features", 1)>
-<#assign isRulePresent = (configuration == OreFeatureConfig)>
+<#assign isRulePresent = (configuration == "OreFeatureConfig")>
 <#compress>
 @Mod.EventBusSubscriber public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	private static Feature<${configuration}> feature = null;
