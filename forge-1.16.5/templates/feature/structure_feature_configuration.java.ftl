@@ -43,7 +43,7 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
 		}), Codec.BOOL.fieldOf("random_mirror").orElse(false).forGetter((config) -> {
 			return config.randomMirror;
 		}), BlockState.CODEC.listOf().fieldOf("ignored_blocks").forGetter((config) -> {
-		         return ImmutableList.copyOf(config.ignoredBlocks.stream().map(Block::getDefaultState).collect(Collectors.toList()));
+		         return config.ignoredBlocks;
 		}), Vector3i.CODEC.optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter((config) -> {
 			return config.offset;
 		})).apply(builder, StructureFeatureConfiguration::new);
@@ -52,10 +52,10 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
  public final ResourceLocation structure;
  public final boolean randomRotation;
  public final boolean randomMirror;
- public final List<Block> ignoredBlocks;
+ public final List<BlockState> ignoredBlocks;
  public final Vector3i offset;
 
- public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<Block> ignoredBlocks, Vector3i offset) {
+ public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<BlockState> ignoredBlocks, Vector3i offset) {
       this.structure = structure;
       this.randomRotation = randomRotation;
       this.randomMirror = randomMirror;
