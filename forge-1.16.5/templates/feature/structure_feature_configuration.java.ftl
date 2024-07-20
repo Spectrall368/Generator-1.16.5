@@ -34,7 +34,7 @@ package ${package}.world.features.configurations;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-public StructureFeatureConfiguration implements IFeatureConfig {
+public class StructureFeatureConfiguration implements IFeatureConfig {
   public static final Codec<StructureFeatureConfiguration> CODEC = RecordCodecBuilder.create(builder -> {
 		return builder.group(ResourceLocation.CODEC.fieldOf("structure").forGetter(config -> {
 			return config.structure;
