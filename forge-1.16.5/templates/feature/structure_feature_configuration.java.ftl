@@ -42,7 +42,7 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
 			return config.randomRotation;
 		}), Codec.BOOL.fieldOf("random_mirror").orElse(false).forGetter(config -> {
 			return config.randomMirror;
-		}), RegistryKeyCodec.create(Registry.BLOCK_KEY).listOf().fieldOf("ignored_blocks").forGetter(config -> {
+		}), Block.CODEC.listOf().fieldOf("ignored_blocks").forGetter(config -> {
 			return config.ignoredBlocks;
 		}), Vector3i.CODEC.optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter(config -> {
 			return config.offset;
