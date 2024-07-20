@@ -1,1 +1,1 @@
-new StructureFeatureConfiguration(new ResourceLocation("${modid}:${field$structure}"), ${field$random_rotation}, ${field$random_mirror}, ImmutableList.of(${input$ignored_blocks}), new Vec3i(${field$x}, ${field$y}, ${field$z}))
+new StructureFeatureConfiguration(new ResourceLocation("${modid}:${field$structure}"), ${field$random_rotation?lowercase}, ${field$random_mirror?lowercase}, ImmutableList.of(${input$ignored_blocks}), new Vector3i(${field$x}, ${field$y}, ${field$z}))
