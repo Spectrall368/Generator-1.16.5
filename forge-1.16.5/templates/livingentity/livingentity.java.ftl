@@ -168,6 +168,10 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			}
 		};
 		</#if>
+
+		<#if data.boundingBoxScale?? && data.boundingBoxScale.getFixedValue() != 1 && !hasProcedure(data.boundingBoxScale)>
+		recalculateSize();
+		</#if>
 	}
 
 	@Override public IPacket<?> createSpawnPacket() {
@@ -602,16 +606,21 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	}
     </#if>
 
-	<#if hasProcedure(data.onMobTickUpdate)>
+	<#if hasProcedure(data.onMobTickUpdate) || hasProcedure(data.boundingBoxScale)>
 	@Override public void baseTick() {
 		super.baseTick();
-		<@procedureCode data.onMobTickUpdate, {
-			"x": "this.getPosX()",
-			"y": "this.getPosY()",
-			"z": "this.getPosZ()",
-			"entity": "this",
-			"world": "this.world"
-		}/>
+		<#if hasProcedure(data.onMobTickUpdate)>
+			<@procedureCode data.onMobTickUpdate, {
+				"x": "this.getPosX()",
+				"y": "this.getPosY()",
+				"z": "this.getPosZ()",
+				"entity": "this",
+				"world": "this.world"
+			}/>
+		</#if>
+		<#if hasProcedure(data.boundingBoxScale)>
+			this.recalculateSize();
+		</#if>
 	}
     </#if>
 
@@ -782,6 +791,21 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			super.travel(dir);
 		}
     </#if>
+
+	<#if hasProcedure(data.boundingBoxScale) || (data.boundingBoxScale?? && data.boundingBoxScale.getFixedValue() != 1)>
+	@Override public EntitySize getSize(Pose pose) {
+		<#if hasProcedure(data.boundingBoxScale)>
+			Entity entity = this;
+			World world = this.world;
+			double x = this.getPosX();
+			double y = this.getPosY();
+			double z = this.getPosZ();
+			return super.getSize(pose).scale((float) <@procedureOBJToNumberCode data.boundingBoxScale/>);
+		<#else>
+			return super.getSize(pose).scale(${data.boundingBoxScale.getFixedValue()}f);
+		</#if>
+	}
+	</#if>
 
 	<#if data.flyingMob>
 	@Override protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {}
