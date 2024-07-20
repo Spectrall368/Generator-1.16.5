@@ -1,4 +1,6 @@
 _default: DamageSource.GENERIC
+_mcreator_prefix: "CUSTOM:"
+_mcreator_map_template: "@JavaModNameDamageTypes.@REGISTRYNAME"
 IN_FIRE: DamageSource.IN_FIRE
 LIGHTNING_BOLT: DamageSource.LIGHTNING_BOLT
 ON_FIRE: DamageSource.ON_FIRE
