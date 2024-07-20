@@ -298,7 +298,7 @@ public class ${name}Item extends Item {
 	</#if>
 
 	<#if data.enableRanged && data.shootConstantly>
-		@Override public void onUsingTick(LivingEntity entity, ItemStack itemstack, int count) {
+		@Override public void onUsingTick(ItemStack itemstack, LivingEntity entity, int count) {
 			World world = entity.world;
 			if (!world.isRemote() && entity instanceof ServerPlayerEntity) {
 				<@arrowShootCode/>
