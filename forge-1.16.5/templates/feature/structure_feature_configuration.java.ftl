@@ -42,9 +42,9 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
 			return config.randomRotation;
 		}), Codec.BOOL.fieldOf("random_mirror").orElse(false).forGetter(config -> {
 			return config.randomMirror;
-		}), RegistryKeyCodec.create(Registry.BLOCK_REGISTRY).listOf().fieldOf("ignored_blocks").forGetter(config -> {
+		}), RegistryKeyCodec.create(Registry.BLOCK_KEY).listOf().fieldOf("ignored_blocks").forGetter(config -> {
 			return config.ignoredBlocks;
-		}), Vec3i.offsetCodec(48).optionalFieldOf("offset", Vec3i.ZERO).forGetter(config -> {
+		}), Vector3i.offsetCodec(48).optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter(config -> {
 			return config.offset;
 		})).apply(builder, StructureFeatureConfiguration::new);
 	});
@@ -53,9 +53,9 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
  public boolean randomRotation;
  public boolean randomMirror;
  public List<Block> ignoredBlocks = ImmutableList.of();
- public Vec3i offset;
+ public Vector3i offset;
 
- public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<Block> ignoredBlocks, Vec3i offset) {
+ public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<Block> ignoredBlocks, Vector3i offset) {
       this.structure = structure;
       this.randomRotation = randomRotation;
       this.randomMirror = randomMirror;
