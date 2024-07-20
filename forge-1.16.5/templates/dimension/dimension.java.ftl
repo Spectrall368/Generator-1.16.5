@@ -35,16 +35,16 @@ package ${package}.world.dimension;
 
 <#compress>
 @Mod.EventBusSubscriber public class ${name}Dimension {
-
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class Fixers {
-
-		@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerDimensionGen(FMLCommonSetupEvent event) {
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class DimensionSpecialEffectsHandler {
+		@SubscribeEvent public static void registerDimensionSurfaceBuilder(FMLCommonSetupEvent event) {
 			Set<Block> replaceableBlocks = new HashSet<>();
 			replaceableBlocks.add(${mappedBlockToBlock(data.mainFillerBlock)});
 	
 			<#list w.filterBrokenReferences(data.biomesInDimension) as biome>
-			replaceableBlocks.add(ForgeRegistries.BIOMES.getValue(new ResourceLocation("${biome}")).getGenerationSettings().getSurfaceBuilder().get().getConfig().getTop().getBlock());
-			replaceableBlocks.add(ForgeRegistries.BIOMES.getValue(new ResourceLocation("${biome}")).getGenerationSettings().getSurfaceBuilder().get().getConfig().getUnder().getBlock());
+			replaceableBlocks.add(ForgeRegistries.BIOMES.getValue(new ResourceLocation("${biome}"))
+					.getGenerationSettings().getSurfaceBuilder().get().getConfig().getTop().getBlock());
+			replaceableBlocks.add(ForgeRegistries.BIOMES.getValue(new ResourceLocation("${biome}"))
+					.getGenerationSettings().getSurfaceBuilder().get().getConfig().getUnder().getBlock());
 			</#list>
 	
 			DeferredWorkQueue.runLater(() -> {
@@ -63,9 +63,13 @@ package ${package}.world.dimension;
 		}
 
 		@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerDimensionSpecialEffects(FMLClientSetupEvent event) {
-			DimensionRenderInfo customEffect = new DimensionRenderInfo(<#if data.imitateOverworldBehaviour>128.0F<#else>Float.NaN</#if>, true,
-				<#if data.imitateOverworldBehaviour>DimensionRenderInfo.FogType.NORMAL<#else>DimensionRenderInfo.FogType.NONE</#if>, false, false) {
-	
+			DimensionRenderInfo customEffect = new DimensionRenderInfo(
+				<#if data.imitateOverworldBehaviour>128.0F<#else>Float.NaN</#if>,
+				true,
+				<#if data.imitateOverworldBehaviour>DimensionRenderInfo.FogType.NORMAL<#else>DimensionRenderInfo.FogType.NONE</#if>,
+				false,
+				false
+			) {
 				@Override public Vector3d func_230494_a_(Vector3d color, float sunHeight) {
 					<#if data.airColor?has_content>
 						return new Vector3d(${data.airColor.getRed()/255},${data.airColor.getGreen()/255},${data.airColor.getBlue()/255});
@@ -77,23 +81,23 @@ package ${package}.world.dimension;
 						</#if>
 					</#if>
 				}
-	
+
 				@Override public boolean func_230493_a_(int x, int y) {
 					return ${data.hasFog};
 				}
-	
 			};
-	
+
 			DeferredWorkQueue.runLater(() -> {
 				try {
 					Object2ObjectMap<ResourceLocation, DimensionRenderInfo> effectsRegistry =
-						(Object2ObjectMap<ResourceLocation, DimensionRenderInfo>) ObfuscationReflectionHelper.getPrivateValue(DimensionRenderInfo.class, null, "field_239208_a_");
+							(Object2ObjectMap<ResourceLocation, DimensionRenderInfo>) ObfuscationReflectionHelper.getPrivateValue(DimensionRenderInfo.class, null, "field_239208_a_");
 					effectsRegistry.put(new ResourceLocation("${modid}:${registryname}"), customEffect);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			});
 		}
+
 	}
 
 	<#if hasProcedure(data.onPlayerLeavesDimension) || hasProcedure(data.onPlayerEntersDimension)>
@@ -108,14 +112,14 @@ package ${package}.world.dimension;
 		if (event.getFrom() == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${registryname}"))) {
 			<@procedureOBJToCode data.onPlayerLeavesDimension/>
 		}
-        	</#if>
+        </#if>
 
 		<#if hasProcedure(data.onPlayerEntersDimension)>
 		if (event.getTo() == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${registryname}"))) {
 			<@procedureOBJToCode data.onPlayerEntersDimension/>
 		}
-        	</#if>
+        </#if>
 	}
-    	</#if>
+    </#if>
 }
 </#compress>
