@@ -33,8 +33,10 @@
 <#include "../procedures.java.ftl">
 package ${package}.entity;
 
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.block.material.Material;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.util.SoundEvent;
 
 <#assign extendsClass = "Creature">
@@ -70,6 +72,16 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
 	}
 	</#if>
+
+	<#list data.entityDataEntries as entry>
+		<#if entry.value().getClass().getSimpleName() == "Integer">
+			public static final DataParameter<Integer> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, EntityDataSerializers.INT);
+		<#elseif entry.value().getClass().getSimpleName() == "Boolean">
+			public static final DataParameter<Boolean> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, EntityDataSerializers.BOOLEAN);
+		<#elseif entry.value().getClass().getSimpleName() == "String">
+			public static final DataParameter<String> DATA_${entry.property().getName()} = EntityDataManager.createKey(${name}Entity.class, EntityDataSerializers.STRING);
+		</#if>
+	</#list>
 
 	<#if data.isBoss>
 	private final ServerBossInfo bossInfo = new ServerBossInfo(this.getDisplayName(),
@@ -161,6 +173,15 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	@Override public IPacket<?> createSpawnPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
+
+	<#if data.entityDataEntries?has_content>
+	@Override protected void registerData() {
+		super.registerData();
+		<#list data.entityDataEntries as entry>
+			this.dataManager.register(DATA_${entry.property().getName()}, ${entry.value()?is_string?then("\"" + entry.value() + "\"", entry.value())});
+		</#list>
+	}
+	</#if>
 
 	<#if data.flyingMob>
 	@Override protected PathNavigator createNavigator(World world) {
@@ -426,19 +447,43 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			}
 		}
 	}
+	</#if>
 
+	<#if data.entityDataEntries?has_content || (data.guiBoundTo?has_content && data.guiBoundTo != "<NONE>")>
 	@Override public void writeAdditional(CompoundNBT compound) {
-    	super.writeAdditional(compound);
+		super.writeAdditional(compound);
+		<#list data.entityDataEntries as entry>
+			<#if entry.value().getClass().getSimpleName() == "Integer">
+			compound.putInt("Data${entry.property().getName()}", this.dataManager.get(DATA_${entry.property().getName()}));
+			<#elseif entry.value().getClass().getSimpleName() == "Boolean">
+			compound.putBoolean("Data${entry.property().getName()}", this.dataManager.get(DATA_${entry.property().getName()}));
+			<#elseif entry.value().getClass().getSimpleName() == "String">
+			compound.putString("Data${entry.property().getName()}", this.dataManager.get(DATA_${entry.property().getName()}));
+			</#if>
+		</#list>
+		<#if data.guiBoundTo?has_content && data.guiBoundTo != "<NONE>">
 		compound.put("InventoryCustom", inventory.serializeNBT());
+		</#if>
 	}
 
 	@Override public void readAdditional(CompoundNBT compound) {
-    	super.readAdditional(compound);
-		INBT inventoryCustom = compound.get("InventoryCustom");
-		if(inventoryCustom instanceof CompoundNBT)
-			inventory.deserializeNBT((CompoundNBT) inventoryCustom);
-    }
-    </#if>
+    		super.readAdditional(compound);
+		<#list data.entityDataEntries as entry>
+			if (compound.contains("Data${entry.property().getName()}"))
+			<#if entry.value().getClass().getSimpleName() == "Integer">
+				this.entityData.set(DATA_${entry.property().getName()}, compound.getInt("Data${entry.property().getName()}"));
+			<#elseif entry.value().getClass().getSimpleName() == "Boolean">
+				this.entityData.set(DATA_${entry.property().getName()}, compound.getBoolean("Data${entry.property().getName()}"));
+			<#elseif entry.value().getClass().getSimpleName() == "String">
+				this.entityData.set(DATA_${entry.property().getName()}, compound.getString("Data${entry.property().getName()}"));
+			</#if>
+		</#list>
+		<#if data.guiBoundTo?has_content && data.guiBoundTo != "<NONE>">
+		if (compound.get("InventoryCustom") instanceof CompoundNBT)
+			inventory.deserializeNBT((CompoundNBT) compound.get("InventoryCustom"));
+		</#if>
+	}
+	</#if>
 
 	<#if hasProcedure(data.onRightClickedOn) || data.ridable || (data.tameable && data.breedable) || (data.guiBoundTo?has_content && data.guiBoundTo != "<NONE>")>
 	@Override public ActionResultType func_230254_b_(PlayerEntity sourceentity, Hand hand) {
