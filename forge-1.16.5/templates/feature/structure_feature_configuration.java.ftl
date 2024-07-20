@@ -36,15 +36,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public class StructureFeatureConfiguration implements IFeatureConfig {
   public static final Codec<StructureFeatureConfiguration> CODEC = RecordCodecBuilder.create(builder -> {
-		return builder.group(ResourceLocation.CODEC.fieldOf("structure").forGetter(config -> {
+		return builder.group(ResourceLocation.CODEC.fieldOf("structure").forGetter((config) -> {
 			return config.structure;
-		}), Codec.BOOL.fieldOf("random_rotation").orElse(false).forGetter(config -> {
+		}), Codec.BOOL.fieldOf("random_rotation").orElse(false).forGetter((config) -> {
 			return config.randomRotation;
-		}), Codec.BOOL.fieldOf("random_mirror").orElse(false).forGetter(config -> {
+		}), Codec.BOOL.fieldOf("random_mirror").orElse(false).forGetter((config) -> {
 			return config.randomMirror;
-		}), Block.CODEC.listOf().fieldOf("ignored_blocks").forGetter(config -> {
-			return config.ignoredBlocks;
-		}), Vector3i.CODEC.optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter(config -> {
+		}), BlockState.CODEC.listOf().fieldOf("ignored_blocks").forGetter((config) -> {
+		         return config.ignoredBlocks.stream().map(Block::getDefaultState).collect(Collectors.toList());
+		}), Vector3i.CODEC.optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter((config) -> {
 			return config.offset;
 		})).apply(builder, StructureFeatureConfiguration::new);
 	});
@@ -52,10 +52,10 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
  public final ResourceLocation structure;
  public final boolean randomRotation;
  public final boolean randomMirror;
- public final List<Block> ignoredBlocks = ImmutableList.of();
+ public final Set<Block> ignoredBlocks;
  public final Vector3i offset;
 
- public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<Block> ignoredBlocks, Vector3i offset) {
+ public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, Set<Block> ignoredBlocks, Vector3i offset) {
       this.structure = structure;
       this.randomRotation = randomRotation;
       this.randomMirror = randomMirror;
