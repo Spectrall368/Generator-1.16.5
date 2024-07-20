@@ -35,7 +35,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public class StructureFeatureConfiguration implements IFeatureConfig {
-  public static final Codec<StructureFeatureConfiguration> CODEC = RecordCodecBuilder.create(builder -> {
+  public static final Codec<StructureFeatureConfiguration> CODEC = RecordCodecBuilder.create((builder) -> {
 		return builder.group(ResourceLocation.CODEC.fieldOf("structure").forGetter((config) -> {
 			return config.structure;
 		}), Codec.BOOL.fieldOf("random_rotation").orElse(false).forGetter((config) -> {
@@ -52,10 +52,10 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
  public final ResourceLocation structure;
  public final boolean randomRotation;
  public final boolean randomMirror;
- public final Set<Block> ignoredBlocks;
+ public final List<Block> ignoredBlocks;
  public final Vector3i offset;
 
- public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, Set<Block> ignoredBlocks, Vector3i offset) {
+ public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<Block> ignoredBlocks, Vector3i offset) {
       this.structure = structure;
       this.randomRotation = randomRotation;
       this.randomMirror = randomMirror;
