@@ -2,12 +2,24 @@
 
 <#-- Item-related triggers -->
 <#macro addSpecialInformation procedure="" isBlock=false>
-	<#if procedure?has_content>
-		@Override @OnlyIn(Dist.CLIENT) public void addInformation(ItemStack itemstack, <#if isBlock>IBlockReader<#else>World</#if> level, List<ITextComponent> list, ITooltipFlag flag) {
-		super.addInformation(itemstack, level, list, flag);
-		<#list procedure as entry>
-			list.add(new StringTextComponent("${JavaConventions.escapeStringForJava(entry)}"));
-		</#list>
+	<#if procedure?has_content && (hasProcedure(procedure) || !procedure.getFixedValue().isEmpty())>
+		@Override @OnlyIn(Dist.CLIENT) public void addInformation(ItemStack itemstack, <#if isBlock>IBlockReader<#else>World</#if> world, List<ITextComponent> list, ITooltipFlag flag) {
+		super.addInformation(itemstack, world, list, flag);
+		<#if hasProcedure(procedure)>
+			Entity entity = Minecraft.getInstance().player;
+			list.add(Component.literal(<@procedureCode procedure, {
+				"x": "entity.getPosX()",
+				"y": "entity.getPosY()",
+				"z": "entity.getPosZ()",
+				"entity": "entity",
+				"world": "<#if !isBlock>world<#else>entity.world</#if>",
+				"itemstack": "itemstack"
+			}, false/>));
+		<#else>
+			<#list procedure.getFixedValue() as entry>
+				list.add(new StringTextComponent("${JavaConventions.escapeStringForJava(entry)}"));
+			</#list>
+		</#if>
 		}
 	</#if>
 </#macro>
