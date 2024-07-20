@@ -49,7 +49,7 @@ import com.mojang.serialization.Codec;
 		// Load the structure template
 		TemplateManager structureManager = world.getWorld().getStructureTemplateManager();
 		Template template = structureManager.getTemplateDefaulted(config.structure);
-		PlacementSettings placeSettings = (new PlacementSettings()).setRotation(rotation).setMirror(mirror).setRandom(random).setIgnoreEntities(true)
+		PlacementSettings placeSettings = (new PlacementSettings()).setRotation(rotation).setMirror(mirror).setRandom(random).setIgnoreEntities(false)
 				.addProcessor(new BlockIgnoreStructureProcessor(config.ignoredBlocks));
 		template.func_237146_a_(world, placePos, placeSettings, random, 4);
 		return true;
