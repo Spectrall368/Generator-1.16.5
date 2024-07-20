@@ -96,13 +96,37 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 		this.addLayer(new BipedArmorLayer(this, new BipedModel(0.5F), new BipedModel(1.0F)));
 		</#if>
 
-		<#if data.mobModelGlowTexture?has_content>
-		this.addLayer(new AbstractEyesLayer<${name}Entity, ${model}>(this) {
-			@Override public RenderType getRenderType() {
-				return RenderType.getEyes(new ResourceLocation("${modid}:textures/entities/${data.mobModelGlowTexture}"));
+		<#list data.modelLayers as layer>
+		this.addLayer(new LayerRenderer<${name}Entity, ${model}>(this) {
+			final ResourceLocation LAYER_TEXTURE = new ResourceLocation("${modid}:textures/entities/${layer.texture}");
+
+			<#compress>
+			@Override public void render(MatrixStack poseStack, IRenderTypeBuffer bufferSource, int light,
+						${name}Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+				<#if hasProcedure(layer.condition)>
+				World world = entity.world;
+				double x = entity.getPosX();
+				double y = entity.getPosY();
+				double z = entity.getPosZ();
+				if (<@procedureOBJToConditionCode layer.condition/>) {
+				</#if>
+
+				IVertexBuilder vertexConsumer = bufferSource.getBuffer(RenderType.<#if layer.glow>getEyes<#else>getEntityCutoutNoCull</#if>(LAYER_TEXTURE));
+				<#if layer.model != "Default">
+					EntityModel model = new ${layer.model}();
+					this.getEntityModel().copyModelAttributesTo(model);
+					model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
+					model.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+					model.render(poseStack, vertexConsumer, 15728640, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
+				<#else>
+					this.getEntityModel().render(poseStack, vertexConsumer, 15728640, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
+				</#if>
+
+				<#if hasProcedure(layer.condition)>}</#if>
 			}
+			</#compress>
 		});
-		</#if>
+		</#list>
 	}
 
 	<#if data.mobModelName == "Villager" || (data.visualScale?? && (data.visualScale.getFixedValue() != 1 || hasProcedure(data.visualScale)))>
