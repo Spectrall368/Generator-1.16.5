@@ -60,6 +60,7 @@ package ${package}.world.features;
 		super(${generator.map(featuretype, "features", 2)});
 	}
 
+	<#if configuration != "BaseTreeFeatureConfig">
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
 		BlockPos placePos = pos;
 		<#if data.restrictionDimensions?has_content>
@@ -120,6 +121,7 @@ package ${package}.world.features;
 			return super.generate(world, generator, random, placePos, config);
 		</#if>
 	}
+	</#if>
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
