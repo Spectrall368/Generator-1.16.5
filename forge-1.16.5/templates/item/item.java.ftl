@@ -298,10 +298,11 @@ public class ${name}Item extends Item {
 	</#if>
 
 	<#if data.enableRanged && data.shootConstantly>
-		@Override public void onUsingTick(World world, LivingEntity entity, ItemStack itemstack, int count) {
+		@Override public void onUsingTick(LivingEntity entity, ItemStack itemstack, int count) {
+			World world = entity.world;
 			if (!world.isRemote() && entity instanceof ServerPlayerEntity) {
 				<@arrowShootCode/>
-				entity.releaseUsingItem();
+				entity.stopActiveHand();
 			}
 		}
 	</#if>
@@ -335,7 +336,7 @@ public class ${name}Item extends Item {
 			projectile.func_234612_a_(entity, entity.rotationPitch, entity.rotationYaw, 0, 3.15f, 1.0F);
 			world.addEntity(projectile);
 			world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), ForgeRegistries.SOUND_EVENTS
-				.getValue(new ResourceLocation("entity.arrow.shoot")), SoundSource.PLAYERS, 1, 1f / (world.getRandom().nextFloat() * 0.5f + 1));
+				.getValue(new ResourceLocation("entity.arrow.shoot")), SoundCategory.PLAYERS, 1, 1f / (world.getRandom().nextFloat() * 0.5f + 1));
 		</#if>
 
 		<#if data.damageCount != 0>
@@ -343,7 +344,7 @@ public class ${name}Item extends Item {
 		</#if>
 
 		if (((ServerPlayerEntity) entity).abilities.isCreativeMode) {
-			projectile.pickup = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+			projectile.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
 		} else {
 			if (stack.isDamageable()) {
 				if (stack.attemptDamageItem(1, world.getRandom(), (ServerPlayerEntity) entity)) {
