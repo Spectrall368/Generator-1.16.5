@@ -36,7 +36,7 @@ package ${package}.item;
 public class ${name}Item extends Item {
 
 	public ${name}Item() {
-		super(new Item.Properties().group(${data.igniterTab}).maxDamage(64));
+		super(new Item.Properties().group(${data.igniterTab}).rarity(Rarity.${data.igniterRarity}).maxDamage(64));
 	}
 
 	<@addSpecialInformation data.specialInformation/>
