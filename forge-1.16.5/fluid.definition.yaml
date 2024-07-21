@@ -34,9 +34,6 @@ global_templates:
     condition: "${w.getGElementsOfType('fluid')?filter(e -> e.type.equals('LAVA'))?size != 0}"
     name: "@RESROOT/data/minecraft/tags/fluids/lava.json"
 
-tags:
-  - tag: BLOCKS:minecraft:replaceable
-
 localizationkeys:
   - key: fluid.@modid.@registryname
     mapto: name
