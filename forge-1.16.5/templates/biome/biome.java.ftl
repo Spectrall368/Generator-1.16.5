@@ -33,7 +33,6 @@
 package ${package}.world.biome;
 
 import net.minecraftforge.common.BiomeManager;
-import net.minecraft.util.SoundEvent;
 
 public class ${name}Biome {
 
