@@ -62,7 +62,7 @@
 
 <#function mappedMCItemToIngredient mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("TAG:")>
-        <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getUnmappedValue().replace("TAG:", "") + "\")))">
+        <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") + "\")))">
     <#elseif mappedBlock.getMappedValue(1).startsWith("#")>
         <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getMappedValue(1).replace("#", "") + "\")))">
     <#else>
@@ -138,7 +138,7 @@
             <#return "\"item\": \"minecraft:air\"">
         </#if>
     <#elseif mappedBlock.getUnmappedValue().startsWith("TAG:")>
-        <#return "\"tag\": \"" + mappedBlock.getUnmappedValue().replace("TAG:", "")?lower_case + "\"">
+        <#return "\"tag\": \"" + mappedBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":")?lower_case + "\"">
     <#else>
         <#assign mapped = mappedBlock.getMappedValue(1) />
         <#if mapped.startsWith("#")>
@@ -161,7 +161,7 @@
         </#if>
     <#elseif mappedBlock.getUnmappedValue().startsWith("TAG:")>
         <#if acceptTags>
-            <#return "#" + mappedBlock.getUnmappedValue().replace("TAG:", "")?lower_case>
+            <#return "#" + mappedBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":")?lower_case>
         <#else>
             <#return "minecraft:air">
         </#if>
