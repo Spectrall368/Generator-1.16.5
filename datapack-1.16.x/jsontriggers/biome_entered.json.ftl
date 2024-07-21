@@ -3,4 +3,4 @@
   "conditions": {
     "biome": "${generator.map(field$biome, "biomes")}"
   }
-}
+},
