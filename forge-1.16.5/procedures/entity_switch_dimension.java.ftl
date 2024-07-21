@@ -1,15 +1,6 @@
 <#if field$dimension??><#--Here for legacy reasons as field$dimension does not exist in older workspaces-->
 if (${input$entity} instanceof ServerPlayerEntity && !((ServerPlayerEntity) ${input$entity}).world.isRemote()) {
-	<#if field$dimension=="Surface">
-		RegistryKey<World> destinationType = World.OVERWORLD;
-	<#elseif field$dimension=="Nether">
-		RegistryKey<World> destinationType = World.THE_NETHER;
-	<#elseif field$dimension=="End">
-		RegistryKey<World> destinationType = World.THE_END;
-	<#else>
-		RegistryKey<World> destinationType = RegistryKey.getOrCreateKey(Registry.WORLD_KEY,
-			new ResourceLocation("${generator.getResourceLocationForModElement(field$dimension.replace("CUSTOM:", ""))}"));
-	</#if>
+	RegistryKey<World> destinationType = ${generator.map(field$dimension, "dimensions")};
 	if (((ServerPlayerEntity) ${input$entity}).world.getDimensionKey() == destinationType) return;
 
 	ServerWorld nextWorld = ((ServerPlayerEntity) ${input$entity}).getServer().getWorld(destinationType);
