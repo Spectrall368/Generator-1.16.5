@@ -33,12 +33,7 @@ package ${package}.init;
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-<#assign spawn_overworld = []>
-<#list biomes as biome>
-	<#if biome.spawnBiome>
-		<#assign spawn_overworld += [biome]>
-	</#if>
-</#list>
+<#assign spawn_overworld = biomes?filter(biome -> biome.spawnBiome)>
 
 <#if spawn_overworld?has_content>
 @Mod.EventBusSubscriber
