@@ -1,4 +1,4 @@
-{
+"${registryname}_${cbi}": {
   "trigger": "minecraft:item_durability_changed",
   "conditions": {
     "items": [
@@ -11,4 +11,4 @@
       }
     ]
   }
-}
+},
