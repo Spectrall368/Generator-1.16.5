@@ -79,3 +79,8 @@ AccessibilityOptions: AccessibilityScreen
 Win: WinGameScreen
 EffectRenderingInventory: DisplayEffectsScreen
 SocialInteractions: SocialInteractionsScreen
+Realms: RealmsScreen
+AbstractCommandBlock: AbstractCommandBlockScreen
+AbstractContainer: ContainerScreen
+AbstractEditSign: EditSignScreen
+AbstractFurnace: AbstractFurnaceScreen
