@@ -72,8 +72,8 @@ package ${package}.world.features.ores;
 			<#list data.blocksToReplace as replacementBlock>
 				<#if replacementBlock.getUnmappedValue().startsWith("TAG:")>
 				if (BlockTags.getCollection().getTagByID(new ResourceLocation("${replacementBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":").replace("stone_ore_replaceables", "minecraft:overworld_carver_replaceables")}")).contains(blockAt.getBlock()))
-				<#elseif generator.map(replacementBlock.getUnmappedValue(), "blocksitems", 1).startsWith("#")>
-				if (BlockTags.getCollection().getTagByID(new ResourceLocation("${generator.map(replacementBlock.getUnmappedValue(), "blocksitems", 1).replace("#", "")}")).contains(blockAt.getBlock()))
+                		<#elseif replacementBlock.getMappedValue(1).startsWith("#")>
+				if (BlockTags.getCollection().getTagByID(new ResourceLocation("${replacementBlock.getMappedValue(1).replace("#", "")}")).contains(blockAt.getBlock()))
 				<#else>
 				if(blockAt == ${mappedBlockToBlockStateCode(replacementBlock)})
 				</#if>
