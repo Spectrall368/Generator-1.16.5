@@ -35,11 +35,11 @@ package ${package}.world.features.treedecorators;
 public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
 
         public static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator();
-        public static com.mojang.serialization.Codec<LeaveVineTreeDecorator> codec;
+        public static Codec<LeaveVineTreeDecorator> codec;
         public static TreeDecoratorType tdt;
 
         static {
-            codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
+            codec = Codec.unit(() -> INSTANCE);
             tdt = new TreeDecoratorType<>(codec);
             tdt.setRegistryName("${registryname}_tree_leave_decorator");
             ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
