@@ -146,7 +146,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 							<#elseif component.inputLimit.toString()?has_content>
 								@Override public boolean isItemValid(ItemStack stack) {
 									<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
-										<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "") + "\"">
+										<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") + "\"">
 										return ItemTags.getCollection().getTagByID(new ResourceLocation(${tag})).contains(stack.getItem());
 									<#else>
 										return ${mappedMCItemToItem(component.inputLimit)} == stack.getItem();
