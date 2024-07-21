@@ -41,8 +41,8 @@ public class ${JavaModName}Sounds {
 	public static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ${JavaModName}.MODID);
 
 	<#list sounds as sound>
-	public static final RegistryObject<SoundEvent> ${sound.getName()?upper_case?replace(".", "_")?replace("/", "_")?replace(":", "_")?replace("-", "_")} = REGISTRY.register("${sound.getName()}", () ->
-			new SoundEvent(new ResourceLocation("${modid}", "${sound}")));
+	public static final RegistryObject<SoundEvent> ${sound.getJavaName()} =
+			REGISTRY.register("${sound.getName()}", () -> new SoundEvent(new ResourceLocation("${modid}", "${sound}")));
 	</#list>
 }
 <#-- @formatter:on -->
