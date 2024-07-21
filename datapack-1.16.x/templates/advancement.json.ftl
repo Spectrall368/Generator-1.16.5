@@ -22,37 +22,35 @@
         },
     </#if>
     "criteria": {
-      "${registryname}": ${triggercode}
+      ${triggercode?keep_before_last(",")}
     }
     <#if data.hasRewards()>,
     "rewards": {
         "experience": ${data.rewardXP}
 
-        <#if data.rewardFunction?has_content && data.rewardFunction != "No function">
-        ,"function": "${generator.getResourceLocationForModElement(data.rewardFunction)}"
+        <#if data.rewardFunction?has_content && data.rewardFunction != "No function">,
+        "function": "${generator.getResourceLocationForModElement(data.rewardFunction)}"
         </#if>
 
-        <#if data.rewardLoot?has_content>
-        ,"loot": [
+        <#if data.rewardLoot?has_content>,
+        "loot": [
             <#list data.rewardLoot as value>
-                "${generator.getResourceLocationForModElement(value)}"
-                <#if value?has_next>,</#if>
+                "${generator.getResourceLocationForModElement(value)}"<#sep>,
             </#list>
         ]
         </#if>
 
-        <#if data.rewardRecipes?has_content>
-        ,"recipes": [
+        <#if data.rewardRecipes?has_content>,
+        "recipes": [
             <#list data.rewardRecipes as value>
-                "${generator.getResourceLocationForModElement(value)}"
-                <#if value?has_next>,</#if>
+                "${generator.getResourceLocationForModElement(value)}"<#sep>,
             </#list>
         ]
         </#if>
     }
     </#if>
-<#if data.parent != "none" && !data.parent.toString().contains("@")>
+    <#if data.parent != "none" && !data.parent.toString().contains("@")>
     ,"parent": "${data.parent}"
-</#if>
+    </#if>
 }
 <#-- @formatter:on -->
