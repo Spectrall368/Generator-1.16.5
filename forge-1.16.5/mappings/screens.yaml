@@ -84,3 +84,4 @@ AbstractCommandBlock: AbstractCommandBlockScreen
 AbstractContainer: ContainerScreen
 AbstractEditSign: EditSignScreen
 AbstractFurnace: AbstractFurnaceScreen
+DisconnectedRealms: DisconnectedScreen
