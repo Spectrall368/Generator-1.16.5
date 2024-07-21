@@ -35,11 +35,11 @@ package ${package}.world.features.treedecorators;
 public class ${name}FruitDecorator extends CocoaTreeDecorator {
 
     public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator();
-    public static com.mojang.serialization.Codec<${name}FruitDecorator> codec;
+    public static Codec<${name}FruitDecorator> codec;
     public static TreeDecoratorType tdt;
 
     static {
-        codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
+        codec = Codec.unit(() -> INSTANCE);
         tdt = new TreeDecoratorType<>(codec);
         tdt.setRegistryName("${registryname}_tree_fruit_decorator");
         ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
