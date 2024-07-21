@@ -35,9 +35,6 @@
 <#include "../triggers.java.ftl">
 package ${package}.block;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.util.SoundEvent;
-
 <#compress>
 public class ${name}Block extends
 	<#if data.hasGravity>
