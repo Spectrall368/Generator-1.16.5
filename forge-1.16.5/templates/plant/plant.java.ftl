@@ -250,9 +250,9 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 
 		<#if hasProcedure(data.onTickUpdate)>
 			<@procedureCode data.onTickUpdate, {
-			"x": "pos.getPosX()",
-			"y": "pos.getPosY()",
-			"z": "pos.getPosZ()",
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
 			"world": "world",
 			"blockstate": "blockstate"
 			}/>
