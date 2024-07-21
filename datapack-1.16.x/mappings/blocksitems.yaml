@@ -10,7 +10,7 @@ Blocks.AIR:
   - "air"
 Blocks.STONE:
   - Blocks.STONE
-  - "#minecraft:stone"
+  - "#forge:stone"
 Blocks.STONE#0:
   - Blocks.STONE
   - "stone"
@@ -43,7 +43,7 @@ Blocks.MYCELIUM:
   - "mycelium"
 Blocks.DIRT:
   - Blocks.DIRT
-  - "#minecraft:dirt"
+  - "#forge:dirt"
 Blocks.DIRT#0:
   - Blocks.DIRT
   - "dirt"
@@ -262,7 +262,7 @@ Blocks.SPONGE#1:
   - "wet_sponge"
 Blocks.SANDSTONE:
   - Blocks.SANDSTONE
-  - "#minecraft:sandstone"
+  - "#forge:sandstone"
 Blocks.SANDSTONE#0:
   - Blocks.SANDSTONE
   - "sandstone"
@@ -274,7 +274,7 @@ Blocks.SANDSTONE#2:
   - "cut_sandstone"
 Blocks.RED_SANDSTONE:
   - Blocks.RED_SANDSTONE
-  - "#minecraft:sandstone"
+  - "#forge:sandstone"
 Blocks.RED_SANDSTONE#0:
   - Blocks.RED_SANDSTONE
   - "red_sandstone"
@@ -1162,7 +1162,7 @@ Blocks.CONCRETE#15:
   - "black_concrete"
 Blocks.CARPET:
   - Blocks.WHITE_CARPET
-  - "#minecraft:wool_carpets"
+  - "#minecraft:carpets"
 Blocks.CARPET#0:
   - Blocks.WHITE_CARPET
   - "white_carpet"
