@@ -143,8 +143,8 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 		}
 
 		<#list data.getComponentsOfType("TextField") as component>
-				if(${component.getName()}.isFocused())
-					return ${component.getName()}.keyPressed(key, b, c);
+			if(${component.getName()}.isFocused())
+				return ${component.getName()}.keyPressed(key, b, c);
 		</#list>
 
 		return super.keyPressed(key, b, c);
@@ -168,15 +168,8 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 		</#list>
 	}
 
-	@Override public void onClose() {
-		super.onClose();
-		Minecraft.getInstance().keyboardListener.enableRepeatEvents(false);
-	}
-
 	@Override public void init(Minecraft minecraft, int width, int height) {
 		super.init(minecraft, width, height);
-
-		this.minecraft.keyboardListener.enableRepeatEvents(true);
 
 		<#list data.getComponentsOfType("TextField") as component>
 			${component.getName()} = new TextFieldWidget(this.font, this.guiLeft + ${component.gx(data.width) + 1}, this.guiTop + ${component.gy(data.height) + 1},
