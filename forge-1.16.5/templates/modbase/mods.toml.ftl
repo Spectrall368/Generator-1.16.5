@@ -29,7 +29,7 @@ description="${settings.getDescription()}"
     modId="minecraft"
     mandatory=true
     versionRange="[${generator.getGeneratorMinecraftVersion()}]"
-    ordering="NONE"
+    ordering="AFTER"
     side="<#if settings.isServerSideOnly()>SERVER<#else>BOTH</#if>"
 
 <#list settings.getRequiredMods() as e>
