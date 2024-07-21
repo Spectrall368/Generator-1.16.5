@@ -74,6 +74,10 @@ templates:
     condition: "plantType %= double"
     name: "@MODASSETSROOT/blockstates/@registryname.json"
 
+tags:
+  - tag: BLOCKS:minecraft:replaceable
+    condition: isReplaceable
+
 localizationkeys:
   - key: block.@modid.@registryname
     mapto: name
