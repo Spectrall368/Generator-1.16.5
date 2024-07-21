@@ -117,9 +117,9 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 					this.getEntityModel().copyModelAttributesTo(model);
 					model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
 					model.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-					model.render(poseStack, vertexConsumer, 15728640, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
+					model.render(poseStack, vertexConsumer, light, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
 				<#else>
-					this.getEntityModel().render(poseStack, vertexConsumer, 15728640, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
+					this.getEntityModel().render(poseStack, vertexConsumer, light, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
 				</#if>
 
 				<#if hasProcedure(layer.condition)>}</#if>
