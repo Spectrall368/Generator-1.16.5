@@ -35,11 +35,11 @@ package ${package}.world.features.treedecorators;
 public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
 
         public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
-        public static com.mojang.serialization.Codec<${name}TrunkDecorator> codec;
+        public static Codec<${name}TrunkDecorator> codec;
         public static TreeDecoratorType tdt;
 
         static {
-            codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
+            codec = Codec.unit(() -> INSTANCE);
             tdt = new TreeDecoratorType<>(codec);
             tdt.setRegistryName("${registryname}_tree_trunk_decorator");
             ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
