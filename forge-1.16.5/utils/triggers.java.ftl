@@ -479,11 +479,15 @@
 <#macro bonemealEvents isBonemealTargetCondition="" bonemealSuccessCondition="" onBonemealSuccess="">
 @Override public boolean canGrow(IBlockReader worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
 	<#if hasProcedure(isBonemealTargetCondition)>
-	if (worldIn instanceof IWorld world) {
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
-		return <@procedureOBJToConditionCode isBonemealTargetCondition/>;
+	if (worldIn instanceof IWorld) {
+		return <@procedureCode isBonemealTargetCondition, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"world": "(IWorld) worldIn",
+			"blockstate": "blockstate",
+			"clientSide": "clientSide"
+		}/>
 	}
 	return false;
 	<#else>
@@ -493,10 +497,13 @@
 
 @Override public boolean canUseBonemeal(World world, Random random, BlockPos pos, BlockState blockstate) {
 	<#if hasProcedure(bonemealSuccessCondition)>
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
-		return <@procedureOBJToConditionCode bonemealSuccessCondition/>;
+	return <@procedureCode bonemealSuccessCondition, {
+		"x": "pos.getX()",
+		"y": "pos.getY()",
+		"z": "pos.getZ()",
+		"world": "world",
+		"blockstate": "blockstate"
+	}/>
 	<#else>
 	return true;
 	</#if>
