@@ -31,7 +31,6 @@
 <#-- @formatter:off -->
 package ${package}.world.features.configurations;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public class StructureFeatureConfiguration implements IFeatureConfig {
