@@ -33,11 +33,8 @@
 <#include "../procedures.java.ftl">
 package ${package}.entity;
 
-import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.block.material.Material;
 import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.util.SoundEvent;
 
 <#assign extendsClass = "Creature">
 <#if data.aiBase != "(none)">
