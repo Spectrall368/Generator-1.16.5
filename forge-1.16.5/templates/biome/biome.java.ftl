@@ -264,7 +264,7 @@ public class ${name}Biome {
 
         MobSpawnInfo.Builder mobSpawnInfo = new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer();
         <#list data.spawnEntries as spawnEntry>
-		<#assign entity = generator.map(spawnEntry.entity.getUnmappedValue(), "entities", 1)!"null">
+		<#assign entity = spawnEntry.entity.getMappedValue(1)!"null">
 		<#if entity != "null">
 		mobSpawnInfo.withSpawner(${generator.map(spawnEntry.spawnType, "mobspawntypes")},
 			new MobSpawnInfo.Spawners(${entity}, ${spawnEntry.weight}, ${spawnEntry.minGroup}, ${spawnEntry.maxGroup}));
