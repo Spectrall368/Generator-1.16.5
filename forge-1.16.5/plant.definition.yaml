@@ -1,17 +1,27 @@
 templates:
   - template: plant/plant.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/block/@NAMEBlock.java"
-  - template: plant/plantgen.java.ftl
-    condition: generateFeature
-    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/plants/@NAMEFeature.java"
   - template: plant/plantblockentity.java.ftl
     condition: hasTileEntity
     name: "@SRCROOT/@BASEPACKAGEPATH/block/entity/@NAMEBlockEntity.java"
 
+  # Worldgen
+  - template: plant/plantgen.java.ftl
+    condition: generateFeature
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/plants/@NAMEFeature.java"
+
+  # Loot table
+  - template: json/block_loot_table.json.ftl
+    writer: json
+    condition: generateLootTable()
+    name: "@MODDATAROOT/loot_tables/blocks/@registryname.json"
+
+  # Plant item template
   - template: json/plant_item.json.ftl
     writer: json
     name: "@MODASSETSROOT/models/item/@registryname.json"
 
+  # Block model templates
   - template: json/block.json.ftl
     condition: "renderType #= 12"
     writer: json
@@ -50,6 +60,7 @@ templates:
     variables: "model=tinted_cross"
     name: "@MODASSETSROOT/models/block/@registryname_bottom.json"
 
+  # Blockstate templates
   - template: json/block_states.json.ftl
     writer: json
     condition: "plantType %= normal"
