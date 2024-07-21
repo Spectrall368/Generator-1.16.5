@@ -28,18 +28,9 @@ description="${settings.getDescription()}"
 [[dependencies.${settings.getModID()}]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5]"
-    ordering="AFTER"
-    side="<#if settings.isServerSideOnly()>SERVER<#else>BOTH</#if>"
-
-<#if !settings.isDisableForgeVersionCheck()>
-[[dependencies.${settings.getModID()}]]
-    modId="forge"
-    mandatory=true
-    versionRange="[1.16.5]"
+    versionRange="[${generator.getGeneratorMinecraftVersion()}]"
     ordering="NONE"
-    side="BOTH"
-</#if>
+    side="<#if settings.isServerSideOnly()>SERVER<#else>BOTH</#if>"
 
 <#list settings.getRequiredMods() as e>
 [[dependencies.${settings.getModID()}]]
