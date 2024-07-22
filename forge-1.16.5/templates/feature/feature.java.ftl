@@ -70,92 +70,90 @@ package ${package}.world.features;
 		super(${generator.map(featuretype, "features", 2)});
 	}
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
-		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-			feature = new ${name}Feature() {
-				<#if configuration != "BaseTreeFeatureConfig">
-				@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
-					BlockPos placePos = pos;
-					<#if data.restrictionBiomes?has_content && cond>
-						RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-						boolean dimensionCriteria = false;
-						<#list data.restrictionBiomes as restrictionBiome>
-								<#if restrictionBiome == "#minecraft:is_overworld">
-									if(dimensionType == World.OVERWORLD)
-										dimensionCriteria = true;
-								<#elseif restrictionBiome == "#minecraft:is_nether">
-									if(dimensionType == World.THE_NETHER)
-										dimensionCriteria = true;
-								<#elseif restrictionBiome == "#minecraft:is_end">
-									if(dimensionType == World.THE_END)
-										dimensionCriteria = true;
-								<#else>
-									if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${restrictionBiome?keep_after("is_")}")))
-										dimensionCriteria = true;
-								</#if>
-						</#list>
-			
-						if(!dimensionCriteria)
-							return false;
-					</#if>
-			
-					<#list extractParts(placementcode) as part>
-					${part}
-					</#list>
-			
-					<#if featuretype == "feature_random_patch_simple">
-					if(!(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")}))
-						return false;
-					</#if>
-			
-					<#if hasProcedure(data.generateCondition)>
-						int x = placePos.getX();
-						int y = placePos.getY();
-						int z = placePos.getZ();
-						if (!<@procedureOBJToConditionCode data.generateCondition/>)
-							return false;
-					</#if>
-			
-					<#if featuretype == "feature_simple_block">
-						BlockState state = config.state;
-						if (state.isValidPosition(world, placePos)) {
-							if (state.getBlock() instanceof DoublePlantBlock) {
-								if (!world.isAirBlock(placePos.up()))
-									return false;
-								((DoublePlantBlock) state.getBlock()).placeAt(world, placePos, 2);
-							} else
-								world.setBlockState(placePos, config.state, 2);
-							return true;
-						}
-						return false;
+	@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
+		feature = new ${name}Feature() {
+	<#if configuration != "BaseTreeFeatureConfig">
+	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
+		BlockPos placePos = pos;
+		<#if data.restrictionBiomes?has_content && cond>
+			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
+			boolean dimensionCriteria = false;
+			<#list data.restrictionBiomes as restrictionBiome>
+					<#if restrictionBiome == "#minecraft:is_overworld">
+						if(dimensionType == World.OVERWORLD)
+							dimensionCriteria = true;
+					<#elseif restrictionBiome == "#minecraft:is_nether">
+						if(dimensionType == World.THE_NETHER)
+							dimensionCriteria = true;
+					<#elseif restrictionBiome == "#minecraft:is_end">
+						if(dimensionType == World.THE_END)
+							dimensionCriteria = true;
 					<#else>
-						return super.generate(world, generator, random, placePos, config);
+						if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${restrictionBiome?keep_after("is_")}")))
+							dimensionCriteria = true;
 					</#if>
+			</#list>
+
+			if(!dimensionCriteria)
+				return false;
+		</#if>
+
+		<#list extractParts(placementcode) as part>
+		${part}
+		</#list>
+
+		<#if featuretype == "feature_random_patch_simple">
+		if(!(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")}))
+			return false;
+		</#if>
+
+		<#if hasProcedure(data.generateCondition)>
+			int x = placePos.getX();
+			int y = placePos.getY();
+			int z = placePos.getZ();
+			if (!<@procedureOBJToConditionCode data.generateCondition/>)
+				return false;
+		</#if>
+
+		<#if featuretype == "feature_simple_block">
+			BlockState state = config.state;
+			if (state.isValidPosition(world, placePos)) {
+				if (state.getBlock() instanceof DoublePlantBlock) {
+					if (!world.isAirBlock(placePos.up()))
+						return false;
+					((DoublePlantBlock) state.getBlock()).placeAt(world, placePos, 2);
+				} else
+					world.setBlockState(placePos, config.state, 2);
+				return true;
+			}
+			return false;
+		<#else>
+			return super.generate(world, generator, random, placePos, config);
+		</#if>
 	}
 	</#if>};
 
-			Random random = new Random();
-			configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})${removeParts(placementcode)};
+		Random random = new Random();
+		configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})${removeParts(placementcode)};
 
-			event.getRegistry().register(feature.setRegistryName("${registryname}"));
-			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
-		}
+		event.getRegistry().register(feature.setRegistryName("${registryname}"));
+		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
+	}
 
-		@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
-		<#if data.restrictionBiomes?has_content && !cond>
-			boolean biomeCriteria = false;
-			<#list data.restrictionBiomes as restrictionBiome>
-				<#if restrictionBiome.canProperlyMap()>
-				if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-					biomeCriteria = true;
-				</#if>
-			</#list>
-			if (!biomeCriteria)
-				return;
-		</#if>
-	
-			event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
-		}
+	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
+	<#if data.restrictionBiomes?has_content && !cond>
+		boolean biomeCriteria = false;
+		<#list data.restrictionBiomes as restrictionBiome>
+			<#if restrictionBiome.canProperlyMap()>
+			if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+				biomeCriteria = true;
+			</#if>
+		</#list>
+		if (!biomeCriteria)
+			return;
+	</#if>
+
+		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
 	}
 }</#compress>
 <#-- @formatter:on -->
