@@ -34,6 +34,8 @@ package ${package}.client.model;
 ${model.toString()
     .replace("public static class", "public class")
     .replace("private final ModelRenderer", "public final ModelRenderer")
+    .replace("Entity", "T")
+    .replace("entity", "e")
     .replace("extends ModelBase", "extends EntityModel<Entity>")
     .replace("extends EntityModel ", "extends EntityModel<Entity>")
     .replace(" extends EntityModel<Entity>", "<T extends Entity> extends EntityModel<T>")
