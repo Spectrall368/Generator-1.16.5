@@ -1,1 +1,1 @@
-.chance(${field$rarity})
+£Rarity(${field$rarity})/
