@@ -502,7 +502,7 @@ public class ${name}Block extends
 	</#if>
 
 	<#-- For harvest levels <= 3, we use vanilla tags (netherite already does need custom handing) -->
-	<#if data.requiresCorrectTool && (data.breakHarvestLevel > 3)>
+	<#if data.requiresCorrectTool>
 	@Override public boolean canHarvestBlock(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		<#-- If item is TieredItem, we check by level to be compatible with int harvest levels -->
 		if(player.getHeldItemMainhand().getItem() instanceof
