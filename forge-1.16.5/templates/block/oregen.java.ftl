@@ -134,12 +134,12 @@ package ${package}.world.features.ores;
 	}
 
 	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-	<#if data.restrictionBiomes?has_content>
+	<#if data.restrictionBiomes?has_content && !cond>
 		boolean biomeCriteria = false;
 		<#list data.restrictionBiomes as restrictionBiome>
 			<#if restrictionBiome.canProperlyMap()>
-				if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-					biomeCriteria = true;
+			if (event.getName().equals(new ResourceLocation("${restrictionBiome}")))
+				biomeCriteria = true;
 			</#if>
 		</#list>
 		if (!biomeCriteria)
