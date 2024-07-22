@@ -1,3 +1,4 @@
+
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
@@ -121,7 +122,7 @@ package ${package}.world.features.ores;
 
 		configuredFeature = feature.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
 		<#if data.generationShape == "UNIFORM">		
-		.range(${maxGenerateHeight})
+		.withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(${minGenerateHeight}, ${minGenerateHeight}, <#if maxGenerateHeight != minGenerateHeight><#else> 1 + </#if>${maxGenerateHeight})))
 		<#else>
 		<#assign averageHeight = (maxGenerateHeight + minGenerateHeight) / 2>
 		<#assign averageHeight = averageHeight?int>
