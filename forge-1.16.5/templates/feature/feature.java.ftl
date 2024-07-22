@@ -114,7 +114,7 @@ package ${package}.world.features;
 		<#if hasProcedure(data.generateCondition)>
 			int x = placePos.getX();
 			int y = placePos.getY();
-			int z = placpart>ePos.getZ();
+			int z = placePos.getZ();
 			if (!<@procedureOBJToConditionCode data.generateCondition/>)
 				return false;
 		</#if>
