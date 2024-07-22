@@ -1,13 +1,13 @@
 <#include "mcelements.ftl">
 if (world instanceof ServerWorld) {
-	Template template= ((ServerWorld) world).getStructureTemplateManager().getTemplateDefaulted(new ResourceLocation("${modid}" ,"${field$schematic}"));
-	if(template!=null) {
-		template.func_237144_a_(((ServerWorld) world),
+	Template template = ((ServerWorld) world).getStructureTemplateManager().getTemplateDefaulted(new ResourceLocation("${modid}", "${field$schematic}"));
+	if (template != null) {
+		template.func_237146_a_(((ServerWorld) world),
 				${toBlockPos(input$x,input$y,input$z)},
-				new PlacementSettings()
+				${toBlockPos(input$x,input$y,input$z)},
+				new StructurePlaceSettings()
 						.setRotation(Rotation.${field$rotation!'NONE'})
 						.setMirror(Mirror.${field$mirror!'NONE'})
-						.setChunk(null)
-						.setIgnoreEntities(false), ((ServerWorld) world).rand);
+						.setIgnoreEntities(false), ((ServerWorld) world).rand, 3);
 	}
 }
