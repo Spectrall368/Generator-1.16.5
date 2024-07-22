@@ -134,17 +134,17 @@ package ${package}.world.features.ores;
 	}
 
 	@SubscribeEvent public void addFeatureToBiomes(BiomeLoadingEvent event) {
-				<#if data.restrictionBiomes?has_content && !cond>
-					boolean biomeCriteria = false;
-					<#list data.restrictionBiomes as restrictionBiome>
-						<#if restrictionBiome.canProperlyMap()>
-						if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-							biomeCriteria = true;
-						</#if>
-					</#list>
-					if (!biomeCriteria)
-						return;
-				</#if>
+	<#if data.restrictionBiomes?has_content>
+		boolean biomeCriteria = false;
+		<#list data.restrictionBiomes as restrictionBiome>
+			<#if restrictionBiome.canProperlyMap()>
+				if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+					biomeCriteria = true;
+			</#if>
+		</#list>
+		if (!biomeCriteria)
+			return;
+	</#if>
 
 		event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> configuredFeature);
 	}
