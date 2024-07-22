@@ -70,8 +70,6 @@ package ${package}.world.features;
 		super(${generator.map(featuretype, "features", 2)});
 	}
 
-	@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-		feature = new ${name}Feature() {
 	<#if configuration != "BaseTreeFeatureConfig">
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
 		BlockPos placePos = pos;
@@ -131,13 +129,17 @@ package ${package}.world.features;
 			return super.generate(world, generator, random, placePos, config);
 		</#if>
 	}
-	</#if>};
+	</#if>
 
-		Random random = new Random();
-		configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})${removeParts(placementcode)};
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
+		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
+			Random random = new Random();
+			feature = new ${name}Feature();
+			configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})${removeParts(placementcode)};
 
-		event.getRegistry().register(feature.setRegistryName("${registryname}"));
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
+			event.getRegistry().register(feature.setRegistryName("${registryname}"));
+			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
+		}
 	}
 
 	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
