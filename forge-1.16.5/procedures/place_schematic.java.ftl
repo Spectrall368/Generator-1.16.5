@@ -5,7 +5,7 @@ if (world instanceof ServerWorld) {
 		template.func_237146_a_(((ServerWorld) world),
 				${toBlockPos(input$x,input$y,input$z)},
 				${toBlockPos(input$x,input$y,input$z)},
-				new StructurePlaceSettings()
+				new PlacementSettings()
 						.setRotation(Rotation.${field$rotation!'NONE'})
 						.setMirror(Mirror.${field$mirror!'NONE'})
 						.setIgnoreEntities(false), ((ServerWorld) world).rand, 3);
