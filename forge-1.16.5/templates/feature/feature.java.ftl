@@ -96,8 +96,14 @@ package ${package}.world.features;
 				return false;
 		</#if>
 
+		<#if placementcode.contains("Rarity")>
+		if(random.nextFloat() < 1.0F / (float) ${placementcode?keep_after("Rarity(")?keep_before(")")}) {
+		</#if>
+
 		<#list extractParts(placementcode) as part>
-		${part}
+	            <#if !part.contains("Rarity")>
+		    ${part}
+                    </#if>
 		</#list>
 
 		<#if featuretype == "feature_random_patch_simple">
@@ -108,7 +114,7 @@ package ${package}.world.features;
 		<#if hasProcedure(data.generateCondition)>
 			int x = placePos.getX();
 			int y = placePos.getY();
-			int z = placePos.getZ();
+			int z = placpart>ePos.getZ();
 			if (!<@procedureOBJToConditionCode data.generateCondition/>)
 				return false;
 		</#if>
@@ -128,6 +134,9 @@ package ${package}.world.features;
 		<#else>
 			return super.generate(world, generator, random, placePos, config);
 		</#if>
+
+		<#if placementcode.contains("Rarity")>}</#if>
+		<#if placementcode.contains("Rarity")>return false;</#if>
 	}
 	</#if>
 
