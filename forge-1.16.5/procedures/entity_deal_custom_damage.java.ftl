@@ -1,1 +1,0 @@
-if (${input$entity} instanceof LivingEntity) ((LivingEntity) ${input$entity}).attackEntityFrom(new DamageSource(${input$localization_text}).setDamageBypassesArmor(), ${opt.toFloat(input$damage_number)});
