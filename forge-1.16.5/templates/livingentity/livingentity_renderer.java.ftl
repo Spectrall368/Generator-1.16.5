@@ -86,7 +86,7 @@ package ${package}.client.renderer;
 </#if>
 
 <#assign model = model + "<" + name + "Entity>">
-
+@OnlyIn(Dist.CLIENT)
 public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer<${name}Entity, ${model}> {
 
 	public ${name}Renderer(EntityRendererManager context) {
