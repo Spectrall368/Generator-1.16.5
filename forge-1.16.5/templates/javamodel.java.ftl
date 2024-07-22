@@ -44,16 +44,13 @@ ${model.toString()
     .replaceAll("(.*?)\\.cubeList\\.add\\(new\\sModelBox\\(", "addBoxHelper(")
     .replaceAll(",[\n\r\t\\s]+true\\)\\);", ", true);")
     .replaceAll(",[\n\r\t\\s]+false\\)\\);", ", false);")
-    .replaceAll("setRotationAngles\\(float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5,[\n\r\t\\s]+Entity[\n\r\t\\s]+e\\)",
-	"setRotationAngles(Entity e, float f, float f1, float f2, float f3, float f4)")
-    .replaceAll("setRotationAngles\\(float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5,[\n\r\t\\s]+Entity[\n\r\t\\s]+entity\\)",
-	"setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4)")
-    .replaceAll("((super\\.)?)setRotationAngles\\(f,[\n\r\t\\s]+f1,[\n\r\t\\s]+f2,[\n\r\t\\s]+f3,[\n\r\t\\s]+f4,[\n\r\t\\s]+f5,[\n\r\t\\s]+e\\);", "")
-    .replaceAll("((super\\.)?)setRotationAngles\\(f,[\n\r\t\\s]+f1,[\n\r\t\\s]+f2,[\n\r\t\\s]+f3,[\n\r\t\\s]+f4,[\n\r\t\\s]+f5,[\n\r\t\\s]+entity\\);", "")
-    .replaceAll("render\\(Entity[\n\r\t\\s]+entity,[\n\r\t\\s]+float[\n\r\t\\s]+f,[\n\r\t\\s]+float[\n\r\t\\s]+f1,[\n\r\t\\s]+float[\n\r\t\\s]+f2,[\n\r\t\\s]+float[\n\r\t\\s]+f3,[\n\r\t\\s]+float[\n\r\t\\s]+f4,[\n\r\t\\s]+float[\n\r\t\\s]+f5\\)",
-	"render(MatrixStack ms, IVertexBuilder vb, int i1, int i2, float f1, float f2, float f3, float f4)")
-    .replaceAll("super\\.render\\(entity,[\n\r\t\\s]+f,[\n\r\t\\s]+f1,[\n\r\t\\s]+f2,[\n\r\t\\s]+f3,[\n\r\t\\s]+f4,[\n\r\t\\s]+f5\\);", "")
-    .replace(".render(f5);", ".render(ms, vb, i1, i2, f1, f2, f3, f4);")?keep_before_last("}")}
+
+    <#if model.contains(".cubeList.add(new")> <#-- if the model is pre 1.15.2 -->
+    .replace("render(f5", "render(ms, vb, i1, i2, f1, f2, f3, f4")
+    .replace("setRotationAngles(T e, float f, float f1, float f2, float f3, float f4, float f5", "setRotationAngles(T e, float f, float f1, float f2, float f3, float f4")
+    .replace("setRotationAngles(e, f, f1, f2, f3, f4, f5", "setRotationAngles(e, f, f1, f2, f3, f4")
+    .replace("render(T entity, float f, float f1, float f2, float f3, float f4, float f5", "render(MatrixStack ms, IVertexBuilder vb, int i1, int i2, float f1, float f2, float f3, float f4")
+    </#if>?keep_before_last("}")}
 
     <#if model.contains(".cubeList.add(new")> <#-- if the model is pre 1.15.2 -->
     @OnlyIn(Dist.CLIENT) public static void addBoxHelper(ModelRenderer renderer, int texU, int texV, float x, float y, float z, int dx, int dy, int dz, float delta) {
@@ -67,7 +64,7 @@ ${model.toString()
     </#if>
 
     <#if !model.contains("setRotationAngles")>
-    @Override public void setRotationAngles(Entity e, float f1, float f2, float f3, float f4, float f5) {}
+    @Override public void setRotationAngles(T e, float f, float f1, float f2, float f3, float f4) {}
     </#if>
 }
 <#-- @formatter:on -->
