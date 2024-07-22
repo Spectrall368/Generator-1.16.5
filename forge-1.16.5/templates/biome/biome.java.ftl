@@ -255,9 +255,6 @@ public class ${name}Biome {
         	<#assign mfeat = generator.map(defaultFeature, "defaultfeatures")>
         	<#if mfeat != "null">
             DefaultBiomeFeatures.with${mfeat}(biomeGenerationSettings);
-        	<#if mfeat == "CavesAndCanyons">
-            DefaultBiomeFeatures.withLavaLakes(biomeGenerationSettings);
-        	</#if>
         	</#if>
         </#list>
 
