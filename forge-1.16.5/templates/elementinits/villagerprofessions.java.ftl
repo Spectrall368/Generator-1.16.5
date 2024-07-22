@@ -72,7 +72,7 @@ package ${package}.init;
 
 				PointOfInterestType poiType = new PointOfInterestType(name, ImmutableSet.copyOf(block.getStateContainer().getValidStates()), 1, 1).setRegistryName(${JavaModName}.MODID + ":" + name);;
 				poiType.registerBlockStates(poiType);
-        event.getRegistry().register(poiType);
+        			event.getRegistry().register(poiType);
 				entry.getValue().poiType = poiType;
 			}
 	}
