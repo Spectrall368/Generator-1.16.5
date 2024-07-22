@@ -134,7 +134,7 @@ package ${package}.world.features.plants;
 		boolean biomeCriteria = false;
 		<#list data.restrictionBiomes as restrictionBiome>
 			<#if restrictionBiome.canProperlyMap()>
-			if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+			if (event.getName().equals(new ResourceLocation("${restrictionBiome}")))
 				biomeCriteria = true;
 			</#if>
 		</#list>
