@@ -131,7 +131,7 @@ package ${package}.world.features;
 	}
 	</#if>
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
+	@Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			Random random = new Random();
 			feature = new ${name}Feature();
@@ -142,7 +142,7 @@ package ${package}.world.features;
 		}
 	}
 
-	 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE) private static class FeatureSpawningHandler {
+	 @Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.FORGE) private static class FeatureSpawningHandler {
 		@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content && !cond>
 			boolean biomeCriteria = false;
