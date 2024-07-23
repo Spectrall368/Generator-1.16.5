@@ -139,7 +139,7 @@ package ${package}.world.features;
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
 		}
 
-	 @Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.FORGE) private static class FeatureSpawningHandler {
+	 @Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.FORGE) public static class ${name}FeatureSpawningHandler {
 		@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content && !cond>
 			boolean biomeCriteria = false;
