@@ -45,7 +45,7 @@ package ${package}.world.features;
 	</#list>
 </#if>
 <#compress>
-@Mod.EventBusSubscriber public class ${name}Feature extends ${generator.map(featuretype, "features")} {
+@Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	private static Feature<${configuration}> feature = null;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 	<#if isRulePresent>
@@ -130,8 +130,6 @@ package ${package}.world.features;
 		</#if>
 	}
 	</#if>
-
-	@Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			Random random = new Random();
 			feature = new ${name}Feature();
@@ -140,7 +138,6 @@ package ${package}.world.features;
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
 		}
-	}
 
 	 @Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.FORGE) private static class FeatureSpawningHandler {
 		@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
