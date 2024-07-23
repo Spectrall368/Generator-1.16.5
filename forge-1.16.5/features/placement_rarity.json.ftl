@@ -1,1 +1,1 @@
-£Rarity(${field$rarity})/
+£Rarity(${field$rarity})^
