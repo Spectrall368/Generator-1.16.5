@@ -45,7 +45,7 @@ package ${package}.world.features;
 	</#list>
 </#if>
 <#compress>
-@Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}Feature extends ${generator.map(featuretype, "features")} {
+@Mod.EventBusSubscriber public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	private static Feature<${configuration}> feature = null;
 	private static ConfiguredFeature<?, ?> configuredFeature = null;
 	<#if isRulePresent>
@@ -130,6 +130,8 @@ package ${package}.world.features;
 		</#if>
 	}
 	</#if>
+
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class FeatureRegisterHandler {
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			Random random = new Random();
 			feature = new ${name}Feature();
@@ -138,23 +140,22 @@ package ${package}.world.features;
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
 		}
+	}
 
-	 @Mod.EventBusSubscriber(modid = "${modid}", bus = Mod.EventBusSubscriber.Bus.FORGE) public static class ${name}FeatureSpawningHandler {
-		@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
-		<#if data.restrictionBiomes?has_content && !cond>
-			boolean biomeCriteria = false;
-			<#list data.restrictionBiomes as restrictionBiome>
-				<#if restrictionBiome.canProperlyMap()>
-				if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-					biomeCriteria = true;
-				</#if>
-			</#list>
-			if (!biomeCriteria)
-				return;
-		</#if>
-	
-			event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
-	        }
+	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
+	<#if data.restrictionBiomes?has_content && !cond>
+		boolean biomeCriteria = false;
+		<#list data.restrictionBiomes as restrictionBiome>
+			<#if restrictionBiome.canProperlyMap()>
+			if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+				biomeCriteria = true;
+			</#if>
+		</#list>
+		if (!biomeCriteria)
+			return;
+	</#if>
+
+		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
 	}
 }</#compress>
 <#-- @formatter:on -->
