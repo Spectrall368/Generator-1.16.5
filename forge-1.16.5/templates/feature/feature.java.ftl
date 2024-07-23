@@ -142,20 +142,22 @@ package ${package}.world.features;
 		}
 	}
 
-	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
-	<#if data.restrictionBiomes?has_content && !cond>
-		boolean biomeCriteria = false;
-		<#list data.restrictionBiomes as restrictionBiome>
-			<#if restrictionBiome.canProperlyMap()>
-			if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-				biomeCriteria = true;
-			</#if>
-		</#list>
-		if (!biomeCriteria)
-			return;
-	</#if>
-
-		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
+	 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE) private static class FeatureSpawningHandler {
+		@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
+		<#if data.restrictionBiomes?has_content && !cond>
+			boolean biomeCriteria = false;
+			<#list data.restrictionBiomes as restrictionBiome>
+				<#if restrictionBiome.canProperlyMap()>
+				if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
+					biomeCriteria = true;
+				</#if>
+			</#list>
+			if (!biomeCriteria)
+				return;
+		</#if>
+	
+			event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
+	        }
 	}
 }</#compress>
 <#-- @formatter:on -->
