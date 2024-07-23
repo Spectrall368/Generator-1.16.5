@@ -101,9 +101,7 @@ package ${package}.world.features;
 		</#if>
 
 		<#list extractParts(placementcode) as part>
-	            <#if !part?string.contains("Rarity")>
 		    ${part}
-                    </#if>
 		</#list>
 
 		<#if featuretype == "feature_random_patch_simple">
