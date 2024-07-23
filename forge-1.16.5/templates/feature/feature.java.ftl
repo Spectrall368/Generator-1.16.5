@@ -101,7 +101,7 @@ package ${package}.world.features;
 		</#if>
 
 		<#list extractParts(placementcode) as part>
-	            <#if !part.contains("Rarity")>
+	            <#if !part?string.contains("Rarity")>
 		    ${part}
                     </#if>
 		</#list>
