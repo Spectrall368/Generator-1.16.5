@@ -96,10 +96,6 @@ package ${package}.world.features;
 				return false;
 		</#if>
 
-		<#if placementcode.contains("Rarity")>
-		if(random.nextFloat() < 1.0F / (float) ${placementcode?keep_after("Rarity(")?keep_before(")")}) {
-		</#if>
-
 		<#list extractParts(placementcode) as part>
 		    ${part}
 		</#list>
@@ -132,9 +128,6 @@ package ${package}.world.features;
 		<#else>
 			return super.generate(world, generator, random, placePos, config);
 		</#if>
-
-		<#if placementcode.contains("Rarity")>}</#if>
-		<#if placementcode.contains("Rarity")>return false;</#if>
 	}
 	</#if>
 
