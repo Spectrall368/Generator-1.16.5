@@ -291,6 +291,11 @@ public class ${name}Item extends Item {
 			</#if>
 			<#if data.enableRanged && !data.shootConstantly>
 				if (!world.isRemote() && entity instanceof ServerPlayerEntity) {
+					<#if data.rangedItemChargesPower>
+						float pullingPower = BowItem.getArrowVelocity(this.getUseDuration(itemstack) - time);
+						if (pullingPower < 0.1)
+							return;
+					</#if>
 					<@arrowShootCode/>
 				}
 			</#if>
@@ -330,10 +335,10 @@ public class ${name}Item extends Item {
 	if (((ServerPlayerEntity) entity).abilities.isCreativeMode || stack != ItemStack.EMPTY) {
 		<#assign projectileClass = generator.map(projectile, "projectiles", 0)>
 		<#if projectile.startsWith("CUSTOM:")>
-			${projectileClass} projectile = ${projectileClass}.shoot(world, entity, world.getRandom());
+			${projectileClass} projectile = ${projectileClass}.shoot(world, entity, world.getRandom()<#if data.rangedItemChargesPower>, pullingPower</#if>);
 		<#elseif projectile.endsWith("Arrow")>
 			${projectileClass} projectile = new ${projectileClass}(world, entity);
-			projectile.func_234612_a_(entity, entity.rotationPitch, entity.rotationYaw, 0, 3.15f, 1.0F);
+			projectile.func_234612_a_(entity, entity.rotationPitch, entity.rotationYaw, 0, <#if data.rangedItemChargesPower>pullingPower * </#if>3.15f, 1.0F);
 			world.addEntity(projectile);
 			world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), ForgeRegistries.SOUND_EVENTS
 				.getValue(new ResourceLocation("entity.arrow.shoot")), SoundCategory.PLAYERS, 1, 1f / (world.getRandom().nextFloat() * 0.5f + 1));
