@@ -49,8 +49,7 @@ package ${package};
 	public ${name}() {
 	}
 
-	@SubscribeEvent
-	public static void init(FMLCommonSetupEvent event) {
+	@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
 		new ${name}();
 	}
 
