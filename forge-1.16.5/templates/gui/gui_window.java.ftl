@@ -41,19 +41,19 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 	private final PlayerEntity entity;
 
 	<#list data.getComponentsOfType("TextField") as component>
-		TextFieldWidget ${component.getName()};
+	TextFieldWidget ${component.getName()};
 	</#list>
 
 	<#list data.getComponentsOfType("Checkbox") as component>
-		CheckboxButton ${component.getName()};
+	CheckboxButton ${component.getName()};
 	</#list>
 
 	<#list data.getComponentsOfType("Button") as component>
-		Button ${component.getName()};
+	Button ${component.getName()};
 	</#list>
 
 	<#list data.getComponentsOfType("ImageButton") as component>
-		ImageButton ${component.getName()};
+	ImageButton ${component.getName()};
 	</#list>
 
 	public ${name}Screen(${name}Menu container, PlayerInventory inventory, ITextComponent text) {
@@ -150,12 +150,24 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 		return super.keyPressed(key, b, c);
 	}
 
+	<#if data.getComponentsOfType("TextField")?has_content>
 	@Override public void tick() {
 		super.tick();
 		<#list data.getComponentsOfType("TextField") as component>
-				${component.getName()}.tick();
+		${component.getName()}.tick();
 		</#list>
 	}
+
+	@Override public void resize(Minecraft minecraft, int width, int height) {
+		<#list data.getComponentsOfType("TextField") as component>
+		String ${component.getName()}Value = ${component.getName()}.getText();
+		</#list>
+		super.resize(minecraft, width, height);
+		<#list data.getComponentsOfType("TextField") as component>
+		${component.getName()}.setText(${component.getName()}Value);
+		</#list>
+	}
+	</#if>
 
 	@Override protected void drawGuiContainerForegroundLayer(MatrixStack poseStack, int mouseX, int mouseY) {
 		<#list data.getComponentsOfType("Label") as component>
