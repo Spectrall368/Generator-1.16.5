@@ -106,8 +106,7 @@ public class ${name}Block extends
 			.setRequiresTool()
 		</#if>
 		<#if data.destroyTool != "Not specified">
-			.harvestLevel(
-				<#if data.vanillaToolTier == "NONE">
+			.harvestLevel(<#if data.vanillaToolTier == "NONE">
 				0
 				<#elseif data.vanillaToolTier == "STONE">
 				1
