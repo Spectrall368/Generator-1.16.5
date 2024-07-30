@@ -63,7 +63,9 @@ package ${package}.client.particle;
 		this.spriteSet = spriteSet;
 
 		this.setSize(${data.width}f, ${data.height}f);
-		<#if data.scale != 1>this.particleScale *= ${data.scale}f;</#if>
+		<#if data.scale.getFixedValue() != 1 && !hasProcedure(data.scale)>
+		this.particleScale *= ${data.scale.getFixedValue()}f;
+		</#if>
 
 		<#if (data.maxAgeDiff > 0)>
 		this.maxAge = (int) Math.max(1, ${data.maxAge} + (this.rand.nextInt(${data.maxAgeDiff * 2}) - ${data.maxAgeDiff}));
@@ -99,6 +101,13 @@ package ${package}.client.particle;
 	@Override public IParticleRenderType getRenderType() {
 		return IParticleRenderType.PARTICLE_SHEET_${data.renderType};
 	}
+
+	<#if hasProcedure(data.scale)>
+	@Override public float getScale(float scale) {
+		World world = this.world;
+		return super.getScale(scale) * (float) <@procedureOBJToConditionCode data.scale/>;
+	}
+	</#if>
 
 	@Override public void tick() {
 		super.tick();
