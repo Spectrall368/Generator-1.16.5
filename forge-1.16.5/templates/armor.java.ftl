@@ -80,7 +80,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Helmet extends ${name}Item {
 
 		public Helmet() {
-			super(EquipmentSlotType.HEAD, new Item.Properties().group(${data.creativeTab})<#if data.helmetImmuneToFire>.isImmuneToFire()</#if>);
+			super(EquipmentSlotType.HEAD, new Item.Properties().group(<@CreativeTabs data.creativeTabs/>)<#if data.helmetImmuneToFire>.isImmuneToFire()</#if>);
 		}
 
 		<#if data.helmetModelName != "Default" && data.getHelmetModel()??>
@@ -117,7 +117,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Chestplate extends ${name}Item {
 
 		public Chestplate() {
-			super(EquipmentSlotType.CHEST, new Item.Properties().group(${data.creativeTab})<#if data.bodyImmuneToFire>.isImmuneToFire()</#if>);
+			super(EquipmentSlotType.CHEST, new Item.Properties().group(<@CreativeTabs data.creativeTabs/>)<#if data.bodyImmuneToFire>.isImmuneToFire()</#if>);
 		}
 
 		<#if data.bodyModelName != "Default" && data.getBodyModel()??>
@@ -161,7 +161,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Leggings extends ${name}Item {
 
 		public Leggings() {
-			super(EquipmentSlotType.LEGS, new Item.Properties().group(${data.creativeTab})<#if data.leggingsImmuneToFire>.isImmuneToFire()</#if>);
+			super(EquipmentSlotType.LEGS, new Item.Properties().group(<@CreativeTabs data.creativeTabs/>)<#if data.leggingsImmuneToFire>.isImmuneToFire()</#if>);
 		}
 
 		<#if data.leggingsModelName != "Default" && data.getLeggingsModel()??>
@@ -205,7 +205,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Boots extends ${name}Item {
 
 		public Boots() {
-			super(EquipmentSlotType.FEET, new Item.Properties().group(${data.creativeTab})<#if data.bootsImmuneToFire>.isImmuneToFire()</#if>);
+			super(EquipmentSlotType.FEET, new Item.Properties().group(<@CreativeTabs data.creativeTabs/>)<#if data.bootsImmuneToFire>.isImmuneToFire()</#if>);
 		}
 
 		<#if data.bootsModelName != "Default" && data.getBootsModel()??>
