@@ -37,7 +37,7 @@ public class ${name}Item extends BucketItem {
 	public ${name}Item() {
 		super(${JavaModName}Fluids.${data.getModElement().getRegistryNameUpper()},
 			new Item.Properties().containerItem(Items.BUCKET).maxStackSize(1).rarity(Rarity.${data.rarity})
-			<#if data.creativeTab?has_content>.group(${data.creativeTab})<#else>.group(ItemGroup.MISC)</#if>);
+			.group(<@CreativeTabs data.creativeTabs/>));
 	}
 
 	<@addSpecialInformation data.specialInformation/>
