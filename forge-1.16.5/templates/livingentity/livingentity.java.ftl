@@ -40,7 +40,7 @@ import net.minecraft.network.datasync.DataParameter;
 <#if data.aiBase != "(none)">
 	<#assign extendsClass = data.aiBase>
 <#else>
-	<#assign extendsClass = data.mobBehaviourType?replace("Mob", "Monster")>
+	<#assign extendsClass = data.mobBehaviourType?replace("Mob", "Monster")?replace("Raider", "AbstractRaider")>
 </#if>
 <#if data.breedable>
 	<#assign extendsClass = "Animal">
@@ -273,6 +273,16 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	@Override public SoundEvent getDeathSound() {
 		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.deathSound}"));
 	}
+
+	<#if data.mobBehaviourType == "Raider">
+	@Override public SoundEvent getRaidLossSound() {
+		<#if data.raidCelebrationSound?has_content && data.raidCelebrationSound.getMappedValue()?has_content>
+		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.raidCelebrationSound}"));
+		<#else>
+		return null;
+		</#if>
+	}
+	</#if>
 
 	<#if hasProcedure(data.onStruckByLightning)>
 	@Override public void func_241841_a(ServerWorld serverWorld, LightningBoltEntity lightningBolt) {
@@ -884,7 +894,15 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		<#if data.spawnInDungeons>
 			DungeonHooks.addDungeonMob(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), 180);
 		</#if>
+
+		<#if data.mobBehaviourType == "Raider">
+		Raid.WaveMember.create("${registryname}", ${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), new int[]{0, ${data.raidSpawnsCount[0]}, ${data.raidSpawnsCount[1]}, ${data.raidSpawnsCount[2]}, ${data.raidSpawnsCount[3]}, ${data.raidSpawnsCount[4]}, ${data.raidSpawnsCount[5]}, ${data.raidSpawnsCount[6]}});
+		</#if>
 	}
+
+	<#if data.mobBehaviourType == "Raider">
+   	@Override public void applyWaveBonus(int wave, boolean logic) {}
+   	</#if>
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
 		AttributeModifierMap.MutableAttribute builder = MobEntity.func_233666_p_();
