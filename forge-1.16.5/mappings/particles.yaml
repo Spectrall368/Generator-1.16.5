@@ -1,7 +1,6 @@
 _mcreator_prefix: "CUSTOM:"
 _mcreator_map_template: "(BasicParticleType) (@JavaModNameParticleTypes.@REGISTRYNAME.get())"
 _default: ParticleTypes.CRIT
-SPELL_MOB_AMBIENT: ParticleTypes.AMBIENT_ENTITY_EFFECT
 VILLAGER_ANGRY: ParticleTypes.ANGRY_VILLAGER
 WATER_BUBBLE: ParticleTypes.BUBBLE
 CLOUD: ParticleTypes.CLOUD
@@ -18,7 +17,6 @@ ELDER_GUARDIAN: ParticleTypes.ELDER_GUARDIAN
 CRIT_MAGIC: ParticleTypes.ENCHANTED_HIT
 ENCHANTMENT_TABLE: ParticleTypes.ENCHANT
 END_ROD: ParticleTypes.END_ROD
-ENTITY_EFFECT: ParticleTypes.ENTITY_EFFECT
 EXPLOSION_EMITTER: ParticleTypes.EXPLOSION_EMITTER
 EXPLOSION_NORMAL: ParticleTypes.EXPLOSION
 FIREWORKS_SPARK: ParticleTypes.FIREWORK
