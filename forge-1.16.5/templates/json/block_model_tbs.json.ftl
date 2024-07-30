@@ -1,9 +1,10 @@
 {
     "parent": "block/${var_model}",
     "textures": {
-      <#if data.particleTexture?has_content>"particle": "${modid}:blocks/${data.particleTexture}",</#if>
-      "bottom": "${modid}:blocks/${data.texture}",
-      "top": "${modid}:blocks/${data.textureTop?has_content?then(data.textureTop, data.texture)}",
-      "side": "${modid}:blocks/${data.textureFront?has_content?then(data.textureFront, data.texture)}"
-    }
+      <#if data.particleTexture?has_content>"particle": "${data.particleTexture.format("%s:block/%s")}",</#if>
+      "bottom": "${data.texture.format("%s:block/%s")}",
+      "top": "${data.textureTop().format("%s:block/%s")}",
+      "side": "${data.textureFront().format("%s:block/%s")}"
+    },
+    "render_type": "${data.getRenderType()}"
 }

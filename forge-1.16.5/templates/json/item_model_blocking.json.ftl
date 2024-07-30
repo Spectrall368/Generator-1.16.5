@@ -2,7 +2,7 @@
 <#if data.blockingRenderType == 0>
     "parent": "item/handheld",
     "textures": {
-        "layer0": "${modid}:items/${data.texture}"
+        "layer0": "${data.texture.format("%s:item/%s")}"
     },
     "display": {
         "thirdperson_righthand": {
@@ -24,7 +24,7 @@
     "parent": "${modid}:custom/${data.blockingModelName.split(":")[0]}",
     "textures": {
         <@textures data.getBlockingTextureMap()/>
-        "particle": "${modid}:items/${data.texture}"
+        "particle": "${data.texture.format("%s:item/%s")}"
     }
 <#elseif data.blockingRenderType == 2>
     "forge_marker": 1,
@@ -33,14 +33,15 @@
     "model": "${modid}:models/item/${data.blockingModelName.split(":")[0]}.obj",
     "textures": {
         <@textures data.getBlockingTextureMap()/>
-        "particle": "${modid}:items/${data.texture}"
+        "particle": "${data.texture.format("%s:item/%s")}"
     }
 </#if>
 }
+
 <#macro textures textureMap>
     <#if textureMap??>
         <#list textureMap.entrySet() as texture>
-            "${texture.getKey()}": "${modid}:blocks/${texture.getValue()}",
+            "${texture.getKey()}": "${texture.getValue().format("%s:block/%s")}",
         </#list>
     </#if>
 </#macro>

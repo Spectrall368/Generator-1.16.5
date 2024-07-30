@@ -1,7 +1,7 @@
 {
   "textures": {
-    "particle": "${modid}:blocks/${data.portalTexture}",
-    "portal": "${modid}:blocks/${data.portalTexture}"
+    "particle": "${data.portalTexture.format("%s:block/%s")}",
+    "portal": "${data.portalTexture.format("%s:block/%s")}"
   },
   "elements": [
     {
@@ -36,5 +36,6 @@
         }
       }
     }
-  ]
+  ],
+  "render_type": "translucent"
 }

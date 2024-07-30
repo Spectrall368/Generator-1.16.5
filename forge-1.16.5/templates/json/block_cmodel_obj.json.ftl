@@ -1,21 +1,22 @@
 {
   "parent": "forge:item/default",
   "loader": "forge:composite",
-  "parts": {
+  "children": {
     "part1": {
       "loader": "forge:obj",
       "model": "${modid}:models/item/${data.customModelName.split(":")[0]}.obj",
-      "ambientToFullbright": true
+      "emissive_ambient": true
       <#if data.getTextureMap()??>,
         "textures": {
         <#list data.getTextureMap().entrySet() as texture>
-          "#${texture.getKey()}": "${modid}:blocks/${texture.getValue()}"<#sep>,
+          "#${texture.getKey()}": "${texture.getValue().format("%s:block/%s")}"<#sep>,
         </#list>
         }
       </#if>
     }
   },
   "textures": {
-    "particle": "${modid}:blocks/${data.particleTexture?has_content?then(data.particleTexture, data.texture)}"
-  }
+    "particle": "${data.getParticleTexture().format("%s:block/%s")}"
+  },
+  "render_type": "${data.getRenderType()}"
 }

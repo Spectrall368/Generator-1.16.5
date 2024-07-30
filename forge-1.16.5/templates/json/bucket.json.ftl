@@ -2,13 +2,13 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "${modid}:items/${data.textureBucket}"
+    "layer0": "${data.textureBucket.format("%s:item/%s")}"
   }
 }
 <#else>
 {
   "parent": "forge:item/bucket_drip",
-  "loader": "forge:bucket",
+  "loader": "forge:fluid_container",
   "fluid": "${modid}:${registryname}"
 }
 </#if>

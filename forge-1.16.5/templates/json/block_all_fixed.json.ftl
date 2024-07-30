@@ -1,12 +1,13 @@
 {
   "parent": "block/cube",
   "textures": {
-    "down": "${modid}:blocks/${data.texture}",
-    "up": "${modid}:blocks/${data.textureTop?has_content?then(data.textureTop, data.texture)}",
-    "north": "${modid}:blocks/${data.textureFront?has_content?then(data.textureFront, data.texture)}",
-    "east": "${modid}:blocks/${data.textureLeft?has_content?then(data.textureLeft, data.texture)}",
-    "south": "${modid}:blocks/${data.textureBack?has_content?then(data.textureBack, data.texture)}",
-    "west": "${modid}:blocks/${data.textureRight?has_content?then(data.textureRight, data.texture)}",
-    "particle": "${modid}:blocks/${data.particleTexture?has_content?then(data.particleTexture, data.texture)}"
-  }
+    "down": "${data.texture.format("%s:block/%s")}",
+    "up": "${data.textureTop().format("%s:block/%s")}",
+    "north": "${data.textureFront().format("%s:block/%s")}",
+    "east": "${data.textureLeft().format("%s:block/%s")}",
+    "south": "${data.textureBack().format("%s:block/%s")}",
+    "west": "${data.textureRight().format("%s:block/%s")}",
+    "particle": "${data.getParticleTexture().format("%s:block/%s")}"
+  },
+  "render_type": "${data.getRenderType()}"
 }
