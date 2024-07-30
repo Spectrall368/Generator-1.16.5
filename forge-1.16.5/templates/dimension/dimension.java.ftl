@@ -35,7 +35,7 @@ package ${package}.world.dimension;
 
 <#compress>
 @Mod.EventBusSubscriber public class ${name}Dimension {
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class DimensionSpecialEffectsHandler {
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class ${name}SpecialEffectsHandler {
 		@SubscribeEvent public static void registerDimensionSurfaceBuilder(FMLCommonSetupEvent event) {
 			Set<Block> replaceableBlocks = new HashSet<>();
 			replaceableBlocks.add(${mappedBlockToBlock(data.mainFillerBlock)});
