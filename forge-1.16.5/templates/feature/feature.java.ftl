@@ -96,7 +96,7 @@ package ${package}.world.features;
 				return false;
 		</#if>
 
-		<#if placementcode?contains("£") && data.hasPlacedFeature()>
+		<#if placementcode != "" && data.hasPlacedFeature()>
 		<#list extractParts(placementcode) as part>
 		    ${part}
 		</#list>
