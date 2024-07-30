@@ -8,6 +8,5 @@
     "south": "${data.textureBack().format("%s:block/%s")}",
     "west": "${data.textureRight().format("%s:block/%s")}",
     "particle": "${data.getParticleTexture().format("%s:block/%s")}"
-  },
-  "render_type": "${data.getRenderType()}"
+  }
 }
