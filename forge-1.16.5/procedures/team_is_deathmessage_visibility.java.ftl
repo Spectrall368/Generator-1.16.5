@@ -1,0 +1,1 @@
+(world instanceof World && ((World) world).getScoreboard().getTeam(${input$name}) != null ? ((World) world).getScoreboard().getTeam(${input$name}).getDeathMessageVisibility() == Team.Visible.${field$visibility} : false)
