@@ -41,7 +41,7 @@ public class ${name}Item extends Item {
 
 	public ${name}Item() {
 		super(new Item.Properties()
-				.group(${data.creativeTab})
+				.group(<@CreativeTabs data.creativeTabs/>)
 				<#if data.hasInventory()>
 				.maxStackSize(1)
 				<#elseif data.damageCount != 0>
