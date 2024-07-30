@@ -30,6 +30,7 @@
 
 <#-- @formatter:off -->
 <#include "../procedures.java.ftl">
+<#include "../triggers.java.ftl">
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
@@ -68,7 +69,7 @@ public class ${JavaModName}Items {
 		<#elseif item.getModElement().getTypeString() == "livingentity">
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_SPAWN_EGG =
 				REGISTRY.register("${item.getModElement().getRegistryName()}_spawn_egg", () -> new ForgeSpawnEggItem(${JavaModName}Entities.${item.getModElement().getRegistryNameUpper()},
-						${item.spawnEggBaseColor.getRGB()}, ${item.spawnEggDotColor.getRGB()}, new Item.Properties().group(${item.creativeTab})));
+						${item.spawnEggBaseColor.getRGB()}, ${item.spawnEggDotColor.getRGB()}, new Item.Properties().group(<@CreativeTabs item.creativeTabs/>)));
 		<#elseif item.getModElement().getTypeString() == "dimension" && item.hasIgniter()>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} =
 				REGISTRY.register("${item.getModElement().getRegistryName()}", () -> new ${item.getModElement().getName()}Item());
@@ -78,10 +79,10 @@ public class ${JavaModName}Items {
 		<#elseif item.getModElement().getTypeString() == "block" || item.getModElement().getTypeString() == "plant">
 			<#if item.isDoubleBlock()>
 				<#assign hasDoubleBlocks = true>
-				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} = doubleBlock(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, ${item.creativeTab});
+				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} = doubleBlock(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, <@CreativeTabs item.creativeTabs/>);
 			<#else>
 				<#assign hasBlocks = true>
-				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} = block(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, ${item.creativeTab});
+				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} = block(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, <@CreativeTabs item.creativeTabs/>);
 			</#if>
 		<#else>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} =
