@@ -15,8 +15,8 @@
     },
     "ambientocclusion": false,
     "textures": {
-        "end_rod": "${modid}:blocks/${data.texture}",
-        "particle": "${modid}:blocks/${data.particleTexture?has_content?then(data.particleTexture, data.texture)}"
+        "end_rod": "${data.texture.format("%s:block/%s")}",
+        "particle": "${data.getParticleTexture().format("%s:block/%s")}"
     },
     "elements": [
         {
@@ -42,6 +42,8 @@
                 "east":  { "uv": [ 0, 0, 2, 15 ], "texture": "#end_rod" }
             }
         }
-    ]
+    ],
+    "render_type": "${data.getRenderType()}"
 }
+
 <#-- @formatter:on -->

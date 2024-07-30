@@ -1,8 +1,9 @@
 {
-    "parent": "block/template_fence_gate_wall",
+    "parent": "block/door_bottom_left",
     "textures": {
         <#if data.particleTexture?has_content>"particle": "${data.particleTexture.format("%s:block/%s")}",</#if>
-        "texture": "${data.texture.format("%s:block/%s")}"
+        "bottom": "${data.texture.format("%s:block/%s")}",
+        "top": "${data.textureTop().format("%s:block/%s")}"
     },
     "render_type": "${data.getRenderType()}"
 }

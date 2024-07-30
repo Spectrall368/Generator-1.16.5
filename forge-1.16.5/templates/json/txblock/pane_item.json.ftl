@@ -3,15 +3,17 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "${modid}:items/${data.itemTexture}"
-  }
+    "layer0": "${data.itemTexture.format("%s:item/%s")}"
+  },
+  "render_type": "translucent"
 }
 <#else>
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "${modid}:blocks/${data.texture}"
-  }
+    "layer0": "${data.texture.format("%s:block/%s")}"
+  },
+  "render_type": "${data.getRenderType()}"
 }
 </#if>
 <#-- @formatter:on -->
