@@ -1,6 +1,17 @@
 <#include "procedures.java.ftl">
 
 <#-- Item-related triggers -->
+<#macro CreativeTabs tabs="">
+<#assign CustomTabs = JavaModName + "Tabs">
+	<#if tabs == "[]">
+	null
+	<#elseif tabs?contains(CustomTabs)>
+	${CustomTabs}${tabs?keep_after_last(CustomTabs)?replace("]", "")}
+	<#else>
+	ItemGroup${tabs?keep_after_last("ItemGroup")?replace("]", "")}
+	</#if>
+</#macro>
+
 <#macro addSpecialInformation procedure="" isBlock=false>
 	<#if procedure?has_content && (hasProcedure(procedure) || !procedure.getFixedValue().isEmpty())>
 		@Override @OnlyIn(Dist.CLIENT) public void addInformation(ItemStack itemstack, <#if isBlock>IBlockReader<#else>World</#if> world, List<ITextComponent> list, ITooltipFlag flag) {
