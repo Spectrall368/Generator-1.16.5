@@ -63,7 +63,17 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 				}
 
 				public int getHarvestLevel() {
-					return ${data.harvestLevel};
+					<#if data.blockDropsTier == "WOOD" || data.blockDropsTier == "GOLD">
+					return 0;
+					<#elseif data.blockDropsTier == "STONE">
+					return 1;
+					<#elseif data.blockDropsTier == "IRON">
+					return 2;
+					<#elseif data.blockDropsTier == "DIAMOND">
+					return 3;
+					<#else>
+					return 4;
+					</#if>
 				}
 
 				public int getEnchantability() {
@@ -94,6 +104,15 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 		</#if>);
 	}
 
+	<#if hasProcedure(data.additionalDropCondition)>
+	@Override public boolean canHarvestBlock(ItemStack itemstack, BlockState blockstate) {
+		return super.canHarvestBlock(itemstack, blockstate) && <@procedureCode data.additionalDropCondition, {
+			"itemstack": "itemstack",
+			"blockstate": "blockstate"
+		}, false/>;
+	}
+	</#if>
+
 	<#if data.toolType == "Shield" && data.repairItems?has_content>
 	@Override public boolean getIsRepairable(ItemStack itemstack, ItemStack repairitem) {
 		return ${mappedMCItemsToIngredient(data.repairItems)}.test(repairitem);
@@ -110,7 +129,17 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 		}
 	<#elseif data.toolType=="MultiTool">
 		@Override public boolean canHarvestBlock(BlockState blockstate) {
-			return ${data.harvestLevel} >= state.getHarvestLevel();
+			return <#if data.blockDropsTier == "WOOD" || data.blockDropsTier == "GOLD">
+			0
+			<#elseif data.blockDropsTier == "STONE">
+			1
+			<#elseif data.blockDropsTier == "IRON">
+			2
+			<#elseif data.blockDropsTier == "DIAMOND">
+			3
+			<#else>
+			4
+			</#if> >= state.getHarvestLevel();
 		}
 
 		@Override public float getDestroySpeed(ItemStack itemstack, BlockState blockstate) {
