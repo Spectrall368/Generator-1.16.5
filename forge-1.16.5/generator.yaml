@@ -1,7 +1,7 @@
 name: Minecraft Forge for @minecraft (@buildfileversion)
 status: deprecated
 buildfileversion: 36.2.42
-subversion: 1.1
+subversion: 1.2 # force setup re-run to update Gradle wrapper to work with Java 21
 
 import:
   - datapack-1.16.x
