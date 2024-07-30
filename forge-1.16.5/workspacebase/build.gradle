@@ -1,14 +1,7 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-    }
+plugins {
+    id 'eclipse'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
 
 version = '1.0'
 group = 'com.yourname.modid'
@@ -21,17 +14,14 @@ minecraft {
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
+    copyIdeResources = true
+
     runs {
         client {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-
-            jvmArgs = [
-                    "--add-exports=java.base/sun.security.util=ALL-UNNAMED",
-                    "--add-opens=java.base/java.util.jar=ALL-UNNAMED"
-            ]
 
             mods {
                 examplemod {
@@ -46,11 +36,6 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
-            jvmArgs = [
-                    "--add-exports=java.base/sun.security.util=ALL-UNNAMED",
-                    "--add-opens=java.base/java.util.jar=ALL-UNNAMED"
-            ]
-
             mods {
                 examplemod {
                     source sourceSets.main
@@ -61,7 +46,11 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-${generator.getGeneratorBuildFileVersion()}'
+    minecraft 'net.minecraftforge:forge:${generator.getGeneratorMinecraftVersion()}-${generator.getGeneratorBuildFileVersion()}'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
 apply from: 'mcreator.gradle'
