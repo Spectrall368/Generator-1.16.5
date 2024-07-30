@@ -235,7 +235,6 @@ entity.evocation_illager.prepare_summon: entity.evoker.prepare_summon
 entity.evocation_illager.prepare_wololo: entity.evoker.prepare_wololo
 entity.experience_bottle.throw: entity.experience_bottle.throw
 entity.experience_orb.pickup: entity.experience_orb.pickup
-entity.experience_orb.touch: entity.experience_orb.pickup #LEGACY
 entity.firework.blast: entity.firework_rocket.blast
 entity.firework.blast_far: entity.firework_rocket.blast_far
 entity.firework.large_blast: entity.firework_rocket.large_blast
@@ -351,14 +350,12 @@ entity.parrot.imitate.blaze: entity.parrot.imitate.blaze
 entity.parrot.imitate.creeper: entity.parrot.imitate.creeper
 entity.parrot.imitate.elder_guardian: entity.parrot.imitate.elder_guardian
 entity.parrot.imitate.enderdragon: entity.parrot.imitate.ender_dragon
-entity.parrot.imitate.enderman: entity.parrot.imitate.endermite #LEGACY
 entity.parrot.imitate.endermite: entity.parrot.imitate.endermite
 entity.parrot.imitate.evocation_illager: entity.parrot.imitate.evoker
 entity.parrot.imitate.ghast: entity.parrot.imitate.ghast
 entity.parrot.imitate.husk: entity.parrot.imitate.husk
 entity.parrot.imitate.illusion_illager: entity.parrot.imitate.illusioner
 entity.parrot.imitate.magmacube: entity.parrot.imitate.magma_cube
-entity.parrot.imitate.polar_bear: entity.parrot.imitate.husk #LEGACY
 entity.parrot.imitate.shulker: entity.parrot.imitate.shulker
 entity.parrot.imitate.silverfish: entity.parrot.imitate.silverfish
 entity.parrot.imitate.skeleton: entity.parrot.imitate.skeleton
@@ -370,13 +367,10 @@ entity.parrot.imitate.vindication_illager: entity.parrot.imitate.vindicator
 entity.parrot.imitate.witch: entity.parrot.imitate.witch
 entity.parrot.imitate.wither: entity.parrot.imitate.wither
 entity.parrot.imitate.wither_skeleton: entity.parrot.imitate.wither_skeleton
-entity.parrot.imitate.wolf: entity.parrot.imitate.wither #LEGACY
 entity.parrot.imitate.zombie: entity.parrot.imitate.zombie
-entity.parrot.imitate.zombie_pigman: entity.parrot.imitate.zombie #LEGACY
 entity.parrot.imitate.zombie_villager: entity.parrot.imitate.zombie_villager
 entity.parrot.imitate.drowned: entity.parrot.imitate.drowned
 entity.parrot.imitate.guardian: entity.parrot.imitate.guardian
-entity.parrot.imitate.panda: entity.parrot.imitate.drowned #LEGACY
 entity.parrot.imitate.phantom: entity.parrot.imitate.phantom
 entity.parrot.imitate.pillager: entity.parrot.imitate.pillager
 entity.parrot.imitate.ravager: entity.parrot.imitate.ravager
