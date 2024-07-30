@@ -36,7 +36,7 @@ public class ${name}Item extends MusicDiscItem {
 
 	public ${name}Item() {
 		super(${data.analogOutput}, () -> ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")),
-			new Item.Properties().group(${data.creativeTab}).maxStackSize(1).rarity(Rarity.${data.rarity}));
+			new Item.Properties().group(<@CreativeTabs data.creativeTabs/>).maxStackSize(1).rarity(Rarity.${data.rarity}));
 	}
 
 	<@addSpecialInformation data.specialInformation/>
