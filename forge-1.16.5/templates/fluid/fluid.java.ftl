@@ -39,7 +39,7 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 			${JavaModName}Fluids.${data.getModElement().getRegistryNameUpper()},
 			${JavaModName}Fluids.FLOWING_${data.getModElement().getRegistryNameUpper()},
 			<#if data.extendsFluidAttributes()>${name}</#if>FluidAttributes
-			.builder(new ResourceLocation("${modid}:blocks/${data.textureStill}"), new ResourceLocation("${modid}:blocks/${data.textureFlowing}"))
+			.builder(new ResourceLocation("${data.textureStill.format("%s:block/%s")}"), new ResourceLocation("${data.textureFlowing.format("%s:block/%s")}"))
 			<#if data.luminosity != 0>.luminosity(${data.luminosity})</#if>
 			<#if data.density != 1000>.density(${data.density})</#if>
 			<#if data.viscosity != 1000>.viscosity(${data.viscosity})</#if>
