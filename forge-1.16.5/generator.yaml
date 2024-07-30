@@ -34,16 +34,20 @@ mod_assets_root: "@RESROOT/assets/@modid"
 mod_data_root: "@RESROOT/data/@modid"
 
 # specific resource folders
-structures_dir: "@MODDATAROOT/structures"
 sounds_dir: "@MODASSETSROOT/sounds"
-other_textures_dir: "@MODASSETSROOT/textures"
-block_textures_dir: "@MODASSETSROOT/textures/blocks"
-item_textures_dir: "@MODASSETSROOT/textures/items"
+structures_dir: "@MODDATAROOT/structures"
+block_textures_dir: "@MODASSETSROOT/textures/block"
+item_textures_dir: "@MODASSETSROOT/textures/item"
 entity_textures_dir: "@MODASSETSROOT/textures/entities"
 effect_textures_dir: "@MODASSETSROOT/textures/mob_effect"
 particle_textures_dir: "@MODASSETSROOT/textures/particle"
 screen_textures_dir: "@MODASSETSROOT/textures/screens"
 armor_textures_dir: "@MODASSETSROOT/textures/models/armor"
+other_textures_dir: "@MODASSETSROOT/textures"
+
+# vanilla resources
+vanilla_block_textures_dir: "client-extra.jar!/assets/minecraft/textures/block"
+vanilla_item_textures_dir: "client-extra.jar!/assets/minecraft/textures/item"
 
 base_templates:
   - template: modbase/mod.java.ftl
@@ -52,7 +56,7 @@ base_templates:
     usercodeComment: "#"
     writer: file
     name: "@RESROOT/META-INF/mods.toml"
-  - template: modbase/pack.mcmeta.ftl
+  - template: pack.mcmeta.ftl # loaded from datapack generator
     writer: json
     name: "@RESROOT/pack.mcmeta"
   - template: modbase/sounds.json.ftl
@@ -80,7 +84,7 @@ sources_setup_tasks:
     to: "@SRCROOT/@BASEPACKAGEPATH/client/model"
 
 tags:
-  template: tags.json.ftl # loaded from datapack generator
+  template: tags.json.ftl
   name: "@RESROOT/data/@namespace/tags/@folder/@name.json"
 
 language_file:
@@ -94,7 +98,7 @@ resources_setup_tasks:
     to: "@RESROOT/logo.png"
   - task: copy_models
     type: OBJ_inlinetextures
-    prefix: "@modid:blocks/"
+    prefix: "@modid:block/"
     to: "@MODASSETSROOT/models/item"
   - task: copy_models
     type: JSON_noinlinetextures
