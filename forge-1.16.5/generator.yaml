@@ -84,7 +84,7 @@ sources_setup_tasks:
     to: "@SRCROOT/@BASEPACKAGEPATH/client/model"
 
 tags:
-  template: tags.json.ftl
+  template: tags.json.ftl # loaded from datapack generator
   name: "@RESROOT/data/@namespace/tags/@folder/@name.json"
 
 language_file:
