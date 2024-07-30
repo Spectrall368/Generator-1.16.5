@@ -96,9 +96,11 @@ package ${package}.world.features;
 				return false;
 		</#if>
 
+		<#if placementcode?contains("£") && data.hasPlacedFeature()>
 		<#list extractParts(placementcode) as part>
 		    ${part}
 		</#list>
+		</#if>
 
 		<#if featuretype == "feature_random_patch_simple">
 		if(!(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")}))
@@ -135,7 +137,7 @@ package ${package}.world.features;
 		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
 			Random random = new Random();
 			feature = new ${name}Feature();
-			configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})${removeParts(placementcode)};
+			configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)}<#else>${placementcode?remove_ending(",")}</#if></#if>;
 
 			event.getRegistry().register(feature.setRegistryName("${registryname}"));
 			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
