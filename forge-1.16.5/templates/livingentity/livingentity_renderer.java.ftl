@@ -84,7 +84,6 @@ package ${package}.client.renderer;
 	<#assign model = "PlayerModel">
 	<#assign humanoid = true>
 </#if>
-
 <#assign model = model + "<" + name + "Entity>">
 @OnlyIn(Dist.CLIENT)
 public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer<${name}Entity, ${model}> {
@@ -118,8 +117,11 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 					model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
 					model.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 					model.render(poseStack, vertexConsumer, light, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
+					model.render(poseStack, vertexConsumer, light,
+						<#if layer.disableHurtOverlay>OverlayTexture.NO_OVERLAY<#else>LivingRenderer.getPackedOverlay(entity, 0)</#if>, 1, 1, 1, 1);
 				<#else>
-					this.getEntityModel().render(poseStack, vertexConsumer, light, LivingRenderer.getPackedOverlay(entity, 0), 1, 1, 1, 1);
+					this.getEntityModel().render(poseStack, vertexConsumer, light,
+						<#if layer.disableHurtOverlay>OverlayTexture.NO_OVERLAY<#else>LivingRenderer.getPackedOverlay(entity, 0)</#if>, 1, 1, 1, 1);
 				</#if>
 
 				<#if hasProcedure(layer.condition)>}</#if>
