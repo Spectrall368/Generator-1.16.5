@@ -113,10 +113,8 @@ public class ${name}Block extends
 				1
 				<#elseif data.vanillaToolTier == "IRON">
 				2
-				<#elseif data.vanillaToolTier == "DIAMOND">
-				3
 				<#else>
-				4
+				3
 				</#if>)
 			.harvestTool(ToolType.${data.destroyTool?upper_case})
 		</#if>
