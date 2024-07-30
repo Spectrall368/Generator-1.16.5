@@ -46,16 +46,16 @@
 package ${package};
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name} {
+	public ${name}() {
+	}
 
-	public ${name}() {}
-
-	@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
+	@SubscribeEvent
+	public static void init(FMLCommonSetupEvent event) {
 		new ${name}();
 	}
 
-    	@Mod.EventBusSubscriber private static class ForgeBusEvents {
-
-		@SubscribeEvent public static void serverLoad(FMLServerStartingEvent event) {
+    @Mod.EventBusSubscriber private static class ${name}ForgeBusEvents {
+		@SubscribeEvent public static void serverLoad(ServerStartingEvent event) {
 		}
 
 		@OnlyIn(Dist.CLIENT) @SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
