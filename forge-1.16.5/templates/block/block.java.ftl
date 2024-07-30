@@ -106,7 +106,18 @@ public class ${name}Block extends
 			.setRequiresTool()
 		</#if>
 		<#if data.destroyTool != "Not specified">
-			.harvestLevel(${data.breakHarvestLevel})
+			.harvestLevel(
+				<#if data.vanillaToolTier == "NONE">
+				0
+				<#elseif data.vanillaToolTier == "STONE">
+				1
+				<#elseif data.vanillaToolTier == "IRON">
+				2
+				<#elseif data.vanillaToolTier == "DIAMOND">
+				3
+				<#else>
+				4
+				</#if>)
 			.harvestTool(ToolType.${data.destroyTool?upper_case})
 		</#if>
 		<#if data.isNotColidable>
@@ -501,24 +512,16 @@ public class ${name}Block extends
 	}
 	</#if>
 
-	<#-- For harvest levels <= 3, we use vanilla tags (netherite already does need custom handing) -->
-	<#if data.requiresCorrectTool>
+	<#if hasProcedure(data.additionalHarvestCondition)>
 	@Override public boolean canHarvestBlock(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
-		<#-- If item is TieredItem, we check by level to be compatible with int harvest levels -->
-		if(player.getHeldItemMainhand().getItem() instanceof
-				<#if data.destroyTool == "pickaxe">PickaxeItem
-				<#elseif data.destroyTool == "axe">AxeItem
-				<#elseif data.destroyTool == "shovel">ShovelItem
-				<#elseif data.destroyTool == "hoe">HoeItem
-				<#else>TieredItem</#if>)
-			return ((<#if data.destroyTool == "pickaxe">PickaxeItem
-				<#elseif data.destroyTool == "axe">AxeItem
-				<#elseif data.destroyTool == "shovel">ShovelItem
-				<#elseif data.destroyTool == "hoe">HoeItem
-				<#else>TieredItem</#if>) player.getHeldItemMainhand().getItem()).getTier().getHarvestLevel() >= ${data.breakHarvestLevel};
-		<#-- in other cases (not TieredItem), we resort to default tier sorting and checking using tags -->
-		else
-			return super.canHarvestBlock(state, world, pos, player);
+		return super.canHarvestBlock(state, world, pos, player) && <@procedureCode data.additionalHarvestCondition, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"entity": "player",
+			"world": "player.world",
+			"blockstate": "state"
+		}, false/>;
 	}
 	</#if>
 
