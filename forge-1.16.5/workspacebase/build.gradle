@@ -5,7 +5,7 @@ plugins {
 
 version = '1.0'
 group = 'com.yourname.modid'
-archivesBaseName = 'modid'
+base.archivesName = "modid"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -19,7 +19,6 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
@@ -32,7 +31,6 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
