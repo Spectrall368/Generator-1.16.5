@@ -180,9 +180,7 @@ public class ${name}Item extends Item {
 	public ${name}Item() {
 		super(new Item.Properties()
 			.group(<@CreativeTabs data.creativeTabs/>)
-			<#if data.usageCount != 0>
 			.maxDamage(${data.usageCount})
-			</#if>
 			<#if data.immuneToFire>
 			.isImmuneToFire()
 			</#if>
