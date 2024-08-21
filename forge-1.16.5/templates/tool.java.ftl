@@ -97,9 +97,7 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 		<#elseif data.toolType == "Shears" || data.toolType == "Shield">
 			new Item.Properties()
 				.group(<@CreativeTabs data.creativeTabs/>)
-				<#if (data.usageCount != 0) && (data.toolType == "Shears" || data.toolType == "Shield")>
 				.maxDamage(${data.usageCount})
-				</#if>
 				<#if data.immuneToFire>
 				.isImmuneToFire()
 				</#if>
@@ -235,9 +233,7 @@ public class ${name}Item extends FishingRodItem {
 	public ${name}Item() {
 		super(new Item.Properties()
 			.group(<@CreativeTabs data.creativeTabs/>)
-			<#if data.usageCount != 0>
 			.maxDamage(${data.usageCount})
-			</#if>
 			<#if data.immuneToFire>
 			.isImmuneToFire()
 			</#if>
