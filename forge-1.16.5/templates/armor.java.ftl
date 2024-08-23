@@ -167,7 +167,7 @@ public abstract class ${name}Item extends ArmorItem {
 		<#if data.leggingsModelName != "Default" && data.getLeggingsModel()??>
 		@Override @OnlyIn(Dist.CLIENT) public BipedModel getArmorModel(LivingEntity living, ItemStack stack, EquipmentSlotType slot, BipedModel defaultModel) {
 			BipedModel armorModel = new BipedModel(1);
-			armorModel.bipedBody = new ${data.bodyModelName}().${data.bodyModelPart};
+			armorModel.bipedBody.showModel = false;
 
 			<#if data.leggingsModelPartL?has_content>
 			armorModel.bipedLeftLeg = new ${data.leggingsModelName}().${data.leggingsModelPartL};
