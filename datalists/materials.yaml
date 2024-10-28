@@ -1,3 +1,5 @@
+- NONE:
+  readable_name: No legacy material
 - ROCK:
   texture: STONE
 - EARTH:
@@ -59,6 +61,7 @@
 - WEB:
   texture: WEB
 - AIR:
+  readable_name: Air
   texture: AIR
 - STRUCTURE_VOID:
   texture: STRUCTURE_VOID
@@ -78,6 +81,8 @@
   texture: BARRIER
 - PISTON:
   texture: PISTON
+- CORAL:
+  texture: WATERLILY
 - NETHER_WOOD:
   texture: CRIMSON_STEM
 - NETHER_PLANTS:
