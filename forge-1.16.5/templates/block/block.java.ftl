@@ -72,6 +72,14 @@ public class ${name}Block extends
 	<#if data.isWaterloggable>
 		public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	</#if>
+	<#list data.customProperties as prop>
+		<#assign propName = prop.property().getName().replace("CUSTOM:", "")>
+		<#if prop.property().getClass().getSimpleName().equals("LogicType")>
+			public static final BooleanProperty ${propName?upper_case} = BooleanProperty.create("${propName}");
+		<#elseif prop.property().getClass().getSimpleName().equals("IntegerType")>
+			public static final IntegerProperty ${propName?upper_case} = IntegerProperty.create("${propName}", ${prop.property().getMin()}, ${prop.property().getMax()});
+		</#if>
+	</#list>
 
 	<#macro blockProperties>
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
@@ -160,7 +168,7 @@ public class ${name}Block extends
 			super(<@blockProperties/>);
 		</#if>
 
-	    <#if data.rotationMode != 0 || data.isWaterloggable>
+	    <#if data.rotationMode != 0 || data.isWaterloggable || data.customProperties?has_content>
 	    this.setDefaultState(this.stateContainer.getBaseState()
 	    	<#if data.rotationMode == 1 || data.rotationMode == 3>
 	    	.with(FACING, Direction.NORTH)
@@ -172,6 +180,9 @@ public class ${name}Block extends
 	    	<#elseif data.rotationMode == 5>
 	    	.with(AXIS, Direction.Axis.Y)
 	    	</#if>
+			<#list data.customProperties as prop>
+			.setValue(${prop.property().getName().replace("CUSTOM:", "")?upper_case}, ${prop.value()})
+			</#list>
 	    	<#if data.isWaterloggable>
 	    	.with(WATERLOGGED, false)
 	    	</#if>
@@ -292,8 +303,9 @@ public class ${name}Block extends
 	}
 	</#if>
 
-	<#if data.rotationMode != 0 || data.isWaterloggable>
+	<#if data.rotationMode != 0 || data.isWaterloggable || data.customProperties?has_content>
 	@Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 		<#assign props = []>
 		<#if data.rotationMode == 5>
 			<#assign props += ["AXIS"]>
@@ -303,6 +315,9 @@ public class ${name}Block extends
 				<#assign props += ["FACE"]>
 			</#if>
 		</#if>
+		<#list data.customProperties as prop>
+			<#assign props += [prop.property().getName().replace("CUSTOM:", "")?upper_case]>
+		</#list>
 		<#if data.isWaterloggable>
 			<#assign props += ["WATERLOGGED"]>
 		</#if>
@@ -314,7 +329,7 @@ public class ${name}Block extends
 		boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
 		</#if>
 		<#if data.rotationMode != 3>
-		return this.getDefaultState()
+		return super.getStateForPlacement(context)
 			<#if data.rotationMode == 1>
 			    <#if data.enablePitch>
 			    .with(FACE, faceForDirection(context.getNearestLookingDirection()))
@@ -327,33 +342,42 @@ public class ${name}Block extends
 			<#elseif data.rotationMode == 5>
 			.with(AXIS, context.getFace().getAxis())
 			</#if>
+	    	<@initCustomBlockStateProperties />
 			<#if data.isWaterloggable>
 			.with(WATERLOGGED, flag)
 			</#if>;
 		<#elseif data.rotationMode == 3>
 	    if (context.getFace().getAxis() == Direction.Axis.Y)
-	        return this.getDefaultState()
+	        return super.getStateForPlacement(context)
 	    		<#if data.enablePitch>
 	    		    .with(FACE, context.getFace().getOpposite() == Direction.UP ? AttachFace.CEILING : AttachFace.FLOOR)
 	    		    .with(FACING, context.getPlacementHorizontalFacing())
 	    		<#else>
 	    		    .with(FACING, Direction.NORTH)
 	    		</#if>
+	    		<@initCustomBlockStateProperties />
 	    		<#if data.isWaterloggable>
 	    		.with(WATERLOGGED, flag)
 	    		</#if>;
 
-	    return this.getDefaultState()
+	    return super.getStateForPlacement(context)
 	    	<#if data.enablePitch>
 	    	    .with(FACE, AttachFace.WALL)
 	    	</#if>
 	    	.with(FACING, context.getFace())
+	    	<@initCustomBlockStateProperties />
 	    	<#if data.isWaterloggable>
 	    	.with(WATERLOGGED, flag)
 	    	</#if>;
 		</#if>
 	}
 	</#if>
+
+	<#macro initCustomBlockStateProperties>
+		<#list data.customProperties as prop>
+		.setValue(${prop.property().getName().replace("CUSTOM:", "")?upper_case}, ${prop.value()})
+		</#list>
+	</#macro>
 
 	<#if data.rotationMode != 0>
 		<#if data.rotationMode != 5>
