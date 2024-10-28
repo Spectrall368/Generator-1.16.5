@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -30,71 +30,101 @@
 
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
-
+<#assign supportedItems = w.filterBrokenReferences(data.supportedItems)>
+<#assign incompatibleEnchantments = w.filterBrokenReferences(data.incompatibleEnchantments)>
+<#macro weightToRarity weight>
+	<#if weight <= 1>VERY_RARE
+	<#elseif weight <= 2>RARE
+	<#elseif weight <= 5>UNCOMMON
+	<#else>COMMON
+	</#if>
+</#macro>
+<#macro slotsCode slots>
+	<#if slots == "any">new EquipmentSlotType[] { EquipmentSlotType.HEAD, EquipmentSlotType.CHEST, EquipmentSlotType.LEGS, EquipmentSlotType.FEET, EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND }
+	<#elseif slots == "hand">new EquipmentSlotType[] { EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND }
+	<#elseif slots == "armor">new EquipmentSlotType[] { EquipmentSlotType.HEAD, EquipmentSlotType.CHEST, EquipmentSlotType.LEGS, EquipmentSlotType.FEET }
+	<#elseif slots == "body">new EquipmentSlotType[] { EquipmentSlotType.CHEST }
+	<#else>new EquipmentSlotType[] { EquipmentSlotType.${slots?upper_case} }
+	</#if>
+</#macro>
 package ${package}.enchantment;
 
 public class ${name}Enchantment extends Enchantment {
 
-	public ${name}Enchantment(EquipmentSlotType... slots) {
-		super(Enchantment.Rarity.${data.rarity}, EnchantmentType.${generator.map(data.type, "enchantmenttypes")}, slots);
+	private static final EnchantmentType ENCHANTMENT_CATEGORY =
+		<#if supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/foot_armor">EnchantmentType.ARMOR_FEET;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/leg_armor">EnchantmentType.ARMOR_LEGS;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/chest_armor">EnchantmentType.ARMOR_CHEST;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/head_armor">EnchantmentType.ARMOR_HEAD;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/armor">EnchantmentType.ARMOR;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/weapon">EnchantmentType.WEAPON;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/mining">EnchantmentType.DIGGER;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/fishing">EnchantmentType.FISHING_ROD;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/trident">EnchantmentType.TRIDENT;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/durability">EnchantmentType.BREAKABLE;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/bow">EnchantmentType.BOW;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/equippable">EnchantmentType.WEARABLE;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/crossbow">EnchantmentType.CROSSBOW;
+		<#elseif supportedItems?size == 1 && supportedItems?first == "TAG:minecraft:enchantable/vanishing">EnchantmentType.VANISHABLE;
+		<#else>EnchantmentType.create("${modid}_${registryname}", item -> ${mappedMCItemsToIngredient(supportedItems)}.test(new ItemStack(item)));
+		</#if>
+
+	public ${name}Enchantment() {
+		super(Enchantment.Rarity.<@weightToRarity data.weight/>, ENCHANTMENT_CATEGORY, <@slotsCode data.supportedSlots/>);
+	}
+
+	@Override public int getMinEnchantability(int level) {
+		return 1 + level * 10;
+	}
+
+	@Override public int getMaxEnchantability(int level) {
+		return 6 + level * 10;
 	}
 
 	<#if data.maxLevel != 1>
-		@Override public int getMaxLevel() {
-			return ${data.maxLevel};
-		}
+	@Override public int getMaxLevel() {
+		return ${data.maxLevel};
+	}
 	</#if>
 
 	<#if data.damageModifier != 0>
-		@Override public int calcModifierDamage(int level, DamageSource source) {
-			return level * ${data.damageModifier};
-		}
+	@Override public int calcModifierDamage(int level, DamageSource source) {
+		return level * ${data.damageModifier};
+	}
 	</#if>
 
-        <#if data.compatibleEnchantments?has_content>
-		@Override protected boolean canApplyTogether(Enchantment ench) {
-			List<Enchantment> compatibleEnchantments = new ArrayList<>();
-			<#list data.compatibleEnchantments as compatibleEnchantment>
-			compatibleEnchantments.add(${compatibleEnchantment});
+	<#if incompatibleEnchantments?has_content && !incompatibleEnchantments?first?starts_with("#")>
+	@Override protected boolean canApplyTogether(Enchantment enchantment) {
+		return super.canApplyTogether(enchantment) && !Arrays.asList(
+			<#list incompatibleEnchantments as incompatibleEnchantment>
+				${incompatibleEnchantment}<#sep>,
 			</#list>
-			return <#if data.excludeEnchantments>this != ench && !</#if>compatibleEnchantments.contains(ench);
-		}
-	</#if>
-
-        <#if data.compatibleItems?has_content>
-		@Override public boolean canApplyAtEnchantingTable(ItemStack itemstack) {
-			return <#if data.excludeItems>!</#if>${mappedMCItemsToIngredient(data.compatibleItems)}.test(itemstack);
-		}
+		).contains(enchantment);
+	}
 	</#if>
 
 	<#if data.isTreasureEnchantment>
-		@Override public boolean isTreasureEnchantment() {
-			return true;
-		}
+	@Override public boolean isTreasureEnchantment() {
+		return true;
+	}
 	</#if>
 
 	<#if data.isCurse>
-		@Override public boolean isCurse() {
-			return true;
-		}
-	</#if>
-
-	<#if !data.isAllowedOnBooks>
-		@Override public boolean isAllowedOnBooks() {
-			return false;
-		}
+	@Override public boolean isCurse() {
+		return true;
+	}
 	</#if>
 
 	<#if !data.canGenerateInLootTables>
-		@Override public boolean canGenerateInLoot() {
-			return false;
-		}
+	@Override public boolean canGenerateInLoot() {
+		return false;
+	}
 	</#if>
 
 	<#if !data.canVillagerTrade>
-		@Override public boolean canVillagerTrade() {
-			return false;
-		}
+	@Override public boolean canVillagerTrade() {
+		return false;
+	}
 	</#if>
 }
 <#-- @formatter:on -->
