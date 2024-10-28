@@ -1,2 +1,2 @@
 <#include "mcelements.ftl">
-(world.hasChunkAt(${toBlockPos(input$x,input$y,input$z)}))
+(world.isBlockLoaded(${toBlockPos(input$x,input$y,input$z)}))
