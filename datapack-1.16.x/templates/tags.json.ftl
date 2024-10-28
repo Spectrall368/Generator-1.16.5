@@ -14,10 +14,6 @@
           <#list w.normalizeTagElements(tag.resourcePath(), 0, elements) as value>
             "${value}"<#sep>,
           </#list>
-      <#elseif type == "damage_types">
-          <#list w.normalizeTagElements(tag.resourcePath(), 1, elements) as value>
-            "${value.getMappedValue(1)}"<#sep>,
-          </#list>
       <#elseif type == "functions">
           <#list w.filterBrokenReferences(elements) as value>
             "${generator.getResourceLocationForModElement(value)}"<#sep>,
