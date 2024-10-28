@@ -54,7 +54,6 @@ ShareToLan: ShareToLanScreen
 SleepInMultiplayer: SleepInMultiplayerScreen
 Stats: StatsScreen
 VideoSettings: VideoSettingsScreen
-WithNarratorSettings: WithNarratorSettingsScreen
 Working: WorkingScreen
 WorldLoadProgress: WorldLoadProgressScreen
 WorldSelection: WorldSelectionScreen
