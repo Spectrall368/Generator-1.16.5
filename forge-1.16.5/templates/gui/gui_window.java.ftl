@@ -270,9 +270,9 @@ e -> {
 <#macro buttonDisplayCondition component>
 <#if hasProcedure(component.displayCondition)>
 {
-	@Override public void render(MatrixStack ms, int gx, int gy, float ticks) {
-		if (<@procedureOBJToConditionCode component.displayCondition/>)
-			super.render(ms, gx, gy, ticks);
+	@Override public void renderButton(MatrixStack ms, int gx, int gy, float ticks) {
+		this.visible = <@procedureOBJToConditionCode component.displayCondition/>;
+		super.renderButton(ms, gx, gy, ticks);
 	}
 }
 </#if>
