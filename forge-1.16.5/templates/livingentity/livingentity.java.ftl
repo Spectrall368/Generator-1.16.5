@@ -33,7 +33,6 @@
 <#include "../procedures.java.ftl">
 package ${package}.entity;
 
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.network.datasync.DataParameter;
 
 <#assign extendsClass = "Creature">
