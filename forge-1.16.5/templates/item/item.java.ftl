@@ -34,8 +34,6 @@
 <#include "../triggers.java.ftl">
 package ${package}.item;
 
-import net.minecraft.entity.ai.attributes.Attributes;
-
 <#compress>
 public class ${name}Item extends Item {
 
