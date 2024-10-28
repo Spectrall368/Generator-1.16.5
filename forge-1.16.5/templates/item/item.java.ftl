@@ -150,7 +150,8 @@ public class ${name}Item extends Item {
 
 	<@addSpecialInformation data.specialInformation/>
 
-	<#if hasProcedure(data.onRightClickedInAir) || data.hasInventory() || (hasProcedure(data.onStoppedUsing) && (data.useDuration > 0)) || data.enableRanged>
+	<#assign shouldExplicitlyCallStartUsing = !data.isFood && (data.useDuration > 0)> <#-- ranged items handled in if below so no need to check for that here too -->
+	<#if hasProcedure(data.onRightClickedInAir) || data.hasInventory() || data.enableRanged || shouldExplicitlyCallStartUsing>
 	@Override public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity entity, Hand hand) {
 		<#if data.enableRanged>
 		ActionResult<ItemStack> ar = ActionResult.resultFail(entity.getHeldItem(hand));
@@ -158,24 +159,23 @@ public class ${name}Item extends Item {
 		ActionResult<ItemStack> ar = super.onItemRightClick(world, entity, hand);
 		</#if>
 
-		<#if (hasProcedure(data.onStoppedUsing) && (data.useDuration > 0)) || data.enableRanged>
-			<#if data.enableRanged>
-				<#if hasProcedure(data.rangedUseCondition)>
-				if (<@procedureCode data.rangedUseCondition, {
-					"x": "entity.getPosX()",
-					"y": "entity.getPosY()",
-					"z": "entity.getPosZ()",
-					"world": "world",
-					"entity": "entity",
-					"itemstack": "ar.getResult()"
-				}, false/>)
-				</#if>
-				if (entity.abilities.isCreativeMode || findAmmo(entity) != ItemStack.EMPTY) {
-					ar = ActionResult.resultSuccess(entity.getHeldItem(hand));
-					entity.setActiveHand(hand);
-				}
-			<#else>
+		<#if data.enableRanged>
+			<#if hasProcedure(data.rangedUseCondition)>
+			if (<@procedureCode data.rangedUseCondition, {
+				"x": "entity.getPosX()",
+				"y": "entity.getPosY()",
+				"z": "entity.getPosZ()",
+				"world": "world",
+				"entity": "entity",
+				"itemstack": "ar.getResult()"
+			}, false/>)
+			</#if>
+			if (entity.abilities.isCreativeMode || findAmmo(entity) != ItemStack.EMPTY) {
+				ar = ActionResult.resultSuccess(entity.getHeldItem(hand));
 				entity.setActiveHand(hand);
+			}
+		<#elseif shouldExplicitlyCallStartUsing>
+			entity.setActiveHand(hand);
 			</#if>
 		</#if>
 
