@@ -34,8 +34,6 @@
 <#include "triggers.java.ftl">
 package ${package}.item;
 
-import net.minecraft.entity.ai.attributes.Attributes;
-
 <#compress>
 <#if data.toolType == "Pickaxe" || data.toolType == "Axe" || data.toolType == "Sword" || data.toolType == "Spade"
 		|| data.toolType == "Hoe" || data.toolType == "Shears" || data.toolType == "Shield" || data.toolType == "MultiTool">
