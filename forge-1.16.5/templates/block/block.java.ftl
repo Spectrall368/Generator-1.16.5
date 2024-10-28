@@ -305,7 +305,7 @@ public class ${name}Block extends
 
 	<#if data.rotationMode != 0 || data.isWaterloggable || data.customProperties?has_content>
 	@Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		super.createBlockStateDefinition(builder);
+		super.fillStateContainer(builder);
 		<#assign props = []>
 		<#if data.rotationMode == 5>
 			<#assign props += ["AXIS"]>
