@@ -85,7 +85,7 @@ sources_setup_tasks:
 
 tags:
   template: tags.json.ftl # loaded from datapack generator
-  name: "@RESROOT/data/@namespace/tags/@folder/@name.json"
+  name: "@RESROOT/data/@namespace/tags/@folder_pre21/@name.json"
 
 language_file:
   format: json
