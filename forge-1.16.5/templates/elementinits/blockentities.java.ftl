@@ -35,7 +35,6 @@
 package ${package}.init;
 
 public class ${JavaModName}BlockEntities {
-
 	public static final DeferredRegister<TileEntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ${JavaModName}.MODID);
 
 	<#list blockentities as blockentity>
@@ -43,6 +42,9 @@ public class ${JavaModName}BlockEntities {
 		register("${blockentity.getModElement().getRegistryName()}", ${JavaModName}Blocks.${blockentity.getModElement().getRegistryNameUpper()},
 			${blockentity.getModElement().getName()}BlockEntity::new);
 	</#list>
+
+	// Start of user code block custom block entities
+	// End of user code block custom block entities
 
 	private static RegistryObject<TileEntityType<?>> register(String registryname, RegistryObject<Block> block, Supplier<? extends TileEntity> supplier) {
 		return REGISTRY.register(registryname, () -> TileEntityType.Builder.create(supplier, block.get()).build(null));
