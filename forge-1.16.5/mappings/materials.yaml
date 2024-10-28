@@ -1,4 +1,5 @@
-_default: EARTH
+_default: (new Material.Builder(MaterialColor.AIR)).build()
+NONE: (new Material.Builder(MaterialColor.AIR)).build()
 AIR: AIR
 STRUCTURE_VOID: STRUCTURE_VOID
 PORTAL: PORTAL
