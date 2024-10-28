@@ -312,17 +312,21 @@ public class ${name}Item extends Item {
 
 	<#if data.enableRanged>
 	private ItemStack findAmmo(PlayerEntity player) {
-		ItemStack stack = ShootableItem.getHeldAmmo(player, e -> e.getItem() == ${generator.map(projectile, "projectiles", 2)});
+		<#if data.projectileDisableAmmoCheck>
+		return new ItemStack(${generator.map(data.projectile.getUnmappedValue(), "projectiles", 2)});
+		<#else>
+		ItemStack stack = ShootableItem.getHeldAmmo(player, e -> e.getItem() == ${generator.map(data.projectile.getUnmappedValue(), "projectiles", 2)});
 		if(stack == ItemStack.EMPTY) {
 			for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
 				ItemStack teststack = player.inventory.mainInventory.get(i);
-				if(teststack != null && teststack.getItem() == ${generator.map(projectile, "projectiles", 2)}) {
+				if(teststack != null && teststack.getItem() == ${generator.map(data.projectile.getUnmappedValue(), "projectiles", 2)}) {
 					stack = teststack;
 					break;
 				}
 			}
 		}
 		return stack;
+		</#if>
 	}
 	</#if>
 }
