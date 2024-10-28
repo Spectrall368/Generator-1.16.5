@@ -18,21 +18,21 @@
 	public static class ${name}Message {
 		public ${name}Message() {}
 
-		public ${name}Message(FriendlyByteBuf buffer) {}
+		public ${name}Message(PacketBuffer buffer) {}
 
-		public static void buffer(${name}Message message, FriendlyByteBuf buffer) {}
+		public static void buffer(${name}Message message, PacketBuffer buffer) {}
 
 		public static void handler(${name}Message message, Supplier<NetworkEvent.Context> contextSupplier) {
 			NetworkEvent.Context context = contextSupplier.get();
 			context.enqueueWork(() -> {
-				if (!context.getSender().level().hasChunkAt(context.getSender().blockPosition()))
+				if (!context.getSender().world.isBlockLoaded(context.getSender().getPosition()))
 					return;
 				<#assign dependenciesCode><#compress>
 					<@procedureDependenciesCode dependencies, {
-						"x": "context.getSender().getX()",
-						"y": "context.getSender().getY()",
-						"z": "context.getSender().getZ()",
-						"world": "context.getSender().level()",
+						"x": "context.getSender().getPosX()",
+						"y": "context.getSender().getPosY()",
+						"z": "context.getSender().getPosZ()",
+						"world": "context.getSender().world",
 						"entity": "context.getSender()"
 					}/>
 				</#compress></#assign>
