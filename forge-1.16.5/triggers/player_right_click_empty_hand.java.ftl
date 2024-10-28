@@ -10,6 +10,8 @@
 				"entity": "event.getPlayer()"
 			}/>
 		</#compress></#assign>
+		if (event.getHand() != event.getPlayer().getActiveHand())
+			return;
 		${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Message());
 		execute(${dependenciesCode});
 	}
