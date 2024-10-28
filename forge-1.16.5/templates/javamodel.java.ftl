@@ -31,6 +31,7 @@
 <#-- @formatter:off -->
 package ${package}.client.model;
 
+@OnlyIn(Dist.CLIENT)
 ${model.toString()
     .replace("public static class", "public class")
     .replace("private final ModelRenderer", "public final ModelRenderer")
