@@ -15,5 +15,5 @@ templates:
     condition: "worldGenType %= End like gen"
     name: "@MODDATAROOT/dimension/@registryname.json"
 
-field_inclusions: [mainFillerBlock, fluidBlock, canRespawnHere, hasFog, isDark, doesWaterVaporize,
-                  hasSkyLight, imitateOverworldBehaviour, worldGenType, sleepResult, biomesInDimension]
+field_inclusions: [mainFillerBlock, fluidBlock, biomesInDimension, imitateOverworldBehaviour, canRespawnHere,
+                   hasFog, isDark, doesWaterVaporize, sleepResult, hasSkyLight, worldGenType]
