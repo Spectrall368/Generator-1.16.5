@@ -6,8 +6,8 @@
 				"x": "event.getPos().getX()",
 				"y": "event.getPos().getY()",
 				"z": "event.getPos().getZ()",
-				"world": "event.getLevel()",
-				"entity": "event.getEntity()"
+				"world": "event.getWorld()",
+				"entity": "event.getPlayer()"
 			}/>
 		</#compress></#assign>
 		${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Message());
