@@ -1,14 +1,14 @@
 name: Minecraft Forge for @minecraft (@buildfileversion)
 status: deprecated
 buildfileversion: 36.2.42
-subversion: 1.3 # force setup re-run to remove configuration cache setting
+subversion: 1.3
 
 import:
   - datapack-1.16.x
 
 java_models:
   key: legacy
-  requested_key_words: [ModelRenderer, ~ModelPart, ~texHeight]
+  requested_key_words: [ModelRenderer, ~ModelPart, ~texHeight, ~(ResourceLocation.]
 
 # gradle task definitions
 gradle:
