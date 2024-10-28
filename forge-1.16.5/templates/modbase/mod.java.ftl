@@ -33,6 +33,7 @@ import org.apache.logging.log4j.Logger;
 		<#if w.hasElementsOfType("biome")>${JavaModName}Biomes.REGISTRY.register(bus);</#if>
 		<#if w.getElementsOfType("feature")?filter(e -> e.getMetadata("has_nbt_structure")??)?size != 0>StructureFeature.REGISTRY.register(bus);</#if>
 		<#if w.hasElementsOfType("villagerprofession")>${JavaModName}VillagerProfessions.PROFESSIONS.register(bus);</#if>
+		<#if w.hasElementsOfType("attribute")>${JavaModName}Attributes.REGISTRY.register(bus);</#if>
 		bus.register(this);
 
 		// Start of user code block mod init
