@@ -48,7 +48,7 @@ package ${package}.world.features.ores;
 </#if>
 <#assign cond = false>
 <#if data.restrictionBiomes?has_content>
-	<#list data.restrictionBiomes as restrictionBiome>
+	<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 		<#if restrictionBiome?contains(":is_")>
 			<#assign cond = true>
 			 <#break>
@@ -96,7 +96,7 @@ package ${package}.world.features.ores;
 					<#if data.restrictionBiomes?has_content && cond>
 						RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
 						boolean dimensionCriteria = false;
-						<#list data.restrictionBiomes as restrictionBiome>
+					<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 								<#if restrictionBiome == "#minecraft:is_overworld">
 									if(dimensionType == World.OVERWORLD)
 										dimensionCriteria = true;
@@ -138,11 +138,9 @@ package ${package}.world.features.ores;
 	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
 	<#if data.restrictionBiomes?has_content && !cond>
 		boolean biomeCriteria = false;
-		<#list data.restrictionBiomes as restrictionBiome>
-			<#if restrictionBiome.canProperlyMap()>
+		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 			if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
 				biomeCriteria = true;
-			</#if>
 		</#list>
 		if (!biomeCriteria)
 			return;
