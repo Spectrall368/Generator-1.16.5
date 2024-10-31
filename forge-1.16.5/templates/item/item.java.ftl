@@ -176,7 +176,6 @@ public class ${name}Item extends Item {
 			}
 		<#elseif shouldExplicitlyCallStartUsing>
 			entity.setActiveHand(hand);
-			</#if>
 		</#if>
 
 		<#if data.hasInventory()>
