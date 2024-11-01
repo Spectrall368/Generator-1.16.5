@@ -376,7 +376,7 @@ public class ${name}Block extends
 	<#macro initCustomBlockStateProperties>
 		<#list data.customProperties as prop>
 			<#assign propName = prop.property().getName().replace("CUSTOM:", "")>
-			.setValue(${propName?upper_case},
+			.with(${propName?upper_case},
 				<#if prop.property().getClass().getSimpleName().equals("StringType")>
 				${StringUtils.snakeToCamel(propName)}Property.${prop.value()?upper_case}
 				<#else>
