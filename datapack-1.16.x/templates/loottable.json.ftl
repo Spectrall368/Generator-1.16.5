@@ -105,6 +105,5 @@
         }
         <#if pool?has_next>,</#if>
     </#list>
-  ],
-  "random_sequence": "${data.getNamespace()}:${data.getName()}"
+  ]
 }
