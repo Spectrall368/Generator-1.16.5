@@ -90,6 +90,5 @@ package ${package}.init;
 		</#list>
 	}
 	</#if>
-
 }
 <#-- @formatter:on -->
