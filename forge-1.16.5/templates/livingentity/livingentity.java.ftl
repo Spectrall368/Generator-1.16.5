@@ -54,11 +54,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	@SubscribeEvent public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
 		<#if data.restrictionBiomes?has_content>
 				boolean biomeCriteria = false;
-			<#list data.restrictionBiomes as restrictionBiome>
-				<#if restrictionBiome.canProperlyMap()>
+			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 					if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
 						biomeCriteria = true;
-				</#if>
 			</#list>
 			if (!biomeCriteria)
 				return;
