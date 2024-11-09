@@ -50,12 +50,12 @@ package ${package}.init;
 			<#if entity.isCustomModel()>
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
 			<#else>
-			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), SpriteRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), renderManager -> new SpriteRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
 			</#if>
 		<#else>
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
 			<#if entity.hasCustomProjectile()>
-			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), SpriteRenderer::new);
+			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), renderManager -> new SpriteRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
 			</#if>
 		</#if>
 	</#list>
