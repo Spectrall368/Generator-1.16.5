@@ -74,7 +74,7 @@ package ${package}.client.renderer;
 	<#assign super = "super(context, new SilverfishModel(), " + data.modelShadowSize + "f);">
 	<#assign model = "SilverfishModel">
 <#elseif data.mobModelName == "Witch">
-	<#assign super = "super(context, new WitchModel(), " + data.modelShadowSize + "f);">
+	<#assign super = "super(context, new WitchModel(0), " + data.modelShadowSize + "f);">
 	<#assign model = "WitchModel">
 <#elseif !data.isBuiltInModel()>
 	<#assign super = "super(context, new ${data.mobModelName}(), " + data.modelShadowSize + "f);">
