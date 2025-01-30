@@ -77,5 +77,7 @@ templates:
 localizationkeys:
   - key: block.@modid.@registryname
     mapto: name
+  - fromlist: data.getFixedSpecialInformation()
+    key: block.@modid.@registryname.description_@item_index
 
 field_exclusions: [generateAtAnyHeight]
