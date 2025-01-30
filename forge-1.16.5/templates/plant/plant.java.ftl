@@ -46,7 +46,7 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	</#if>{
 	public ${name}Block() {
 		super(<#if data.plantType == "normal">
-		() -> ${generator.map(data.suspiciousStewEffect, "effects")}, ${data.suspiciousStewDuration},
+		${generator.map(data.suspiciousStewEffect, "effects")}, ${data.suspiciousStewDuration},
 		<#elseif data.plantType == "sapling">
 		new ${name}TreeGrower(),
 		</#if>
