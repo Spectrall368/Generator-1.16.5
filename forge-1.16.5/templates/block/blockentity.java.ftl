@@ -178,13 +178,8 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
         <#if data.fluidRestrictions?has_content>
 		private final FluidTank fluidTank = new FluidTank(${data.fluidCapacity}, fs -> {
 			<#list data.fluidRestrictions as fluidRestriction>
-                <#if fluidRestriction.getUnmappedValue().startsWith("CUSTOM:")>
-					if(fs.getFluid() ==
-					${JavaModName}Fluids.<#if fluidRestriction.getUnmappedValue().endsWith(":Flowing")>FLOWING_</#if>${generator.getRegistryNameForModElement(fluidRestriction.getUnmappedValue()?remove_beginning("CUSTOM:")?remove_ending(":Flowing"))?upper_case}.get()) return true;
-                <#else>
-				if(fs.getFluid() == Fluids.${fluidRestriction}) return true;
-                </#if>
-            </#list>
+				if (fs.getFluid() == ${fluidRestriction}) return true;
+            		</#list>
 
 			return false;
 		}) {
