@@ -276,7 +276,7 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 				int j = blockstate.get(AGE);
 				if (ForgeHooks.onCropsGrowPre(world, pos, blockstate, true)) {
 					if (j == 15) {
-						world.setBlockState(pos.up(), defaultBlockState()<#if data.isWaterloggable()>.with(WATERLOGGED, flag)</#if>);
+						world.setBlockState(pos.up(), getDefaultState()<#if data.isWaterloggable()>.with(WATERLOGGED, flag)</#if>);
 						world.setBlockState(pos, blockstate.with(AGE, 0), 4);
 					} else {
 						world.setBlockState(pos, blockstate.with(AGE, j + 1), 4);
