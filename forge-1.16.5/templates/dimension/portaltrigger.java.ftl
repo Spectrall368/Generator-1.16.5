@@ -39,7 +39,7 @@ public class ${name}Item extends Item {
 		super(new Item.Properties().group(<@CreativeTabs data.creativeTabs/>).rarity(Rarity.${data.igniterRarity}).maxDamage(64));
 	}
 
-	<@addSpecialInformation data.specialInformation/>
+	<@addSpecialInformation data.specialInformation, "item." + modid + "." + registryname/>
 
 	@Override public ActionResultType onItemUse(ItemUseContext context) {
 		PlayerEntity entity = context.getPlayer();
