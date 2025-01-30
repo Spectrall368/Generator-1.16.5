@@ -109,8 +109,16 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 			<#if hasProcedure(component.displayCondition)>
 				if (<@procedureOBJToConditionCode component.displayCondition/>)
 			</#if>
-				if (mouseX > guiLeft + ${x} && mouseX < guiLeft + ${x + component.width} && mouseY > guiTop + ${y} && mouseY < guiTop + ${y + component.height})
-					this.renderTooltip(ms, <#if hasProcedure(component.text)>new StringTextComponent(<@procedureOBJToStringCode component.text/>)<#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>, mouseX, mouseY);
+				if (mouseX > guiLeft + ${x} && mouseX < guiLeft + ${x + component.width} && mouseY > guiTop + ${y} && mouseY < guiTop + ${y + component.height}) {
+					<#if hasProcedure(component.text)>
+					String hoverText = <@procedureOBJToStringCode component.text/>;
+					if (hoverText != null) {
+						this.renderTooltip(ms, Arrays.stream(hoverText.split("\n")).map(StringTextComponent::new).collect(Collectors.toList()), mouseX, mouseY);
+					}
+					<#else>
+						this.renderTooltip(ms, new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}"), mouseX, mouseY);
+					</#if>
+				}
 		</#list>
 	}
 
