@@ -151,8 +151,7 @@ public class ${name}Block extends
 		<#if data.hasTransparency>
 			.setOpaque((bs, br, bp) -> false)
 		</#if>
-		<#if (data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube() && data.offsetType != "NONE")
-				|| (data.blockBase?has_content && !data.isFullCube() && data.offsetType != "NONE")>
+		<#if (!data.isNotColidable && data.offsetType != "NONE")>
 			.variableOpacity()
 		</#if>
 	</#macro>
