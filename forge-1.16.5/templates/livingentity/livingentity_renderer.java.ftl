@@ -180,18 +180,18 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 	<#if data.animations?has_content>
 	private static final class AnimatedModel extends ${model} {
 		private final EntityModel animator = new EntityModel<${name}Entity>() {
-			@Override public void setRotationAngles(${name}Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+			@Override public void setRotationAngles(${name}Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 				<#list data.animations as animation>
 					<#if !animation.walking>
-						${animation.animation}.execute(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+						${animation.animation}.execute(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 					</#if>
 				</#list>
 			}
 		};
 
-		@Override public void setLivingAnimations(${name}Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks) {
-			super.setLivingAnimations(entity, limbSwing, limbSwingAmount, ageInTicks);
-			animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, 1.0F);
+		@Override public void setRotationAngles(${name}Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+			super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+			animator.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 			<#list data.animations as animation>
 				<#if animation.walking>
 						<#if hasProcedure(animation.condition)>
@@ -204,7 +204,7 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 						}, false/>)
 						</#if>
 
-					${animation.animation}.execute(entity, limbSwing, limbSwingAmount, ageInTicks);
+					${animation.animation}.execute(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 				</#if>
 			</#list>
 		}
