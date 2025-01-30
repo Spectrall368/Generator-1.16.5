@@ -1,5 +1,4 @@
 _default: ItemGroup.MISC
-_mcreator_prefix: "CUSTOM:"
 _mcreator_map_template: "@JavaModNameTabs.TAB_@REGISTRYNAME"
 BUILDING_BLOCKS: ItemGroup.BUILDING_BLOCKS
 DECORATIONS: ItemGroup.DECORATIONS
