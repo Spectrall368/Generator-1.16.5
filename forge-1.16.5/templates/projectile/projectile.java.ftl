@@ -76,12 +76,12 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 	@Nullable @Override protected EntityRayTraceResult rayTraceEntities(Vector3d projectilePosition, Vector3d deltaPosition) {
 		double d0 = Double.MAX_VALUE;
 		Entity entity = null;
-		AxisAlignedBB lookupBox = this.getBoundingBox().expandTowards(deltaPosition).grow(1.0D);
+		AxisAlignedBB lookupBox = this.getBoundingBox();
 		for (Entity entity1 : this.world.getEntitiesInAABBexcluding(this, lookupBox, this::rayTraceEntities)) {
 			if (entity1 == this.getOwner()) continue;
 			AxisAlignedBB aabb = entity1.getBoundingBox();
 			if (aabb.intersects(lookupBox)) {
-				double d1 = projectilePosition.distanceToSqr(projectilePosition);
+				double d1 = projectilePosition.getDistanceSq(projectilePosition);
 				if (d1 < d0) {
 					entity = entity1;
 					d0 = d1;
