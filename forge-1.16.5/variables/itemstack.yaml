@@ -36,9 +36,9 @@ scopes:
     set: |
       <#include "mcitems.ftl">
       {
-        ItemStack _setval = ${mappedMCItemToItemStackCode(value, 1)}.copy();
+        ItemStack _setval = ${mappedMCItemToItemStackCode(value, 1)};
         ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-          capability.${name} = _setval;
+          capability.${name} = _setval.copy();
           capability.syncPlayerVariables(${entity});
         });
       }
@@ -52,9 +52,9 @@ scopes:
     set: |
       <#include "mcitems.ftl">
       {
-        ItemStack _setval = ${mappedMCItemToItemStackCode(value, 1)}.copy();
+        ItemStack _setval = ${mappedMCItemToItemStackCode(value, 1)};
         ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-          capability.${name} = _setval;
+          capability.${name} = _setval.copy();
           capability.syncPlayerVariables(${entity});
         });
       }
