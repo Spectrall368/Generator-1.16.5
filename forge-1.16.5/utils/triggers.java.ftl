@@ -12,7 +12,7 @@
 	</#if>
 </#macro>
 
-<#macro addSpecialInformation procedure="" isBlock=false>
+<#macro addSpecialInformation procedure="" translationKeyHeader="" isBlock=false>
 	<#if procedure?has_content && (hasProcedure(procedure) || !procedure.getFixedValue().isEmpty())>
 		@Override @OnlyIn(Dist.CLIENT) public void addInformation(ItemStack itemstack, <#if isBlock>IBlockReader<#else>World</#if> world, List<ITextComponent> list, ITooltipFlag flag) {
 		super.addInformation(itemstack, world, list, flag);
@@ -31,6 +31,10 @@
 					list.add(new StringTextComponent(line));
 				}
 			}
+		<#elseif translationKeyHeader?has_content>
+			<#list procedure.getFixedValue() as entry>
+				list.add(new TranslationTextComponent("${translationKeyHeader}.description_${entry?index}"));
+			</#list>
 		<#else>
 			<#list procedure.getFixedValue() as entry>
 				list.add(new StringTextComponent("${JavaConventions.escapeStringForJava(entry)}"));
