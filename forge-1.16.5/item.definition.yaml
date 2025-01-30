@@ -10,17 +10,17 @@ templates:
       - "renderType #= 0"
       - "hasNormalModel()"
     name: "@MODASSETSROOT/models/item/@registryname.json"
-  - template: json/rangeditem.json.ftl
-    writer: json
-    condition:
-      - "renderType #= 0"
-      - "hasRangedItemModel()"
-    name: "@MODASSETSROOT/models/item/@registryname.json"
   - template: json/tool.json.ftl
     writer: json
     condition:
       - "renderType #= 0"
       - "hasToolModel()"
+    name: "@MODASSETSROOT/models/item/@registryname.json"
+  - template: json/rangeditem.json.ftl
+    writer: json
+    condition:
+      - "renderType #= 0"
+      - "hasRangedItemModel()"
     name: "@MODASSETSROOT/models/item/@registryname.json"
   - template: json/item_cmodel.json.ftl
     writer: json
@@ -65,3 +65,5 @@ list_templates:
 localizationkeys:
   - key: item.@modid.@registryname
     mapto: name
+  - fromlist: data.getFixedSpecialInformation()
+    key: item.@modid.@registryname.description_@item_index
