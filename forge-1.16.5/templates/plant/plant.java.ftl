@@ -191,7 +191,7 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 			BlockPos blockpos = pos.down();
 			BlockState groundState = worldIn.getBlockState(blockpos);
 
-			<#if data.plantType = "normal">
+			<#if data.plantType == "normal">
 				return this.isValidGround(groundState, worldIn, blockpos)
 			<#elseif data.plantType == "growapable">
 				<#if hasProcedure(data.placingCondition)>
