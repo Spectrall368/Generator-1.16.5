@@ -31,6 +31,7 @@
 <#-- @formatter:off -->
 package ${package}.block.entity;
 
+<#compress>
 public class ${name}BlockEntity extends LockableLootTileEntity implements ISidedInventory {
 
 	private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(${data.inventorySize}, ItemStack.EMPTY);
@@ -227,4 +228,5 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 			handler.invalidate();
 	}
 }
+</#compress>
 <#-- @formatter:on -->
