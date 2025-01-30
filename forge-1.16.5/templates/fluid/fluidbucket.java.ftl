@@ -40,6 +40,6 @@ public class ${name}Item extends BucketItem {
 			.group(<@CreativeTabs data.creativeTabs/>));
 	}
 
-	<@addSpecialInformation data.specialInformation/>
+	<@addSpecialInformation data.specialInformation, "item." + modid + "." + registryname + "_bucket"/>
 }
 <#-- @formatter:on -->
