@@ -15,7 +15,6 @@ templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/item/@NAMEItem.java"
 
   - template: dimension/dimension_type.json.ftl # loaded from datapack generator
-    variables: "customeffects=true"
     writer: json
     name: "@MODDATAROOT/dimension_type/@registryname.json"
   - template: dimension/dimension_overworld.json.ftl # loaded from datapack generator
@@ -58,3 +57,5 @@ localizationkeys:
     condition: hasIgniter()
   - fromlist: data.getFixedSpecialInformation()
     key: item.@modid.@registryname.description_@item_index
+
+field_exclusions: [generateOreVeins]
