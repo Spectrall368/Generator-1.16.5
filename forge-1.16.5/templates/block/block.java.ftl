@@ -33,6 +33,8 @@
 <#include "../mcitems.ftl">
 <#include "../procedures.java.ftl">
 <#include "../triggers.java.ftl">
+<#assign filteredCustomProperties = data.customProperties?filter(e ->
+	e.property().getName().startsWith("CUSTOM:") || generator.map(e.property().getName(), "blockstateproperties") != "")>
 package ${package}.block;
 
 <#compress>
@@ -72,14 +74,25 @@ public class ${name}Block extends
 	<#if data.isWaterloggable>
 		public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	</#if>
-	<#list data.customProperties as prop>
-		<#assign propName = prop.property().getName().replace("CUSTOM:", "")>
-		<#if prop.property().getClass().getSimpleName().equals("LogicType")>
-			public static final BooleanProperty ${propName?upper_case} = BooleanProperty.create("${propName}");
-		<#elseif prop.property().getClass().getSimpleName().equals("IntegerType")>
-			public static final IntegerProperty ${propName?upper_case} = IntegerProperty.create("${propName}", ${prop.property().getMin()}, ${prop.property().getMax()});
-		<#elseif prop.property().getClass().getSimpleName().equals("StringType")>
-			public static final EnumProperty<${StringUtils.snakeToCamel(propName)}Property> ${propName?upper_case} = EnumProperty.create("${propName}", ${StringUtils.snakeToCamel(propName)}Property.class);
+	<#list filteredCustomProperties as prop>
+		<#if prop.property().getName().startsWith("CUSTOM:")>
+			<#assign propName = prop.property().getName().replace("CUSTOM:", "")>
+			<#if prop.property().getClass().getSimpleName().equals("LogicType")>
+				public static final BooleanProperty ${propName?upper_case} = BooleanProperty.create("${propName}");
+			<#elseif prop.property().getClass().getSimpleName().equals("IntegerType")>
+				public static final IntegerProperty ${propName?upper_case} = IntegerProperty.create("${propName}", ${prop.property().getMin()}, ${prop.property().getMax()});
+			<#elseif prop.property().getClass().getSimpleName().equals("StringType")>
+				public static final EnumProperty<${StringUtils.snakeToCamel(propName)}Property> ${propName?upper_case} = EnumProperty.create("${propName}", ${StringUtils.snakeToCamel(propName)}Property.class);
+			</#if>
+		<#else>
+			<#assign propName = prop.property().getName()>
+			<#if prop.property().getClass().getSimpleName().equals("LogicType")>
+				public static final BooleanProperty ${propName?upper_case} = ${generator.map(propName, "blockstateproperties")};
+			<#elseif prop.property().getClass().getSimpleName().equals("IntegerType")>
+				public static final IntegerProperty ${propName?upper_case} = ${generator.map(propName, "blockstateproperties")};
+			<#elseif prop.property().getClass().getSimpleName().equals("StringType")>
+				public static final EnumProperty<${generator.map(propName, "blockstateproperties", 2)}> ${propName?upper_case} = ${generator.map(propName, "blockstateproperties")};
+			</#if>
 		</#if>
 	</#list>
 
@@ -169,7 +182,7 @@ public class ${name}Block extends
 			super(<@blockProperties/>);
 		</#if>
 
-	    <#if data.rotationMode != 0 || data.isWaterloggable || data.customProperties?has_content>
+	    <#if data.rotationMode != 0 || data.isWaterloggable || filteredCustomProperties?has_content>
 	    this.setDefaultState(this.stateContainer.getBaseState()
 	    	<#if data.rotationMode == 1 || data.rotationMode == 3>
 	    	.with(FACING, Direction.NORTH)
@@ -302,7 +315,7 @@ public class ${name}Block extends
 	}
 	</#if>
 
-	<#if data.rotationMode != 0 || data.isWaterloggable || data.customProperties?has_content>
+	<#if data.rotationMode != 0 || data.isWaterloggable || filteredCustomProperties?has_content>
 	@Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		super.fillStateContainer(builder);
 		<#assign props = []>
@@ -314,7 +327,7 @@ public class ${name}Block extends
 				<#assign props += ["FACE"]>
 			</#if>
 		</#if>
-		<#list data.customProperties as prop>
+		<#list filteredCustomProperties as prop>
 			<#assign props += [prop.property().getName().replace("CUSTOM:", "")?upper_case]>
 		</#list>
 		<#if data.isWaterloggable>
@@ -373,11 +386,15 @@ public class ${name}Block extends
 	</#if>
 
 	<#macro initCustomBlockStateProperties>
-		<#list data.customProperties as prop>
-			<#assign propName = prop.property().getName().replace("CUSTOM:", "")>
-			.with(${propName?upper_case},
+		<#list filteredCustomProperties as prop>
+			<#assign propName = prop.property().getName()>
+			.with(${propName.replace("CUSTOM:", "")?upper_case},
 				<#if prop.property().getClass().getSimpleName().equals("StringType")>
-				${StringUtils.snakeToCamel(propName)}Property.${prop.value()?upper_case}
+					<#if propName.startsWith("CUSTOM:")>
+					${StringUtils.snakeToCamel(propName.replace("CUSTOM:", ""))}Property.${prop.value()?upper_case}
+					<#else>
+					${propName?upper_case}.getValue("${prop.value()}").get()
+					</#if>
 				<#else>
 				${prop.value()}
 				</#if>
@@ -744,7 +761,7 @@ public class ${name}Block extends
 	</#if>
 
 	<#list data.customProperties as prop>
-		<#if prop.property().getClass().getSimpleName().equals("StringType")>
+		<#if prop.property().getName().startsWith("CUSTOM:") && prop.property().getClass().getSimpleName().equals("StringType")>
 		<#assign propClassName = StringUtils.snakeToCamel(prop.property().getName().replace("CUSTOM:", ""))>
 		public enum ${propClassName}Property implements IStringSerializable {
 			<#list prop.property.getArrayData() as value>
