@@ -106,7 +106,7 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 	}
 
 	@Override public Container createMenu(int id, PlayerInventory inventory) {
-		<#if !data.guiBoundTo?has_content || data.guiBoundTo == "<NONE>" || !(data.guiBoundTo)?has_content>
+		<#if !data.guiBoundTo?has_content>
 		return ChestContainer.createGeneric9X3(id, inventory, this);
 		<#else>
 		return new ${data.guiBoundTo}Menu(id, inventory, new PacketBuffer(Unpooled.buffer()).writeBlockPos(this.getPos()));
