@@ -62,20 +62,19 @@ package ${package}.world.dimension;
 			});
 		}
 
+	<#if data.useCustomEffects>
 		@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerDimensionSpecialEffects(FMLClientSetupEvent event) {
-			DimensionRenderInfo customEffect = new DimensionRenderInfo(<#if data.imitateOverworldBehaviour>128.0F<#else>Float.NaN</#if>,
-				true, <#if data.imitateOverworldBehaviour>DimensionRenderInfo.FogType.NORMAL<#else>DimensionRenderInfo.FogType.NONE</#if>,
-				false, false) {
+			DimensionRenderInfo customEffect = new DimensionRenderInfo(<#if data.hasClouds>${data.cloudHeight}f<#else>Float.NaN</#if>,,
+				true, DimensionRenderInfo.FogType.${data.skyType}, false, false) {
 					@Override public Vector3d func_230494_a_(Vector3d color, float sunHeight) {
 						<#if data.airColor?has_content>
-							return new Vector3d(${data.airColor.getRed()/255},${data.airColor.getGreen()/255},${data.airColor.getBlue()/255});
+							return new Vector3d(${data.airColor.getRed()/255},${data.airColor.getGreen()/255},${data.airColor.getBlue()/255})
 						<#else>
-							<#if data.imitateOverworldBehaviour>
-								return color.mul(sunHeight * 0.94 + 0.06, sunHeight * 0.94 + 0.06, sunHeight * 0.91 + 0.09);
-							<#else>
-								return color;
-							</#if>
-						</#if>
+							return color
+					</#if>
+					<#if data.sunHeightAffectsFog>
+						.mul(sunHeight * 0.94 + 0.06, sunHeight * 0.94 + 0.06, sunHeight * 0.91 + 0.09)
+					</#if>;
 					}
 
 					@Override public boolean func_230493_a_(int x, int y) {
@@ -93,6 +92,7 @@ package ${package}.world.dimension;
 				}
 			});
 		}
+	</#if>
 	}
 
 	<#if hasProcedure(data.onPlayerLeavesDimension) || hasProcedure(data.onPlayerEntersDimension)>
