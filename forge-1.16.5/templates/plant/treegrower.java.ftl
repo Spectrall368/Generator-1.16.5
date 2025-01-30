@@ -49,7 +49,7 @@ public class ${name}TreeGrower extends <#if (data.megaTrees[0]?has_content) || (
 	}
 
 	<#if (data.megaTrees[0]?has_content) || (data.megaTrees[1]?has_content)>
-	protected ResourceKey<ConfiguredFeature<?, ?>> getHugeTreeFeature(Random randomSource) {
+	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getHugeTreeFeature(Random randomSource) {
 		<#if data.megaTrees[1]?has_content && data.secondaryTreeChance != 0>
 		return (randomSource.nextFloat() < ${data.secondaryTreeChance}) ? <@toTreeKey data.megaTrees[1]/> : <@toTreeKey data.megaTrees[0]/>;
 		<#else>
