@@ -48,7 +48,7 @@ package ${package}.init;
 </#if>
 public class ${JavaModName}Items {
 
-	public static final DeferredRegister<Item> REGISTRY = new DeferredRegister<>(ForgeRegistries.ITEMS, ${JavaModName}.MODID);
+	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, ${JavaModName}.MODID);
 
 	    <@processTabElements true customTabs/>
 	
