@@ -40,6 +40,7 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 			${JavaModName}Fluids.FLOWING_${data.getModElement().getRegistryNameUpper()},
 			<#if data.extendsFluidAttributes()>${name}</#if>FluidAttributes
 			.builder(new ResourceLocation("${data.textureStill.format("%s:block/%s")}"), new ResourceLocation("${data.textureFlowing.format("%s:block/%s")}"))
+			<#if data.textureRenderOverlay?has_content>.overlay(new ResourceLocation("${data.textureRenderOverlay.format("%s:textures/%s")}.png"))</#if>
 			<#if data.luminosity != 0>.luminosity(${data.luminosity})</#if>
 			<#if data.density != 1000>.density(${data.density})</#if>
 			<#if data.viscosity != 1000>.viscosity(${data.viscosity})</#if>
@@ -93,7 +94,7 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 	</#if>
 
 	<#if hasProcedure(data.flowCondition)>
-	@Override protected boolean canFlow(BlockGetter worldIn, BlockPos fromPos, BlockState blockstate, Direction direction, BlockPos toPos, BlockState intostate, FluidState toFluidState, Fluid fluidIn) {
+	@Override protected boolean canFlow(IBlockReader worldIn, BlockPos fromPos, BlockState blockstate, Direction direction, BlockPos toPos, BlockState intostate, FluidState toFluidState, Fluid fluidIn) {
 		boolean condition = true;
 		if (worldIn instanceof IWorld) {
 			IWorld world = (IWorld) worldIn;
