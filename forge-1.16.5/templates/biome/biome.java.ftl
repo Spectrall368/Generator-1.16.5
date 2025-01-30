@@ -43,7 +43,7 @@ public class ${name}Biome {
 
     public static Biome createBiome() {
             BiomeAmbience effects = new BiomeAmbience.Builder()
-                .setFogColor(${data.airColor?has_content?then(data.airColor.getRGB(), 12638463)})
+                .setFogColor(${data.fogColor?has_content?then(data.fogColor.getRGB(), 12638463)})
                 .setWaterColor(${data.waterColor?has_content?then(data.waterColor.getRGB(), 4159204)})
                 .setWaterFogColor(${data.waterFogColor?has_content?then(data.waterFogColor.getRGB(), 329011)})
                 .withSkyColor(${data.airColor?has_content?then(data.airColor.getRGB(), 7972607)})
