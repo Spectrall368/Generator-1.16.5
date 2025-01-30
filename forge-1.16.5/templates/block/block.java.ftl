@@ -253,7 +253,7 @@ public class ${name}Block extends
    	}
 	</#if>
 
-	<@addSpecialInformation data.specialInformation, true/>
+	<@addSpecialInformation data.specialInformation, "block." + modid + "." + registryname, true/>
 
 	<#if data.displayFluidOverlay>
 	@Override public boolean shouldDisplayFluidOverlay(BlockState state, IBlockDisplayReader world, BlockPos pos, FluidState fluidstate) {
