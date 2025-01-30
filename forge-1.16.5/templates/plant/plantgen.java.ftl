@@ -116,13 +116,16 @@ package ${package}.world.features.plants;
 		configuredFeature = feature.withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
 			new <#if data.plantType == "double">DoublePlant<#else>Simple</#if>BlockPlacer())).tries(${data.patchSize})
 			<#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>.build())
-			<#if (data.plantType == "normal" || data.plantType == "double") && data.generationType == "Grass">
-			.withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8, 0, ${data.frequencyOnChunks})))
+			<#if data.generateAtAnyHeight>
+			.withPlacement(Features.Placements.FIRE_PLACEMENT)
+			</#if>
+			<#if data.generationType == "Grass">
+			.withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 0, ${data.frequencyOnChunks})))
 			<#else>
-				<#if data.plantType == "normal" || data.plantType == "double">
-			.withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
+				<#if data.plantType != "growapable">
+					.withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
 				<#else>
-			.withPlacement(Features.Placements.PATCH_PLACEMENT)
+					.withPlacement(Features.Placements.PATCH_PLACEMENT)
 				</#if>.func_242731_b(${data.frequencyOnChunks})
 			</#if>;
 	
