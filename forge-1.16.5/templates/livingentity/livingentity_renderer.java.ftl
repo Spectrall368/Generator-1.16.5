@@ -183,17 +183,8 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 			@Override public void setRotationAngles(${name}Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 				<#list data.animations as animation>
 					<#if !animation.walking>
-						${animation.animation}.execute(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-					</#if>
-				</#list>
-			}
-		};
-
-		@Override public void setRotationAngles(${name}Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-			super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-			animator.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-			<#list data.animations as animation>
-				<#if animation.walking>
+						${animation.animation}.execute(${animation.speed}f, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+					<#else>
 						<#if hasProcedure(animation.condition)>
 						if (<@procedureCode animation.condition, {
 							"x": "entity.getPosX()",
@@ -203,10 +194,20 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 							"world": "entity.world"
 						}, false/>)
 						</#if>
+						${animation.animation}.execute(${animation.speed}f, ${animation.amplitude}f, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+					</#if>
+				</#list>
+			}
+		};
 
-					${animation.animation}.execute(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-				</#if>
-			</#list>
+		@Override public void setRotationAngles(${name}Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+			<#if humanoid>
+			super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+			animator.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+			<#else>
+			animator.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+			super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+			</#if>
 		}
 	}
 	</#if>
