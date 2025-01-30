@@ -5,7 +5,7 @@ plugins {
 
 version = '1.0'
 group = 'com.yourname.modid'
-base.archivesName = "modid"
+archivesBaseName = 'modid'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -18,6 +18,10 @@ minecraft {
 
     runs {
         client {
+            def mcreatorJvmOptions = System.getenv('MCREATOR_JVM_OPTIONS')
+            if (mcreatorJvmOptions) {
+                jvmArgs += mcreatorJvmOptions.split("\\s+").findAll { it.trim() }.toList()
+            }
         }
 
         server {
