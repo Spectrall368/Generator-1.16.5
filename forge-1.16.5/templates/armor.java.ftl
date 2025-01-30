@@ -95,7 +95,7 @@ public abstract class ${name}Item extends ArmorItem {
 		}
 		</#if>
 
-		<@addSpecialInformation data.helmetSpecialInformation/>
+		<@addSpecialInformation data.helmetSpecialInformation, "item." + modid + "." + registryname + "_helmet"/>
 
 		@Override public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
 			<#if data.helmetModelTexture?has_content && data.helmetModelTexture != "From armor">
@@ -139,7 +139,7 @@ public abstract class ${name}Item extends ArmorItem {
 		}
 		</#if>
 
-		<@addSpecialInformation data.bodySpecialInformation/>
+		<@addSpecialInformation data.bodySpecialInformation, "item." + modid + "." + registryname + "_chestplate"/>
 
 		@Override public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
 			<#if data.bodyModelTexture?has_content && data.bodyModelTexture != "From armor">
@@ -182,7 +182,7 @@ public abstract class ${name}Item extends ArmorItem {
 		}
 		</#if>
 
-		<@addSpecialInformation data.leggingsSpecialInformation/>
+		<@addSpecialInformation data.leggingsSpecialInformation, "item." + modid + "." + registryname + "_leggings"/>
 
 		@Override public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
 			<#if data.leggingsModelTexture?has_content && data.leggingsModelTexture != "From armor">
@@ -225,7 +225,7 @@ public abstract class ${name}Item extends ArmorItem {
 		}
 		</#if>
 
-		<@addSpecialInformation data.bootsSpecialInformation/>
+		<@addSpecialInformation data.bootsSpecialInformation, "item." + modid + "." + registryname + "_boots"/>
 
 		@Override public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
 			<#if data.bootsModelTexture?has_content && data.bootsModelTexture != "From armor">
