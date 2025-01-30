@@ -1,4 +1,4 @@
-name: Minecraft Forge for @minecraft (@buildfileversion)
+name: Forge for @minecraft (@buildfileversion)
 status: deprecated
 buildfileversion: 36.2.42
 subversion: 1.3
@@ -24,11 +24,6 @@ import_formatter:
     Nullable: javax.annotation
     Codec: com.mojang.serialization
     SoundEvent: net.minecraft.util
-    Blocks: net.minecraft.block
-    Items: net.minecraft.item
-    Multimap: com.google.common.collect
-    ImmutableSet: com.google.common.collect
-    Iterables: com.google.common.collect
     Attributes: net.minecraft.entity.ai.attributes
 
 # base generator roots
@@ -73,6 +68,9 @@ base_templates:
   - template: modbase/variableslist.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/network/@JavaModNameVariables.java"
     condition: hasVariables()
+  - template: elementinits/tabs.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameTabs.java"
+    condition: hasItemsInTabs()
   - template: modbase/accesstransformer.cfg.ftl
     writer: file
     name: "@RESROOT/META-INF/accesstransformer.cfg"
