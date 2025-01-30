@@ -18,14 +18,19 @@
 		super.addInformation(itemstack, world, list, flag);
 		<#if hasProcedure(procedure)>
 			Entity entity = Minecraft.getInstance().player;
-			list.add(Component.literal(<@procedureCode procedure, {
+			String hoverText = <@procedureCode procedure, {
 				"x": "entity.getPosX()",
 				"y": "entity.getPosY()",
 				"z": "entity.getPosZ()",
 				"entity": "entity",
 				"world": "<#if !isBlock>world<#else>entity.world</#if>",
 				"itemstack": "itemstack"
-			}, false/>));
+			}, false/>;
+			if (hoverText != null) {
+				for (String line : hoverText.split("\n")) {
+					list.add(new StringTextComponent(line));
+				}
+			}
 		<#else>
 			<#list procedure.getFixedValue() as entry>
 				list.add(new StringTextComponent("${JavaConventions.escapeStringForJava(entry)}"));
