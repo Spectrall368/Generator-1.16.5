@@ -107,6 +107,7 @@ public class ${JavaModName}Items {
 	</#compress>
 	</#if>
 }
+</#compress>
 <#-- @formatter:on -->
 <#macro setItems item>
 		<#if item.getModElement().getTypeString() == "armor">
