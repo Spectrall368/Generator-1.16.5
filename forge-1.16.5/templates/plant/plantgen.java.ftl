@@ -117,9 +117,8 @@ package ${package}.world.features.plants;
 			new <#if data.plantType == "double">DoublePlant<#else>Simple</#if>BlockPlacer())).tries(${data.patchSize})
 			<#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>.build())
 			<#if data.generateAtAnyHeight>
-			.withPlacement(Features.Placements.FIRE_PLACEMENT)
-			</#if>
-			<#if data.generationType == "Grass">
+			.withPlacement(Features.Placements.FIRE_PLACEMENT).func_242731_b(${data.frequencyOnChunks})
+			<#elseif data.generationType == "Grass">
 			.withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 0, ${data.frequencyOnChunks})))
 			<#else>
 				<#if data.plantType != "growapable">
