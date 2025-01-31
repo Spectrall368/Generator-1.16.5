@@ -107,8 +107,8 @@
             "salt": 165745296
           },
           "minecraft:ruined_portal": {
-            "spacing": 40,
-            "separation": 15,
+            "spacing": 25,
+            "separation": 10,
             "salt": 34222645
           },
           "minecraft:shipwreck": {
