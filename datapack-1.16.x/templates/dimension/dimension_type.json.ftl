@@ -9,7 +9,7 @@
   "has_ceiling": ${data.worldGenType == "Nether like gen"},
   "coordinate_scale": ${data.coordinateScale},
   "ambient_light": ${data.ambientLight},
-  "infiniburn": "#${data.infiniburnTag}",
+  "infiniburn": "${data.infiniburnTag}",
   "logical_height": 256,
   <#if data.hasFixedTime>
   "fixed_time": ${data.fixedTimeValue},
