@@ -64,7 +64,7 @@ package ${package}.world.dimension;
 
 	<#if data.useCustomEffects>
 		@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerDimensionSpecialEffects(FMLClientSetupEvent event) {
-			DimensionRenderInfo customEffect = new DimensionRenderInfo(<#if data.hasClouds>${data.cloudHeight}f<#else>Float.NaN</#if>,,
+			DimensionRenderInfo customEffect = new DimensionRenderInfo(<#if data.hasClouds>${data.cloudHeight}f<#else>Float.NaN</#if>,
 				true, DimensionRenderInfo.FogType.${data.skyType}, false, false) {
 					@Override public Vector3d func_230494_a_(Vector3d color, float sunHeight) {
 						<#if data.airColor?has_content>
