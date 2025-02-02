@@ -77,7 +77,7 @@ package ${package}.client.renderer;
 	<#assign rootPart = "0">
 	<#assign model = "WitchModel">
 <#elseif !data.isBuiltInModel()>
-	<#assign rootPart = "${data.mobModelName}">
+	<#assign rootPart = "">
 	<#assign model = data.mobModelName>
 <#else>
 	<#assign rootPart = "0.0F, false">
