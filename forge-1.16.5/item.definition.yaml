@@ -75,4 +75,4 @@ localizationkeys:
   - fromlist: data.getFixedSpecialInformation()
     key: item.@modid.@registryname.description_@item_index
 
-field_exclusions: [lengthInTicks]
+field_exclusions: [musicDiscLengthInTicks]
