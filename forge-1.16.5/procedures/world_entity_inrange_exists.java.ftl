@@ -1,3 +1,3 @@
 (!world.getLoadedEntitiesWithinAABB(${generator.map(field$entity, "entities", 0)}.class,
-	new AABB(Vector3d.ZERO, Vector3d.ZERO).move(new Vector3d(${input$x}, ${input$y}, ${input$z})).grow(${input$range} / 2d), e -> true)
+	new AxisAlignedBB(Vector3d.ZERO, Vector3d.ZERO).move(new Vector3d(${input$x}, ${input$y}, ${input$z})).grow(${input$range} / 2d), e -> true)
 	.isEmpty())
