@@ -78,7 +78,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 		Entity entity = null;
 		AxisAlignedBB lookupBox = this.getBoundingBox();
 		for (Entity entity1 : this.world.getEntitiesInAABBexcluding(this, lookupBox, this::func_230298_a_)) {
-			if (entity1 == this.getOwner()) continue;
+			if (entity1 == this.func_234616_v_()) continue;
 			AxisAlignedBB aabb = entity1.getBoundingBox();
 			if (aabb.intersects(lookupBox)) {
 				double d1 = projectilePosition.squareDistanceTo(projectilePosition);
