@@ -326,7 +326,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 			double z = this.getPosZ();
 			World world = this.world;
 			Entity entity = this;
-			Entity sourceentity = damagesource.getEntity();
+			Entity sourceentity = damagesource.getTrueSource();
 			Entity immediatesourceentity = damagesource.getImmediateSource();
 			<#if hasReturnValueOf(data.whenMobIsHurt, "logic")>
 			if (<@procedureOBJToConditionCode data.whenMobIsHurt false true/>)
