@@ -33,9 +33,9 @@
 package ${package}.world.features.treedecorators;
 
 public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
-
-    public static final Codec<${name}LeaveDecorator> CODEC = Codec.unit(${name}LeaveDecorator::new);
-    public static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
+    public static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator;
+    private static final Codec<${name}LeaveDecorator> CODEC = Codec.unit(() -> INSTANCE);
+    private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
     static {
         DECORATOR_TYPE.setRegistryName("${modid}:${registryname}_tree_leave_decorator");
@@ -52,12 +52,14 @@ public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
 	}
 
     @SuppressWarnings("deprecation") private static BlockState oriented(BlockState blockstate, BooleanProperty bpr) {
-        return switch (bpr) {
-            case VineBlock.SOUTH -> blockstate.rotate(Rotation.CLOCKWISE_180);
-            case VineBlock.EAST -> blockstate.rotate(Rotation.CLOCKWISE_90);
-            case VineBlock.WEST -> blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
-            default -> blockstate;
-        };
+        if (blockstate.get(VineBlock.SOUTH))
+                return blockstate.rotate(Rotation.CLOCKWISE_180);
+        else if (blockstate.get(VineBlock.EAST))
+                return blockstate.rotate(Rotation.CLOCKWISE_90);
+        else if (blockstate.get(VineBlock.WEST))
+                return blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
+        else
+                return blockstate;
     }
 }
 <#-- @formatter:on -->

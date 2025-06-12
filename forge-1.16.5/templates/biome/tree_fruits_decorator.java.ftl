@@ -33,9 +33,9 @@
 package ${package}.world.features.treedecorators;
 
 public class ${name}FruitDecorator extends CocoaTreeDecorator {
-
-    public static final Codec<${name}FruitDecorator> CODEC = Codec.unit(${name}FruitDecorator::new);
-    public static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
+    public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator;
+    private static final Codec<${name}FruitDecorator> CODEC = Codec.unit(() -> INSTANCE);
+    private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
     static {
         DECORATOR_TYPE.setRegistryName("${modid}:${registryname}_tree_fruit_decorator");
@@ -61,11 +61,18 @@ public class ${name}FruitDecorator extends CocoaTreeDecorator {
         .replace("p_225576_4_", "blocks2")}
 
     @SuppressWarnings("deprecation") private static BlockState oriented(BlockState blockstate, Direction direction) {
-        return switch (direction) {
-            case SOUTH -> blockstate.rotate(Rotation.CLOCKWISE_180);
-            case EAST -> blockstate.rotate(Rotation.CLOCKWISE_90);
-            case WEST -> blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
-            default -> blockstate;
+        switch (direction) {
+            case SOUTH:
+                return blockstate.rotate(Rotation.CLOCKWISE_180);
+                break;
+            case EAST:
+                return blockstate.rotate(Rotation.CLOCKWISE_90);
+                break;
+            case WEST:
+                return blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
+                break;
+            default:
+                return blockstate;
         };
     }
 }
