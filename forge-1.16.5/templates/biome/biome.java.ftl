@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2025, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,6 @@ package ${package}.world.biome;
 import net.minecraftforge.common.BiomeManager;
 
 public class ${name}Biome {
-
 	private static final ConfiguredSurfaceBuilder<?> SURFACE_BUILDER = SurfaceBuilder.DEFAULT.func_242929_a(new SurfaceBuilderConfig(
             ${mappedBlockToBlockStateCode(data.groundBlock)},
             ${mappedBlockToBlockStateCode(data.undergroundBlock)},
@@ -276,8 +275,7 @@ public class ${name}Biome {
             .downfall(${data.rainingPossibility}f)
             .setEffects(effects)
             .withMobSpawnSettings(mobSpawnInfo.copy())
-            .withGenerationSettings(biomeGenerationSettings.build())
-            .build();
+            .withGenerationSettings(biomeGenerationSettings.build()).build();
     }
 
     <#if data.spawnBiome>

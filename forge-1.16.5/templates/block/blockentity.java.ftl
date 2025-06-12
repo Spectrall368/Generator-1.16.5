@@ -30,6 +30,7 @@
 
 <#-- @formatter:off -->
 package ${package}.block.entity;
+<#include "../procedures.java.ftl">
 
 <#compress>
 public class ${name}BlockEntity extends LockableLootTileEntity implements ISidedInventory {
@@ -139,16 +140,31 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 		return IntStream.range(0, this.getSizeInventory()).toArray();
 	}
 
-	@Override public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
-		return this.isItemValidForSlot(index, stack);
+	@Override public boolean canInsertItem(int index, ItemStack itemstack, @Nullable Direction direction) {
+		return this.isItemValidForSlot(index, itemstack)
+		<#if hasProcedure(data.inventoryAutomationPlaceCondition)>&&
+			<@procedureCode data.inventoryAutomationPlaceCondition, {
+				"index": "index",
+				"itemstack": "itemstack",
+				"direction": "direction"
+			}, false/>
+		</#if>;
 	}
 
-	@Override public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+	@Override public boolean canExtractItem(int index, ItemStack itemstack, Direction direction) {
 		<#list data.inventoryInSlotIDs as id>
 		if (index == ${id})
 			return false;
-        </#list>
-		return true;
+		</#list>
+		<#if hasProcedure(data.inventoryAutomationTakeCondition)>
+			return <@procedureCode data.inventoryAutomationTakeCondition, {
+				"index": "index",
+				"itemstack": "itemstack",
+				"direction": "direction"
+			}, false/>;
+		<#else>
+			return true;
+		</#if>
 	}
 	<#-- END: ISidedInventory -->
 

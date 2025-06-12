@@ -4,8 +4,7 @@ plugins {
 }
 
 version = '1.0'
-group = 'com.yourname.modid'
-archivesBaseName = 'modid'
+base.archivesName = "modid"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -34,7 +33,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                mcreator {
                     source sourceSets.main
                 }
             }

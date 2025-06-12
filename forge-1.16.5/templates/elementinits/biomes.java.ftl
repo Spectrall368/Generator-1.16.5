@@ -49,9 +49,9 @@ public class ${JavaModName}Biomes {
 
     <#if spawn_overworld?has_content>
     @SubscribeEvent public static void init(FMLCommonSetupEvent event) {
-    <#list spawn_overworld as biome>
-    	${biome.getModElement().getName()}Biome.init();
-    </#list>
+        <#list spawn_overworld as biome>
+            ${biome.getModElement().getName()}Biome.init();
+        </#list>
     }
     </#if>
 }

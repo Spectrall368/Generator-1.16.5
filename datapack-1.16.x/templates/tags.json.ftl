@@ -10,10 +10,6 @@
           <#list w.normalizeTagElements(tag.resourcePath(), 2, elements) as value>
             "${value.getMappedValue(2)}"<#sep>,
           </#list>
-      <#elseif type == "biomes">
-          <#list w.normalizeTagElements(tag.resourcePath(), 0, elements) as value>
-            "${value}"<#sep>,
-          </#list>
       <#elseif type == "functions">
           <#list w.filterBrokenReferences(elements) as value>
             "${generator.getResourceLocationForModElement(value)}"<#sep>,

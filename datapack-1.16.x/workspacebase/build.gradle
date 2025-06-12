@@ -3,3 +3,17 @@ tasks.register('build', Zip.class) {
     archiveFileName = 'export.zip'
     destinationDirectory = file('build/export/')
 }
+
+tasks.register('syncDataPack', Copy) {
+    from("build/export/export.zip")
+    into("run/datapacks/")
+    dependsOn 'build'
+}
+
+project(':packloader') {
+    afterEvaluate {
+        tasks.named('runClient') {
+            dependsOn(rootProject.tasks.named('syncDataPack'))
+        }
+    }
+}

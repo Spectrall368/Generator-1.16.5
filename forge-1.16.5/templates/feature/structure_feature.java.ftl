@@ -43,13 +43,13 @@ package ${package}.world.features;
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, StructureFeatureConfiguration config) {
 		Rotation rotation = config.randomRotation ? Rotation.randomRotation(random) : Rotation.NONE;
 		Mirror mirror = config.randomMirror ? Mirror.values()[random.nextInt(2)] : Mirror.NONE;
-		BlockPos placePos = pos.add(config.offset);
 		// Load the structure template
 		TemplateManager structureManager = world.getWorld().getStructureTemplateManager();
 		Template template = structureManager.getTemplateDefaulted(config.structure);
 		PlacementSettings placeSettings = (new PlacementSettings()).setRotation(rotation).setMirror(mirror).setRandom(random).setIgnoreEntities(false)
 				.addProcessor(new BlockIgnoreStructureProcessor(config.ignoredBlocks.stream().map(BlockState::getBlock).collect(Collectors.toList())));
-		template.func_237146_a_(world, placePos, placePos, placeSettings, random, 4);
+		BlockPos placePos = pos.add(Template.transformedBlockPos(placeSettings, new BlockPos(config.offset)));
+		template.func_237146_a_(world, placePos, placePos, placeSettings, random, 2);
 		return true;
 	}
 }

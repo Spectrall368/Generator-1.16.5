@@ -1,9 +1,10 @@
 name: Data Pack for Java Edition @minecraft
 status: deprecated
-buildfileversion: 1.2
+buildfileversion: 36.2.42
 
 # gradle task definitions
 gradle:
+  run_client: ":packloader:runClient"
   export_file: "build/export/export.zip"
 
 # base generator roots
@@ -21,5 +22,5 @@ base_templates:
     name: "@SRCROOT/pack.mcmeta"
 
 tags:
-  template: tags.json.ftl # loaded from datapack generator
+  template: tags.json.ftl
   name: "@RESROOT/data/@namespace/tags/@folder_pre21/@name.json"

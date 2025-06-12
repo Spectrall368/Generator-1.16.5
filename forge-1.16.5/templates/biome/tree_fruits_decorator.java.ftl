@@ -29,45 +29,44 @@
 -->
 
 <#-- @formatter:off -->
-package ${package}.world.features.treedecorators;
 <#include "../mcitems.ftl">
+package ${package}.world.features.treedecorators;
 
 public class ${name}FruitDecorator extends CocoaTreeDecorator {
 
-    public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator();
-    public static Codec<${name}FruitDecorator> codec;
-    public static TreeDecoratorType tdt;
+    public static final Codec<${name}FruitDecorator> CODEC = Codec.unit(${name}FruitDecorator::new);
+    public static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
     static {
-        codec = Codec.unit(() -> INSTANCE);
-        tdt = new TreeDecoratorType<>(codec);
-        tdt.setRegistryName("${registryname}_tree_fruit_decorator");
-        ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
+        DECORATOR_TYPE.setRegistryName("${modid}:${registryname}_tree_fruit_decorator");
+        ForgeRegistries.TREE_DECORATOR_TYPES.register(DECORATOR_TYPE);
     }
 
     public ${name}FruitDecorator() {
         super(0.2f);
     }
 
-    @Override protected TreeDecoratorType func_230380_a_() {
-        return tdt;
+    @Override protected TreeDecoratorType<?> func_230380_a_() {
+        return DECORATOR_TYPE;
     }
 
     @Override ${mcc.getMethod("net.minecraft.world.gen.treedecorator.CocoaTreeDecorator", "func_225576_a_", "ISeedReader", "Random", "List", "List", "Set", "MutableBoundingBox")
-    .replace("this.field_227417_b_", "0.2F")
-    .replace("Blocks.COCOA.getDefaultState().with(CocoaBlock.AGE,Integer.valueOf(p_225576_2_.nextInt(3))).with(CocoaBlock.HORIZONTAL_FACING,direction)", "oriented(" + mappedBlockToBlockStateCode(data.treeFruits) + ", direction1)")}
+        .replace("this.field_227417_b_", "0.2F")
+        .replace("Blocks.COCOA.getDefaultState().with(CocoaBlock.AGE,Integer.valueOf(p_225576_2_.nextInt(3))).with(CocoaBlock.HORIZONTAL_FACING,direction)", "oriented(" + mappedBlockToBlockStateCode(data.treeFruits) + ", direction1)")
+        .replace("p_225576_1_", "level")
+        .replace("p_225576_6_", "mbb")
+        .replace("p_225576_2_", "random")
+        .replace("p_225576_5_", "sbc")
+        .replace("p_225576_3_", "blocks")
+        .replace("p_225576_4_", "blocks2")}
 
-    private static BlockState oriented(BlockState blockstate, Direction direction) {
-        switch (direction) {
-            case SOUTH:
-		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
-            case EAST:
-		return blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
-            case WEST:
-		return blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
+    @SuppressWarnings("deprecation") private static BlockState oriented(BlockState blockstate, Direction direction) {
+        return switch (direction) {
+            case SOUTH -> blockstate.rotate(Rotation.CLOCKWISE_180);
+            case EAST -> blockstate.rotate(Rotation.CLOCKWISE_90);
+            case WEST -> blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
+            default -> blockstate;
         };
-
-	return blockstate;
     }
 }
 <#-- @formatter:on -->

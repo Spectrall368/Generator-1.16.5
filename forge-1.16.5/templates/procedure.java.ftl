@@ -35,44 +35,44 @@ import net.minecraftforge.eventbus.api.Event;
 
 <#assign nullableDependencies = []/>
 <#list dependencies as dependency>
-	<#if dependency.getType(generator.getWorkspace()) != "double"
-		&& dependency.getType(generator.getWorkspace()) != "IWorld"
-		&& dependency.getType(generator.getWorkspace()) != "ItemStack"
-		&& dependency.getType(generator.getWorkspace()) != "BlockState"
-		&& dependency.getType(generator.getWorkspace()) != "ActionResultType"
-		&& dependency.getType(generator.getWorkspace()) != "boolean"
-		&& dependency.getType(generator.getWorkspace()) != "CommandContext<CommandSource>"
-		&& dependency.getType(generator.getWorkspace()) != "DamageSource">
+	<#if dependency.getRawType() != "number"
+		&& dependency.getRawType() != "world"
+		&& dependency.getRawType() != "itemstack"
+		&& dependency.getRawType() != "blockstate"
+		&& dependency.getRawType() != "actionresulttype"
+		&& dependency.getRawType() != "logic"
+		&& dependency.getRawType() != "cmdcontext"
+		&& dependency.getRawType() != "damagesource">
 		<#assign nullableDependencies += [dependency.getName()]/>
 	</#if>
 </#list>
 <#compress>
+
 <#if trigger_code?has_content>
 ${trigger_code}
 <#else>
 public class ${name}Procedure {
 </#if>
-
 	<#if trigger_code?has_content>
 	public static <#if return_type??>${return_type.getJavaType(generator.getWorkspace())}<#else>void</#if> execute(
 		<#list dependencies as dependency>
-			${dependency.getType(generator.getWorkspace())} ${dependency.getName()}<#if dependency?has_next>,</#if>
+			${dependency.getType(generator.getWorkspace())} ${dependency.getName()}<#sep>,
 		</#list>
 	) {
-		<#if return_type??>return </#if>execute(null<#if dependencies?has_content>,</#if><#list dependencies as dependency>${dependency.getName()}<#if dependency?has_next>,</#if></#list>);
+		<#if return_type??>return </#if>execute(null<#if dependencies?has_content>,</#if><#list dependencies as dependency>${dependency.getName()}<#sep>,</#list>);
 	}
 	</#if>
 
 	<#if trigger_code?has_content>private <#else>public </#if>static <#if return_type??>${return_type.getJavaType(generator.getWorkspace())}<#else>void</#if> execute(
 		<#if trigger_code?has_content>@Nullable Event event<#if dependencies?has_content>,</#if></#if>
 		<#list dependencies as dependency>
-				${dependency.getType(generator.getWorkspace())} ${dependency.getName()}<#if dependency?has_next>,</#if>
+				${dependency.getType(generator.getWorkspace())} ${dependency.getName()}<#sep>,
 		</#list>
 	) {
 		<#if nullableDependencies?has_content>
-			if(
+			if (
 			<#list nullableDependencies as dependency>
-			${dependency} == null <#if dependency?has_next>||</#if>
+			${dependency} == null <#sep>||
 			</#list>
 			) return <#if return_type??>${return_type.getDefaultValue(generator.getWorkspace())}</#if>;
 		</#if>
@@ -83,6 +83,8 @@ public class ${name}Procedure {
 
 		${procedurecode}
 	}
+
+	${extra_templates_code}
 }
 </#compress>
 <#-- @formatter:on -->

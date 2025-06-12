@@ -29,28 +29,35 @@
 -->
 
 <#-- @formatter:off -->
-package ${package}.world.features.treedecorators;
 <#include "../mcitems.ftl">
+package ${package}.world.features.treedecorators;
 
 public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
 
-        public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
-        public static Codec<${name}TrunkDecorator> codec;
-        public static TreeDecoratorType tdt;
+    public static final Codec<${name}TrunkDecorator> CODEC = Codec.unit(${name}TrunkDecorator::new);
+    public static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
-        static {
-            codec = Codec.unit(() -> INSTANCE);
-            tdt = new TreeDecoratorType<>(codec);
-            tdt.setRegistryName("${registryname}_tree_trunk_decorator");
-            ForgeRegistries.TREE_DECORATOR_TYPES.register(tdt);
-        }
+    static {
+        DECORATOR_TYPE.setRegistryName("${modid}:${registryname}_tree_trunk_decorator");
+        ForgeRegistries.TREE_DECORATOR_TYPES.register(DECORATOR_TYPE);
+    }
 
-        @Override protected TreeDecoratorType func_230380_a_() {
-            return tdt;
-        }
+    @Override
+    protected TreeDecoratorType<?> func_230380_a_() {
+        return DECORATOR_TYPE;
+    }
 
-        @Override protected void func_227424_a_(IWorldWriter ww, BlockPos bp, BooleanProperty bpr, Set<BlockPos> sbc, MutableBoundingBox mbb) {
-                this.func_227423_a_(ww, bp, ${mappedBlockToBlockStateCode(data.treeVines)}, sbc, mbb);
-     	}
+	@Override protected void func_227424_a_(IWorldWriter ww, BlockPos bp, BooleanProperty bpr, Set<BlockPos> sbc, MutableBoundingBox mbb) {
+		func_227423_a_(ww, bp, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, bpr), sbc, mbb);
+	}
+
+    @SuppressWarnings("deprecation") private static BlockState oriented(BlockState blockstate, BooleanProperty bpr) {
+        return switch (bpr) {
+            case VineBlock.SOUTH -> blockstate.rotate(Rotation.CLOCKWISE_180);
+            case VineBlock.EAST -> blockstate.rotate(Rotation.CLOCKWISE_90);
+            case VineBlock.WEST -> blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
+            default -> blockstate;
+        };
+    }
 }
 <#-- @formatter:on -->

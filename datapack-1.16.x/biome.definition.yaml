@@ -6,13 +6,8 @@ templates:
     writer: json
     name: "@MODDATAROOT/worldgen/configured_surface_builder/@registryname.json"
 
+field_exclusions: [name, coverageEstimate, customTrees, minHeight, treeStem, treeBranch, treeVines, treeFruits, spawnBiome, spawnInCaves, spawnBiomeNether]
+
 localizationkeys:
   - key: biome.@modid.@registryname
     mapto: name
-
-field_inclusions: [name, rainingPossibility, baseHeight, heightVariation, temperature, spawnStronghold,
-                  spawnMineshaft, spawnMineshaftMesa, spawnPillagerOutpost, spawnWoodlandMansion, spawnJungleTemple,
-                  spawnDesertPyramid, spawnSwampHut, spawnIgloo, spawnOceanMonument, spawnShipwreck, spawnShipwreckBeached,
-                  spawnBuriedTreasure, spawnNetherBridge, spawnNetherFossil, spawnBastionRemnant, spawnEndCity, spawnRuinedPortal,
-                  villageType, oceanRuinType, spawnEntries, groundBlock, undergroundBlock, underwaterBlock,
-                  airColor, grassColor, foliageColor, waterColor, waterFogColor, defaultFeatures]

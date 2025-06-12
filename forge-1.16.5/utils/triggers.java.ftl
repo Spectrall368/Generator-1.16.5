@@ -1,14 +1,11 @@
 <#include "procedures.java.ftl">
 
 <#-- Item-related triggers -->
-<#macro CreativeTabs tabs="">
-<#assign CustomTabs = JavaModName + "Tabs">
+<#macro CreativeTabs tabs="[]">
 	<#if tabs == "[]">
-	null
-	<#elseif tabs?contains(CustomTabs)>
-	${CustomTabs}${tabs?keep_after_last(CustomTabs)?replace("]", "")}
+		null
 	<#else>
-	ItemGroup${tabs?keep_after_last("ItemGroup")?replace("]", "")}
+		${tabs[tabs?size - 1]}
 	</#if>
 </#macro>
 

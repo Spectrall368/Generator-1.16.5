@@ -1,7 +1,7 @@
 name: Forge for @minecraft (@buildfileversion)
 status: deprecated
 buildfileversion: 36.2.42
-subversion: 1.4 # force setup re-run to update build script for MCREATOR_JVM_OPTIONS
+subversion: 1.5 # force setup re-run to update build script for MCREATOR_JVM_OPTIONS
 
 import:
   - datapack-1.16.x
@@ -21,6 +21,7 @@ import_formatter:
     - java.util
     - net.minecraft
   priority_imports:
+    Material: net.minecraft.block.material
     Nullable: javax.annotation
     Codec: com.mojang.serialization
     SoundEvent: net.minecraft.util
@@ -73,6 +74,7 @@ base_templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameTabs.java"
     condition: hasItemsInTabs()
   - template: modbase/accesstransformer.cfg.ftl
+    usercodeComment: "#"
     writer: file
     name: "@RESROOT/META-INF/accesstransformer.cfg"
     condition_any:
@@ -85,11 +87,6 @@ sources_setup_tasks:
     cleanupBeforeCopy: true
     template: javamodel.java.ftl
     to: "@SRCROOT/@BASEPACKAGEPATH/client/model"
-  - task: copy_model_animations
-    type: JAVA_viatemplate
-    cleanupBeforeCopy: true
-    template: javaanimation.java.ftl
-    to: "@SRCROOT/@BASEPACKAGEPATH/client/model/animations"
 
 tags:
   template: tags.json.ftl # loaded from datapack generator

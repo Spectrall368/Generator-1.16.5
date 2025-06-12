@@ -76,7 +76,6 @@ Smoker: SmokerScreen
 Stonecutter: StonecutterScreen
 AccessibilityOptions: AccessibilityScreen
 Win: WinGameScreen
-EffectRenderingInventory: DisplayEffectsScreen
 SocialInteractions: SocialInteractionsScreen
 Realms: RealmsScreen
 AbstractCommandBlock: AbstractCommandBlockScreen

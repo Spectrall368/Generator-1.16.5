@@ -46,6 +46,7 @@ public class ${name}Command {
 			</#if>
 		}
 
+	${extra_templates_code}
 }
 <#macro commandRegistrationCode>
 	event.getDispatcher().register(Commands.literal("${data.commandName}")

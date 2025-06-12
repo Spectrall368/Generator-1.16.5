@@ -92,7 +92,7 @@ package ${package}.client.particle;
 		</#if>
 	}
 
-	<#if data.renderType == "LIT">
+	<#if data.emissiveRendering>
 	@Override public int getBrightnessForRender(float partialTick) {
 		return 15728880;
 	}

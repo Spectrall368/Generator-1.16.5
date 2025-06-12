@@ -1,2 +1,3 @@
 <#include "mcelements.ftl">
-(ItemTags.getCollection().getTagByID(${toResourceLocation(input$tag)}).getRandomElement(new Random()).orElseGet(() -> Items.AIR))
+<@addTemplate file="utils/random/item_random_from_tag.java.ftl"/>
+(getRandomItem(${toResourceLocation(input$tag)}))
