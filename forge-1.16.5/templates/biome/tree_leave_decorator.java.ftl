@@ -33,7 +33,7 @@
 package ${package}.world.features.treedecorators;
 
 public class ${name}LeaveDecorator extends LeaveVineTreeDecorator {
-    public static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator;
+    public static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator();
     private static final Codec<${name}LeaveDecorator> CODEC = Codec.unit(() -> INSTANCE);
     private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 

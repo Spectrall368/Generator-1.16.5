@@ -33,7 +33,7 @@
 package ${package}.world.features.treedecorators;
 
 public class ${name}TrunkDecorator extends TrunkVineTreeDecorator {
-    public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator;
+    public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
     private static final Codec<${name}TrunkDecorator> CODEC = Codec.unit(() -> INSTANCE);
     private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 

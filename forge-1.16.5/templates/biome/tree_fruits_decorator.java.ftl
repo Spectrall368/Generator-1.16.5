@@ -33,7 +33,7 @@
 package ${package}.world.features.treedecorators;
 
 public class ${name}FruitDecorator extends CocoaTreeDecorator {
-    public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator;
+    public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator();
     private static final Codec<${name}FruitDecorator> CODEC = Codec.unit(() -> INSTANCE);
     private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
