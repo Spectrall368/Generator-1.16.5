@@ -90,6 +90,22 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 		}
 		return entity == null ? null : new EntityRayTraceResult(entity);
 	}
+
+	private Direction determineHitDirection(AxisAlignedBB entityBox, AxisAlignedBB blockBox) {
+		double dx = entityBox.getCenter().x - blockBox.getCenter().x;
+		double dy = entityBox.getCenter().y - blockBox.getCenter().y;
+		double dz = entityBox.getCenter().z - blockBox.getCenter().z;
+		double absDx = Math.abs(dx);
+		double absDy = Math.abs(dy);
+		double absDz = Math.abs(dz);
+		if (absDy > absDx && absDy > absDz) {
+			return dy > 0 ? Direction.DOWN : Direction.UP;
+		} else if (absDx > absDz) {
+			return dx > 0 ? Direction.WEST : Direction.EAST;
+		} else {
+			return dz > 0 ? Direction.NORTH : Direction.SOUTH;
+		}
+	}
 	</#if>
 
 	<#if hasProcedure(data.onHitsPlayer)>
@@ -138,6 +154,21 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 
 	@Override public void tick() {
 		super.tick();
+
+		<#if (data.modelWidth > 0.5) || (data.modelHeight > 0.5)>
+		if (!this.getNoClip()) {
+			for (VoxelShape collision : this.world.getCollisionShapes(this, this.getBoundingBox())) {
+				for (AxisAlignedBB blockAABB : collision.toBoundingBoxList()) {
+					if (this.getBoundingBox().intersects(blockAABB)) {
+						BlockPos blockPos = new BlockPos((int) blockAABB.minX, (int) blockAABB.minY, (int) blockAABB.minZ);
+						Vector3d intersectionPoint = new Vector3d((blockAABB.minX + blockAABB.maxX) / 2, (blockAABB.minY + blockAABB.maxY) / 2, (blockAABB.minZ + blockAABB.maxZ) / 2);
+						Direction hitDirection = determineHitDirection(this.getBoundingBox(), blockAABB);
+						this.func_230299_a_(new BlockRayTraceResult(intersectionPoint, hitDirection, blockPos, false));
+					}
+				}
+			}
+		}
+		</#if>
 
 		<#if hasProcedure(data.onFlyingTick)>
 			<@procedureCode data.onFlyingTick, {
