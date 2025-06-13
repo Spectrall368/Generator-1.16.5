@@ -173,7 +173,7 @@ public class ${name}Block extends
 		<#if data.blockBase?has_content && data.blockBase == "Stairs">
 			super(() -> Blocks.AIR.getDefaultState(), <@blockProperties/>);
 		<#elseif data.blockBase?has_content && data.blockBase == "PressurePlate">
-		    <#if data.material.getUnmappedValue() == "WOOD">
+		    <#if (data.material.getUnmappedValue() == "WOOD") || (data.material.getUnmappedValue() == "NETHER_WOOD")>
 		        super(Sensitivity.EVERYTHING, <@blockProperties/>);
 		    <#else>
 		        super(Sensitivity.MOBS, <@blockProperties/>);
