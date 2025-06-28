@@ -76,6 +76,12 @@ templates:
     condition: "plantType %= double"
     name: "@MODASSETSROOT/blockstates/@registryname.json"
 
+global_templates:
+  - template: elementinits/features.java.ftl
+    writer: java
+    condition: '${w.getGElementsOfType("plant")?filter(e -> e.generateFeature )?size != 0}'
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameFeatures.java"
+
 tags:
   - tag: BLOCKS:minecraft:saplings
     condition: "plantType %= sapling"

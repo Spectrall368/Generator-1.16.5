@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2025, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -42,13 +42,7 @@ public class ${name}MobEffect extends Effect {
 		this.addAttributesModifier(${modifier.attribute}, "${w.getUUID(data.getModElement().getRegistryName() + "_" + modifier?index)}", ${modifier.amount},
 				AttributeModifier.Operation.${getAttributeOperation(modifier.operation)});
 		</#list>
-	}
-
-	<#if data.isInstant>
-		@Override public boolean isInstant() {
-			return true;
 		}
-	</#if>
 
 	<#if data.isCuredbyHoney>
 	@Override public List<ItemStack> getCurativeItems() {
@@ -60,57 +54,49 @@ public class ${name}MobEffect extends Effect {
 	}
 	</#if>
 
-	<#if hasProcedure(data.onStarted)>
+	<#if data.isInstant>
+		@Override public boolean isInstant() {
+			return true;
+		}
+	</#if>
+
+	<#if hasProcedure(data.onStarted) || (data.onAddedSound?has_content && data.onAddedSound.getMappedValue()?has_content)>
 		<#if data.isInstant>
 			@Override public void affectEntity(Entity source, Entity indirectSource, LivingEntity entity, int amplifier, double health) {
-				<@procedureCode data.onStarted, {
-					"x": "entity.getPosX()",
-					"y": "entity.getPosY()",
-					"z": "entity.getPosZ()",
-					"world": "entity.world",
-					"entity": "entity",
-					"amplifier": "amplifier"
-				}/>
+                <@startedContext/>
 			}
 		<#else>
 			@Override public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
 				super.applyAttributesModifiersToEntity(entity, attributeMap, amplifier);
-				<@procedureCode data.onStarted, {
-					"x": "entity.getPosX()",
-					"y": "entity.getPosY()",
-					"z": "entity.getPosZ()",
-					"world": "entity.world",
-					"entity": "entity",
-					"amplifier": "amplifier"
-				}/>
+                <@startedContext/>
 			}
 		</#if>
 	</#if>
 
 	<#if hasProcedure(data.onActiveTick)>
 		@Override public void performEffect(LivingEntity entity, int amplifier) {
-			<@procedureCode data.onActiveTick, {
-				"x": "entity.getPosX()",
-				"y": "entity.getPosY()",
-				"z": "entity.getPosZ()",
-				"world": "entity.world",
-				"entity": "entity",
-				"amplifier": "amplifier"
-			}/>
+		<@procedureCode data.onActiveTick, {
+			"x": "entity.getPosX()",
+			"y": "entity.getPosY()",
+			"z": "entity.getPosZ()",
+			"world": "entity.world",
+			"entity": "entity",
+			"amplifier": "amplifier"
+		}/>
 		}
 	</#if>
 
 	<#if hasProcedure(data.onExpired)>
 		@Override public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
 			super.removeAttributesModifiersFromEntity(entity, attributeMap, amplifier);
-			<@procedureCode data.onExpired, {
-				"x": "entity.getPosX()",
-				"y": "entity.getPosY()",
-				"z": "entity.getPosZ()",
-				"world": "entity.world",
-				"entity": "entity",
-				"amplifier": "amplifier"
-			}/>
+		<@procedureCode data.onExpired, {
+			"x": "entity.getPosX()",
+			"y": "entity.getPosY()",
+			"z": "entity.getPosZ()",
+			"world": "entity.world",
+			"entity": "entity",
+			"amplifier": "amplifier"
+		}/>
 		}
 	</#if>
 
@@ -127,12 +113,12 @@ public class ${name}MobEffect extends Effect {
 					@Override public boolean shouldRender(EffectInstance effect) {
 						return false;
 					}
-		
+
 					@Override public boolean shouldRenderInvText(EffectInstance effect) {
 						return false;
 					}
 				</#if>
-	
+
 				<#if !data.renderStatusInHUD>
 					@Override public boolean shouldRenderHUD(EffectInstance effect) {
 						return false;
@@ -151,3 +137,18 @@ public class ${name}MobEffect extends Effect {
 		<#return "MULTIPLY_TOTAL">
 	</#if>
 </#function>
+<#macro startedContext>
+<#if data.onAddedSound?has_content && data.onAddedSound.getMappedValue()?has_content>
+    entity.world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.onAddedSound}")), entity.getSoundCategory(), 1.0F, 1.0F);
+</#if>
+<#if hasProcedure(data.onStarted)>
+    <@procedureCode data.onStarted, {
+        "x": "entity.getPosX()",
+        "y": "entity.getPosY()",
+        "z": "entity.getPosZ()",
+        "world": "entity.world",
+        "entity": "entity",
+        "amplifier": "amplifier"
+    }/>
+</#if>
+</#macro>

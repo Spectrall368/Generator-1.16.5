@@ -78,6 +78,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 	</#if>
 
 	@Override public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 		super.render(ms, mouseX, mouseY, partialTicks);
 
 		<#list data.getComponentsOfType("TextField") as component>
@@ -243,7 +244,12 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 				${component.width}, ${component.height},
 				new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}"),
 				<@buttonOnClick component/>
-			)<@buttonDisplayCondition component/>;
+				)<#if component.isUndecorated>{
+                    @Override public void renderButton(int mouseX, int mouseY, float partialTick) {
+                        String text = this.isHovered() ? (TextFormatting.UNDERLINE + ${component.getName()}.getMessage()) : ${component.getName()}.getMessage();
+                        drawString(Minecraft.getInstance().fontRenderer, text, ${component.getName()}.x, ${component.getName()}.y, 16777215 | MathHelper.ceil(this.alpha * 255.0F) << 24);
+                    }
+				}</#if><@buttonDisplayCondition component/>;
 
 			guistate.put("button:${component.getName()}", ${component.getName()});
 			this.addButton(${component.getName()});
