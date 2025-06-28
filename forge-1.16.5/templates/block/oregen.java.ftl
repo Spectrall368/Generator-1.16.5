@@ -133,7 +133,7 @@ public class ${name}Feature extends OreFeature {
 	}
     </#if>
 
-	public static void addFeatureToBiomes(BiomeLoadingEvent event) {
+	public static void addToBiomes(BiomeLoadingEvent event) {
             <#if data.restrictionBiomes?has_content && !cond>
                 boolean biomeCriteria = false;
                 <#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>

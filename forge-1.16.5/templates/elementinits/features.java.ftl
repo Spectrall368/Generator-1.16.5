@@ -44,9 +44,9 @@ package ${package}.init;
 		REGISTRY.register("${feature.getModElement().getRegistryName()}", () -> new ${feature.getModElement().getName()}Feature());
 	</#list>
 
-	@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
+	@SubscribeEvent public static void addToBiomes(BiomeLoadingEvent event) {
 	<#list featuresList as feature>
-		${feature.getModElement().getName()}Feature.init();
+		${feature.getModElement().getName()}Feature.addToBiomes(event);
 	</#list>
 	}
 

@@ -51,7 +51,7 @@ import net.minecraft.network.datasync.DataParameter;
 public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implements IRangedAttackMob</#if> {
 
 	<#if data.spawnThisMob>
-	@SubscribeEvent public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
+	@SubscribeEvent public static void addToBiomes(BiomeLoadingEvent event) {
             <#if data.restrictionBiomes?has_content>
                 boolean biomeCriteria = false;
                 <#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
