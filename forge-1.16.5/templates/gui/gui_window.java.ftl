@@ -245,9 +245,9 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 				new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}"),
 				<@buttonOnClick component/>
 				)<#if component.isUndecorated>{
-                    @Override public void renderButton(int mouseX, int mouseY, float partialTick) {
+                    @Override public void renderButton(MatrixStack ms, int mouseX, int mouseY, float partialTick) {
                         String text = this.isHovered() ? (TextFormatting.UNDERLINE + ${component.getName()}.getMessage()) : ${component.getName()}.getMessage();
-                        drawString(Minecraft.getInstance().fontRenderer, text, ${component.getName()}.x, ${component.getName()}.y, 16777215 | MathHelper.ceil(this.alpha * 255.0F) << 24);
+                        drawString(ms, Minecraft.getInstance().fontRenderer, text, ${component.getName()}.x, ${component.getName()}.y);
                     }
 				}</#if><@buttonDisplayCondition component/>;
 

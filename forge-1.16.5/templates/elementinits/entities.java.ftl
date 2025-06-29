@@ -34,10 +34,13 @@
  */
 package ${package}.init;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}Entities {
-	public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, ${JavaModName}.MODID);
+<#assign hasLivingEntities = w.hasElementsOfType("livingentity")>
 
-	<#assign hasLivingEntities = false>
+<#if hasLivingEntities>
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+</#if>
+public class ${JavaModName}Entities {
+	public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, ${JavaModName}.MODID);
 
 	<#list entities as entity>
 		<#if entity.getModElement().getTypeString() == "projectile">
@@ -46,7 +49,6 @@ package ${package}.init;
 					create(${entity.getModElement().getName()}Entity::new, EntityClassification.MISC).setCustomClientFactory(${entity.getModElement().getName()}Entity::new)
 						.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).size(${entity.modelWidth}f, ${entity.modelHeight}f));
 		<#else>
-			<#assign hasLivingEntities = true>
 			public static final RegistryObject<EntityType<${entity.getModElement().getName()}Entity>> ${entity.getModElement().getRegistryNameUpper()} =
 				register("${entity.getModElement().getRegistryName()}", EntityType.Builder.<${entity.getModElement().getName()}Entity>
 						create(${entity.getModElement().getName()}Entity::new, ${generator.map(entity.mobSpawningType, "mobspawntypes")})

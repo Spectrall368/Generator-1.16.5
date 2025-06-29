@@ -44,27 +44,27 @@ package ${package}.init;
 		REGISTRY.register("${feature.getModElement().getRegistryName()}", () -> new ${feature.getModElement().getName()}Feature());
 	</#list>
 
-	@SubscribeEvent public static void addToBiomes(BiomeLoadingEvent event) {
-	<#list featuresList as feature>
-		${feature.getModElement().getName()}Feature.addToBiomes(event);
-	</#list>
-	}
-
-	@SubscribeEvent public static void init(RegistryEvent.Register<Feature<?>> event) {
-	<#list featuresList as feature>
-		register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature.configuredFeature());
-	</#list>
-	<#list w.getGElementsOfType("block")?filter(e -> e.generateFeature) as feature>
-	${feature.getModElement().getName()}Feature.CUSTOM_MATCH = registerRule("${feature.getModElement().getRegistryName()}_match", ${feature.getModElement().getName()}Feature.${feature.getModElement().getName()}FeatureRuleTest.CODEC);
-	</#list>
-	}
-
 	private static <FC extends IFeatureConfig> void register(String registryname, ConfiguredFeature<FC, ?> configuredFeature) {
 		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:" + registryname), configuredFeature);
 	}
 
 	private static <P extends RuleTest> RuleTestType<P> registerRule(String registryname,  Codec<P> codec) {
 		Registry.register(Registry.RULE_TEST,  new ResourceLocation("${modid}:" + registryname), () -> codec);
+	}
+
+	@SubscribeEvent public static void addToBiomes(BiomeLoadingEvent event) {
+        <#list featuresList as feature>
+            ${feature.getModElement().getName()}Feature.addToBiomes(event);
+        </#list>
+	}
+
+	@SubscribeEvent public static void init(RegistryEvent.Register<Feature<?>> event) {
+        <#list featuresList as feature>
+            register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature.configuredFeature());
+        </#list>
+        <#list w.getGElementsOfType("block")?filter(e -> e.generateFeature) as feature>
+        ${feature.getModElement().getName()}Feature.CUSTOM_MATCH = registerRule("${feature.getModElement().getRegistryName()}_match", ${feature.getModElement().getName()}Feature.${feature.getModElement().getName()}FeatureRuleTest.CODEC);
+        </#list>
 	}
 }
 <#-- @formatter:on -->
