@@ -59,16 +59,15 @@ package ${package}.world.features.ores;
 
 public class ${name}Feature extends OreFeature {
     private static final ${name}Feature INSTANCE = new ${name}Feature();
-  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = feature.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
-    <#if data.generationShape == "UNIFORM">
-        .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(${minGenerateHeight}, ${minGenerateHeight}, <#if maxGenerateHeight != minGenerateHeight><#else> 1 + </#if>${maxGenerateHeight})))
+  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = ${name}Feature.INSTANCE.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
+    .withPlacement(Placement.<#if data.generationShape == "UNIFORM">
+        RANGE.configure(new TopSolidRangeConfig(${minGenerateHeight}, ${minGenerateHeight}, ${maxGenerateHeight} + 1))
 	<#else>
         <#assign averageHeight = (maxGenerateHeight + minGenerateHeight) / 2>
         <#assign averageHeight = averageHeight?int>
-		.withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(${averageHeight}, ${averageHeight})))
-	</#if>
+		DEPTH_AVERAGE.configure(new DepthAverageConfig(${averageHeight}, ${averageHeight}))
+	</#if>)
 	.square().func_242731_b(${data.frequencyPerChunks});
-	public static IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = null;
 
 	public ${name}Feature() {
 		super(OreFeatureConfig.CODEC);
@@ -78,27 +77,17 @@ public class ${name}Feature extends OreFeature {
 		return CONFIGURED_FEATURE;
 	}
 
-	public static class ${name}FeatureRuleTest extends RuleTest {
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class ${name}FeatureRuleTest extends RuleTest {
 		public static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
 	  	public static final Codec<${name}FeatureRuleTest> CODEC = Codec.unit(() -> INSTANCE);
+		private static final IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = () -> CODEC;
 
-	  	public boolean test(BlockState blockAt, Random random) {
-				boolean blockCriteria = false;
-				<#list data.blocksToReplace as replacementBlock>
-			        <#if replacementBlock.getUnmappedValue().startsWith("TAG:")>
-				    	if (BlockTags.getCollection().getOrCreate(new ResourceLocation("${replacementBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":").replace("stone_ore_replaceables", "minecraft:overworld_carver_replaceables")}")).contains(blockAt.getBlock()))
-				    	<#if replacementBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") == "stone_ore_replaceables">
-				    	    blockCriteria = true;
-				    	if (blockAt.getBlock() == Blocks.STONE || blockAt.getBlock() == Blocks.GRANITE || blockAt.getBlock() == Blocks.DIORITE || blockAt.getBlock() == Blocks.ANDESITE || blockAt.getBlock() == Blocks.NETHERRACK)
-                        </#if>
-					<#elseif replacementBlock.getMappedValue(1).startsWith("#")>
-					    if (BlockTags.getCollection().getOrCreate(new ResourceLocation("${replacementBlock.getMappedValue(1).replace("#", "")}")).contains(blockAt.getBlock()))
-					<#else>
-						if(blockAt == ${mappedBlockToBlockStateCode(replacementBlock)})
-					</#if>
-						blockCriteria = true;
-				</#list>
-				return blockCriteria;
+		@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
+			Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), CUSTOM_MATCH);
+		}
+
+	  	public boolean test(BlockState blockstate, Random random) {
+		    return ${containsAnyOfBlocks(data.blocksToReplace "blockstate")?replace("stone_ore_replaceables", "base_stone_overworld")};
 	  	}
 
 	  	protected IRuleTestType<?> getType() {
@@ -108,7 +97,6 @@ public class ${name}Feature extends OreFeature {
 
     <#if data.restrictionBiomes?has_content && cond>
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, OreFeatureConfig config) {
-	    <#if data.restrictionBiomes?has_content && cond>
 		    RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
 			boolean dimensionCriteria = false;
 			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>

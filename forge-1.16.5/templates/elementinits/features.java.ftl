@@ -35,7 +35,7 @@
 package ${package}.init;
 <#assign featuresList = w.getGElementsOfType("block")?filter(e -> e.generateFeature) + w.getGElementsOfType("plant")?filter(e -> e.generateFeature) + w.getGElementsOfType("feature")>
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}Features {
+@Mod.EventBusSubscriber public class ${JavaModName}Features {
 
 	public static final DeferredRegister<Feature<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.FEATURES, ${JavaModName}.MODID);
 
@@ -48,10 +48,6 @@ package ${package}.init;
 		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:" + registryname), configuredFeature);
 	}
 
-	private static <P extends RuleTest> RuleTestType<P> registerRule(String registryname,  Codec<P> codec) {
-		Registry.register(Registry.RULE_TEST,  new ResourceLocation("${modid}:" + registryname), () -> codec);
-	}
-
 	@SubscribeEvent public static void addToBiomes(BiomeLoadingEvent event) {
         <#list featuresList as feature>
             ${feature.getModElement().getName()}Feature.addToBiomes(event);
@@ -61,9 +57,6 @@ package ${package}.init;
 	@SubscribeEvent public static void init(RegistryEvent.Register<Feature<?>> event) {
         <#list featuresList as feature>
             register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature.configuredFeature());
-        </#list>
-        <#list w.getGElementsOfType("block")?filter(e -> e.generateFeature) as feature>
-        ${feature.getModElement().getName()}Feature.CUSTOM_MATCH = registerRule("${feature.getModElement().getRegistryName()}_match", ${feature.getModElement().getName()}Feature.${feature.getModElement().getName()}FeatureRuleTest.CODEC);
         </#list>
 	}
 }

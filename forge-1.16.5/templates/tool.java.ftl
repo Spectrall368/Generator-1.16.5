@@ -186,17 +186,7 @@ public class ${name}Item extends Item {
 	}
 
 	@Override public float getDestroySpeed(ItemStack itemstack, BlockState blockstate) {
-		<#list data.blocksAffected as replacementBlock>
-			<#if replacementBlock.getUnmappedValue().startsWith("TAG:")>
-			if (BlockTags.getCollection().getTagByID(new ResourceLocation("${replacementBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":").replace("stone_ore_replaceables", "minecraft:overworld_carver_replaceables")}")).contains(blockAt.getBlock()))
-			<#elseif replacementBlock.getMappedValue(1).startsWith("#")>
-			if (BlockTags.getCollection().getTagByID(new ResourceLocation("${replacementBlock.getMappedValue(1).replace("#", "")}")).contains(blockAt.getBlock()))
-			<#else>
-			if(blockAt == ${mappedBlockToBlockStateCode(replacementBlock)})
-			</#if>
-				return ${data.efficiency}f;
-		</#list>
-		return 1;
+		return <#if data.blocksAffected?has_content>${containsAnyOfBlocks(data.blocksAffected "blockstate")?replace("stone_ore_replaceables", "base_stone_overworld")} ? ${data.efficiency}f : </#if>1;
 	}
 
 	<@onBlockDestroyedWith data.onBlockDestroyedWithTool, true/>

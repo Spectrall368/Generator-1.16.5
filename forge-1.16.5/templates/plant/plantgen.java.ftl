@@ -45,9 +45,9 @@ package ${package}.world.features.plants;
 
 public class ${name}Feature extends <#if data.plantType == "normal" && data.generationType == "Flower">DefaultFlowers<#else>RandomPatch</#if>Feature {
     private static final ${name}Feature INSTANCE = new ${name}Feature();
-	private static final ConfiguredFeature<?, ?> CONFIGURED_FEATURE = FEATURE.configured(
-        new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().defaultBlockState()),
-            <#if data.plantType =D= "double">DoublePlantBlockPlacer.PLACER
+	private static final ConfiguredFeature<?, ?> CONFIGURED_FEATURE = ${name}Feature.INSTANCE.withConfiguration(
+        new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
+            <#if data.plantType == "double">DoublePlantBlockPlacer.PLACER
             <#elseif data.plantType == "normal">SimpleBlockPlacer.PLACER
             <#else>new ColumnBlockPlacer(2, 2)</#if>)
             <#if data.plantType == "growapable">.xspread(4).yspread(0).zspread(4).func_227317_b_()</#if>
@@ -65,6 +65,10 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 
 	public ${name}Feature() {
 		super(BlockClusterFeatureConfig.field_236587_a_);
+	}
+
+	public static ConfiguredFeature<?, ?> configuredFeature() {
+		return CONFIGURED_FEATURE;
 	}
 
 	<#if data.restrictionBiomes?has_content && cond>

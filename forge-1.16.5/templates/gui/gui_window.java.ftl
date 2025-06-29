@@ -78,7 +78,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 	</#if>
 
 	@Override public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground();
+		this.renderBackground(ms);
 		super.render(ms, mouseX, mouseY, partialTicks);
 
 		<#list data.getComponentsOfType("TextField") as component>
@@ -246,8 +246,8 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> {
 				<@buttonOnClick component/>
 				)<#if component.isUndecorated>{
                     @Override public void renderButton(MatrixStack ms, int mouseX, int mouseY, float partialTick) {
-                        String text = this.isHovered() ? (TextFormatting.UNDERLINE + ${component.getName()}.getMessage()) : ${component.getName()}.getMessage();
-                        drawString(ms, Minecraft.getInstance().fontRenderer, text, ${component.getName()}.x, ${component.getName()}.y);
+                        String text = this.isHovered() ? (TextFormatting.UNDERLINE + ${component.getName()}.getMessage().getString()) : ${component.getName()}.getMessage().getString();
+                        drawString(ms, Minecraft.getInstance().fontRenderer, text, ${component.getName()}.x, ${component.getName()}.y, 16777215 | MathHelper.ceil(this.alpha * 255.0F) << 24);
                     }
 				}</#if><@buttonDisplayCondition component/>;
 

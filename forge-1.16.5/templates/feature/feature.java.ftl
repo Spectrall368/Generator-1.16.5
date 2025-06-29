@@ -43,10 +43,32 @@ package ${package}.world.features;
 		</#if>
 	</#list>
 </#if>
+<#assign isRulePresent = (configuration == "OreFeatureConfig")>
 <#compress>
 public class ${name}Feature extends ${generator.map(featuretype, "features")} {
     private static final ${name}Feature INSTANCE = new ${name}Feature();
-  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)}<#else>${placementcode?remove_ending(",")}</#if></#if>;
+    private static final Random random = new Random();
+  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = ${name}Feature.INSTANCE.withConfiguration(${configurationcode?keep_before_last(".withCondition")?replace("random.", name + "Feature.random.")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)?replace("random.", name + "Feature.random.")}<#else>${placementcode?remove_ending(",")?replace("random.", name + "Feature.random.")}</#if></#if>;
+
+	<#if isRulePresent>
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class ${name}FeatureRuleTest extends RuleTest {
+		public static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
+	  	public static final Codec<${name}FeatureRuleTest> CODEC = Codec.unit(() -> INSTANCE);
+		private static final IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = () -> CODEC;
+
+		@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
+			Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), CUSTOM_MATCH);
+		}
+
+	  	public boolean test(BlockState blockstate, Random random) {
+		    return false;
+	  	}
+
+	  	protected IRuleTestType<?> getType() {
+	    		return CUSTOM_MATCH;
+	  	}
+	}
+	</#if>
 
 	public ${name}Feature() {
 		super(${generator.map(featuretype, "features", 2)});
@@ -81,13 +103,13 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	    </#if>
 
 		<#if placementcode != "" && data.hasPlacedFeature()>
-		<#list extractParts(placementcode) as part>
-		    ${part}
-		</#list>
+            <#list extractParts(placementcode) as part>
+                ${part?replace("random.", name + "Feature.random.")}
+            </#list>
 		</#if>
 
 		<#if featuretype == "feature_random_patch_simple">
-		if(!(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")}))
+		if(!(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")?replace("random.", name + "Feature.random.")}))
 			return false;
 		</#if>
 

@@ -64,6 +64,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 
                 if (!biomeCriteria)
                     return;
+            </#if>
 
 		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), ${data.spawningProbability},
 			${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
