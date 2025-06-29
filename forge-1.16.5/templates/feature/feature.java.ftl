@@ -33,72 +33,52 @@
 package ${package}.world.features;
 
 <#assign configuration = generator.map(featuretype, "features", 1)>
-<#assign isRulePresent = (configuration == "OreFeatureConfig")>
 <#assign cond = false>
 <#if data.restrictionBiomes?has_content>
 	<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-		<#if restrictionBiome?contains(":is_")>
+	    <#assign biomeName = fixNamespace(restrictionBiome)>
+        <#if biomeName == "#minecraft:is_overworld" || biomeName == "#minecraft:is_nether" || biomeName == "#minecraft:is_end">
 			<#assign cond = true>
 			 <#break>
 		</#if>
-		<#break>
 	</#list>
 </#if>
 <#compress>
-@Mod.EventBusSubscriber public class ${name}Feature extends ${generator.map(featuretype, "features")} {
-	private static Feature<${configuration}> feature = null;
-	private static ConfiguredFeature<?, ?> configuredFeature = null;
-	<#if isRulePresent>
-	private static IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = null;
+public class ${name}Feature extends ${generator.map(featuretype, "features")} {
+    private static final ${name}Feature INSTANCE = new ${name}Feature();
+  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)}<#else>${placementcode?remove_ending(",")}</#if></#if>;
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class ${name}FeatureRuleTest extends RuleTest {
-		static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
-	  	static final com.mojang.serialization.Codec<${name}FeatureRuleTest> codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
-
-	  	public boolean test(BlockState blockAt, Random random) {
-	    		boolean blockCriteria = false;
-	    		return blockCriteria;
-	  	}
-
-	  	protected IRuleTestType<?> getType() {
-	    		return CUSTOM_MATCH;
-	  	}
-	}
-	</#if>
-	
 	public ${name}Feature() {
 		super(${generator.map(featuretype, "features", 2)});
 	}
 
-	public ConfiguredFeature<?, ?> configuredFeature() {
-	    return configuredFeature;
+	public static ConfiguredFeature<?, ?> configuredFeature() {
+		return CONFIGURED_FEATURE;
 	}
 
-	<#if configuration != "BaseTreeFeatureConfig">
+    <#if configuration != "BaseTreeFeatureConfig">
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
-		BlockPos placePos = pos;
-		<#if data.restrictionBiomes?has_content && cond>
-			RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
+	    BlockPos placePos = pos;
+	    <#if data.restrictionBiomes?has_content && cond>
+		    RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
 			boolean dimensionCriteria = false;
-					<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-					<#if restrictionBiome == "#minecraft:is_overworld">
-						if(dimensionType == World.OVERWORLD)
-							dimensionCriteria = true;
-					<#elseif restrictionBiome == "#minecraft:is_nether">
-						if(dimensionType == World.THE_NETHER)
-							dimensionCriteria = true;
-					<#elseif restrictionBiome == "#minecraft:is_end">
-						if(dimensionType == World.THE_END)
-							dimensionCriteria = true;
-					<#else>
-						if(dimensionType == RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${restrictionBiome?keep_after("is_")}")))
-							dimensionCriteria = true;
-					</#if>
-			</#list>
+			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
+	            <#assign biomeName = fixNamespace(restrictionBiome)>
+				<#if biomeName == "#minecraft:is_overworld">
+				    if(dimensionType == World.OVERWORLD)
+					    dimensionCriteria = true;
+				<#elseif biomeName == "#minecraft:is_nether">
+				    if(dimensionType == World.THE_NETHER)
+						dimensionCriteria = true;
+				<#else>
+					if(dimensionType == World.THE_END)
+			    		dimensionCriteria = true;
+				</#if>
+	    	</#list>
 
 			if(!dimensionCriteria)
-				return false;
-		</#if>
+			    return false;
+	    </#if>
 
 		<#if placementcode != "" && data.hasPlacedFeature()>
 		<#list extractParts(placementcode) as part>
@@ -137,36 +117,31 @@ package ${package}.world.features;
 	}
 	</#if>
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) private static class ${name}FeatureRegisterHandler {
-		@SubscribeEvent public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
-			Random random = new Random();
-			feature = new ${name}Feature();
-			configuredFeature = feature.withConfiguration(${configurationcode?keep_before_last(".withCondition")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)}<#else>${placementcode?remove_ending(",")}</#if></#if>;
+	public static void addToBiomes(BiomeLoadingEvent event) {
+	    <#if data.hasPlacedFeature()>
+            <#if data.restrictionBiomes?has_content && !cond>
+                boolean biomeCriteria = false;
+                <#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
+                    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
+                    <#list expandedBiomes as expandedBiome>
+                        if (event.getName().equals(new ResourceLocation("${expandedBiome}")))
+                            biomeCriteria = true;
+                    </#list>
+                </#list>
 
-			event.getRegistry().register(feature.setRegistryName("${registryname}"));
-			Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), configuredFeature);
-		}
-	}
+                if (!biomeCriteria)
+                    return;
+            </#if>
 
-	@SubscribeEvent public static void addFeatureToBiomes(BiomeLoadingEvent event) {
-	<#if data.restrictionBiomes?has_content && !cond>
-		boolean biomeCriteria = false;
-		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-			if (new ResourceLocation("${restrictionBiome}").equals(event.getName()))
-				biomeCriteria = true;
-		</#list>
-		if (!biomeCriteria)
-			return;
-	</#if>
-
-		event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> configuredFeature);
+			event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> ${name}Feature.configuredFeature());
+		</#if>
 	}
 }</#compress>
 <#-- @formatter:on -->
 <#function extractParts str>
     <#assign parts = []>
     <#assign remainingStr = str>
-    
+
     <#list 1..str?length as i>
         <#assign startIndex = remainingStr?index_of('£')>
         <#if startIndex == -1>
@@ -185,11 +160,11 @@ package ${package}.world.features;
 </#function>
 <#function removeParts str>
     <#assign start = str?index_of("£")>
-    
+
     <#if start == -1>
         <#return str>
     </#if>
-    
+
     <#assign end = str?index_of("^", start)>
 
     <#if end == -1>
@@ -197,4 +172,49 @@ package ${package}.world.features;
     </#if>
 
     <#return removeParts(str?substring(0, start) + str?substring(end + 1))>
+</#function>
+<#function expandBiomeTag biomeTag>
+    <#local result = []>
+
+    <#if biomeTag?contains("#")>
+        <#local biomeName = fixNamespace(biomeTag)>
+        <#local tagKey = "BIOMES:" + biomeName?substring(1)>
+
+        <#local tagFound = false>
+        <#list w.getWorkspace().getTagElements()?keys as tagElement>
+            <#if tagElement.toString().replace("mod:", modid + ":") == tagKey>
+                <#local tagFound = true>
+                <#local biomeValues = w.getWorkspace().getTagElements().get(tagElement)>
+                <#list biomeValues as biomeValue>
+                    <#if biomeValue?starts_with("#")>
+                        <#local expandedSubValues = expandBiomeTag(biomeValue?replace("mod:", modid + ":"))>
+                        <#list expandedSubValues as expandedSubValue>
+                            <#local result = result + [expandedSubValue]>
+                        </#list>
+                    <#else>
+                        <#local result = result + [generator.map(biomeValue, "biomes")]>
+                    </#if>
+                </#list>
+                <#break>
+            </#if>
+        </#list>
+
+        <#if !tagFound>
+            <#local result = result + [biomeName?substring(1)]>
+        </#if>
+    <#else>
+        <#local result = result + [biomeTag]>
+    </#if>
+
+    <#return result>
+</#function>
+<#function fixNamespace input>
+    <#assign noHash = input?starts_with("#")?then(input?substring(1), input)/>
+
+    <#if noHash?contains(":")>
+        <#return input>
+    <#else>
+        <#assign result = "minecraft:" + noHash />
+        <#return input?starts_with("#")?then("#" + result, result)/>
+    </#if>
 </#function>

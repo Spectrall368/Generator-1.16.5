@@ -53,7 +53,9 @@ package ${package}.init;
 	@SubscribeEvent public static void init(RegistryEvent.Register<Feature<?>> event) {
 	<#list featuresList as feature>
 		register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature.configuredFeature());
-		${feature.getModElement().getName()}Feature.CUSTOM_MATCH = registerRule("${feature.getModElement().getRegistryName()}_match", ${feature.getModElement().getName()}Feature.${feature.getModElement().getName()}FeatureRuleTest.CODEC);
+	</#list>
+	<#list w.getGElementsOfType("block")?filter(e -> e.generateFeature) as feature>
+	${feature.getModElement().getName()}Feature.CUSTOM_MATCH = registerRule("${feature.getModElement().getRegistryName()}_match", ${feature.getModElement().getName()}Feature.${feature.getModElement().getName()}FeatureRuleTest.CODEC);
 	</#list>
 	}
 
