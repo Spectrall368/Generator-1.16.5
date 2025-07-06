@@ -39,24 +39,19 @@ package ${package}.init;
 
 	public static final DeferredRegister<Feature<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.FEATURES, ${JavaModName}.MODID);
 
-    <#list featuresList as feature>
+	<#list featuresList as feature>
 	public static final RegistryObject<Feature<?>> ${feature.getModElement().getRegistryNameUpper()} =
-		REGISTRY.register("${feature.getModElement().getRegistryName()}", () -> new ${feature.getModElement().getName()}Feature());
+		register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature::feature, ${feature.getModElement().getName()}Feature.configuredFeature());
 	</#list>
 
-	private static <FC extends IFeatureConfig> void register(String registryname, ConfiguredFeature<FC, ?> configuredFeature) {
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:" + registryname), configuredFeature);
+	private static <FC extends IFeatureConfig> RegistryObject<Feature<?>> register(String registryname, Supplier<Feature<?>> featureSupplier, ConfiguredFeature<FC, ?> configuredFeature) {
+		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(registryname), configuredFeature);
+		return REGISTRY.register(registryname, featureSupplier);
 	}
 
 	@SubscribeEvent public static void addToBiomes(BiomeLoadingEvent event) {
         <#list featuresList as feature>
             ${feature.getModElement().getName()}Feature.addToBiomes(event);
-        </#list>
-	}
-
-	@SubscribeEvent public static void init(RegistryEvent.Register<Feature<?>> event) {
-        <#list featuresList as feature>
-            register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature.configuredFeature());
         </#list>
 	}
 }
