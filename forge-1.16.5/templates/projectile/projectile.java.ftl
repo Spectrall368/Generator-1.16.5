@@ -157,7 +157,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 
 		<#if (data.modelWidth > 0.5) || (data.modelHeight > 0.5)>
 		if (!this.getNoClip()) {
-			for (VoxelShape collision : this.world.getCollisionShapes(this, this.getBoundingBox())) {
+			this.world.getCollisionShapes(this, this.getBoundingBox()).forEach(collision -> {
 				for (AxisAlignedBB blockAABB : collision.toBoundingBoxList()) {
 					if (this.getBoundingBox().intersects(blockAABB)) {
 						BlockPos blockPos = new BlockPos((int) blockAABB.minX, (int) blockAABB.minY, (int) blockAABB.minZ);
@@ -166,7 +166,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 						this.func_230299_a_(new BlockRayTraceResult(intersectionPoint, hitDirection, blockPos, false));
 					}
 				}
-			}
+			});
 		}
 		</#if>
 
