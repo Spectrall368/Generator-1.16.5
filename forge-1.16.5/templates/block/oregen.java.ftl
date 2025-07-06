@@ -58,19 +58,27 @@ package ${package}.world.features.ores;
 </#if>
 
 public class ${name}Feature extends OreFeature {
-    private static final ${name}Feature INSTANCE = new ${name}Feature();
-  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = ${name}Feature.INSTANCE.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
-    .withPlacement(Placement.<#if data.generationShape == "UNIFORM">
-        RANGE.configure(new TopSolidRangeConfig(${minGenerateHeight}, ${minGenerateHeight}, ${maxGenerateHeight} + 1))
-	<#else>
-        <#assign averageHeight = (maxGenerateHeight + minGenerateHeight) / 2>
-        <#assign averageHeight = averageHeight?int>
-		DEPTH_AVERAGE.configure(new DepthAverageConfig(${averageHeight}, ${averageHeight}))
-	</#if>)
-	.square().func_242731_b(${data.frequencyPerChunks});
+    private static ${name}Feature INSTANCE = null;
+  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = null;
 
 	public ${name}Feature() {
 		super(OreFeatureConfig.CODEC);
+	}
+
+	public static Feature<?> feature() {
+		INSTANCE = new ${name}Feature();
+		CONFIGURED_FEATURE = INSTANCE.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
+            .withPlacement(Placement.<#if data.generationShape == "UNIFORM">
+                RANGE.configure(new TopSolidRangeConfig(${minGenerateHeight}, ${minGenerateHeight}, ${maxGenerateHeight} + 1))
+        	<#else>
+                <#assign averageHeight = (maxGenerateHeight + minGenerateHeight) / 2>
+                <#assign averageHeight = averageHeight?int>
+        		DEPTH_AVERAGE.configure(new DepthAverageConfig(${averageHeight}, ${averageHeight}))
+        	</#if>)
+        	.square().func_242731_b(${data.frequencyPerChunks});
+
+        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), CONFIGURED_FEATURE);
+		return INSTANCE;
 	}
 
 	public static ConfiguredFeature<?, ?> configuredFeature() {
@@ -86,11 +94,11 @@ public class ${name}Feature extends OreFeature {
 			Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), CUSTOM_MATCH);
 		}
 
-	  	public boolean test(BlockState blockstate, Random random) {
+	  	@Override public boolean test(BlockState blockstate, Random random) {
 		    return ${containsAnyOfBlocks(data.blocksToReplace "blockstate")?replace("stone_ore_replaceables", "base_stone_overworld")};
 	  	}
 
-	  	protected IRuleTestType<?> getType() {
+        @Override protected IRuleTestType<?> getType() {
 	    		return CUSTOM_MATCH;
 	  	}
 	}
@@ -121,23 +129,19 @@ public class ${name}Feature extends OreFeature {
 	}
     </#if>
 
-	public static void addToBiomes(BiomeLoadingEvent event) {
-            <#if data.restrictionBiomes?has_content && !cond>
-                boolean biomeCriteria = false;
-                <#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-                    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
-                    <#list expandedBiomes as expandedBiome>
-                        if (event.getName().equals(new ResourceLocation("${expandedBiome}")))
-                            biomeCriteria = true;
-                    </#list>
-                </#list>
-
-                if (!biomeCriteria)
-                    return;
-            </#if>
-
-			event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> ${name}Feature.configuredFeature());
-	}
+	public static final Set<ResourceLocation> GENERATE_BIOMES =
+	<#if data.restrictionBiomes?has_content && !cond>
+	ImmutableSet.of(
+		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
+		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
+		    <#list expandedBiomes as expandedBiome>
+			new ResourceLocation("${expandedBiome}")<#sep>,
+            </#list>
+        </#list>
+	);
+	<#else>
+	null;
+	</#if>
 }
 <#-- @formatter:on -->
 <#function expandBiomeTag biomeTag>

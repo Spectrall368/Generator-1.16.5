@@ -46,9 +46,9 @@ package ${package}.world.features;
 <#assign isRulePresent = (configuration == "OreFeatureConfig")>
 <#compress>
 public class ${name}Feature extends ${generator.map(featuretype, "features")} {
-    private static final ${name}Feature INSTANCE = new ${name}Feature();
-    private static final Random random = new Random();
-  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = ${name}Feature.INSTANCE.withConfiguration(${configurationcode?keep_before_last(".withCondition")?replace("random.", name + "Feature.random.")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)?replace("random.", name + "Feature.random.")}<#else>${placementcode?remove_ending(",")?replace("random.", name + "Feature.random.")}</#if></#if>;
+    private static ${name}Feature INSTANCE = null;
+  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = null;
+  	private static final Random random = new Random();
 
 	<#if isRulePresent>
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class ${name}FeatureRuleTest extends RuleTest {
@@ -60,11 +60,11 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 			Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), CUSTOM_MATCH);
 		}
 
-	  	public boolean test(BlockState blockstate, Random random) {
+	  	@Override public boolean test(BlockState blockstate, Random random) {
 		    return false;
 	  	}
 
-	  	protected IRuleTestType<?> getType() {
+	  	@Override protected IRuleTestType<?> getType() {
 	    		return CUSTOM_MATCH;
 	  	}
 	}
@@ -72,6 +72,13 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 
 	public ${name}Feature() {
 		super(${generator.map(featuretype, "features", 2)});
+	}
+
+	public static Feature<?> feature() {
+		INSTANCE = new ${name}Feature();
+		CONFIGURED_FEATURE = INSTANCE.withConfiguration(${configurationcode?keep_before_last(".withCondition")?replace("random.", name + "Feature.random.")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)?replace("random.", name + "Feature.random.")}<#else>${placementcode?remove_ending(",")?replace("random.", name + "Feature.random.")}</#if></#if>;
+        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), CONFIGURED_FEATURE);
+		return INSTANCE;
 	}
 
 	public static ConfiguredFeature<?, ?> configuredFeature() {
@@ -139,25 +146,19 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	}
 	</#if>
 
-	public static void addToBiomes(BiomeLoadingEvent event) {
-	    <#if data.hasPlacedFeature()>
-            <#if data.restrictionBiomes?has_content && !cond>
-                boolean biomeCriteria = false;
-                <#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-                    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
-                    <#list expandedBiomes as expandedBiome>
-                        if (event.getName().equals(new ResourceLocation("${expandedBiome}")))
-                            biomeCriteria = true;
-                    </#list>
-                </#list>
-
-                if (!biomeCriteria)
-                    return;
-            </#if>
-
-			event.getGeneration().getFeatures(GenerationStage.Decoration.${generator.map(data.generationStep, "generationsteps")}).add(() -> ${name}Feature.configuredFeature());
-		</#if>
-	}
+	public static final Set<ResourceLocation> GENERATE_BIOMES =
+	<#if data.restrictionBiomes?has_content && !cond>
+	ImmutableSet.of(
+		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
+		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
+		    <#list expandedBiomes as expandedBiome>
+			new ResourceLocation("${expandedBiome}")<#sep>,
+            </#list>
+        </#list>
+	);
+	<#else>
+	null;
+	</#if>
 }</#compress>
 <#-- @formatter:on -->
 <#function extractParts str>

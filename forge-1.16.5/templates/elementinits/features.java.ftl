@@ -33,26 +33,74 @@
  * MCreator note: This file will be REGENERATED on each build.
  */
 package ${package}.init;
-<#assign featuresList = w.getGElementsOfType("block")?filter(e -> e.generateFeature) + w.getGElementsOfType("plant")?filter(e -> e.generateFeature) + w.getGElementsOfType("feature")>
 
 @Mod.EventBusSubscriber public class ${JavaModName}Features {
 
 	public static final DeferredRegister<Feature<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.FEATURES, ${JavaModName}.MODID);
 
-	<#list featuresList as feature>
-	public static final RegistryObject<Feature<?>> ${feature.getModElement().getRegistryNameUpper()} =
-		register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature::feature, ${feature.getModElement().getName()}Feature.configuredFeature());
-	</#list>
+	private static final List<FeatureRegistration> FEATURE_REGISTRATIONS = new ArrayList<>();
 
-	private static <FC extends IFeatureConfig> RegistryObject<Feature<?>> register(String registryname, Supplier<Feature<?>> featureSupplier, ConfiguredFeature<FC, ?> configuredFeature) {
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(registryname), configuredFeature);
-		return REGISTRY.register(registryname, featureSupplier);
+	<#list w.getGElementsOfType("feature") as feature>
+			public static final RegistryObject<Feature<?>> ${feature.getModElement().getRegistryNameUpper()} =
+				register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature::feature,
+						new FeatureRegistration(GenerationStage.Decoration.${generator.map(feature.generationStep, "generationsteps")},
+							${feature.getModElement().getName()}Feature.GENERATE_BIOMES,
+							${feature.getModElement().getName()}Feature::configuredFeature)
+				);
+    </#list>
+
+	<#list w.getGElementsOfType("block")?filter(e -> e.generateFeature) as feature>
+			public static final RegistryObject<Feature<?>> ${feature.getModElement().getRegistryNameUpper()} =
+				register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature::feature,
+						new FeatureRegistration(GenerationStage.Decoration.UNDERGROUND_ORES,
+							${feature.getModElement().getName()}Feature.GENERATE_BIOMES,
+							${feature.getModElement().getName()}Feature::configuredFeature)
+				);
+    </#list>
+
+	<#list w.getGElementsOfType("plant")?filter(e -> e.generateFeature) as feature>
+			public static final RegistryObject<Feature<?>> ${feature.getModElement().getRegistryNameUpper()} =
+				register("${feature.getModElement().getRegistryName()}", ${feature.getModElement().getName()}Feature::feature,
+						new FeatureRegistration(GenerationStage.Decoration.VEGETAL_DECORATION,
+							${feature.getModElement().getName()}Feature.GENERATE_BIOMES,
+							${feature.getModElement().getName()}Feature::configuredFeature)
+				);
+    </#list>
+
+	private static RegistryObject<Feature<?>> register(String registryname, Supplier<Feature<?>> feature, FeatureRegistration featureRegistration) {
+		FEATURE_REGISTRATIONS.add(featureRegistration);
+		return REGISTRY.register(registryname, feature);
 	}
 
-	@SubscribeEvent public static void addToBiomes(BiomeLoadingEvent event) {
-        <#list featuresList as feature>
-            ${feature.getModElement().getName()}Feature.addToBiomes(event);
-        </#list>
+	@SubscribeEvent public static void addFeaturesToBiomes(BiomeLoadingEvent event) {
+		for (FeatureRegistration registration : FEATURE_REGISTRATIONS) {
+			if (registration.biomes() == null || registration.biomes().contains(event.getName()))
+				event.getGeneration().getFeatures(registration.stage()).add(registration.configuredFeature());
+		}
 	}
+
+	private static class FeatureRegistration {
+        private final GenerationStage.Decoration stage;
+        private final Set<ResourceLocation> biomes;
+        private final Supplier<ConfiguredFeature<?, ?>> configuredFeature;
+
+        public FeatureRegistration(GenerationStage.Decoration stage, Set<ResourceLocation> biomes, Supplier<ConfiguredFeature<?, ?>> configuredFeature) {
+            this.stage = stage;
+            this.biomes = biomes;
+            this.configuredFeature = configuredFeature;
+        }
+
+        public GenerationStage.Decoration stage() {
+            return stage;
+        }
+
+        public Set<ResourceLocation> biomes() {
+            return biomes;
+        }
+
+        public Supplier<ConfiguredFeature<?, ?>> configuredFeature() {
+            return configuredFeature;
+        }
+    }
 }
 <#-- @formatter:on -->

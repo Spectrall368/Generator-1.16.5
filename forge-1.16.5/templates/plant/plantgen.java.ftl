@@ -44,27 +44,35 @@ package ${package}.world.features.plants;
 </#if>
 
 public class ${name}Feature extends <#if data.plantType == "normal" && data.generationType == "Flower">DefaultFlowers<#else>RandomPatch</#if>Feature {
-    private static final ${name}Feature INSTANCE = new ${name}Feature();
-	private static final ConfiguredFeature<?, ?> CONFIGURED_FEATURE = ${name}Feature.INSTANCE.withConfiguration(
-        new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
-            <#if data.plantType == "double">DoublePlantBlockPlacer.PLACER
-            <#elseif data.plantType == "normal">SimpleBlockPlacer.PLACER
-            <#else>new ColumnBlockPlacer(2, 2)</#if>)
-            <#if data.plantType == "growapable">.xspread(4).yspread(0).zspread(4).func_227317_b_()</#if>
-            <#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>
-            .tries(${data.patchSize}).build())
-            .func_242731_b(${data.frequencyOnChunks})
-            <#if data.generationType == "Flower" || data.plantType == "growapable">
-            .chance(32)</#if>
-            .square()
-            <#if data.generateAtAnyHeight>
-            .range(128)
-            <#else>
-            .withPlacement(Features.Placements.<#if !(data.generationType == "Grass" || data.plantType == "growapable")>BAMBOO_PLACEMENT<#else>FLOWER_TALL_GRASS_PLACEMENT</#if>)
-            </#if>;
+    private static ${name}Feature INSTANCE = null;
+  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = null;
 
 	public ${name}Feature() {
 		super(BlockClusterFeatureConfig.field_236587_a_);
+	}
+
+	public static Feature<?> feature() {
+		INSTANCE = new ${name}Feature();
+		CONFIGURED_FEATURE = INSTANCE.withConfiguration(
+                new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
+                    <#if data.plantType == "double">DoublePlantBlockPlacer.PLACER
+                    <#elseif data.plantType == "normal">SimpleBlockPlacer.PLACER
+                    <#else>new ColumnBlockPlacer(2, 2)</#if>)
+                    <#if data.plantType == "growapable">.xspread(4).yspread(0).zspread(4).func_227317_b_()</#if>
+                    <#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>
+                    .tries(${data.patchSize}).build())
+                    .func_242731_b(${data.frequencyOnChunks})
+                    <#if data.generationType == "Flower" || data.plantType == "growapable">
+                    .chance(32)</#if>
+                    .square()
+                    <#if data.generateAtAnyHeight>
+                    .range(128)
+                    <#else>
+                    .withPlacement(Features.Placements.<#if !(data.generationType == "Grass" || data.plantType == "growapable")>BAMBOO_PLACEMENT<#else>FLOWER_TALL_GRASS_PLACEMENT</#if>)
+                    </#if>;
+
+        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), CONFIGURED_FEATURE);
+		return INSTANCE;
 	}
 
 	public static ConfiguredFeature<?, ?> configuredFeature() {
@@ -96,23 +104,19 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 	}
 	</#if>
 
-	public static void addToBiomes(BiomeLoadingEvent event) {
-            <#if data.restrictionBiomes?has_content && !cond>
-                boolean biomeCriteria = false;
-                <#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-                    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
-                    <#list expandedBiomes as expandedBiome>
-                        if (event.getName().equals(new ResourceLocation("${expandedBiome}")))
-                            biomeCriteria = true;
-                    </#list>
-                </#list>
-
-                if (!biomeCriteria)
-                    return;
-            </#if>
-
-            event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> ${name}Feature.configuredFeature());
-	}
+	public static final Set<ResourceLocation> GENERATE_BIOMES =
+	<#if data.restrictionBiomes?has_content && !cond>
+	ImmutableSet.of(
+		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
+		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
+		    <#list expandedBiomes as expandedBiome>
+			new ResourceLocation("${expandedBiome}")<#sep>,
+            </#list>
+        </#list>
+	);
+	<#else>
+	null;
+	</#if>
 }
 <#-- @formatter:on -->
 <#function expandBiomeTag biomeTag>
