@@ -52,9 +52,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 
 	<#if data.spawnThisMob>
 	private static final Set<ResourceLocation> GENERATE_BIOMES =
-	<#if data.spawnBiomes?has_content>
+	<#if data.restrictionBiomes?has_content && !cond>
 	ImmutableSet.of(
-		<#list w.filterBrokenReferences(data.spawnBiomes) as restrictionBiome>
+		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
 		    <#list expandedBiomes as expandedBiome>
 			new ResourceLocation("${expandedBiome}")<#sep>,
@@ -66,7 +66,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	</#if>
 
 	@SubscribeEvent public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
-		<#if spawnBiomes?has_content>
+	    <#if data.restrictionBiomes?has_content>
 	    if (SPAWN_BIOMES.contains(event.getName()))
 	    </#if>
 
