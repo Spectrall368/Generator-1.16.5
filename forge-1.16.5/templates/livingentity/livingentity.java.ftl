@@ -52,7 +52,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 
 	<#if data.spawnThisMob>
 	private static final Set<ResourceLocation> GENERATE_BIOMES =
-	<#if data.restrictionBiomes?has_content && !cond>
+	<#if data.restrictionBiomes?has_content>
 	ImmutableSet.of(
 		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
