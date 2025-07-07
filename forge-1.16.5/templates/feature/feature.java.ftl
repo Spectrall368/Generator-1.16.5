@@ -82,6 +82,9 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	}
 
 	public static ConfiguredFeature<?, ?> configuredFeature() {
+	    if (CONFIGURED_FEATURE == null)
+	        feature();
+
 		return CONFIGURED_FEATURE;
 	}
 

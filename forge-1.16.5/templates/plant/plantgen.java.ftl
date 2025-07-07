@@ -76,6 +76,9 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 	}
 
 	public static ConfiguredFeature<?, ?> configuredFeature() {
+	    if (CONFIGURED_FEATURE == null)
+	        feature();
+
 		return CONFIGURED_FEATURE;
 	}
 
