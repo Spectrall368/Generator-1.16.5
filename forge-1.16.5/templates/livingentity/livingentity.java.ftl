@@ -51,7 +51,7 @@ import net.minecraft.network.datasync.DataParameter;
 public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implements IRangedAttackMob</#if> {
 
 	<#if data.spawnThisMob>
-	public static final Set<ResourceLocation> GENERATE_BIOMES =
+	private static final Set<ResourceLocation> GENERATE_BIOMES =
 	<#if data.spawnBiomes?has_content>
 	ImmutableSet.of(
 		<#list w.filterBrokenReferences(data.spawnBiomes) as restrictionBiome>
