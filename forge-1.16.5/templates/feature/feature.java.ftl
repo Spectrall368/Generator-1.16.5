@@ -52,8 +52,8 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 
 	<#if isRulePresent>
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class ${name}FeatureRuleTest extends RuleTest {
-		public static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
-	  	public static final Codec<${name}FeatureRuleTest> CODEC = Codec.unit(() -> INSTANCE);
+		static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
+	  	private static final Codec<${name}FeatureRuleTest> CODEC = Codec.unit(() -> INSTANCE);
 		private static final IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = () -> CODEC;
 
 		@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
