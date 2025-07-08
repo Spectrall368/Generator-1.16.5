@@ -89,7 +89,7 @@ public class ${name}Feature extends OreFeature {
 	}
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class ${name}FeatureRuleTest extends RuleTest {
-		public static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
+		static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
 	  	public static final Codec<${name}FeatureRuleTest> CODEC = Codec.unit(() -> INSTANCE);
 		private static final IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = () -> CODEC;
 
