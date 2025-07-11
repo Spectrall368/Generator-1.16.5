@@ -156,7 +156,7 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
 		    <#list expandedBiomes as expandedBiome>
 			new ResourceLocation("${expandedBiome}")<#sep>,
-            </#list>
+		    </#list><#sep>,
         </#list>
 	);
 	<#else>

@@ -114,7 +114,7 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
 		    <#list expandedBiomes as expandedBiome>
 			new ResourceLocation("${expandedBiome}")<#sep>,
-            </#list>
+		    </#list><#sep>,
         </#list>
 	);
 	<#else>
