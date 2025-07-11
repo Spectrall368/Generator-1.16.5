@@ -58,12 +58,12 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		    <#assign expandedBiomes = expandBiomeTag(restrictionBiome)>
 		    <#list expandedBiomes as expandedBiome>
 			new ResourceLocation("${expandedBiome}")<#sep>,
-            </#list>
+		    </#list><#sep>,
         </#list>
-	);
-	<#else>
-	null;
-	</#if>
+        );
+        <#else>
+        null;
+        </#if>
 
 	@SubscribeEvent public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
 	    <#if data.restrictionBiomes?has_content>
