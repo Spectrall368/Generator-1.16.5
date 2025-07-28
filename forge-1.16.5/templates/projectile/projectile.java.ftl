@@ -40,19 +40,31 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 	public static final ItemStack PROJECTILE_ITEM = ${mappedMCItemToItemStackCode(data.projectileItem)};
 
 	public ${name}Entity(FMLPlayMessages.SpawnEntity packet, World world) {
-		super(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), world);
+		super(${JavaModName}Entities.${REGISTRYNAME}.get(), world);
+		<#if data.disableGravity>
+		setNoGravity(true);
+		</#if>
 	}
 
 	public ${name}Entity(EntityType<? extends ${name}Entity> type, World world) {
 		super(type, world);
+		<#if data.disableGravity>
+		setNoGravity(true);
+		</#if>
 	}
 
 	public ${name}Entity(EntityType<? extends ${name}Entity> type, double x, double y, double z, World world) {
 		super(type, x, y, z, world);
+		<#if data.disableGravity>
+		setNoGravity(true);
+		</#if>
 	}
 
 	public ${name}Entity(EntityType<? extends ${name}Entity> type, LivingEntity entity, World world) {
 		super(type, entity, world);
+		<#if data.disableGravity>
+		setNoGravity(true);
+		</#if>
 	}
 
 	@Override public IPacket<?> createSpawnPacket() {
@@ -194,7 +206,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 	}
 
 	public static ${name}Entity shoot(World world, LivingEntity entity, Random random, float power, double damage, int knockback) {
-		${name}Entity entityarrow = new ${name}Entity(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), entity, world);
+		${name}Entity entityarrow = new ${name}Entity(${JavaModName}Entities.${REGISTRYNAME}.get(), entity, world);
 		entityarrow.shoot(entity.getLook(1).x, entity.getLook(1).y, entity.getLook(1).z, power * 2, 0);
 		entityarrow.setSilent(true);
 		entityarrow.setIsCritical(${data.showParticles});
@@ -210,7 +222,7 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 	}
 
 	public static ${name}Entity shoot(LivingEntity entity, LivingEntity target) {
-		${name}Entity entityarrow = new ${name}Entity(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), entity, entity.world);
+		${name}Entity entityarrow = new ${name}Entity(${JavaModName}Entities.${REGISTRYNAME}.get(), entity, entity.world);
 		double dx = target.getPosX() - entity.getPosX();
 		double dy = target.getPosY() + target.getEyeHeight() - 1.1;
 		double dz = target.getPosZ() - entity.getPosZ();

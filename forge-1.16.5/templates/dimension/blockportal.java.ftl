@@ -35,7 +35,7 @@ package ${package}.block;
 public class ${name}PortalBlock extends NetherPortalBlock {
 
 	public ${name}PortalBlock() {
-		super(Block.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly()
+		super(AbstractBlock.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly()
 				.hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel(s -> ${data.portalLuminance}).noDrops());
 	}
 
@@ -53,7 +53,7 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 	}
 
 	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
-		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}_PORTAL.get(), RenderType.getCutout());
+		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${REGISTRYNAME}_PORTAL.get(), RenderType.getCutout());
 	}
 
 	public static void portalSpawn(World world, BlockPos pos) {
@@ -90,13 +90,18 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 		<#if data.portalSound.toString()?has_content>
 		if (random.nextInt(110) == 0)
 			world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(("${data.portalSound}"))), SoundCategory.BLOCKS, 0.5f, random.nextFloat() * 0.4F + 0.8F, false);
+					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.portalSound}")), SoundCategory.BLOCKS, 0.5f, random.nextFloat() * 0.4F + 0.8F, false);
         	</#if>
 	}
 
 	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		if (!entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss()
-				&& !entity.world.isRemote && <@procedureOBJToConditionCode data.portalUseCondition/>) {
+		if (<#if hasProcedure(data.portalUseCondition)><@procedureCode data.portalUseCondition, {
+        		"x": "pos.getPosX()",
+        		"y": "pos.getPosY()",
+        		"z": "pos.getPosZ()",
+        		"entity": "entity",
+        		"world": "world"
+        		}, false/> && </#if>!entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && !entity.world.isRemote()) {
 			if (entity.func_242280_ah()) {
 				entity.func_242279_ag();
 			} else if (entity.world.getDimensionKey() != RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("${modid}:${registryname}"))) {

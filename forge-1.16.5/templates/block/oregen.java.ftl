@@ -67,7 +67,7 @@ public class ${name}Feature extends OreFeature {
 
 	public static Feature<?> feature() {
 		INSTANCE = new ${name}Feature();
-		CONFIGURED_FEATURE = INSTANCE.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState(), ${data.frequencyOnChunk}))
+		CONFIGURED_FEATURE = INSTANCE.withConfiguration(new OreFeatureConfig(${name}FeatureRuleTest.INSTANCE, ${JavaModName}Blocks.${REGISTRYNAME}.get().getDefaultState(), ${data.frequencyOnChunk}))
             .withPlacement(Placement.<#if data.generationShape == "UNIFORM">
                 RANGE.configure(new TopSolidRangeConfig(${minGenerateHeight}, ${minGenerateHeight}, ${maxGenerateHeight} + 1))
         	<#else>

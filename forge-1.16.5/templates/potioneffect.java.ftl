@@ -39,7 +39,7 @@ public class ${name}MobEffect extends Effect {
 	public ${name}MobEffect() {
 		super(EffectType.${data.mobEffectCategory}, ${data.color.getRGB()});
 		<#list data.modifiers as modifier>
-		this.addAttributesModifier(${modifier.attribute}, "${w.getUUID(data.getModElement().getRegistryName() + "_" + modifier?index)}", ${modifier.amount},
+		this.addAttributesModifier(${modifier.attribute}, "${w.getUUID(registryname + "_" + modifier?index)}", ${modifier.amount},
 				AttributeModifier.Operation.${getAttributeOperation(modifier.operation)});
 		</#list>
 		}

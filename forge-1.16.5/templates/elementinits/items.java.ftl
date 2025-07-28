@@ -35,6 +35,7 @@
  *    MCreator note: This file will be REGENERATED on each build.
  */
 package ${package}.init;
+
 <#assign hasBlocks = false>
 <#assign hasDoubleBlocks = false>
 <#assign hasItemsWithProperties = w.getGElementsOfType("item")?filter(e -> e.customProperties?has_content)?size != 0
@@ -75,7 +76,6 @@ package ${package}.init;
 </#list>
 
 <#assign orderedItems = orderedCustomItems + orderedVanillaItems + orderedNullItems>
-
 <#if hasItemsWithProperties>
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 </#if>
@@ -87,19 +87,19 @@ public class ${JavaModName}Items {
 		<#if item.getModElement().getTypeString() == "armor">
 			<#if item.enableHelmet>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_HELMET =
-				REGISTRY.register("${item.getModElement().getRegistryName()}_helmet", () -> new ${item.getModElement().getName()}Item.Helmet());
+				REGISTRY.register("${item.getModElement().getRegistryName()}_helmet", ${item.getModElement().getName()}Item.Helmet::new);
 			</#if>
 			<#if item.enableBody>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_CHESTPLATE =
-				REGISTRY.register("${item.getModElement().getRegistryName()}_chestplate", () -> new ${item.getModElement().getName()}Item.Chestplate());
+				REGISTRY.register("${item.getModElement().getRegistryName()}_chestplate", ${item.getModElement().getName()}Item.Chestplate::new);
 			</#if>
 			<#if item.enableLeggings>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_LEGGINGS =
-				REGISTRY.register("${item.getModElement().getRegistryName()}_leggings", () -> new ${item.getModElement().getName()}Item.Leggings());
+				REGISTRY.register("${item.getModElement().getRegistryName()}_leggings", ${item.getModElement().getName()}Item.Leggings::new);
 			</#if>
 			<#if item.enableBoots>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_BOOTS =
-				REGISTRY.register("${item.getModElement().getRegistryName()}_boots", () -> new ${item.getModElement().getName()}Item.Boots());
+				REGISTRY.register("${item.getModElement().getRegistryName()}_boots", ${item.getModElement().getName()}Item.Boots::new);
 			</#if>
 		<#elseif item.getModElement().getTypeString() == "livingentity">
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_SPAWN_EGG =
@@ -107,21 +107,26 @@ public class ${JavaModName}Items {
 						${item.spawnEggBaseColor.getRGB()}, ${item.spawnEggDotColor.getRGB()}, new Item.Properties().group(<@CreativeTabs item.creativeTabs/>)));
 		<#elseif item.getModElement().getTypeString() == "dimension" && item.hasIgniter()>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} =
-				REGISTRY.register("${item.getModElement().getRegistryName()}", () -> new ${item.getModElement().getName()}Item());
+				REGISTRY.register("${item.getModElement().getRegistryName()}", ${item.getModElement().getName()}Item::new);
 		<#elseif item.getModElement().getTypeString() == "fluid" && item.generateBucket>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()}_BUCKET =
-				REGISTRY.register("${item.getModElement().getRegistryName()}_bucket", () -> new ${item.getModElement().getName()}Item());
+				REGISTRY.register("${item.getModElement().getRegistryName()}_bucket", ${item.getModElement().getName()}Item::new);
 		<#elseif item.getModElement().getTypeString() == "block" || item.getModElement().getTypeString() == "plant">
+		    <#assign customProp = item.hasCustomItemProperties()>
 			<#if item.isDoubleBlock()>
 				<#assign hasDoubleBlocks = true>
-				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} = doubleBlock(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, <@CreativeTabs item.creativeTabs/>);
+				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} =
+					doubleBlock<#if !customProp>CMT</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
+					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
 			<#else>
 				<#assign hasBlocks = true>
-				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} = block(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, <@CreativeTabs item.creativeTabs/>);
+				public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} =
+					block<#if !customProp>CMT</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
+					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
 			</#if>
 		<#else>
 			public static final RegistryObject<Item> ${item.getModElement().getRegistryNameUpper()} =
-				REGISTRY.register("${item.getModElement().getRegistryName()}", () -> new ${item.getModElement().getName()}Item());
+				REGISTRY.register("${item.getModElement().getRegistryName()}", ${item.getModElement().getName()}Item::new);
 		</#if>
 	</#list>
 
@@ -129,21 +134,30 @@ public class ${JavaModName}Items {
 	// End of user code block custom items
 
 	<#if hasBlocks>
-	private static RegistryObject<Item> block(RegistryObject<Block> block, ItemGroup tab) {
-		return REGISTRY.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties().group(tab)));
+	private static RegistryObject<Item> blockCMT(RegistryObject<Block> block, ItemGroup tab) {
+		return block(block, new Item.Properties().group(tab));
+	}
+
+	private static RegistryObject<Item> block(RegistryObject<Block> block, Item.Properties properties) {
+		return REGISTRY.register(block.getId().getPath(), () -> new BlockItem(block.get(), properties));
 	}
 	</#if>
 
 	<#if hasDoubleBlocks>
-	private static RegistryObject<Item> doubleBlock(RegistryObject<Block> block, ItemGroup tab) {
-		return REGISTRY.register(block.getId().getPath(), () -> new TallBlockItem(block.get(), new Item.Properties().group(tab)));
+	private static RegistryObject<Item> doubleBlockCMT(RegistryObject<Block> block, ItemGroup tab) {
+		return doubleBlock(block, new Item.Properties().group(tab));
+	}
+
+	private static RegistryObject<Item> doubleBlock(RegistryObject<Block> block, Item.Properties properties) {
+		return REGISTRY.register(block.getId().getPath(), () -> new TallBlockItem(block.get(), properties));
 	}
 	</#if>
 
 	<#if hasItemsWithProperties>
 	<#compress>
-	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+	@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void clientLoad(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
+		<#compress>
 		<#list items as item>
 			<#if item.getModElement().getTypeString() == "item">
 				<#list item.customProperties.entrySet() as property>
@@ -163,15 +177,29 @@ public class ${JavaModName}Items {
 				);
 				</#list>
 			<#elseif item.getModElement().getTypeString() == "tool" && item.toolType == "Shield">
-				ItemModelsProperties.registerProperty(${item.getModElement().getRegistryNameUpper()}.get(), new ResourceLocation("blocking"),
-					ItemModelsProperties.func_239417_a_(Items.SHIELD, new ResourceLocation("blocking")));
+				ItemModelsProperties.registerProperty(${item.getModElement().getRegistryNameUpper()}.get(), new ResourceLocation("minecraft:blocking"),
+					ItemModelsProperties.func_239417_a_(Items.SHIELD, new ResourceLocation("minecraft:blocking")));
 			</#if>
 		</#list>
+		</#compress>
 		});
 	}
 	</#compress>
 	</#if>
 }
+<#macro blockItemProperties block>
+new Item.Properties()
+<#if block.maxStackSize != 64>
+	.maxStackSize(${block.maxStackSize})
+</#if>
+<#if block.rarity != "COMMON">
+	.rarity(Rarity.${block.rarity})
+</#if>
+<#if block.immuneToFire>
+	.isImmuneToFire()
+</#if>
+.group(<@CreativeTabs block.creativeTabs/>)
+</#macro>
 <#-- @formatter:on -->
 <#macro setItem isCustom tabType itemName>
 	<#list itemList as item>

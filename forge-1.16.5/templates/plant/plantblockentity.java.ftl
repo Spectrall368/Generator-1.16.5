@@ -34,7 +34,7 @@ package ${package}.block.entity;
 public class ${name}BlockEntity extends TileEntity {
 
 	public ${name}BlockEntity() {
-		super(${JavaModName}BlockEntities.${data.getModElement().getRegistryNameUpper()}.get());
+		super(${JavaModName}BlockEntities.${REGISTRYNAME}.get());
 	}
 
 	@Override public SUpdateTileEntityPacket getUpdatePacket() {

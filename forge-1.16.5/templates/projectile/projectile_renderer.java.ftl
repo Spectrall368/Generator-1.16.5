@@ -47,6 +47,7 @@ public class ${name}Renderer extends EntityRenderer<${name}Entity> {
 		poseStack.push();
 		poseStack.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90));
 		poseStack.rotate(Vector3f.ZP.rotationDegrees(90 + MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch)));
+		model.setRotationAngles(entityIn, 0, 0, entityIn.ticksExisted + partialTicks, entityIn.rotationYaw, entityIn.rotationPitch);
 		model.render(poseStack, vb, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 		poseStack.pop();
 

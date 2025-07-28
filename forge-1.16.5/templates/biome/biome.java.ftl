@@ -291,7 +291,7 @@ public class ${name}Biome {
 				<#elseif (data.temperature > 1.0)>
 					DESERT
 				</#if>,
-				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(${JavaModName}Biomes.${data.getModElement().getRegistryNameUpper()}.get())), ${data.biomeWeight})
+				new BiomeManager.BiomeEntry(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, WorldGenRegistries.BIOME.getKey(${JavaModName}Biomes.${REGISTRYNAME}.get())), ${data.biomeWeight})
 			);
     }
     </#if>

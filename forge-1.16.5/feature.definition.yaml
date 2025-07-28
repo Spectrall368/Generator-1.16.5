@@ -4,16 +4,13 @@ templates:
 
 # Templates for custom structure feature
 global_templates:
-  - template: elementinits/features.java.ftl
-    writer: java
-    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameFeatures.java"
   - template: feature/structure_feature.java.ftl
     writer: java
     condition: "${w.getElementsOfType('feature')?filter(e -> e.getMetadata('has_nbt_structure')??)?size != 0}"
-    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/StructureFeature.java"
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/StructureModFeature.java"
     hidden: true
   - template: feature/structure_feature_configuration.java.ftl
     writer: java
     condition: "${w.getElementsOfType('feature')?filter(e -> e.getMetadata('has_nbt_structure')??)?size != 0}"
-    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/configurations/StructureFeatureConfiguration.java"
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/configurations/StructureModFeatureConfiguration.java"
     hidden: true

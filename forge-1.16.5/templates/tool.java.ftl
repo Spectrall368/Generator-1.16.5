@@ -92,12 +92,18 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 				<#if data.immuneToFire>
 				.isImmuneToFire()
 				</#if>
+				<#if data.stayInGridWhenCrafting && data.usageCount != 0>
+				.setNoRepair()
+				</#if>
 		<#elseif data.toolType == "Shears" || data.toolType == "Shield">
 			new Item.Properties()
 				.group(<@CreativeTabs data.creativeTabs/>)
 				.maxDamage(${data.usageCount})
 				<#if data.immuneToFire>
 				.isImmuneToFire()
+				</#if>
+				<#if data.stayInGridWhenCrafting && data.usageCount != 0>
+				.setNoRepair()
 				</#if>
 		</#if>);
 	}
@@ -127,6 +133,12 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")}Item
 		}
 	<#elseif data.toolType=="MultiTool">
 		@Override public boolean canHarvestBlock(BlockState blockstate) {
+			<#if hasProcedure(data.additionalDropCondition)>
+				if(!<@procedureCode data.additionalDropCondition, {
+					"itemstack": "this.getDefaultInstance()",
+					"blockstate": "blockstate"
+				}, false/>) return false;
+			</#if>
 			return <#if data.blockDropsTier == "WOOD" || data.blockDropsTier == "GOLD">
 			0
 			<#elseif data.blockDropsTier == "STONE">
@@ -182,6 +194,9 @@ public class ${name}Item extends Item {
 			<#if data.immuneToFire>
 			.isImmuneToFire()
 			</#if>
+			<#if data.stayInGridWhenCrafting && data.usageCount != 0>
+			.setNoRepair()
+			</#if>
 		);
 	}
 
@@ -222,6 +237,9 @@ public class ${name}Item extends FishingRodItem {
 			.maxDamage(${data.usageCount})
 			<#if data.immuneToFire>
 			.isImmuneToFire()
+			</#if>
+			<#if data.stayInGridWhenCrafting && data.usageCount != 0>
+			.setNoRepair()
 			</#if>
 		);
 	}
@@ -276,20 +294,10 @@ public class ${name}Item extends FishingRodItem {
 				}
 				return retval;
 			}
-
-			@Override public boolean isRepairable(ItemStack itemstack) {
-				return false;
-			}
 		<#else>
 			@Override public ItemStack getContainerItem(ItemStack itemstack) {
 				return new ItemStack(this);
 			}
-
-			<#if data.usageCount != 0>
-				@Override public boolean isRepairable(ItemStack itemstack) {
-					return false;
-				}
-			</#if>
 		</#if>
 	</#if>
 

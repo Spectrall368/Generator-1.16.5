@@ -94,6 +94,8 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 
 		<#if humanoid>
 		this.addLayer(new BipedArmorLayer(this, new BipedModel(0.5F), new BipedModel(1.0F)));
+		<#elseif data.mobModelName == "Villager" || data.mobModelName == "Witch">
+		this.addLayer(new CrossedArmsItemLayer<>(this));
 		</#if>
 
 		<#list data.modelLayers as layer>
@@ -131,7 +133,7 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 		</#list>
 	}
 
-	<#if data.mobModelName == "Villager" || (data.visualScale?? && (data.visualScale.getFixedValue() != 1 || hasProcedure(data.visualScale)))>
+	<#if data.mobModelName == "Villager" || data.breedable || (data.visualScale?? && (data.visualScale.getFixedValue() != 1 || hasProcedure(data.visualScale)))>
 	@Override protected void preRenderCallback(${name}Entity entity, MatrixStack poseStack, float f) {
 		<#if hasProcedure(data.visualScale)>
 			World world = entity.world;
@@ -145,6 +147,9 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 		</#if>
 		<#if data.mobModelName == "Villager">
 			poseStack.scale(0.9375f, 0.9375f, 0.9375f);
+		</#if>
+		<#if data.breedable>
+			poseStack.scale(entity.getRenderScale(), entity.getRenderScale(), entity.getRenderScale());
 		</#if>
 	}
 	</#if>

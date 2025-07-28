@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,69 +29,72 @@
 -->
 
 <#-- @formatter:off -->
+
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
+
 package ${package}.init;
 <#assign hasTransparentBlocks = false>
 <#assign hasTintedBlocks = false>
 <#assign hasTintedBlockItems = false>
 <#list blocks as block>
 	<#if block.getModElement().getTypeString() == "block">
-	        <#if block.transparencyType != "SOLID" || block.hasTransparency || block.tintType != "No tint">
-	            <#assign hasTransparentBlocks = true>
-	        </#if>
+        <#if block.transparencyType != "SOLID" || block.hasTransparency || block.tintType != "No tint">
+            <#assign hasTransparentBlocks = true>
+        </#if>
 		<#if block.tintType != "No tint">
 			<#assign hasTintedBlocks = true>
-			<#if block.isItemTinted>
+			<#if block.isItemTinted && block.hasBlockItem>
 				<#assign hasTintedBlockItems = true>
 			</#if>
 		</#if>
 	<#elseif block.getModElement().getTypeString() == "plant">
-        	<#assign hasTransparentBlocks = true> <#-- Plants always have cutout transparency -->
+        <#assign hasTransparentBlocks = true> <#-- Plants always have cutout transparency -->
 		<#if block.tintType != "No tint">
 			<#assign hasTintedBlocks = true>
-			<#if block.isItemTinted>
+			<#if block.isItemTinted && block.hasBlockItem>
 				<#assign hasTintedBlockItems = true>
 			</#if>
 		</#if>
 	</#if>
 </#list>
+<#assign noteBlockInstrument = blocks?filter(block -> block.noteBlockInstrument?? && block.noteBlockInstrument != "harp")>
 
-public class ${JavaModName}Blocks {
+<#if noteBlockInstrument?size != 0>@Mod.EventBusSubscriber </#if>public class ${JavaModName}Blocks {
 
 	public static final DeferredRegister<Block> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, ${JavaModName}.MODID);
 
 	<#list blocks as block>
 		<#if block.getModElement().getTypeString() == "dimension">
             public static final RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()}_PORTAL =
-				REGISTRY.register("${block.getModElement().getRegistryName()}_portal", () -> new ${block.getModElement().getName()}PortalBlock());
+				REGISTRY.register("${block.getModElement().getRegistryName()}_portal", ${block.getModElement().getName()}PortalBlock::new);
 		<#else>
 			public static final RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()} =
-				REGISTRY.register("${block.getModElement().getRegistryName()}", () -> new ${block.getModElement().getName()}Block());
+				REGISTRY.register("${block.getModElement().getRegistryName()}", ${block.getModElement().getName()}Block::new);
 		</#if>
 	</#list>
 
 	// Start of user code block custom blocks
 	// End of user code block custom blocks
 
-	<#if hasTintedBlocks || hasTintedBlockItems || hasTransparentBlocks>
+	<#if hasTransparentBlocks || hasTintedBlocks || hasTintedBlockItems>
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public static class BlocksClientSideHandler {
-	        <#if hasTransparentBlocks>
-		    @SubscribeEvent public static void clientSetup(FMLClientSetupEvent event) {
-		    	<#list blocks as block>
-	                <#if block.getModElement().getTypeString() == "block">
-	                    <#if block.transparencyType != "SOLID" || block.hasTransparency>
-	                        ${block.getModElement().getName()}Block.registerRenderLayer();
-	                    </#if>
-	                <#elseif block.getModElement().getTypeString() == "plant">
-	                    ${block.getModElement().getName()}Block.registerRenderLayer();
-	                <#elseif block.getModElement().getTypeString() == "dimension">
-	                    ${block.getModElement().getName()}PortalBlock.registerRenderLayer();
-	                </#if>
-	            </#list>
-			}
-	        </#if>
+        <#if hasTransparentBlocks>
+	    @SubscribeEvent public static void clientSetup(FMLClientSetupEvent event) {
+	    	<#list blocks as block>
+                <#if block.getModElement().getTypeString() == "block">
+                    <#if block.transparencyType != "SOLID" || block.hasTransparency>
+                        ${block.getModElement().getName()}Block.registerRenderLayer();
+                    </#if>
+                <#elseif block.getModElement().getTypeString() == "plant">
+                    ${block.getModElement().getName()}Block.registerRenderLayer();
+                <#elseif block.getModElement().getTypeString() == "dimension">
+                    ${block.getModElement().getName()}PortalBlock.registerRenderLayer();
+                </#if>
+            </#list>
+		}
+        </#if>
 
 		<#if hasTintedBlocks>
 		@SubscribeEvent public static void blockColorLoad(ColorHandlerEvent.Block event) {
@@ -109,7 +112,7 @@ public class ${JavaModName}Blocks {
 		@SubscribeEvent public static void itemColorLoad(ColorHandlerEvent.Item event) {
 			<#list blocks as block>
 				<#if block.getModElement().getTypeString() == "block" || block.getModElement().getTypeString() == "plant">
-					<#if block.tintType != "No tint" && block.isItemTinted>
+					<#if block.tintType != "No tint" && block.isItemTinted && block.hasBlockItem>
 						 ${block.getModElement().getName()}Block.itemColorLoad(event);
 					</#if>
 				</#if>
@@ -117,6 +120,19 @@ public class ${JavaModName}Blocks {
 		}
 		</#if>
 	}
+	</#if>
+
+	<#if noteBlockInstrument?size != 0>
+	@SubscribeEvent public static void onNoteBlockPlay(NoteBlockEvent.Play event) {
+        <#compress>
+        Block below = event.getWorld().getBlockState(event.getPos().below()).getBlock();
+		<#list noteBlockInstrument as block>
+		if (below == ${JavaModName}Blocks.${block.getModElement().getRegistryNameUpper()}.get()) {
+            event.setInstrument(${generator.map(block.noteBlockInstrument, "noteblockinstruments")});
+        }<#sep>else
+		</#list>
+        </#compress>
+    }
 	</#if>
 }
 <#-- @formatter:on -->

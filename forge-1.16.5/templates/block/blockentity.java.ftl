@@ -35,12 +35,12 @@ package ${package}.block.entity;
 <#compress>
 public class ${name}BlockEntity extends LockableLootTileEntity implements ISidedInventory {
 
-	private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(${data.inventorySize}, ItemStack.EMPTY);
+	private NonNullList<ItemStack> stacks = NonNullList.withSize(${data.inventorySize}, ItemStack.EMPTY);
 
 	private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
 
 	public ${name}BlockEntity() {
-		super(${JavaModName}BlockEntities.${data.getModElement().getRegistryNameUpper()}.get());
+		super(${JavaModName}BlockEntities.${REGISTRYNAME}.get());
 	}
 
 	@Override public void read(BlockState blockState, CompoundNBT compound) {
@@ -103,9 +103,11 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 		return new StringTextComponent("${registryname}");
 	}
 
+	<#if data.inventoryStackSize != 99>
 	@Override public int getInventoryStackLimit() {
 		return ${data.inventoryStackSize};
 	}
+	</#if>
 
 	@Override public Container createMenu(int id, PlayerInventory inventory) {
 		<#if !data.guiBoundTo?has_content>

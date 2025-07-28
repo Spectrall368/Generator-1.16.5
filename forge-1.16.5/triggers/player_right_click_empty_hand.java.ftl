@@ -10,8 +10,8 @@
 				"entity": "event.getPlayer()"
 			}/>
 		</#compress></#assign>
-		if (event.getHand() != event.getPlayer().getActiveHand())
-			return;
+		<#-- fix #5491, event is fired for both hands always, so we can filter by either -->
+		if (event.getHand() != Hand.MAIN_HAND) return;
 		${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Message());
 		execute(${dependenciesCode});
 	}

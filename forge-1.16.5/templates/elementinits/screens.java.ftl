@@ -38,10 +38,14 @@ package ${package}.init;
 
 	@SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			<#list guis as gui>
+		<#list guis as gui>
 			ScreenManager.registerFactory(${JavaModName}Menus.${gui.getModElement().getRegistryNameUpper()}.get(), ${gui.getModElement().getName()}Screen::new);
-			</#list>
+		</#list>
 		});
+	}
+
+	public interface ScreenAccessor {
+		void updateMenuState(int elementType, String name, Object elementState);
 	}
 }
 <#-- @formatter:on -->

@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2025, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,18 +29,15 @@
 -->
 
 <#-- @formatter:off -->
-<#include "../triggers.java.ftl">
-package ${package}.item;
+/*
+ *    MCreator note: This file will be REGENERATED on each build.
+ */
+package ${package}.init;
 
-public class ${name}Item extends BucketItem {
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}BannerPatterns {
 
-	public ${name}Item() {
-		super(${JavaModName}Fluids.${REGISTRYNAME},
-			new Item.Properties().containerItem(Items.BUCKET).maxStackSize(1).group(<@CreativeTabs data.creativeTabs/>)
-			<#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>
-		);
-	}
-
-	<@addSpecialInformation data.specialInformation, "item." + modid + "." + registryname + "_bucket"/>
+	<#list bannerpatterns as bannerpattern>
+		public static final BannerPattern ${bannerpattern.getModElement().getRegistryNameUpper()} = BannerPattern.create("${modid?upper_case}_${bannerpattern.getModElement().getRegistryNameUpper()}", "${modid}:${bannerpattern.getModElement().getRegistryName()}", "${modid}:${bannerpattern.getModElement().getRegistryName()}"<#if bannerpattern.requireItem>, true</#if>);
+	</#list>
 }
 <#-- @formatter:on -->

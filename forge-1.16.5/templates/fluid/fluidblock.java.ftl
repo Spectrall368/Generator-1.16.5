@@ -34,17 +34,22 @@ package ${package}.block;
 
 public class ${name}Block extends FlowingFluidBlock {
 	public ${name}Block() {
-		super(() -> (FlowingFluid) ${JavaModName}Fluids.${data.getModElement().getRegistryNameUpper()}.get(),
+		super(() -> (FlowingFluid) ${JavaModName}Fluids.${REGISTRYNAME}.get(),
+			AbstractBlock.Properties.create(Material.${data.type}
 			<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
-			Block.Properties.create(Material.${data.type}, MaterialColor.${generator.map(data.colorOnMap, "mapcolors")})
-			<#else>
-			Block.Properties.create(Material.${data.type})
-			</#if>
+			, MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
+			</#if>)
 			.hardnessAndResistance(${data.resistance}f)
 			<#if data.emissiveRendering>.setNeedsPostProcessing((bs, br, bp) -> true).setEmmisiveRendering((bs, br, bp) -> true)</#if>
 			<#if data.luminance != 0>.setLightLevel(s -> ${data.luminance})</#if>
 		);
 	}
+
+	<#if data.ignitedByLava>
+	@Override public boolean isFlammable(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
+	    return true;
+	}
+	</#if>
 
 	<#if data.flammability != 0>
 	@Override public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face) {

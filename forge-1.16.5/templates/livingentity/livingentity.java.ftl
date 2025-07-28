@@ -48,7 +48,11 @@ import net.minecraft.network.datasync.DataParameter;
 	<#assign extendsClass = "Tameable">
 </#if>
 <#if data.spawnThisMob>@Mod.EventBusSubscriber</#if>
-public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implements IRangedAttackMob</#if> {
+<#if data.ranged>
+	<#assign interfaces += ["IRangedAttackMob"]>
+</#if>
+
+public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>implements ${interfaces?join(",")}</#if> {
 
 	<#if data.spawnThisMob>
 	private static final Set<ResourceLocation> GENERATE_BIOMES =
@@ -70,7 +74,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	    if (SPAWN_BIOMES.contains(event.getName()))
 	    </#if>
 
-		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), ${data.spawningProbability},
+		event.getSpawns().getSpawner(${generator.map(data.mobSpawningType, "mobspawntypes")}).add(new MobSpawnInfo.Spawners(${JavaModName}Entities.${REGISTRYNAME}.get(), ${data.spawningProbability},
 			${data.minNumberOfMobsPerGroup}, ${data.maxNumberOfMobsPerGroup}));
 	}
 	</#if>
@@ -91,7 +95,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	</#if>
 
 	public ${name}Entity(FMLPlayMessages.SpawnEntity packet, World world) {
-    	this(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), world);
+    	this(${JavaModName}Entities.${REGISTRYNAME}.get(), world);
     }
 
 	public ${name}Entity(EntityType<${name}Entity> type, World world) {
@@ -441,11 +445,13 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
     </#if>
 
 	<#if data.guiBoundTo?has_content>
-	private final ItemStackHandler inventory = new ItemStackHandler(${data.inventorySize}) {
+	private final ItemStackHandler inventory = new ItemStackHandler(${data.inventorySize})
+	<#if data.inventoryStackSize != 99>
 		@Override public int getSlotLimit(int slot) {
 			return ${data.inventoryStackSize};
 		}
-	};
+	}
+	</#if>;
 
 	private final CombinedInvWrapper combined = new CombinedInvWrapper(inventory, new EntityHandsInvWrapper(this), new EntityArmorInvWrapper(this));
 
@@ -656,7 +662,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	    @Override public void attackEntityWithRangedAttack(LivingEntity target, float flval) {
 			<#if data.rangedItemType == "Default item">
 				<#if !data.rangedAttackItem.isEmpty()>
-				${name}EntityProjectile entityarrow = new ${name}EntityProjectile(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), this, this.world);
+				${name}EntityProjectile entityarrow = new ${name}EntityProjectile(${JavaModName}Entities.${REGISTRYNAME}_PROJECTILE.get(), this, this.world);
 				<#else>
 				ArrowEntity entityarrow = new ArrowEntity(this.world, this);
 				</#if>
@@ -673,7 +679,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 
 	<#if data.breedable>
         @Override public AgeableEntity func_241840_a(ServerWorld serverWorld, AgeableEntity ageable) {
-			${name}Entity retval = ${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get().create(serverWorld);
+			${name}Entity retval = ${JavaModName}Entities.${REGISTRYNAME}.get().create(serverWorld);
 			retval.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(retval.getPosition()), SpawnReason.BREEDING, null, null);
 			return retval;
 		}
@@ -840,7 +846,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 	public static void init() {
 		<#if data.spawnThisMob>
 			<#if data.mobSpawningType == "creature">
-			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(),
+			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 					<#if hasProcedure(data.spawningCondition)>
 					(entityType, world, reason, pos, random) -> {
@@ -854,7 +860,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 					</#if>
 			);
 			<#elseif data.mobSpawningType == "ambient" || data.mobSpawningType == "misc">
-			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(),
+			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 					<#if hasProcedure(data.spawningCondition)>
 					(entityType, world, reason, pos, random) -> {
@@ -868,7 +874,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 					</#if>
 			);
 			<#elseif data.mobSpawningType == "waterCreature" || data.mobSpawningType == "waterAmbient" || data.mobSpawningType == "undergroundWaterCreature">
-			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(),
+			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 					<#if hasProcedure(data.spawningCondition)>
 					(entityType, world, reason, pos, random) -> {
@@ -882,7 +888,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 					</#if>
 			);
 			<#else>
-			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(),
+			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 					<#if hasProcedure(data.spawningCondition)>
 					(entityType, world, reason, pos, random) -> {
@@ -899,11 +905,11 @@ public class ${name}Entity extends ${extendsClass}Entity <#if data.ranged>implem
 		</#if>
 
 		<#if data.spawnInDungeons>
-			DungeonHooks.addDungeonMob(${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), 180);
+			DungeonHooks.addDungeonMob(${JavaModName}Entities.${REGISTRYNAME}.get(), 180);
 		</#if>
 
 		<#if data.mobBehaviourType == "Raider">
-		Raid.WaveMember.create("${registryname}", ${JavaModName}Entities.${data.getModElement().getRegistryNameUpper()}.get(), new int[]{0, ${data.raidSpawnsCount[0]}, ${data.raidSpawnsCount[1]}, ${data.raidSpawnsCount[2]}, ${data.raidSpawnsCount[3]}, ${data.raidSpawnsCount[4]}, ${data.raidSpawnsCount[5]}, ${data.raidSpawnsCount[6]}});
+		Raid.WaveMember.create("${registryname}", ${JavaModName}Entities.${REGISTRYNAME}.get(), new int[]{0, ${data.raidSpawnsCount[0]}, ${data.raidSpawnsCount[1]}, ${data.raidSpawnsCount[2]}, ${data.raidSpawnsCount[3]}, ${data.raidSpawnsCount[4]}, ${data.raidSpawnsCount[5]}, ${data.raidSpawnsCount[6]}});
 		</#if>
 	}
 

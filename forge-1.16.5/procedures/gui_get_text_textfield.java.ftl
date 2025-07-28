@@ -1,1 +1,3 @@
-(guistate.containsKey("text:${field$textfield}") ? ((TextFieldWidget) guistate.get("text:${field$textfield}")).getText() : "")
+<#if w.hasElementsOfType("gui")>
+((${input$entity} instanceof PlayerEntity && ((PlayerEntity) ${input$entity}).openContainer instanceof ${JavaModName}Menus.MenuAccessor) ? ((${JavaModName}Menus.MenuAccessor) ((PlayerEntity) ${input$entity}).openContainer).getMenuState(0, "${field$textfield}", "") : "")
+<#else>""</#if>

@@ -54,7 +54,7 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 	public static Feature<?> feature() {
 		INSTANCE = new ${name}Feature();
 		CONFIGURED_FEATURE = INSTANCE.withConfiguration(
-                new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${data.getModElement().getRegistryNameUpper()}.get().getDefaultState()),
+                new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(${JavaModName}Blocks.${REGISTRYNAME}.get().getDefaultState()),
                     <#if data.plantType == "double">DoublePlantBlockPlacer.PLACER
                     <#elseif data.plantType == "normal">SimpleBlockPlacer.PLACER
                     <#else>new ColumnBlockPlacer(2, 2)</#if>)

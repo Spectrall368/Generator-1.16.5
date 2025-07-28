@@ -1,30 +1,30 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
- # 
+ # Copyright (C) 2020-2022, Pylo, opensource contributors
+ #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
  # the Free Software Foundation, either version 3 of the License, or
  # (at your option) any later version.
- # 
+ #
  # This program is distributed in the hope that it will be useful,
  # but WITHOUT ANY WARRANTY; without even the implied warranty of
  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  # GNU General Public License for more details.
- # 
+ #
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <https://www.gnu.org/licenses/>.
- # 
+ #
  # Additional permission for code generator templates (*.ftl files)
- # 
- # As a special exception, you may create a larger work that contains part or 
- # all of the MCreator code generator templates (*.ftl files) and distribute 
- # that work under terms of your choice, so long as that work isn't itself a 
- # template for code generation. Alternatively, if you modify or redistribute 
- # the template itself, you may (at your option) remove this special exception, 
- # which will cause the template and the resulting code generator output files 
- # to be licensed under the GNU General Public License without this special 
+ #
+ # As a special exception, you may create a larger work that contains part or
+ # all of the MCreator code generator templates (*.ftl files) and distribute
+ # that work under terms of your choice, so long as that work isn't itself a
+ # template for code generation. Alternatively, if you modify or redistribute
+ # the template itself, you may (at your option) remove this special exception,
+ # which will cause the template and the resulting code generator output files
+ # to be licensed under the GNU General Public License without this special
  # exception.
 -->
 
@@ -40,9 +40,15 @@ import ${package}.${JavaModName};
 <#if hasProcedure(data.onTick)>
 @Mod.EventBusSubscriber
 </#if>
-public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot>> {
+public class ${name}Menu extends AbstractContainerMenu implements ${JavaModName}Menus.MenuAccessor {
 
-	public final static HashMap<String, Object> guistate = new HashMap<>();
+	public final Map<String, Object> menuState = new HashMap<>() {
+		@Override public Object put(String key, Object value) {
+			<#-- Prevent arbitrary data storage beyond the menu state -->
+			if (!this.containsKey(key) && this.size() >= ${data.components?size}) return null;
+			return super.put(key, value);
+		}
+	};
 
 	public final World world;
 	public final PlayerEntity entity;
@@ -59,7 +65,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 	private TileEntity boundBlockEntity = null;
 
 	public ${name}Menu(int id, PlayerInventory inv, PacketBuffer extraData) {
-		super(${JavaModName}Menus.${data.getModElement().getRegistryNameUpper()}.get(), id);
+		super(${JavaModName}Menus.${REGISTRYNAME}.get(), id);
 
 		this.entity = inv.player;
 		this.world = inv.player.world;
@@ -111,7 +117,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 						${component.gy(data.height) + 1}) {
 						private final int slot = ${component.id}; <#-- #5209, this is needed for procedure dependencies -->
 						private int x = ${name}Menu.this.x; <#-- #5239 - x and y provided by slot are in-GUI, not in-world coordinates -->
-						private int y = ${name}Menu.this.y;
+ 						private int y = ${name}Menu.this.y;
 
 						<#if hasProcedure(component.disablePickup) || component.disablePickup.getFixedValue()>
 						@Override public boolean canTakeStack(PlayerEntity entity) {
@@ -128,7 +134,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 
 						<#if hasProcedure(component.onTakenFromSlot)>
 						@Override public ItemStack onTake(PlayerEntity entity, ItemStack stack) {
-							slotChanged(${component.id}, 1, 0);
+							slotChanged(${component.id}, 1, stack.getCount());
 							return super.onTake(entity, stack);
 						}
 						</#if>
@@ -149,7 +155,7 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 								@Override public boolean isItemValid(ItemStack stack) {
 									<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
 										<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") + "\"">
-										return ItemTags.getCollection().getTagByID(new ResourceLocation(${tag})).contains(stack.getItem());
+										return stack.isIn(ItemTags.createOptional(new ResourceLocation(${tag})));
 									<#else>
 										return ${mappedMCItemToItem(component.inputLimit)} == stack.getItem();
 									</#if>
@@ -216,13 +222,15 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 					return ItemStack.EMPTY;
 				}
 
-				if (itemstack1.getCount() == 0)
+				if (itemstack1.isEmpty()) {
 					slot.putStack(ItemStack.EMPTY);
-				else
+				} else {
 					slot.onSlotChanged();
+				}
 
-				if (itemstack1.getCount() == itemstack.getCount())
+				if (itemstack1.getCount() == itemstack.getCount()) {
 					return ItemStack.EMPTY;
+				}
 
 				slot.onTake(playerIn, itemstack1);
 			}
@@ -249,7 +257,9 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 								if(j == ${component.id}) continue;
 							</#if>
 						</#list>
-						playerIn.dropItem(internal.extractItem(j, internal.getStackInSlot(j).getCount(), false), false);
+						playerIn.dropItem(internal.getStackInSlot(j), false);
+						if (internal instanceof IItemHandlerModifiable)
+							((IItemHandlerModifiable) internal).setStackInSlot(j, ItemStack.EMPTY);
 					}
 				} else {
 					for(int i = 0; i < internal.getSlots(); ++i) {
@@ -258,7 +268,9 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 								if(i == ${component.id}) continue;
 							</#if>
 						</#list>
-						playerIn.inventory.placeItemBackInInventory(playerIn.world, internal.extractItem(i, internal.getStackInSlot(i).getCount(), false));
+						playerIn.inventory.placeItemBackInInventory(playerIn.world, internal.getStackInSlot(i));
+						if (internal instanceof IItemHandlerModifiable)
+							((IItemHandlerModifiable) internal).setStackInSlot(i, ItemStack.EMPTY);
 					}
 				}
 			}
@@ -284,18 +296,22 @@ public class ${name}Menu extends Container implements Supplier<Map<Integer, Slot
 		</#if>
 	</#if>
 
-	public Map<Integer, Slot> get() {
-		return customSlots;
+	@Override public Map<Integer, Slot> getSlots() {
+		return Collections.unmodifiableMap(customSlots);
+	}
+
+	@Override public Map<String, Object> getMenuState() {
+		return menuState;
 	}
 
 	<#if hasProcedure(data.onTick)>
 		@SubscribeEvent public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 			PlayerEntity entity = event.player;
 			if(event.phase == TickEvent.Phase.END && entity.openContainer instanceof ${name}Menu) {
-				World world = entity.world;
-				double x = entity.getPosX();
-				double y = entity.getPosY();
-				double z = entity.getPosZ();
+				World world = ((${name}Menu) entity.openContainer).world;
+				double x = ((${name}Menu) entity.openContainer).x;
+				double y = ((${name}Menu) entity.openContainer).y;
+				double z = ((${name}Menu) entity.openContainer).z;
 				<@procedureOBJToCode data.onTick/>
 			}
 		}

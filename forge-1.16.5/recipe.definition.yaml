@@ -31,4 +31,9 @@ templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/recipes/brewing/@NAMEBrewingRecipe.java"
     condition: "recipeType %= Brewing"
 
+  - template: recipe/unlocking_advancement.json.ftl # loaded from datapack generator
+    writer: json
+    name: "@MODDATAROOT/advancements/recipes/@registryname.json"
+    condition: "hasAdvancement()"
+
 field_exclusions: [cookingBookCategory, craftingBookCategory, smithingRecipeMaker.cb4]

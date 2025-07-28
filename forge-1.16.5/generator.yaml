@@ -1,7 +1,7 @@
 name: Forge for @minecraft (@buildfileversion)
 status: deprecated
 buildfileversion: 36.2.42
-subversion: 1.5 # force setup re-run to update build script for MCREATOR_JVM_OPTIONS
+subversion: 1.6 # force setup re-run to update build script for MCREATOR_JVM_OPTIONS
 
 import:
   - datapack-1.16.x
@@ -25,6 +25,11 @@ import_formatter:
     Nullable: javax.annotation
     Codec: com.mojang.serialization
     SoundEvent: net.minecraft.util
+    Blocks: net.minecraft.block
+    Items: net.minecraft.item
+    Multimap: com.google.common.collect
+    ImmutableSet: com.google.common.collect
+    Iterables: com.google.common.collect
     Attributes: net.minecraft.entity.ai.attributes
 
 # base generator roots
@@ -79,7 +84,14 @@ base_templates:
     name: "@RESROOT/META-INF/accesstransformer.cfg"
     condition_any:
       - "${w.getGElementsOfType('gamerule')?filter(e -> e.type.equals('Number') || e.type.equals('Logic'))?size != 0}"
-      - ${w.hasElementsOfType("villagerprofession")}
+      - "${w.hasElementsOfType('villagerprofession')}"
+  - template: elementinits/features.java.ftl
+    writer: java
+    condition_any:
+      - "${w.getGElementsOfType('block')?filter(e -> e.generateFeature)?size != 0}"
+      - "${w.getGElementsOfType('plant')?filter(e -> e.generateFeature)?size != 0}"
+      - "${w.hasElementsOfType('feature')}"
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameFeatures.java"
 
 sources_setup_tasks:
   - task: copy_models

@@ -65,23 +65,12 @@ package ${package}.network;
 
 	public static void handler(${name}SlotMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
 		NetworkEvent.Context context = contextSupplier.get();
-		context.enqueueWork(() -> {
-			PlayerEntity entity = context.getSender();
-			int slotID = message.slotID;
-			int changeType = message.changeType;
-			int meta = message.meta;
-			int x = message.x;
-			int y = message.y;
-			int z = message.z;
-
-			handleSlotAction(entity, slotID, changeType, meta, x, y, z);
-		});
+		context.enqueueWork(() -> handleSlotAction(context.getSender(), message.slotID, message.changeType, message.meta, message.x, message.y, message.z));
 		context.setPacketHandled(true);
 	}
 
 	public static void handleSlotAction(PlayerEntity entity, int slot, int changeType, int meta, int x, int y, int z) {
 		World world = entity.world;
-		HashMap guistate = ${name}Menu.guistate;
 
 		// security measure to prevent arbitrary chunk generation
 		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
@@ -96,6 +85,7 @@ package ${package}.network;
 				</#if>
 				<#if hasProcedure(component.onTakenFromSlot)>
 					if (slot == ${component.id} && changeType == 1) {
+						int amount = meta;
 						<@procedureOBJToCode component.onTakenFromSlot/>
 					}
 				</#if>

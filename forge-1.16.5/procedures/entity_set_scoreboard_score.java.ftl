@@ -1,5 +1,5 @@
 {
-	Entity _ent = ${input$entity};
+    Entity _ent = ${input$entity};
 	Scoreboard _sc = _ent.world.getScoreboard();
 	ScoreObjective _so = _sc.getObjective(${input$score});
 	if (_so == null)

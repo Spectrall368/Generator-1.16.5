@@ -42,5 +42,30 @@ public class ${JavaModName}Menus {
 	public static final RegistryObject<ContainerType<${gui.getModElement().getName()}Menu>> ${gui.getModElement().getRegistryNameUpper()}
 		= REGISTRY.register("${gui.getModElement().getRegistryName()}", () -> IForgeContainerType.create(${gui.getModElement().getName()}Menu::new));
 	</#list>
+
+	public interface MenuAccessor {
+		Map<String, Object> getMenuState();
+
+		Map<Integer, Slot> getSlots();
+
+		default void sendMenuStateUpdate(PlayerEntity player, int elementType, String name, Object elementState, boolean needClientUpdate) {
+			getMenuState().put(elementType + ":" + name, elementState);
+			if (player instanceof ServerPlayerEntity) {
+				${JavaModName}.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new MenuStateUpdateMessage(elementType, name, elementState));
+			} else if (player.world.isClientSide) {
+				if (Minecraft.getInstance().currentScreen instanceof ${JavaModName}Screens.ScreenAccessor accessor && needClientUpdate)
+					accessor.updateMenuState(elementType, name, elementState);
+				${JavaModName}.PACKET_HANDLER.sendToServer(new MenuStateUpdateMessage(elementType, name, elementState));
+			}
+		}
+
+		default <T> T getMenuState(int elementType, String name, T defaultValue) {
+			try {
+				return (T) getMenuState().getOrDefault(elementType + ":" + name, defaultValue);
+			} catch (ClassCastException e) {
+				return defaultValue;
+			}
+		}
+	}
 }
 <#-- @formatter:on -->
