@@ -40,9 +40,9 @@ import ${package}.${JavaModName};
 <#if hasProcedure(data.onTick)>
 @Mod.EventBusSubscriber
 </#if>
-public class ${name}Menu extends AbstractContainerMenu implements ${JavaModName}Menus.MenuAccessor {
+public class ${name}Menu extends Container implements ${JavaModName}Menus.MenuAccessor {
 
-	public final Map<String, Object> menuState = new HashMap<>() {
+	public final Map<String, Object> menuState = new HashMap<String, Object>() {
 		@Override public Object put(String key, Object value) {
 			<#-- Prevent arbitrary data storage beyond the menu state -->
 			if (!this.containsKey(key) && this.size() >= ${data.components?size}) return null;
@@ -155,7 +155,7 @@ public class ${name}Menu extends AbstractContainerMenu implements ${JavaModName}
 								@Override public boolean isItemValid(ItemStack stack) {
 									<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
 										<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") + "\"">
-										return stack.isIn(ItemTags.createOptional(new ResourceLocation(${tag})));
+										return stack.getItem().isIn(ItemTags.createOptional(new ResourceLocation(${tag})));
 									<#else>
 										return ${mappedMCItemToItem(component.inputLimit)} == stack.getItem();
 									</#if>

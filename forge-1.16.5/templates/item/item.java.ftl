@@ -69,7 +69,15 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 				.setNoRepair()
 				</#if>
 				<#if hasCustomJAVAModels>
-				.setISTER(() -> ${name}ItemRenderer::new)
+				.setISTER(() -> new Callable() {
+			        private ${name}ItemRenderer rendererInstance;
+
+			        @Override public ItemStackTileEntityRenderer call() throws Exception {
+				        if (rendererInstance == null)
+					        rendererInstance = new ${name}ItemRenderer();
+				        return rendererInstance;
+			        }
+                })
 	            </#if>
 		);
 	}

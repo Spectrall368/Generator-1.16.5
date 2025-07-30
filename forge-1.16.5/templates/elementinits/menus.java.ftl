@@ -52,9 +52,9 @@ public class ${JavaModName}Menus {
 			getMenuState().put(elementType + ":" + name, elementState);
 			if (player instanceof ServerPlayerEntity) {
 				${JavaModName}.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new MenuStateUpdateMessage(elementType, name, elementState));
-			} else if (player.world.isClientSide) {
-				if (Minecraft.getInstance().currentScreen instanceof ${JavaModName}Screens.ScreenAccessor accessor && needClientUpdate)
-					accessor.updateMenuState(elementType, name, elementState);
+			} else if (player.world.isRemote) {
+				if (Minecraft.getInstance().currentScreen instanceof ${JavaModName}Screens.ScreenAccessor && needClientUpdate)
+					((${JavaModName}Screens.ScreenAccessor) Minecraft.getInstance().currentScreen).updateMenuState(elementType, name, elementState);
 				${JavaModName}.PACKET_HANDLER.sendToServer(new MenuStateUpdateMessage(elementType, name, elementState));
 			}
 		}

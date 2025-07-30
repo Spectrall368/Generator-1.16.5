@@ -34,7 +34,7 @@
 package ${package}.entity;
 
 import net.minecraft.network.datasync.DataParameter;
-
+<#assign interfaces = []>
 <#assign extendsClass = "Creature">
 <#if data.aiBase != "(none)">
 	<#assign extendsClass = data.aiBase>
@@ -52,7 +52,7 @@ import net.minecraft.network.datasync.DataParameter;
 	<#assign interfaces += ["IRangedAttackMob"]>
 </#if>
 
-public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>implements ${interfaces?join(",")}</#if> {
+public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt 0>implements ${interfaces?join(",")}</#if> {
 
 	<#if data.spawnThisMob>
 	private static final Set<ResourceLocation> GENERATE_BIOMES =

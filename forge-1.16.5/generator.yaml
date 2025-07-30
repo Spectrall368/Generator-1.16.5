@@ -84,6 +84,7 @@ base_templates:
     name: "@RESROOT/META-INF/accesstransformer.cfg"
     condition_any:
       - "${w.getGElementsOfType('gamerule')?filter(e -> e.type.equals('Number') || e.type.equals('Logic'))?size != 0}"
+      - "${w.hasElementsOfType('structure')}"
       - "${w.hasElementsOfType('villagerprofession')}"
   - template: elementinits/features.java.ftl
     writer: java

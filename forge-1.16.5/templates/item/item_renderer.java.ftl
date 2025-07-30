@@ -36,10 +36,10 @@ import net.minecraft.client.renderer.ItemRenderer;
 <#compress>
 @OnlyIn(Dist.CLIENT)
 public class ${name}ItemRenderer extends ItemStackTileEntityRenderer {
-	private final ItemStack transformSource;
+	private final Supplier<ItemStack> transformSource;
 
 	public ${name}ItemRenderer() {
-		this.transformSource = new ItemStack(${JavaModName}Items.${REGISTRYNAME}.get());
+		this.transformSource = () -> new ItemStack(${JavaModName}Items.${REGISTRYNAME}.get());
 	}
 
 	@Override public void func_239207_a_(ItemStack itemstack, ItemCameraTransforms.TransformType displayContext, MatrixStack poseStack, IRenderTypeBuffer bufferSource, int packedLight, int packedOverlay) {
@@ -59,7 +59,7 @@ public class ${name}ItemRenderer extends ItemStackTileEntityRenderer {
 		if (model == null) return;
 
 		poseStack.push();
-		Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(this.transformSource, null, null).handlePerspective(displayContext, poseStack);
+		Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(this.transformSource.get(), null, null).handlePerspective(displayContext, poseStack);
 		poseStack.translate(0.5, isInventory(displayContext) ? 1.5 : 2, 0.5);
 		poseStack.scale(1, -1, displayContext == ItemCameraTransforms.TransformType.GUI ? -1 : 1);
 		IVertexBuilder vertexConsumer = ItemRenderer.getEntityGlintVertexBuilder(bufferSource, model.getRenderType(texture), false, itemstack.hasEffect());

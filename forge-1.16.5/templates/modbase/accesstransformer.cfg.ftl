@@ -10,5 +10,12 @@ public net.minecraft.world.GameRules$BooleanValue func_223568_b(Z)Lnet/minecraft
 public net.minecraft.village.PointOfInterestType func_221052_a(Lnet/minecraft/village/PointOfInterestType;)Lnet/minecraft/village/PointOfInterestType; #registerBlockStates
 </#if>
 
+<#if w.hasElementsOfType("structure")>
+public-f net.minecraft.world.gen.feature.structure.Structure field_236384_t_ #LAND_TRANSFORMING_STRUCTURES
+public-f net.minecraft.world.gen.settings.DimensionStructuresSettings field_236191_b_ #DEFAULT_STRUCTURE_CONFIGS
+public-f net.minecraft.world.gen.FlatGenerationSettings field_202247_j #STRUCTURES
+public-f net.minecraft.world.gen.settings.DimensionStructuresSettings field_236193_d_ #structures
+</#if>
+
 # Start of user code block custom ATs
 # End of user code block custom ATs

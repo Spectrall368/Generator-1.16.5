@@ -1,0 +1,29 @@
+templates:
+  - template: structure/structure.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/structures/@NAMEStructure.java"
+  - template: structure/template_pool.json.ftl # loaded from datapack generator
+    writer: json
+    name: "@MODDATAROOT/worldgen/template_pool/@registryname.json"
+
+list_templates:
+  - name: "Jigsaw pools"
+    listData: data.jigsawPools
+    forEach:
+      - template: structure/template_pool.json.ftl # loaded from datapack generator
+        writer: json
+        name: "@MODDATAROOT/worldgen/template_pool/@registryname_@[item.poolName].json"
+
+global_templates:
+  - template: elementinits/structures.java.ftl
+    writer: java
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameStructures.java"
+  - template: structure/base_structure.java.ftl
+    writer: java
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/structures/@JavaModNameStructureBase.java"
+    hidden: true
+  - template: structure/structure_configuration.java.ftl
+    writer: java
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/structures/configurations/StructureConfiguration.java"
+    hidden: true
+
+field_exclusions: [maxDistanceFromCenter]

@@ -125,7 +125,7 @@ package ${package}.init;
 	<#if noteBlockInstrument?size != 0>
 	@SubscribeEvent public static void onNoteBlockPlay(NoteBlockEvent.Play event) {
         <#compress>
-        Block below = event.getWorld().getBlockState(event.getPos().below()).getBlock();
+        Block below = event.getWorld().getBlockState(event.getPos().down()).getBlock();
 		<#list noteBlockInstrument as block>
 		if (below == ${JavaModName}Blocks.${block.getModElement().getRegistryNameUpper()}.get()) {
             event.setInstrument(${generator.map(block.noteBlockInstrument, "noteblockinstruments")});

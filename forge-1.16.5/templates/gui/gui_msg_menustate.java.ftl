@@ -44,23 +44,23 @@ package ${package}.network;
         this.elementState = elementState;
     }
 
-    public MenuStateUpdateMessage(FriendlyByteBuf buffer) {
+    public MenuStateUpdateMessage(PacketBuffer buffer) {
 		this.elementType = buffer.readInt();
-		this.name = buffer.readUtf();
+		this.name = buffer.readString();
 		Object elementState = null;
 		if (elementType == 0) {
-			elementState = buffer.readUtf();
+			elementState = buffer.readString();
 		} else if (elementType == 1) {
 			elementState = buffer.readBoolean();
 		}
         this.elementState = elementState;
 	}
 
-    public static void buffer(MenuStateUpdateMessage message, FriendlyByteBuf buffer) {
+    public static void buffer(MenuStateUpdateMessage message, PacketBuffer buffer) {
 		buffer.writeInt(message.elementType);
-		buffer.writeUtf(message.name);
+		buffer.writeString(message.name);
 		if (message.elementType == 0) {
-			buffer.writeUtf((String) message.elementState);
+			buffer.writeString((String) message.elementState);
 		} else if (message.elementType == 1) {
 			buffer.writeBoolean((boolean) message.elementState);
 		}
@@ -68,15 +68,15 @@ package ${package}.network;
 
     public static void handler(MenuStateUpdateMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
 		<#-- Security measure to prevent accepting too big strings -->
-		if (message.name.length() > 256 || message.elementState instanceof String string && string.length() > 8192)
+		if (message.name.length() > 256 || message.elementState instanceof String && ((String) message.elementState).length() > 8192)
 			return;
 
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             if (context.getSender().openContainer instanceof ${JavaModName}Menus.MenuAccessor) {
 				((${JavaModName}Menus.MenuAccessor) context.getSender().openContainer).getMenuState().put(message.elementType + ":" + message.name, message.elementState);
-                if (!context.getDirection().getReceptionSide().isServer() && Minecraft.getInstance().currentScreen instanceof ${JavaModName}Screens.ScreenAccessor accessor) {
-                    accessor.updateMenuState(message.elementType, message.name, message.elementState);
+                if (!context.getDirection().getReceptionSide().isServer() && Minecraft.getInstance().currentScreen instanceof ${JavaModName}Screens.ScreenAccessor) {
+                    ((${JavaModName}Screens.ScreenAccessor) Minecraft.getInstance().currentScreen).updateMenuState(message.elementType, message.name, message.elementState);
                 }
             }
         });
