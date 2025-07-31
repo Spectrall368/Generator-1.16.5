@@ -235,7 +235,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 			${component.getName()}.setMaxStringLength(8192);
 			${component.getName()}.setResponder(content -> {
 				if (!menuStateUpdateActive)
-					menu.sendMenuStateUpdate(entity, 0, "${component.getName()}", content, false);
+					container.sendMenuStateUpdate(entity, 0, "${component.getName()}", content, false);
 			});
 			<#if component.placeholder?has_content>
 			${component.getName()}.setSuggestion(new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}").getString());
@@ -286,12 +286,12 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 				    @Override public void onPress() {
 				        super.onPress();
 				        if (!menuStateUpdateActive)
-				            menu.sendMenuStateUpdate(entity, 1, "${component.getName()}", this.isChecked(), false);
+				            container.sendMenuStateUpdate(entity, 1, "${component.getName()}", this.isChecked(), false);
 				    }
 			};
 			<#if hasProcedure(component.isCheckedProcedure)>
 				if (${component.getName()}Selected)
-					menu.sendMenuStateUpdate(entity, 1, "${component.getName()}", true, false);
+					container.sendMenuStateUpdate(entity, 1, "${component.getName()}", true, false);
 			</#if>
 
 			this.addButton(${component.getName()});
