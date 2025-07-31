@@ -47,11 +47,11 @@ import net.minecraft.network.datasync.DataParameter;
 <#if (data.tameable && data.breedable)>
 	<#assign extendsClass = "Tameable">
 </#if>
-<#if data.spawnThisMob>@Mod.EventBusSubscriber</#if>
 <#if data.ranged>
 	<#assign interfaces += ["IRangedAttackMob"]>
 </#if>
 
+<#if data.spawnThisMob>@Mod.EventBusSubscriber</#if>
 public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt 0>implements ${interfaces?join(",")}</#if> {
 
 	<#if data.spawnThisMob>

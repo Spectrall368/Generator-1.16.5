@@ -1,10 +1,12 @@
-<#include "mcelements.ftl">
 <#assign entity = generator.map(field$entity, "entities", 1)!"null">
 <#if entity != "null">
 if (world instanceof ServerWorld) {
-	Entity entityToSpawn = ${entity}.spawn((ServerWorld) world, world.getDifficultyForLocation(${toBlockPos(input$x,input$y,input$z)}), SpawnReason.MOB_SUMMONED, null, null);
-	if (entityToSpawn != null) {
-		entityToSpawn.rotationYaw = world.getRandom().nextFloat() * 360F;
-	}
+	Entity entityToSpawn = new ${generator.map(field$entity, "entities", 0)}(${entity}, (ServerWorld) world);
+	entityToSpawn.setLocationAndAngles(${input$x}, ${input$y}, ${input$z}, world.getRandom().nextFloat() * 360F, 0);
+
+	if (entityToSpawn instanceof MobEntity)
+        ((MobEntity) entityToSpawn).onInitialSpawn((ServerWorld) world, world.getDifficultyForLocation(entityToSpawn.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
+
+	world.addEntity(entityToSpawn);
 }
 </#if>

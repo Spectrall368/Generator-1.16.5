@@ -17,7 +17,3 @@ DROPPED_EXPERIENCE:
   - setDroppedExperience #int
   - entity_dropxp
 # logic parameters
-SHIELD_BLOCKED:
-  - ShieldBlockEvent
-  - setShieldTakesDamage
-  - entity_blocks

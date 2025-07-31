@@ -56,7 +56,7 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 		<#elseif data.plantType == "sapling">
 		new ${name}TreeGrower(),
 		</#if>
-		AbstractBlock.Properties.create(Material.PLANT
+		AbstractBlock.Properties.create(Material.PLANTS
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
 		, MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
 		</#if>)
@@ -118,7 +118,7 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockState state = super.getStateForPlacement(context);
-		return state == null ? null : state.setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
+		return state == null ? null : state.with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override public FluidState getFluidState(BlockState state) {

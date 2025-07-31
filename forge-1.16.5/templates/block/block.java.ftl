@@ -432,7 +432,7 @@ public class ${name}Block extends
 		}
 		<#else>
 		@Override public BlockState rotate(BlockState state, Rotation rot) {
-			return RotatedPillarBlock.rotatePillar(state, rot);
+			return RotatedPillarBlock.rotate(state, rot);
 		}
 		</#if>
 

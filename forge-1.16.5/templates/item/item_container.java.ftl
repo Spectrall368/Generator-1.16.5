@@ -35,10 +35,10 @@ package ${package}.item.inventory;
 @Mod.EventBusSubscriber public class ${name}InventoryCapability implements ICapabilitySerializable<CompoundTag> {
 
 	@SubscribeEvent public static void onItemDropped(ItemTossEvent event) {
-		if (event.getEntity().getItem().getItem() == ${JavaModName}Items.${REGISTRYNAME}.get()) {
-			Player player = event.getPlayer();
-			if (player.containerMenu instanceof ${data.guiBoundTo}Menu)
-				player.closeContainer();
+		if (event.getEntityItem().getItem().getItem() == ${JavaModName}Items.${REGISTRYNAME}.get()) {
+			PlayerEntity player = event.getPlayer();
+			if (player.openContainer instanceof ${data.guiBoundTo}Menu)
+				player.closeScreen();
 			}
 		}
 	}

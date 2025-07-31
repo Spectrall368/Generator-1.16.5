@@ -1,6 +1,6 @@
 {
   "id": "generator-1.16.5",
-  "supportedversions": [2025001],
+  "supportedversions": [2025002],
   "weight": 11,
   "info": {
     "name": "Minecraft Forge 1.16.5 Java Edition/Datapack Generator",
