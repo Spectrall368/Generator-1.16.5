@@ -1,10 +1,10 @@
 <#include "procedures.java.ftl">
 .executes(arguments -> {
-    World world = arguments.getSource().getWorld();
+    World world = arguments.getSource().getLevel();
 
-    double x = arguments.getSource().getPos().getX();
-    double y = arguments.getSource().getPos().getY();
-    double z = arguments.getSource().getPos().getZ();
+    double x = arguments.getSource().getPosition().x();
+    double y = arguments.getSource().getPosition().y();
+    double z = arguments.getSource().getPosition().z();
 
     Entity entity = arguments.getSource().getEntity();
     if (entity == null && world instanceof ServerWorld)
@@ -12,7 +12,7 @@
 
     Direction direction = Direction.DOWN;
     if (entity != null)
-    	direction = entity.getHorizontalFacing();
+    	direction = entity.getDirection();
 
     <@procedureToCode name=procedure dependencies=dependencies/>
     return 0;

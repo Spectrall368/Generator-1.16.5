@@ -1,1 +1,1 @@
-NoFeatureConfig.field_236559_b_
+NoFeatureConfig.INSTANCE

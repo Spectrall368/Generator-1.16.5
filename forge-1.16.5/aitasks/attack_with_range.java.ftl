@@ -6,4 +6,5 @@ this.goalSelector.addGoal(${cbi+1}, new MeleeAttackGoal(this, ${field$speed}, ${
     }
 
     <@conditionCode field$condition false/>
+
 });

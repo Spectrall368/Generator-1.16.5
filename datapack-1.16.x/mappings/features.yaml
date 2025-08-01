@@ -90,6 +90,14 @@ feature_random_selector:
   - MultipleWithChanceRandomFeature
   - MultipleRandomFeatureConfig
   - Feature.RANDOM_SELECTOR
+feature_disk_simple:
+  - SphereReplaceFeature
+  - SphereReplaceConfig
+  - Feature.DISK
+feature_disk:
+  - SphereReplaceFeature
+  - SphereReplaceConfig
+  - Feature.DISK
 feature_tree_simple:
   - TreeFeature
   - BaseTreeFeatureConfig
