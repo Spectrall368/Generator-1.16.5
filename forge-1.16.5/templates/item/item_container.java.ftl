@@ -32,7 +32,7 @@
 package ${package}.item.inventory;
 
 <#compress>
-@Mod.EventBusSubscriber public class ${name}InventoryCapability implements ICapabilitySerializable<CompoundTag> {
+@Mod.EventBusSubscriber public class ${name}InventoryCapability implements ICapabilitySerializable<CompoundNBT> {
 
 	@SubscribeEvent public static void onItemDropped(ItemTossEvent event) {
 		if (event.getEntityItem().getItem().getItem() == ${JavaModName}Items.${REGISTRYNAME}.get()) {
