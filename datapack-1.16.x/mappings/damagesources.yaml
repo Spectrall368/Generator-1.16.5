@@ -4,6 +4,7 @@ _default:
 _mcreator_map_template:
   - "@JavaModNameDamageTypes.@REGISTRYNAME"
   - "@modid:@registryname"
+_bypass_prefix: "#"
 IN_FIRE:
   - DamageSource.IN_FIRE
   - inFire
