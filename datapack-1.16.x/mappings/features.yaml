@@ -1,110 +1,114 @@
 _default:
   - NoOpFeature
   - NoFeatureConfig
-  - NoFeatureConfig.field_236558_a_
+  - Feature.NO_OP
 feature_no_op:
   - NoOpFeature
   - NoFeatureConfig
-  - NoFeatureConfig.field_236558_a_
+  - Feature.NO_OP
 feature_lake:
   - LakesFeature
   - BlockStateFeatureConfig
-  - BlockStateFeatureConfig.field_236455_a_
+  - Feature.LAKE
 feature_simple_block:
   - Feature<BlockStateFeatureConfig>
   - BlockStateFeatureConfig
-  - BlockStateFeatureConfig.field_236455_a_
+  - Feature.SIMPLE_BLOCK
 feature_block_pile:
   - BlockPileFeature
   - BlockStateProvidingFeatureConfig
-  - BlockStateProvidingFeatureConfig.field_236453_a_
+  - Feature.BLOCK_PILE
 feature_huge_brown_mushroom:
   - BigBrownMushroomFeature
   - BigMushroomFeatureConfig
-  - BigMushroomFeatureConfig.CODEC
+  - Feature.HUGE_BROWN_MUSHROOM
 feature_huge_red_mushroom:
   - BigRedMushroomFeature
   - BigMushroomFeatureConfig
-  - BigMushroomFeatureConfig.CODEC
+  - Feature.HUGE_RED_MUSHROOM
 feature_coral_claw:
   - CoralClawFeature
   - NoFeatureConfig
-  - NoFeatureConfig.field_236558_a_
+  - Feature.CORAL_CLAW
 feature_coral_mushroom:
   - CoralMushroomFeature
   - NoFeatureConfig
-  - NoFeatureConfig.field_236558_a_
+  - Feature.CORAL_MUSHROOM
 feature_coral_tree:
   - CoralTreeFeature
   - NoFeatureConfig
-  - NoFeatureConfig.field_236558_a_
+  - Feature.CORAL_TREE
 feature_forest_rock:
   - BlockBlobFeature
   - BlockStateFeatureConfig
-  - BlockStateFeatureConfig.field_236455_a_
+  - Feature.FOREST_ROCK
 feature_huge_fungus:
   - HugeFungusFeature
   - HugeFungusConfig
-  - HugeFungusConfig.field_236298_a_
+  - Feature.HUGE_FUNGUS
 feature_delta:
   - BasaltDeltasStructure
   - BasaltDeltasFeature
-  - BasaltDeltasFeature.field_236495_a_
+  - Feature.DELTA_FEATURE
 feature_replace_sphere:
   - SphereReplaceFeature
   - SphereReplaceConfig
-  - SphereReplaceConfig.field_236516_a_
+  - Feature.REPLACE_BLOBS
 feature_seagrass:
   - SeaGrassFeature
   - ProbabilityConfig
-  - ProbabilityConfig.CODEC
+  - Feature.SEAGRASS
 feature_bamboo:
   - BambooFeature
   - ProbabilityConfig
-  - ProbabilityConfig.CODEC
+  - Feature.BAMBOO
 feature_random_patch_simple:
   - RandomPatchFeature
   - BlockClusterFeatureConfig
-  - BlockClusterFeatureConfig.field_236587_a_
+  - Feature.RANDOM_PATCH
 feature_random_patch:
   - RandomPatchFeature
   - BlockClusterFeatureConfig
-  - BlockClusterFeatureConfig.field_236587_a_
+  - Feature.RANDOM_PATCH
 feature_ore:
   - OreFeature
   - OreFeatureConfig
-  - OreFeatureConfig.CODEC
+  - Feature.ORE
 feature_scattered_ore:
   - NoExposedOreFeature
   - OreFeatureConfig
-  - OreFeatureConfig.CODEC
+  - Feature.SCATTERED_ORE
 feature_replace_single_block:
   - ReplaceBlockFeature
   - ReplaceBlockConfig
-  - ReplaceBlockConfig.field_236604_a_
+  - Feature.REPLACE_SINGLE_BLOCK
 feature_simple_random_selector:
   - SingleRandomFeatureConfig
   - SingleRandomFeature
-  - SingleRandomFeature.field_236642_a_
-feature_spring:
-  - SpringFeature
-  - LiquidsConfig
-  - LiquidsConfig.field_236649_a_
+  - Feature.SIMPLE_RANDOM_SELECTOR
+feature_random_selector:
+  - MultipleWithChanceRandomFeature
+  - MultipleRandomFeatureConfig
+  - Feature.RANDOM_SELECTOR
 feature_tree_simple:
   - TreeFeature
   - BaseTreeFeatureConfig
-  - BaseTreeFeatureConfig.CODEC
+  - Feature.TREE
 feature_tree_spruce:
   - TreeFeature
   - BaseTreeFeatureConfig
-  - BaseTreeFeatureConfig.CODEC
+  - Feature.TREE
 feature_tree_pine:
   - TreeFeature
   - BaseTreeFeatureConfig
-  - BaseTreeFeatureConfig.CODEC
+  - Feature.TREE
+feature_spring:
+  - SpringFeature
+  - LiquidsConfig
+  - Feature.SPRING
 
 # Custom NBT-based feature, not present in vanilla
 feature_custom_structure:
-  - StructureFeature
-  - StructureFeatureConfiguration
-  - StructureFeatureConfiguration.CODEC
+  - StructureModFeature
+  - StructureModFeatureConfiguration
+  - StructureModFeature.STRUCTURE_FEATURE
