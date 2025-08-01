@@ -39,6 +39,8 @@
 <#if data.blockBase?has_content>
     <#if data.blockBase == "PressurePlate" || data.blockBase == "TrapDoor" || data.blockBase == "Door" || data.blockBase == "Button">
         <#assign blockSetType = data.blockSetType>
+    <#elseif data.blockBase == "Leaves">
+        <#assign blockSetType = "LEAVES">
     </#if>
 </#if>
 package ${package}.block;
