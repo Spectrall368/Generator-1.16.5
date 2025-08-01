@@ -396,4 +396,3 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 </#macro>
 </#compress>
 <#-- @formatter:on -->
-
