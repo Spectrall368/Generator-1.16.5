@@ -1,122 +1,110 @@
 _default:
   - NoOpFeature
   - NoFeatureConfig
-  - Feature.NO_OP
+  - NoFeatureConfig.field_236558_a_
 feature_no_op:
   - NoOpFeature
   - NoFeatureConfig
-  - Feature.NO_OP
+  - NoFeatureConfig.field_236558_a_
 feature_lake:
   - LakesFeature
   - BlockStateFeatureConfig
-  - Feature.LAKE
+  - BlockStateFeatureConfig.field_236455_a_
 feature_simple_block:
   - Feature<BlockStateFeatureConfig>
   - BlockStateFeatureConfig
-  - Feature.SIMPLE_BLOCK
+  - BlockStateFeatureConfig.field_236455_a_
 feature_block_pile:
   - BlockPileFeature
   - BlockStateProvidingFeatureConfig
-  - Feature.BLOCK_PILE
+  - BlockStateProvidingFeatureConfig.field_236453_a_
 feature_huge_brown_mushroom:
   - BigBrownMushroomFeature
   - BigMushroomFeatureConfig
-  - Feature.HUGE_BROWN_MUSHROOM
+  - BigMushroomFeatureConfig.CODEC
 feature_huge_red_mushroom:
   - BigRedMushroomFeature
   - BigMushroomFeatureConfig
-  - Feature.HUGE_RED_MUSHROOM
+  - BigMushroomFeatureConfig.CODEC
 feature_coral_claw:
   - CoralClawFeature
   - NoFeatureConfig
-  - Feature.CORAL_CLAW
+  - NoFeatureConfig.field_236558_a_
 feature_coral_mushroom:
   - CoralMushroomFeature
   - NoFeatureConfig
-  - Feature.CORAL_MUSHROOM
+  - NoFeatureConfig.field_236558_a_
 feature_coral_tree:
   - CoralTreeFeature
   - NoFeatureConfig
-  - Feature.CORAL_TREE
+  - NoFeatureConfig.field_236558_a_
 feature_forest_rock:
   - BlockBlobFeature
   - BlockStateFeatureConfig
-  - Feature.FOREST_ROCK
+  - BlockStateFeatureConfig.field_236455_a_
 feature_huge_fungus:
   - HugeFungusFeature
   - HugeFungusConfig
-  - Feature.HUGE_FUNGUS
+  - HugeFungusConfig.field_236298_a_
 feature_delta:
   - BasaltDeltasStructure
   - BasaltDeltasFeature
-  - Feature.DELTA_FEATURE
+  - BasaltDeltasFeature.field_236495_a_
 feature_replace_sphere:
   - SphereReplaceFeature
   - SphereReplaceConfig
-  - Feature.REPLACE_BLOBS
+  - SphereReplaceConfig.field_236516_a_
 feature_seagrass:
   - SeaGrassFeature
   - ProbabilityConfig
-  - Feature.SEAGRASS
+  - ProbabilityConfig.CODEC
 feature_bamboo:
   - BambooFeature
   - ProbabilityConfig
-  - Feature.BAMBOO
+  - ProbabilityConfig.CODEC
 feature_random_patch_simple:
   - RandomPatchFeature
   - BlockClusterFeatureConfig
-  - Feature.RANDOM_PATCH
+  - BlockClusterFeatureConfig.field_236587_a_
 feature_random_patch:
   - RandomPatchFeature
   - BlockClusterFeatureConfig
-  - Feature.RANDOM_PATCH
+  - BlockClusterFeatureConfig.field_236587_a_
 feature_ore:
   - OreFeature
   - OreFeatureConfig
-  - Feature.ORE
+  - OreFeatureConfig.CODEC
 feature_scattered_ore:
   - NoExposedOreFeature
   - OreFeatureConfig
-  - Feature.SCATTERED_ORE
+  - OreFeatureConfig.CODEC
 feature_replace_single_block:
   - ReplaceBlockFeature
   - ReplaceBlockConfig
-  - Feature.REPLACE_SINGLE_BLOCK
+  - ReplaceBlockConfig.field_236604_a_
 feature_simple_random_selector:
   - SingleRandomFeatureConfig
   - SingleRandomFeature
-  - Feature.SIMPLE_RANDOM_SELECTOR
-feature_random_selector:
-  - MultipleWithChanceRandomFeature
-  - MultipleRandomFeatureConfig
-  - Feature.RANDOM_SELECTOR
-feature_disk_simple:
-  - SphereReplaceFeature
-  - SphereReplaceConfig
-  - Feature.DISK
-feature_disk:
-  - SphereReplaceFeature
-  - SphereReplaceConfig
-  - Feature.DISK
-feature_tree_simple:
-  - TreeFeature
-  - BaseTreeFeatureConfig
-  - Feature.TREE
-feature_tree_spruce:
-  - TreeFeature
-  - BaseTreeFeatureConfig
-  - Feature.TREE
-feature_tree_pine:
-  - TreeFeature
-  - BaseTreeFeatureConfig
-  - Feature.TREE
+  - SingleRandomFeature.field_236642_a_
 feature_spring:
   - SpringFeature
   - LiquidsConfig
-  - Feature.SPRING
+  - LiquidsConfig.field_236649_a_
+feature_tree_simple:
+  - TreeFeature
+  - BaseTreeFeatureConfig
+  - BaseTreeFeatureConfig.CODEC
+feature_tree_spruce:
+  - TreeFeature
+  - BaseTreeFeatureConfig
+  - BaseTreeFeatureConfig.CODEC
+feature_tree_pine:
+  - TreeFeature
+  - BaseTreeFeatureConfig
+  - BaseTreeFeatureConfig.CODEC
 
 # Custom NBT-based feature, not present in vanilla
 feature_custom_structure:
-  - StructureModFeature
-  - StructureModFeatureConfiguration
-  - StructureModFeature.STRUCTURE_FEATURE
+  - StructureFeature
+  - StructureFeatureConfiguration
+  - StructureFeatureConfiguration.CODEC

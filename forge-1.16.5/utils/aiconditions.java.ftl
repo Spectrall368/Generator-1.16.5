@@ -6,23 +6,23 @@
         <#if hasProcedure(conditions[0]) || hasProcedure(conditions[1])>
 			<#if includeBractets>{</#if>
                 <#if hasProcedure(conditions[0])>
-                @Override public boolean canUse() {
-                	double x = ${name}Entity.this.getX();
-			        double y = ${name}Entity.this.getY();
-			        double z = ${name}Entity.this.getZ();
+                @Override public boolean shouldExecute() {
+                		double x = ${name}Entity.this.getPosX();
+			        double y = ${name}Entity.this.getPosY();
+			        double z = ${name}Entity.this.getPosZ();
 			        Entity entity = ${name}Entity.this;
-					World world = ${name}Entity.this.level;
-                	return super.canUse() && <@procedureOBJToConditionCode conditions[0]/>;
+					World world = ${name}Entity.this.world;
+                	return super.shouldExecute() && <@procedureOBJToConditionCode conditions[0]/>;
                 }
                 </#if>
                 <#if hasProcedure(conditions[1])>
-                @Override public boolean canContinueToUse() {
-                	double x = ${name}Entity.this.getX();
-			        double y = ${name}Entity.this.getY();
-			        double z = ${name}Entity.this.getZ();
+                @Override public boolean shouldContinueExecuting() {
+                		double x = ${name}Entity.this.getPosX();
+			        double y = ${name}Entity.this.getPosY();
+			        double z = ${name}Entity.this.getPosZ();
 			        Entity entity = ${name}Entity.this;
-			        World world = ${name}Entity.this.level;
-                	return super.canContinueToUse() && <@procedureOBJToConditionCode conditions[0]/>;
+			        World world = ${name}Entity.this.world;
+                	return super.shouldContinueExecuting() && <@procedureOBJToConditionCode conditions[0]/>;
                 }
                 </#if>
 			<#if includeBractets>}</#if>

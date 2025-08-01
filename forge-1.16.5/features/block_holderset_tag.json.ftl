@@ -1,1 +1,1 @@
-/*@Tag*/BlockTags.createOptional(new ResourceLocation("${field$tag}"))
+/*@Tag*/BlockTags.getCollection().getTagByID(new ResourceLocation("${field$tag}"))

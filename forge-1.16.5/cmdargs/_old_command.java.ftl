@@ -1,10 +1,10 @@
 <#include "procedures.java.ftl">
 .then(Commands.argument("arguments", StringArgumentType.greedyString()).executes(arguments -> {
-    World world = arguments.getSource().getLevel();
+    World world = arguments.getSource().getWorld();
 
-    double x = arguments.getSource().getPosition().x();
-    double y = arguments.getSource().getPosition().y();
-    double z = arguments.getSource().getPosition().z();
+    double x = arguments.getSource().getPos().getX();
+    double y = arguments.getSource().getPos().getY();
+    double z = arguments.getSource().getPos().getZ();
 
     Entity entity = arguments.getSource().getEntity();
     if (entity == null && world instanceof ServerWorld)
@@ -12,7 +12,7 @@
 
     Direction direction = Direction.DOWN;
     if (entity != null)
-    	direction = entity.getDirection();
+    	direction = entity.getHorizontalFacing();
 
     HashMap<String, String> cmdparams = new HashMap<>();
     int index = -1;
@@ -26,11 +26,11 @@
     return 0;
 }))
 .executes(arguments -> {
-    World world = arguments.getSource().getLevel();
+    World world = arguments.getSource().getWorld();
 
-    double x = arguments.getSource().getPosition().x();
-    double y = arguments.getSource().getPosition().y();
-    double z = arguments.getSource().getPosition().z();
+    double x = arguments.getSource().getPos().getX();
+    double y = arguments.getSource().getPos().getY();
+    double z = arguments.getSource().getPos().getZ();
 
     Entity entity = arguments.getSource().getEntity();
     if (entity == null && world instanceof ServerWorld)
@@ -38,7 +38,7 @@
 
     Direction direction = Direction.DOWN;
     if (entity != null)
-    	direction = entity.getDirection();
+    	direction = entity.getHorizontalFacing();
 
     HashMap<String, String> cmdparams = new HashMap<>();
     int index = -1;

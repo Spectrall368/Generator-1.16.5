@@ -22,7 +22,7 @@ crimson_fungus_planted: Features.CRIMSON_FUNGI_PLANTED
 dark_forest_vegetation: Features.DARK_FOREST_VEGETATION_BROWN
 dark_oak: Features.DARK_OAK
 delta: Features.DELTA
-desert_well: Features.WELL
+desert_well: Features.DESERT_WELL
 disk_clay: Features.DISK_CLAY
 disk_gravel: Features.DISK_GRAVEL
 disk_sand: Features.DISK_SAND

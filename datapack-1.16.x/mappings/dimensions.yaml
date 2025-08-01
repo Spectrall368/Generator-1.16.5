@@ -2,14 +2,14 @@ _default:
   - World.OVERWORLD
   - "minecraft:overworld"
 _mcreator_map_template:
-  - "RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(\"@modid:@registryname\"))"
+  - "RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(\"@modid:@registryname\"))"
   - "@modid:@registryname"
 Surface:
   - World.OVERWORLD
   - "minecraft:overworld"
 Nether:
-  - World.NETHER
+  - World.THE_NETHER
   - "minecraft:the_nether"
 End:
-  - World.END
+  - World.THE_END
   - "minecraft:the_end"

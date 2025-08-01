@@ -4,10 +4,7 @@ build/
 
 # Other IDE related folders
 .idea/
-.eclipse/
 .settings/
-.classpath
-.project
 
 # MCreator workspace
 .mcreator/
@@ -17,3 +14,7 @@ run/
 
 # MacOS system files
 .DS_STORE
+
+# Other Files (In Eclipse)
+.classpath
+.project

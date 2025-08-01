@@ -4,7 +4,6 @@ _default:
 _mcreator_map_template:
   - "@JavaModNameDamageTypes.@REGISTRYNAME"
   - "@modid:@registryname"
-_bypass_prefix: "#"
 IN_FIRE:
   - DamageSource.IN_FIRE
   - inFire
@@ -63,7 +62,7 @@ DRAGON_BREATH:
   - DamageSource.DRAGON_BREATH
   - dragonBreath
 DRYOUT:
-  - DamageSource.DRY_OUT
+  - DamageSource.DRYOUT
   - dryout
 SWEET_BERRY_BUSH:
   - DamageSource.SWEET_BERRY_BUSH
