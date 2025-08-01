@@ -27,9 +27,9 @@ this.goalSelector.addGoal(${cbi+1}, new Goal() {
 
 	@Override public boolean shouldContinueExecuting() {
 		<#if hasProcedure(conditions[1])>
-		double x = ${name}Entity.this.getX();
-		double y = ${name}Entity.this.getY();
-		double z = ${name}Entity.this.getZ();
+		double x = ${name}Entity.this.getPosX();
+		double y = ${name}Entity.this.getPosY();
+		double z = ${name}Entity.this.getPosZ();
 		Entity entity = ${name}Entity.this;
 		World world = ${name}Entity.this.world;
 		</#if>
