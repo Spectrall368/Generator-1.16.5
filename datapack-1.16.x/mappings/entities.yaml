@@ -449,7 +449,7 @@ EntityPiglin:
   - piglin
 EntityPiglinBrute:
   - PiglinBruteEntity
-  - EntityType.field_242287_aj
+  - EntityType.PIGLIN_BRUTE
   - piglin_brute
 EntityStrider:
   - StriderEntity
