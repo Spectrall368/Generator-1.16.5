@@ -3205,6 +3205,9 @@ Items.RECORD_11:
 Items.RECORD_WAIT:
   - Items.MUSIC_DISC_WAIT
   - "music_disc_wait"
+Items.MUSIC_DISC_PIGSTEP:
+  - Items.MUSIC_DISC_PIGSTEP
+  - "music_disc_pigstep"
 Items.SKULL:
   - Items.SKELETON_SKULL
   - "#forge:heads"
@@ -3467,7 +3470,7 @@ Items.PIGLIN_SPAWN_EGG:
   - Items.PIGLIN_SPAWN_EGG
   - "piglin_spawn_egg"
 Items.PIGLIN_BRUTE_SPAWN_EGG:
-  - Items.field_242399_ol
+  - Items.PIGLIN_BRUTE_SPAWN_EGG
   - "piglin_brute_spawn_egg"
 Items.STRIDER_SPAWN_EGG:
   - Items.STRIDER_SPAWN_EGG
@@ -3478,9 +3481,6 @@ Items.ZOGLIN_SPAWN_EGG:
 Items.WARPED_FUNGUS_ON_A_STICK:
   - Items.WARPED_FUNGUS_ON_A_STICK
   - "warped_fungus_on_a_stick"
-Items.MUSIC_DISC_PIGSTEP:
-  - Items.MUSIC_DISC_PIGSTEP
-  - "music_disc_pigstep"
 Items.PIGLIN_BANNER_PATTERN:
   - Items.PIGLIN_BANNER_PATTERN
   - "piglin_banner_pattern"
