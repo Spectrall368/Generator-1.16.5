@@ -83,7 +83,7 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 	}
 
 	<#if data.spawnParticles>
-	@Override public IParticleData getDripParticleData() {
+	@Override @OnlyIn(Dist.CLIENT) public IParticleData getDripParticleData() {
 		return ${data.dripParticle};
 	}
 	</#if>
@@ -154,3 +154,4 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 	}
 }
 <#-- @formatter:on -->
+
