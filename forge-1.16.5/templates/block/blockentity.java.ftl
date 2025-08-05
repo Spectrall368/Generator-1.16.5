@@ -211,7 +211,7 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 		private final FluidTank fluidTank = new FluidTank(${data.fluidCapacity}) {
 			@Override protected void onContentsChanged() {
 				super.onContentsChanged();
-				setChanged();
+				markDirty();
 				world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 2);
 			}
 		};
