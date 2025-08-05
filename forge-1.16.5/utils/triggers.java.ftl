@@ -390,7 +390,7 @@
 
 <#macro onDestroyedByPlayer procedure="">
 <#if hasProcedure(procedure)>
-@Override public boolean removedByPlayer(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, boolean willHarvest, FluidState fluid) {
+@Override public boolean removedByPlayer(BlockState blockstate, World world, BlockPos pos, PlayerEntity entity, boolean willHarvest, IFluidState fluid) {
 	boolean retval = super.removedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
