@@ -591,7 +591,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 			double y = this.getPosY();
 			double z = this.getPosZ();
 			Entity entity = this;
-			Level world = this.world;
+			World world = this.world;
 			<#if hasReturnValueOf(data.onRightClickedOn, "actionresulttype")>
 				return <@procedureOBJToInteractionResultCode data.onRightClickedOn/>;
 			<#else>
@@ -988,4 +988,5 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
         <#return input?starts_with("#")?then("#" + result, result)/>
     </#if>
 </#function>
+
 
