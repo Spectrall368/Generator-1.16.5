@@ -407,12 +407,6 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 	}
 	</#if>
 
-	<#if data.immuneToFire>
-	@Override public boolean isImmuneToFire() {
-		return true;
-	}
-	</#if>
-
 	<#if hasProcedure(data.whenMobDies)>
 	@Override public void onDeath(DamageSource source) {
 		super.onDeath(source);
@@ -994,3 +988,4 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
         <#return input?starts_with("#")?then("#" + result, result)/>
     </#if>
 </#function>
+
