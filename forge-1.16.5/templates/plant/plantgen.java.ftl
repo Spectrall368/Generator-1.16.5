@@ -83,7 +83,7 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 	}
 
 	<#if data.restrictionBiomes?has_content && cond>
-	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, NoFeatureConfig config) {
+	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, BlockClusterFeatureConfig config) {
 		    RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
 			boolean dimensionCriteria = false;
 			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
