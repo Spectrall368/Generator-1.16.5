@@ -96,9 +96,9 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 
 	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (<#if hasProcedure(data.portalUseCondition)><@procedureCode data.portalUseCondition, {
-        		"x": "pos.getPosX()",
-        		"y": "pos.getPosY()",
-        		"z": "pos.getPosZ()",
+        		"x": "pos.getX()",
+        		"y": "pos.getY()",
+        		"z": "pos.getZ()",
         		"entity": "entity",
         		"world": "world"
         		}, false/> && </#if>!entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && !entity.world.isRemote()) {
@@ -118,3 +118,4 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 		entity.changeDimension(entity.getServer().getWorld(destinationType), new ${name}Teleporter(entity.getServer().getWorld(destinationType), pos));
 	}
 }
+<#-- @formatter:on -->
