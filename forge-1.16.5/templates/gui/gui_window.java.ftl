@@ -254,7 +254,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 				<@buttonOnClick component/>)<#if component.isUndecorated>{
                     @Override public void renderButton(MatrixStack ms, int mouseX, int mouseY, float partialTick) {
                         String text = this.isHovered() ? (TextFormatting.UNDERLINE + ${component.getName()}.getMessage().getString()) : ${component.getName()}.getMessage().getString();
-                        drawString(ms, this.font, text, ${component.getName()}.x, ${component.getName()}.y, 16777215 | MathHelper.ceil(this.alpha * 255.0F) << 24);
+                        drawString(ms, font, text, ${component.getName()}.x, ${component.getName()}.y, 16777215 | MathHelper.ceil(this.alpha * 255.0F) << 24);
                     }
                 }</#if>;
 
