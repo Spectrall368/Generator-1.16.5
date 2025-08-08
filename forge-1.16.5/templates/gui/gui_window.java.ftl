@@ -150,7 +150,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 		<#if tooltips?has_content>
 		if (!customTooltipShown)
 		</#if>
-		renderHoveredTooltip(ms, mouseX, mouseY);
+		this.renderHoveredTooltip(ms, mouseX, mouseY);
 	}
 
 	@Override protected void drawGuiContainerBackgroundLayer(MatrixStack ms, float partialTicks, int mouseX, int mouseY) {
