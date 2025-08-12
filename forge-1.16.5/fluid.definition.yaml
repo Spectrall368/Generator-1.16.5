@@ -47,5 +47,4 @@ localizationkeys:
   - fromlist: data.getFixedSpecialInformation()
     key: item.@modid.@registryname_bucket.description_@item_index
 
-
 field_exclusions: [fogStartDistance, fogEndDistance]
