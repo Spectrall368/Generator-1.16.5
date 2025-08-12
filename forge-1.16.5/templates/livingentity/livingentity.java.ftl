@@ -988,5 +988,3 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
         <#return input?starts_with("#")?then("#" + result, result)/>
     </#if>
 </#function>
-
-
