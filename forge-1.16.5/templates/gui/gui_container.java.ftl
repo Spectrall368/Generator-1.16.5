@@ -155,7 +155,7 @@ public class ${name}Menu extends Container implements ${JavaModName}Menus.MenuAc
 								@Override public boolean isItemValid(ItemStack stack) {
 									<#if component.inputLimit.getUnmappedValue().startsWith("TAG:")>
 										<#assign tag = "\"" + component.inputLimit.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") + "\"">
-										return stack.getItem().isIn(ItemTags.createOptional(new ResourceLocation(${tag})));
+										return stack.getItem().isIn(ItemTags.createOptional(new ResourceLocation("${tag}")));
 									<#else>
 										return ${mappedMCItemToItem(component.inputLimit)} == stack.getItem();
 									</#if>
