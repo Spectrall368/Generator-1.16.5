@@ -434,7 +434,14 @@ public class ${name}Block extends
 		}
 		<#else>
 		@Override public BlockState rotate(BlockState state, Rotation rot) {
-			return RotatedPillarBlock.rotate(state, rot);
+			if(rot == Rotation.CLOCKWISE_90 || rot == Rotation.COUNTERCLOCKWISE_90) {
+				if (state.get(AXIS) == Direction.Axis.X) {
+					return state.with(AXIS, Direction.Axis.Z);
+				} else if (state.get(AXIS) == Direction.Axis.Z) {
+					return state.with(AXIS, Direction.Axis.X);
+				}
+			}
+			return state;
 		}
 		</#if>
 

@@ -62,9 +62,9 @@
 
 <#function mappedMCItemToIngredient mappedBlock>
     <#if mappedBlock.getUnmappedValue().startsWith("TAG:")>
-        <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") + "\")))">
+        <#return "Ingredient.fromTag(ItemTags.createOptional(new ResourceLocation(\"" + mappedBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":") + "\")))">
     <#elseif mappedBlock.getMappedValue(1).startsWith("#")>
-        <#return "Ingredient.fromTag(ItemTags.getCollection().getTagByID(new ResourceLocation(\"" + mappedBlock.getMappedValue(1).replace("#", "") + "\")))">
+        <#return "Ingredient.fromTag(ItemTags.createOptional(new ResourceLocation(\"" + mappedBlock.getMappedValue(1).replace("#", "") + "\")))">
     <#else>
         <#return "Ingredient.fromStacks(" + mappedMCItemToItemStackCode(mappedBlock, 1) + ")">
     </#if>
