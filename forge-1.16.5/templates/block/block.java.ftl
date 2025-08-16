@@ -105,11 +105,11 @@ public class ${name}Block extends
 	</#list>
 
 	<#macro blockProperties>
-	    AbstractBlock.Properties.create(
+	    AbstractBlock.Properties.create(Material.
 	    <#if blockSetType == "null">
-	    (new Material.Builder(MaterialColor.AIR)).build()
+	    REDSTONE_LIGHT
 	    <#else>
-	    Material.${blockSetType?replace("OAK", "NETHER_WOOD")}
+	    ${blockSetType?replace("OAK", "NETHER_WOOD")}
 	    </#if>
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
 		    , MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
