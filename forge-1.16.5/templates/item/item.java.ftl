@@ -95,8 +95,8 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 	</#if>
 
         <#if data.isFood && (data.animation == "drink")>
-        @Override public net.minecraft.util.SoundEvent getEatSound() {
-            return net.minecraft.util.SoundEvents.ENTITY_GENERIC_DRINK;
+        @Override public SoundEvent getEatSound() {
+            return SoundEvents.ENTITY_GENERIC_DRINK;
         }
         </#if>
 
