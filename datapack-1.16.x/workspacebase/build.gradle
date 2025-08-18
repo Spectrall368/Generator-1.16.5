@@ -11,9 +11,9 @@ tasks.register('syncDataPack', Copy) {
 }
 
 project(':packloader') {
-    afterEvaluate {
-        tasks.named('runClient') {
-            dependsOn(rootProject.tasks.named('syncDataPack'))
+    tasks.configureEach { task ->
+        if (task.name == 'runClient') {
+            task.dependsOn(rootProject.tasks.named('syncDataPack'))
         }
     }
 }
