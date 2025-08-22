@@ -47,8 +47,8 @@ public class ${name}Block extends FlowingFluidBlock {
 
 	<#if data.hasFog>
 	    <#if data.fogColor?has_content>
-		@Override @OnlyIn(Dist.CLIENT) public Vec3d getFogColor(BlockState state, IWorldReader world, BlockPos pos, Entity entity, Vec3d originalColor, float partialTicks) {
-		    return new Vec3d(${data.fogColor.getRed()/255}f, ${data.fogColor.getGreen()/255}f, ${data.fogColor.getBlue()/255}f);
+		@Override @OnlyIn(Dist.CLIENT) public Vector3d getFogColor(BlockState state, IWorldReader world, BlockPos pos, Entity entity, Vector3d originalColor, float partialTicks) {
+		    return new Vector3d(${data.fogColor.getRed()/255}f, ${data.fogColor.getGreen()/255}f, ${data.fogColor.getBlue()/255}f);
 		}
 		</#if>
 	</#if>
