@@ -33,8 +33,8 @@ package ${package}.world.features.configurations;
 
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-public class StructureFeatureConfiguration implements IFeatureConfig {
-	public static final Codec<StructureFeatureConfiguration> CODEC = RecordCodecBuilder.create(builder -> {
+public class StructureModFeatureConfiguration implements IFeatureConfig {
+	public static final Codec<StructureModFeatureConfiguration> CODEC = RecordCodecBuilder.create(builder -> {
 		return builder.group(ResourceLocation.CODEC.fieldOf("structure").forGetter(config -> {
 			return config.structure;
 		}), Codec.BOOL.fieldOf("random_rotation").orElse(false).forGetter(config -> {
@@ -45,7 +45,7 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
 			return config.ignoredBlocks;
 		}), Vector3i.CODEC.flatXmap(checkOffsetAxes(48), checkOffsetAxes(48)).optionalFieldOf("offset", Vector3i.NULL_VECTOR).forGetter(config -> {
 			return config.offset;
-		})).apply(builder, StructureFeatureConfiguration::new);
+		})).apply(builder, StructureModFeatureConfiguration::new);
 	});
 
     public final ResourceLocation structure;
@@ -54,7 +54,7 @@ public class StructureFeatureConfiguration implements IFeatureConfig {
     public final List<BlockState> ignoredBlocks;
     public final Vector3i offset;
 
-    public StructureFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<BlockState> ignoredBlocks, Vector3i offset) {
+    public StructureModFeatureConfiguration(ResourceLocation structure, boolean randomRotation, boolean randomMirror, List<BlockState> ignoredBlocks, Vector3i offset) {
         this.structure = structure;
         this.randomRotation = randomRotation;
         this.randomMirror = randomMirror;
