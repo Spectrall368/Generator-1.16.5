@@ -78,8 +78,8 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 		.block(() -> (FlowingFluidBlock) ${JavaModName}Blocks.${REGISTRYNAME}.get()
 		);
 
-	private ${name}Fluid(Properties properties) {
-		super(properties);
+	private ${name}Fluid() {
+		super(PROPERTIES);
 	}
 
 	<#if data.spawnParticles>
@@ -121,10 +121,6 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 	</#if>
 
 	public static class Source extends ${name}Fluid {
-		public Source(Properties properties) {
-			super(properties);
-		}
-
 		public int getLevel(FluidState state) {
 			return 8;
 		}
@@ -135,10 +131,6 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 	}
 
 	public static class Flowing extends ${name}Fluid {
-		public Flowing(Properties properties) {
-			super(properties);
-		}
-
 		protected void fillStateContainer(StateContainer.Builder<Fluid, FluidState> builder) {
 			super.fillStateContainer(builder);
 			builder.add(LEVEL_1_8);
@@ -154,4 +146,3 @@ public abstract class ${name}Fluid extends ForgeFlowingFluid {
 	}
 }
 <#-- @formatter:on -->
-
