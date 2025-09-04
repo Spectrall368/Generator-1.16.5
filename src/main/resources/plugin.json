@@ -7,7 +7,6 @@
     "version": "${pluginVersion}",
     "description": "This plugin includes a mod, datapack and resourcepack generator for Forge ${version}",
     "author": "_Spectrall",
-    "dependencies":  [],
     "updateJSONURL": "https://raw.githubusercontent.com/Spectrall368/Generator-${version}/${mcreatorVersionShort}/update.json",
     "pluginPageID": 96320
   }
