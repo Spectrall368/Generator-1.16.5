@@ -1,0 +1,307 @@
+_default: ""
+ATTACHED:
+  - BlockStateProperties.ATTACHED
+  - attached
+BOTTOM:
+  - BlockStateProperties.BOTTOM
+  - bottom
+CONDITIONAL:
+  - BlockStateProperties.CONDITIONAL
+  - conditional
+DISARMED:
+  - BlockStateProperties.DISARMED
+  - disarmed
+DRAG:
+  - BlockStateProperties.DRAG
+  - drag
+ENABLED:
+  - BlockStateProperties.ENABLED
+  - enabled
+EXTENDED:
+  - BlockStateProperties.EXTENDED
+  - extended
+EYE:
+  - BlockStateProperties.EYE
+  - eye
+FALLING:
+  - BlockStateProperties.FALLING
+  - falling
+HANGING:
+  - BlockStateProperties.HANGING
+  - hanging
+HAS_BOTTLE_0:
+  - BlockStateProperties.HAS_BOTTLE_0
+  - has_bottle_0
+HAS_BOTTLE_1:
+  - BlockStateProperties.HAS_BOTTLE_1
+  - has_bottle_1
+HAS_BOTTLE_2:
+  - BlockStateProperties.HAS_BOTTLE_2
+  - has_bottle_2
+HAS_RECORD:
+  - BlockStateProperties.HAS_RECORD
+  - has_record
+HAS_BOOK:
+  - BlockStateProperties.HAS_BOOK
+  - has_book
+INVERTED:
+  - BlockStateProperties.INVERTED
+  - inverted
+IN_WALL:
+  - BlockStateProperties.IN_WALL
+  - in_wall
+LIT:
+  - BlockStateProperties.LIT
+  - lit
+LOCKED:
+  - BlockStateProperties.LOCKED
+  - locked
+OCCUPIED:
+  - BlockStateProperties.OCCUPIED
+  - occupied
+OPEN:
+  - BlockStateProperties.OPEN
+  - open
+PERSISTENT:
+  - BlockStateProperties.PERSISTENT
+  - persistent
+POWERED:
+  - BlockStateProperties.POWERED
+  - powered
+SHORT:
+  - BlockStateProperties.SHORT
+  - short
+SIGNAL_FIRE:
+  - BlockStateProperties.SIGNAL_FIRE
+  - signal_fire
+SNOWY:
+  - BlockStateProperties.SNOWY
+  - snowy
+TRIGGERED:
+  - BlockStateProperties.TRIGGERED
+  - triggered
+UNSTABLE:
+  - BlockStateProperties.UNSTABLE
+  - unstable
+WATERLOGGED:
+  - BlockStateProperties.WATERLOGGED
+  - waterlogged
+BERRIES:
+  - BlockStateProperties.field_235906_D_
+  - vine_end
+HORIZONTAL_AXIS:
+  - BlockStateProperties.HORIZONTAL_AXIS
+  - axis
+  - Direction.Axis
+AXIS:
+  - BlockStateProperties.AXIS
+  - axis
+  - Direction.Axis
+UP:
+  - BlockStateProperties.UP
+  - up
+DOWN:
+  - BlockStateProperties.DOWN
+  - down
+NORTH:
+  - BlockStateProperties.NORTH
+  - north
+EAST:
+  - BlockStateProperties.EAST
+  - east
+SOUTH:
+  - BlockStateProperties.SOUTH
+  - south
+WEST:
+  - BlockStateProperties.WEST
+  - west
+FACING:
+  - BlockStateProperties.FACING
+  - facing
+  - Direction
+FACING_HOPPER:
+  - BlockStateProperties.FACING_EXCEPT_UP
+  - facing
+  - Direction
+HORIZONTAL_FACING:
+  - BlockStateProperties.HORIZONTAL_FACING
+  - facing
+  - Direction
+ORIENTATION:
+  - BlockStateProperties.ORIENTATION
+  - orientation
+  - JigsawOrientation
+ATTACH_FACE:
+  - BlockStateProperties.FACE
+  - face
+  - AttachFace
+BELL_ATTACHMENT:
+  - BlockStateProperties.BELL_ATTACHMENT
+  - attachment
+  - BellAttachment
+EAST_WALL:
+  - BlockStateProperties.WALL_HEIGHT_EAST
+  - east
+  - WallHeight
+NORTH_WALL:
+  - BlockStateProperties.WALL_HEIGHT_NORTH
+  - north
+  - WallHeight
+SOUTH_WALL:
+  - BlockStateProperties.WALL_HEIGHT_SOUTH
+  - south
+  - WallHeight
+WEST_WALL:
+  - BlockStateProperties.WALL_HEIGHT_WEST
+  - west
+  - WallHeight
+EAST_REDSTONE:
+  - BlockStateProperties.REDSTONE_EAST
+  - east
+  - RedstoneSide
+NORTH_REDSTONE:
+  - BlockStateProperties.REDSTONE_NORTH
+  - north
+  - RedstoneSide
+SOUTH_REDSTONE:
+  - BlockStateProperties.REDSTONE_SOUTH
+  - south
+  - RedstoneSide
+WEST_REDSTONE:
+  - BlockStateProperties.REDSTONE_WEST
+  - west
+  - RedstoneSide
+DOUBLE_BLOCK_HALF:
+  - BlockStateProperties.DOUBLE_BLOCK_HALF
+  - half
+  - DoubleBlockHalf
+HALF:
+  - BlockStateProperties.HALF
+  - half
+  - Half
+RAIL_SHAPE:
+  - BlockStateProperties.RAIL_SHAPE
+  - shape
+  - RailShape
+RAIL_SHAPE_STRAIGHT:
+  - BlockStateProperties.RAIL_SHAPE_STRAIGHT
+  - shape
+  - RailShape
+AGE_1:
+  - BlockStateProperties.AGE_0_1
+  - age
+AGE_2:
+  - BlockStateProperties.AGE_0_2
+  - age
+AGE_3:
+  - BlockStateProperties.AGE_0_3
+  - age
+AGE_5:
+  - BlockStateProperties.AGE_0_5
+  - age
+AGE_7:
+  - BlockStateProperties.AGE_0_7
+  - age
+AGE_15:
+  - BlockStateProperties.AGE_0_15
+  - age
+AGE_25:
+  - BlockStateProperties.AGE_0_25
+  - age
+BITES:
+  - BlockStateProperties.BITES_0_6
+  - bites
+DELAY:
+  - BlockStateProperties.DELAY_1_4
+  - delay
+DISTANCE:
+  - BlockStateProperties.DISTANCE_1_7
+  - distance
+EGGS:
+  - BlockStateProperties.EGGS_1_4
+  - eggs
+HATCH:
+  - BlockStateProperties.HATCH_0_2
+  - hatch
+LAYERS:
+  - BlockStateProperties.LAYERS_1_8
+  - layers
+LEVEL_CAULDRON:
+  - BlockStateProperties.LEVEL_0_3
+  - level
+LEVEL_COMPOSTER:
+  - BlockStateProperties.LEVEL_0_8
+  - level
+LEVEL_FLOWING:
+  - BlockStateProperties.LEVEL_1_8
+  - level
+LEVEL_HONEY:
+  - BlockStateProperties.HONEY_LEVEL
+  - honey_level
+LEVEL:
+  - BlockStateProperties.LEVEL_0_15
+  - level
+MOISTURE:
+  - BlockStateProperties.MOISTURE_0_7
+  - moisture
+NOTE:
+  - BlockStateProperties.NOTE_0_24
+  - note
+PICKLES:
+  - BlockStateProperties.PICKLES_1_4
+  - pickles
+POWER:
+  - BlockStateProperties.POWER_0_15
+  - power
+STAGE:
+  - BlockStateProperties.STAGE_0_1
+  - stage
+STABILITY_DISTANCE:
+  - BlockStateProperties.DISTANCE_0_7
+  - distance
+RESPAWN_ANCHOR_CHARGES:
+  - BlockStateProperties.CHARGES
+  - charges
+ROTATION_16:
+  - BlockStateProperties.ROTATION_0_15
+  - rotation
+BED_PART:
+  - BlockStateProperties.BED_PART
+  - part
+  - BedPart
+CHEST_TYPE:
+  - BlockStateProperties.CHEST_TYPE
+  - type
+  - ChestType
+MODE_COMPARATOR:
+  - BlockStateProperties.COMPARATOR_MODE
+  - mode
+  - ComparatorMode
+DOOR_HINGE:
+  - BlockStateProperties.DOOR_HINGE
+  - hinge
+  - DoorHingeSide
+NOTEBLOCK_INSTRUMENT:
+  - BlockStateProperties.NOTE_BLOCK_INSTRUMENT
+  - instrument
+  - NoteBlockInstrument
+PISTON_TYPE:
+  - BlockStateProperties.PISTON_TYPE
+  - type
+  - PistonType
+SLAB_TYPE:
+  - BlockStateProperties.SLAB_TYPE
+  - type
+  - SlabType
+STAIRS_SHAPE:
+  - BlockStateProperties.STAIRS_SHAPE
+  - shape
+  - StairsShape
+STRUCTUREBLOCK_MODE:
+  - BlockStateProperties.STRUCTURE_BLOCK_MODE
+  - mode
+  - StructureMode
+BAMBOO_LEAVES:
+  - BlockStateProperties.BAMBOO_LEAVES
+  - leaves
+  - BambooLeaves

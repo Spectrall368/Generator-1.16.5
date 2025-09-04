@@ -1,0 +1,13 @@
+templates:
+  - template: biome/biome.json.ftl
+    writer: json
+    name: "@MODDATAROOT/worldgen/biome/@registryname.json"
+  - template: biome/biome_builder.json.ftl
+    writer: json
+    name: "@MODDATAROOT/worldgen/configured_surface_builder/@registryname.json"
+
+field_exclusions: [name, coverageEstimate, customTrees, minHeight, treeStem, treeBranch, treeVines, treeFruits, spawnBiome, spawnInCaves, spawnBiomeNether]
+
+localizationkeys:
+  - key: biome.@modid.@registryname
+    mapto: name
