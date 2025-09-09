@@ -20,18 +20,18 @@
 				"y": "entity.getPosY()",
 				"z": "entity.getPosZ()",
 				"entity": "entity",
-				"world": "<#if !isBlock>world<#else>entity.world</#if>",
+				"world": "entity.world",
 				"itemstack": "itemstack"
-			}, false/>;
-			if (hoverText != null) {
-				for (String line : hoverText.split("\n")) {
-					list.add(new StringTextComponent(line));
-				}
-			}
+ 			}, false/>;
+ 			if (hoverText != null) {
+ 				for (String line : hoverText.split("\n")) {
+ 					list.add(new StringTextComponent(line));
+ 				}
+ 			}
 		<#elseif translationKeyHeader?has_content>
-			<#list procedure.getFixedValue() as entry>
-				list.add(new TranslationTextComponent("${translationKeyHeader}.description_${entry?index}"));
-			</#list>
+ 			<#list procedure.getFixedValue() as entry>
+ 				list.add(new TranslationTextComponent("${translationKeyHeader}.description_${entry?index}"));
+ 			</#list>
 		<#else>
 			<#list procedure.getFixedValue() as entry>
 				list.add(new StringTextComponent("${JavaConventions.escapeStringForJava(entry)}"));
