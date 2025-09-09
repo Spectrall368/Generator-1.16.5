@@ -116,10 +116,10 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 			new ResourceLocation("${expandedBiome}")<#sep>,
 		    </#list><#sep>,
         </#list>
-	);
+	)
 	<#else>
-	null;
-	</#if>
+	null
+	</#if>;
 }
 <#-- @formatter:on -->
 <#function expandBiomeTag biomeTag>

@@ -141,10 +141,10 @@ public class ${name}Feature extends OreFeature {
 			new ResourceLocation("${expandedBiome}")<#sep>,
 		    </#list><#sep>,
         </#list>
-	);
+	)
 	<#else>
-	null;
-	</#if>
+	null
+	</#if>;
 }
 <#-- @formatter:on -->
 <#function expandBiomeTag biomeTag>
