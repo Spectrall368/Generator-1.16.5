@@ -1,6 +1,6 @@
 <#include "mcitems.ftl">
 <#include "trees.ftl">
-new BaseTreeFeatureConfig.Builder(${mappedBlockToBlockStateProvider(input$trunk)}, ${mappedBlockToBlockStateProvider(input$foliage)},
+new BaseTreeFeatureConfig.Builder(${toStateProvidertoFeatureState(input$trunk)}, ${toStateProvidertoFeatureState(input$foliage)},
   <#if field$type == "oak">
     <@simpleFoliagePlacer type="BlobFoliagePlacer" radius=2 offset=0 height=3/>,
     <@simpleTrunkPlacer "StraightTrunkPlacer" field$base_height field$height_variation_a field$height_variation_b/>,
