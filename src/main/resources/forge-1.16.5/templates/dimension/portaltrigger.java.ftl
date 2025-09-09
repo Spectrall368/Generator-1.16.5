@@ -65,7 +65,7 @@ public class ${name}Item extends Item {
 
 			<#if hasProcedure(data.whenPortaTriggerlUsed)>
 				<#if hasReturnValueOf(data.whenPortaTriggerlUsed, "actionresulttype")>
-					ActionResultType result = <@procedureOBJToActionResultTypeCode data.whenPortaTriggerlUsed/>;
+					ActionResultType result = <@procedureOBJToInteractionResultCode data.whenPortaTriggerlUsed/>;
 					return success ? ActionResultType.SUCCESS : result;
 				<#else>
 					<@procedureOBJToCode data.whenPortaTriggerlUsed/>
