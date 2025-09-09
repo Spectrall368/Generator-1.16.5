@@ -62,7 +62,7 @@ public class ${name}TreeGrower extends <#if (data.megaTrees[0]?has_content) || (
 <#-- @formatter:on -->
 <#macro toTreeKey tree="">
 <#if tree?has_content>
-${generator.map(tree, "configuredfeatures")}
+(ConfiguredFeature<BaseTreeFeatureConfig, ?>) (Object) ${generator.map(tree, "configuredfeatures")}
 <#else>
 null
 </#if>

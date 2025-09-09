@@ -93,6 +93,9 @@ base_templates:
       - "${w.getGElementsOfType('plant')?filter(e -> e.generateFeature)?size != 0}"
       - "${w.hasElementsOfType('feature')}"
     name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameFeatures.java"
+  - template: feature/feature_utils.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/@JavaModNameFeatureUtils.java"
+    condition: ${w.hasElementsOfType('feature')}
 
 sources_setup_tasks:
   - task: copy_models

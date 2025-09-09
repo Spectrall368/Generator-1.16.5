@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new BlockStateMatchRuleTest(${mappedBlockToBlockStateCode(input$blockstate)})
+new BlockStateMatchRuleTest(${toStatetoFeatureState(input$blockstate)})

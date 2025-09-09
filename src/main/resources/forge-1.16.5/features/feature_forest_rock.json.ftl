@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new BlockStateFeatureConfig(${mappedBlockToBlockStateCode(input$block)})
+new BlockStateFeatureConfig(${toStatetoFeatureState(input$block)})

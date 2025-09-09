@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new AlterGroundTreeDecorator(${mappedBlockToBlockStateProvider(input$provider)})
+new AlterGroundTreeDecorator(${toStateProvidertoFeatureState(input$provider)})

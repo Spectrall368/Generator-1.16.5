@@ -1,3 +1,3 @@
 <#include "mcitems.ftl">
-new HugeFungusConfig(${mappedBlockToBlockStateCode(input$ground)}, ${mappedBlockToBlockStateCode(input$stem)},
-${mappedBlockToBlockStateCode(input$hat)}, ${mappedBlockToBlockStateCode(input$decor)}, ${field$planted?lower_case})
+new HugeFungusConfig(${toStatetoFeatureState(input$ground)}, ${toStatetoFeatureState(input$stem)},
+${toStatetoFeatureState(input$hat)}, ${toStatetoFeatureState(input$decor)}, ${field$planted?lower_case})

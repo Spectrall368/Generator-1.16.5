@@ -360,3 +360,20 @@
     </#if>
     <#return '{ "Name": "minecraft:air" }'>
 </#function>
+
+<#function toFeatureState block>
+    <#if block?contains("FeatureUtils") && block?contains(".getDefaultState()")>
+        <#local idx = block?last_index_of(".getDefaultState()")>
+        <#return block?substring(0, idx) + block?substring(idx + ".getDefaultState()"?length)>
+    <#else>
+        <#return block>
+    </#if>
+</#function>
+
+<#function toStateProvidertoFeatureState block>
+    <#return toFeatureState(mappedBlockToBlockStateProvider(block))>
+</#function>
+
+<#function toStatetoFeatureState block>
+    <#return toFeatureState(mappedBlockToBlockStateCode(block))>
+</#function>

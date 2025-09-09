@@ -1,2 +1,3 @@
 <#include "mcitems.ftl">
-${input$target}, ${mappedBlockToBlockStateCode(input$state)}
+${input$target}
+|${toStatetoFeatureState(input$state)}|

@@ -1,1 +1,1 @@
-world.getBlockState(placePos<#if (field$x != "0")||(field$y != "0")||(field$z != "0")>.add(${field$x}, ${field$y}, ${field$z})</#if>).getMaterial().isReplaceable()
+world.getBlockState(origin<#if (field$x != "0")||(field$y != "0")||(field$z != "0")>.add(${field$x}, ${field$y}, ${field$z})</#if>).getMaterial().isReplaceable()

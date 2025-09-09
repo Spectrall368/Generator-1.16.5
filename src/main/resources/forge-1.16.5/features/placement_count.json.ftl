@@ -1,1 +1,1 @@
-.withPlacement(Placement.COUNT.configure(new FeatureSpreadConfig(${input$count})))
+.func_242730_a(${input$count})

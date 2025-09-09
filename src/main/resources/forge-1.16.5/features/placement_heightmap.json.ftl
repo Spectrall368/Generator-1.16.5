@@ -1,1 +1,1 @@
-£placePos = new BlockPos(placePos.getX(), world.getHeight(Heightmap.Type.${field$heightmap}, placePos.getX(), placePos.getZ()), placePos.getZ());^
+$origin = new BlockPos(origin.getX(), world.getHeight(Heightmap.Type.${field$heightmap}, origin.getX(), origin.getZ()), origin.getZ());$

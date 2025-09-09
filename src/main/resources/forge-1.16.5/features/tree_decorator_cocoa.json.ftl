@@ -1,1 +1,1 @@
-new CocoaTreeDecorator(${field$probability})
+new CocoaTreeDecorator(${field$probability}f)

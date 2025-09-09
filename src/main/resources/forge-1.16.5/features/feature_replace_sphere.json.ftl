@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new SphereReplaceConfig(${mappedBlockToBlockStateCode(input$newState)}, FeatureSpread.func_242252_a(2), ${input$radius}, ImmutableList.of(${mappedBlockToBlockStateCode(input$targetState)}))
+new SphereReplaceConfig(${toStatetoFeatureState(input$targetState)}, FeatureSpread.func_242254_a(0, 4, 4), ${input$radius}, ${toStatetoFeatureState(input$newState)})

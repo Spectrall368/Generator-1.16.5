@@ -53,12 +53,6 @@ MAGIC:
 WITHER:
   - DamageSource.WITHER
   - wither
-ANVIL:
-  - DamageSource.ANVIL
-  - anvil
-FALLING_BLOCK:
-  - DamageSource.FALLING_BLOCK
-  - fallingBlock
 DRAGON_BREATH:
   - DamageSource.DRAGON_BREATH
   - dragonBreath
@@ -68,3 +62,9 @@ DRYOUT:
 SWEET_BERRY_BUSH:
   - DamageSource.SWEET_BERRY_BUSH
   - sweetBerryBush
+FALLING_BLOCK:
+  - DamageSource.FALLING_BLOCK
+  - fallingBlock
+ANVIL:
+  - DamageSource.ANVIL
+  - anvil

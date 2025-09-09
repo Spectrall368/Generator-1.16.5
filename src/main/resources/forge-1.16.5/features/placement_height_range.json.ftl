@@ -1,1 +1,1 @@
-£placePos = new BlockPos(placePos.getX(), ${input$height}, placePos.getZ());^
+$origin = new BlockPos(origin.getX(), ${input$height}, origin.getZ());$

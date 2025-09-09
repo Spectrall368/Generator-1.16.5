@@ -1,2 +1,2 @@
-£if (!(${input$condition}))
-  return false;^
+$if(!(${input$condition}))
+    return false;$

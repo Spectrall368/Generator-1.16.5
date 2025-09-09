@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2025, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 
 <#-- @formatter:off -->
 <#include "../procedures.java.ftl">
+<#include "../mcitems.ftl">
 package ${package}.world.features;
 
 <#assign configuration = generator.map(featuretype, "features", 1)>
@@ -43,42 +44,30 @@ package ${package}.world.features;
 		</#if>
 	</#list>
 </#if>
-<#assign isRulePresent = (configuration == "OreFeatureConfig")>
+<#assign placementPattern = r'\$([^$]+)\$'>
+<#assign placementMatches = placementcode?matches(placementPattern)>
+<#assign hardcodedElements = []>
+<#list placementMatches as match>
+    <#assign hardcodedElements = hardcodedElements + [match?groups[1]]>
+</#list>
+<#assign nonHardcodedElements = placementcode?replace(placementPattern, "", "r")>
 <#compress>
 public class ${name}Feature extends ${generator.map(featuretype, "features")} {
-    private static ${name}Feature INSTANCE = null;
-  	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = null;
-  	private static final Random random = new Random();
-
-	<#if isRulePresent>
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public static class ${name}FeatureRuleTest extends RuleTest {
-		static final ${name}FeatureRuleTest INSTANCE = new ${name}FeatureRuleTest();
-	  	private static final Codec<${name}FeatureRuleTest> CODEC = Codec.unit(() -> INSTANCE);
-		private static final IRuleTestType<${name}FeatureRuleTest> CUSTOM_MATCH = () -> CODEC;
-
-		@SubscribeEvent public static void init(FMLCommonSetupEvent event) {
-			Registry.register(Registry.RULE_TEST, new ResourceLocation("${modid}:${registryname}_match"), CUSTOM_MATCH);
-		}
-
-	  	@Override public boolean test(BlockState blockstate, Random random) {
-		    return false;
-	  	}
-
-	  	@Override protected IRuleTestType<?> getType() {
-	    		return CUSTOM_MATCH;
-	  	}
-	}
-	</#if>
+	private static ${name}Feature FEATURE = null;
+	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = null;
 
 	public ${name}Feature() {
 		super(${generator.map(featuretype, "features", 2)});
 	}
 
 	public static Feature<?> feature() {
-		INSTANCE = new ${name}Feature();
-		CONFIGURED_FEATURE = INSTANCE.withConfiguration(${configurationcode?keep_before_last(".withCondition")?replace("random.", name + "Feature.random.")})<#if data.hasPlacedFeature()><#if placementcode?contains("£")>${removeParts(placementcode)?replace("random.", name + "Feature.random.")}<#else>${placementcode?remove_ending(",")?replace("random.", name + "Feature.random.")}</#if></#if>;
-        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), CONFIGURED_FEATURE);
-		return INSTANCE;
+	    Random random = new Random();
+		FEATURE = new ${name}Feature();
+		CONFIGURED_FEATURE = <#if featuretype == "configured_feature_reference">${configurationcode}<#else>FEATURE.withConfiguration(<#if configurationcode == "">NoFeatureConfig.field_236559_b_<#else>${configurationcode}</#if>)</#if><#if data.hasPlacedFeature()>${nonHardcodedElements}</#if>;
+
+		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), CONFIGURED_FEATURE);
+
+		return FEATURE;
 	}
 
 	public static ConfiguredFeature<?, ?> configuredFeature() {
@@ -87,67 +76,6 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 
 		return CONFIGURED_FEATURE;
 	}
-
-    <#if configuration != "BaseTreeFeatureConfig">
-	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
-	    BlockPos placePos = pos;
-	    <#if data.restrictionBiomes?has_content && cond>
-		    RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-			boolean dimensionCriteria = false;
-			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-	            <#assign biomeName = fixNamespace(restrictionBiome)>
-				<#if biomeName == "#minecraft:is_overworld">
-				    if(dimensionType == World.OVERWORLD)
-					    dimensionCriteria = true;
-				<#elseif biomeName == "#minecraft:is_nether">
-				    if(dimensionType == World.THE_NETHER)
-						dimensionCriteria = true;
-				<#else>
-					if(dimensionType == World.THE_END)
-			    		dimensionCriteria = true;
-				</#if>
-	    	</#list>
-
-			if(!dimensionCriteria)
-			    return false;
-	    </#if>
-
-		<#if placementcode != "" && data.hasPlacedFeature()>
-            <#list extractParts(placementcode) as part>
-                ${part?replace("random.", name + "Feature.random.")}
-            </#list>
-		</#if>
-
-		<#if featuretype == "feature_random_patch_simple">
-		if(!(${configurationcode?keep_after_last(".withCondition(")?keep_before_last(")")?replace("random.", name + "Feature.random.")}))
-			return false;
-		</#if>
-
-		<#if hasProcedure(data.generateCondition)>
-			int x = placePos.getX();
-			int y = placePos.getY();
-			int z = placePos.getZ();
-			if (!<@procedureOBJToConditionCode data.generateCondition/>)
-				return false;
-		</#if>
-
-		<#if featuretype == "feature_simple_block">
-			BlockState state = config.state;
-			if (state.isValidPosition(world, placePos)) {
-				if (state.getBlock() instanceof DoublePlantBlock) {
-					if (!world.isAirBlock(placePos.up()))
-						return false;
-					((DoublePlantBlock) state.getBlock()).placeAt(world, placePos, 2);
-				} else
-					world.setBlockState(placePos, config.state, 2);
-				return true;
-			}
-			return false;
-		<#else>
-			return super.generate(world, generator, random, placePos, config);
-		</#if>
-	}
-	</#if>
 
 	public static final Set<ResourceLocation> GENERATE_BIOMES =
 	<#if data.restrictionBiomes?has_content && !cond>
@@ -158,47 +86,54 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 			new ResourceLocation("${expandedBiome}")<#sep>,
 		    </#list><#sep>,
         </#list>
-	);
+	)
 	<#else>
-	null;
+	null
+	</#if>;
+
+    <#if data.restrictionBiomes?has_content && cond>
+	private final Set<RegistryKey<DimensionType>> generateDimensions = ImmutableSet.of(
+			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
+	        <#assign biomeName = fixNamespace(restrictionBiome)>
+			<#if biomeName == "#minecraft:is_overworld">
+				DimensionType.OVERWORLD
+			<#elseif biomeName == "#minecraft:is_nether">
+				DimensionType.THE_NETHER
+			<#else>
+				DimensionType.THE_END
+			</#if><#sep>,
+		</#list>
+	);
+	</#if>
+
+	<#if data.hasPlacedFeature() && ((data.restrictionBiomes?has_content && cond) || data.hasGenerationConditions() || (hardcodedElements?size > 0))>
+	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
+		<#-- #4781 - we need to use WorldGenLevel instead of Level, or one can run incompatible procedures in condition -->
+		BlockPos origin = pos;
+		<#if data.restrictionBiomes?has_content && cond>
+		if (!generateDimensions.contains(world.getWorld().getDimensionKey()))
+			return false;
+		</#if>
+
+		<#if hasProcedure(data.generateCondition)>
+		int x = origin.getX();
+		int y = origin.getY();
+		int z = origin.getZ();
+		if (!<@procedureOBJToConditionCode data.generateCondition/>)
+			return false;
+		</#if>
+
+		<#if data.hasPlacedFeature() && (hardcodedElements?size > 0)>
+            <#list hardcodedElements as element>
+            ${element}
+            </#list>
+		</#if>
+
+		return super.generate(world, generator, random, origin, config);
+	}
 	</#if>
 }</#compress>
 <#-- @formatter:on -->
-<#function extractParts str>
-    <#assign parts = []>
-    <#assign remainingStr = str>
-
-    <#list 1..str?length as i>
-        <#assign startIndex = remainingStr?index_of('£')>
-        <#if startIndex == -1>
-            <#break>
-        </#if>
-        <#assign endIndex = remainingStr?index_of('^', startIndex)>
-        <#if endIndex == -1>
-            <#break>
-        </#if>
-        <#assign part = remainingStr?substring(startIndex + 1, endIndex)>
-        <#assign parts = parts + [part]>
-        <#assign remainingStr = remainingStr?substring(endIndex + 1)>
-    </#list>
-
-    <#return parts>
-</#function>
-<#function removeParts str>
-    <#assign start = str?index_of("£")>
-
-    <#if start == -1>
-        <#return str>
-    </#if>
-
-    <#assign end = str?index_of("^", start)>
-
-    <#if end == -1>
-        <#return str>
-    </#if>
-
-    <#return removeParts(str?substring(0, start) + str?substring(end + 1))>
-</#function>
 <#function expandBiomeTag biomeTag>
     <#local result = []>
 

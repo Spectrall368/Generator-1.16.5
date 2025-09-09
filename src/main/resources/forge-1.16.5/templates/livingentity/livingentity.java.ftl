@@ -55,7 +55,7 @@ import net.minecraft.network.datasync.DataParameter;
 public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt 0>implements ${interfaces?join(",")}</#if> {
 
 	<#if data.spawnThisMob>
-	private static final Set<ResourceLocation> GENERATE_BIOMES =
+	private static final Set<ResourceLocation> SPAWN_BIOMES =
 	<#if data.restrictionBiomes?has_content>
 	ImmutableSet.of(
 		<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
@@ -64,10 +64,10 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 			new ResourceLocation("${expandedBiome}")<#sep>,
 		    </#list><#sep>,
         </#list>
-        );
+        )
         <#else>
-        null;
-        </#if>
+        null
+        </#if>;
 
 	@SubscribeEvent public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
 	    <#if data.restrictionBiomes?has_content>

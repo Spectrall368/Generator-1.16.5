@@ -35,3 +35,28 @@
 <#function toBlockPos x y z>
 		<#return "new BlockPos(" + opt.removeParentheses(x) + "," + opt.removeParentheses(y) + "," + opt.removeParentheses(z) +")">
 </#function>
+
+<#function toPlacedFeature featureType featureConfig placement="">
+    <#local placementPattern = r'\$([^$]+)\$'>
+    <#local placementMatches = placement?matches(placementPattern)>
+    <#local hasHardcodedElements = (placementMatches?size > 0)>
+    <#local nonHardcodedElements = placement>
+
+    <#if hasHardcodedElements>
+        <#local nonHardcodedElements = placement?replace(placementPattern, "", "r")>
+    </#if>
+
+	<#if featureType == "placed_feature_inline">
+		<#return featureConfig>
+	<#else>
+        <#if featureType == "configured_feature_reference" && placement == "">
+		        <#return featureConfig>
+        <#elseif featureType == "configured_feature_reference">
+		        <#return featureConfig + nonHardcodedElements>
+		<#elseif placement == "">
+		        <#return generator.map(featureType, "features", 2) + '.withConfiguration(' + featureConfig + ')'>
+		<#else>
+		        <#return generator.map(featureType, "features", 2) + '.withConfiguration(' + featureConfig + ')' + nonHardcodedElements>
+		</#if>
+	</#if>
+</#function>

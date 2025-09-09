@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-new BigMushroomFeatureConfig(${mappedBlockToBlockStateProvider(input$cap)}, ${mappedBlockToBlockStateProvider(input$stem)}, ${field$radius})
+new BigMushroomFeatureConfig(${toStateProvidertoFeatureState(input$cap)}, ${toStateProvidertoFeatureState(input$stem)}, ${field$radius})

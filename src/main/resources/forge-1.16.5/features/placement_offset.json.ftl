@@ -1,1 +1,1 @@
-£placePos = placePos.add(${input$xz}, ${input$y}, ${input$xz});^
+$origin = origin.add(${input$xz}, ${input$y}, ${input$xz});$
