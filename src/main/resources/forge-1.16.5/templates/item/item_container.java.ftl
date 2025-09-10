@@ -39,7 +39,6 @@ package ${package}.item.inventory;
 			PlayerEntity player = event.getPlayer();
 			if (player.openContainer instanceof ${data.guiBoundTo}Menu)
 				player.closeScreen();
-			}
 		}
 	}
 
