@@ -67,16 +67,16 @@ public class ${name}Structure extends ${JavaModName}StructureBase {
 	</#if>
 
     <#if data.restrictionBiomes?has_content && cond>
-    @Override public Set<RegistryKey<World>> getDimensions() {
+    @Override public Set<RegistryKey<DimensionType>> getDimensions() {
         return ImmutableSet.of(
 			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 	        <#assign biomeName = fixNamespace(restrictionBiome)>
 			<#if biomeName == "#minecraft:is_overworld">
-				Level.OVERWORLD
+				DimensionType.OVERWORLD
 			<#elseif biomeName == "#minecraft:is_nether">
-				Level.NETHER
+				DimensionType.THE_NETHER
 			<#else>
-				Level.END
+				DimensionType.THE_END
 			</#if><#sep>,
 		</#list>
         );

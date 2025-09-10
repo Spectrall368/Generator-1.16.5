@@ -2,9 +2,9 @@
 <#include "trees.ftl">
 new BaseTreeFeatureConfig.Builder(${toStateProvidertoFeatureState(input$trunk)}, ${toStateProvidertoFeatureState(input$foliage)},
 <#if field$type == "pine">
-new PineFoliagePlacer(FeatureSpread.func_242252_a(1), FeatureSpread.func_242252_a(1), ${input$foliage_height})
+new PineFoliagePlacer(FeatureSpread.func_242252_a(1), FeatureSpread.func_242252_a(1), FeatureSpread.func_242252_a(${input$foliage_height}))
 <#else>
-new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), ${input$foliage_height})
+new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(${input$foliage_height}))
 </#if>,
 <#if field$type == "pine">
 <@simpleTrunkPlacer "minecraft:straight_trunk_placer" field$base_height field$height_variation_a field$height_variation_b/>, <@twoLayersFeatureSize limit=2 lower_size=0 upper_size=2/>

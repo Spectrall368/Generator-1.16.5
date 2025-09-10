@@ -1,1 +1,1 @@
-.func_242730_a(${input$count})
+.func_242730_a(FeatureSpread.func_242252_a(${input$count}))

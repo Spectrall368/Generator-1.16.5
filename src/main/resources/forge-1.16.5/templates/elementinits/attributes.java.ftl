@@ -56,7 +56,7 @@ public class ${JavaModName}Attributes {
 						${generator.map(entity.getUnmappedValue(), "entities", 1)}<#sep>,
 					</#list>
 					).stream()
-					.filter(DefaultAttributes::hasSupplier)
+					.filter(GlobalEntityTypeAttributes::doesEntityHaveAttributes)
 					.map(entityType -> (EntityType<? extends LivingEntity>) entityType)
 					.collect(Collectors.toList()).forEach(entity -> event.add(entity, ${attribute.getModElement().getRegistryNameUpper()}.get()));
 				</#if>
