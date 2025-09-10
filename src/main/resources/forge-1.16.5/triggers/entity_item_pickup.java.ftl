@@ -8,7 +8,7 @@
 			"z": "event.getPlayer().getPosZ()",
 			"world": "event.getPlayer().world",
 			"entity": "event.getPlayer()",
-			"itemstack": "event.getItem()",
+			"itemstack": "event.getItem().getItem()",
 			"event": "event"
 			}/>
 		</#compress></#assign>

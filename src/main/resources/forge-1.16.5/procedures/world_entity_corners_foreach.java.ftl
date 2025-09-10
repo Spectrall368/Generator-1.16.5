@@ -1,3 +1,3 @@
-for (Entity entityiterator : world.getEntitiesInAABBexcluding(${input$exclude}, new AxisAlignedBB(${input$x1}, ${input$y1}, ${input$z1}, ${input$x2}, ${input$y2}, ${input$z2}))) {
+for (Entity entityiterator : world.getEntitiesWithinAABBExcludingEntity(${input$exclude}, new AxisAlignedBB(${input$x1}, ${input$y1}, ${input$z1}, ${input$x2}, ${input$y2}, ${input$z2}))) {
 	${statement$foreach}
 }

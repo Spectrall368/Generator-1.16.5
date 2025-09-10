@@ -113,7 +113,7 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	);
 	</#if>
 
-	<#if data.hasPlacedFeature() && ((data.restrictionBiomes?has_content && cond) || data.hasGenerationConditions() || (allHardcodedElements?size > 0))>
+	<#if featuretype == "feature_simple_block" || (data.hasPlacedFeature() && ((data.restrictionBiomes?has_content && cond) || data.hasGenerationConditions() || (allHardcodedElements?size > 0)))>
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
 		<#-- #4781 - we need to use WorldGenLevel instead of Level, or one can run incompatible procedures in condition -->
 		BlockPos origin = pos;
@@ -136,7 +136,21 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
             </#list>
 		</#if>
 
-		return super.generate(world, generator, random, origin, config);
+		<#if featuretype == "feature_simple_block">
+			BlockState state = config.state;
+			if (state.isValidPosition(world, origin)) {
+				if (state.getBlock() instanceof DoublePlantBlock) {
+					if (!world.isAirBlock(origin.up()))
+						return false;
+					((DoublePlantBlock) state.getBlock()).placeAt(world, origin, 2);
+				} else
+					world.setBlockState(origin, config.state, 2);
+				return true;
+			}
+			return false;
+		<#else>
+			return super.generate(world, generator, random, origin, config);
+		</#if>
 	}
 	</#if>
 }</#compress>

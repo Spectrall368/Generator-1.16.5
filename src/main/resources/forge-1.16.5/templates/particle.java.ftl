@@ -104,11 +104,13 @@ package ${package}.client.particle;
 
 	<#if hasProcedure(data.scale)>
 	@Override public float getScale(float scale) {
-		World world = this.world;
 		return super.getScale(scale) * (float) <@procedureCode data.scale, {
-            "x": "posX",
-            "y": "posY",
-            "z": "posZ"
+            "x": "this.posX",
+            "y": "this.posY",
+            "z": "this.posZ",
+            "world": "this.world",
+            "age": "age",
+            "scale": "scale",
         }/>
 	}
 	</#if>

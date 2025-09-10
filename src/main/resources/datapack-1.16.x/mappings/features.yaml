@@ -74,10 +74,6 @@ feature_scattered_ore:
   - NoExposedOreFeature
   - OreFeatureConfig
   - OreFeatureConfig.CODEC
-feature_replace_single_block:
-  - ReplaceBlockFeature
-  - ReplaceBlockConfig
-  - ReplaceBlockConfig.field_236604_a_
 feature_simple_random_selector:
   - SingleRandomFeatureConfig
   - SingleRandomFeature

@@ -1,1 +1,1 @@
-MathHelper.clamp(${field$mean} + (float) random.nextGaussian() * ${field$deviation}, ${field$min}, ${field$max})
+((int) MathHelper.clamp(${field$mean} + (float) random.nextGaussian() * ${field$deviation}, ${field$min}, ${field$max}))
