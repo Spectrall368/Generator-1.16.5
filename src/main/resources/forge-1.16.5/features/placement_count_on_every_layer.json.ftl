@@ -1,1 +1,1 @@
-.withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(${input$count}))
+.withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(${input$count})))

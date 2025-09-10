@@ -441,6 +441,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 	<#if data.guiBoundTo?has_content>
 	private final ItemStackHandler inventory = new ItemStackHandler(${data.inventorySize})
 	<#if data.inventoryStackSize != 99>
+	{
 		@Override public int getSlotLimit(int slot) {
 			return ${data.inventoryStackSize};
 		}
