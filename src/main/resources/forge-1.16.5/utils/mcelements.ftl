@@ -54,9 +54,9 @@
         <#elseif featureType == "configured_feature_reference">
 		        <#return featureConfig + nonHardcodedElements>
 		<#elseif placement == "">
-		        <#return generator.map(featureType, "features", 2) + '.withConfiguration(' + featureConfig + ')'>
+		        <#return generator.map(featureType, "features", 3) + '.withConfiguration(' + featureConfig + ')'>
 		<#else>
-		        <#return generator.map(featureType, "features", 2) + '.withConfiguration(' + featureConfig + ')' + nonHardcodedElements>
+		        <#return generator.map(featureType, "features", 3) + '.withConfiguration(' + featureConfig + ')' + nonHardcodedElements>
 		</#if>
 	</#if>
 </#function>
