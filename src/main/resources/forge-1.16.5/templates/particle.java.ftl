@@ -110,7 +110,7 @@ package ${package}.client.particle;
             "z": "this.posZ",
             "world": "this.world",
             "age": "age",
-            "scale": "scale",
+            "scale": "scale"
         }/>
 	}
 	</#if>
