@@ -86,6 +86,7 @@ base_templates:
       - "${w.getGElementsOfType('gamerule')?filter(e -> e.type.equals('Number') || e.type.equals('Logic'))?size != 0}"
       - "${w.hasElementsOfType('structure')}"
       - "${w.hasElementsOfType('villagerprofession')}"
+      - "${w.hasElementsOfType('feature')}"
   - template: elementinits/features.java.ftl
     writer: java
     condition_any:

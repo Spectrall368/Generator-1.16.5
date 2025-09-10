@@ -1,3 +1,8 @@
+<#if w.hasElementsOfType("feature")>
+public net.minecraft.world.gen.feature.NoExposedOreFeature <init>(Lcom/mojang/serialization/Codec;)V #constructor
+public-f net.minecraft.world.gen.feature.TreeFeature func_241855_a(Lnet/minecraft/world/ISeedReader;Lnet/minecraft/world/gen/ChunkGenerator;Ljava/util/Random;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/gen/feature/BaseTreeFeatureConfig;)Z # place
+</#if>
+
 <#if w.getGElementsOfType('gamerule')?filter(e -> e.type.equals('Number'))?size != 0>
 public net.minecraft.world.GameRules$IntegerValue func_223559_b(I)Lnet/minecraft/world/GameRules$RuleType; #create
 </#if>

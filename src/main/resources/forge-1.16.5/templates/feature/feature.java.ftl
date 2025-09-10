@@ -46,11 +46,18 @@ package ${package}.world.features;
 </#if>
 <#assign placementPattern = r'\$([^$]+)\$'>
 <#assign placementMatches = placementcode?matches(placementPattern)>
-<#assign hardcodedElements = []>
+<#assign placementHardcodedElements = []>
 <#list placementMatches as match>
-    <#assign hardcodedElements = hardcodedElements + [match?groups[1]]>
+    <#assign placementHardcodedElements = placementHardcodedElements + [match?groups[1]]>
 </#list>
-<#assign nonHardcodedElements = placementcode?replace(placementPattern, "", "r")>
+<#assign nonHardcodedPlacement = placementcode?replace(placementPattern, "", "r")>
+<#assign configurationMatches = configurationcode?matches(placementPattern)>
+<#assign configurationHardcodedElements = []>
+<#list configurationMatches as match>
+    <#assign configurationHardcodedElements = configurationHardcodedElements + [match?groups[1]]>
+</#list>
+<#assign nonHardcodedConfiguration = configurationcode?replace(placementPattern, "", "r")>
+<#assign allHardcodedElements = placementHardcodedElements + configurationHardcodedElements>
 <#compress>
 public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	private static ${name}Feature FEATURE = null;
@@ -63,7 +70,7 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	public static Feature<?> feature() {
 	    Random random = new Random();
 		FEATURE = new ${name}Feature();
-		CONFIGURED_FEATURE = <#if featuretype == "configured_feature_reference">${configurationcode}<#else>FEATURE.withConfiguration(<#if configurationcode == "">NoFeatureConfig.field_236559_b_<#else>${configurationcode}</#if>)</#if><#if data.hasPlacedFeature()>${nonHardcodedElements}</#if>;
+		CONFIGURED_FEATURE = <#if featuretype == "configured_feature_reference">${nonHardcodedConfiguration}<#else>FEATURE.withConfiguration(<#if nonHardcodedConfiguration == "">NoFeatureConfig.field_236559_b_<#else>${nonHardcodedConfiguration}</#if>)</#if><#if data.hasPlacedFeature()>${nonHardcodedPlacement}</#if>;
 
 		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation("${modid}:${registryname}"), CONFIGURED_FEATURE);
 
@@ -106,7 +113,7 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	);
 	</#if>
 
-	<#if data.hasPlacedFeature() && ((data.restrictionBiomes?has_content && cond) || data.hasGenerationConditions() || (hardcodedElements?size > 0))>
+	<#if data.hasPlacedFeature() && ((data.restrictionBiomes?has_content && cond) || data.hasGenerationConditions() || (allHardcodedElements?size > 0))>
 	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
 		<#-- #4781 - we need to use WorldGenLevel instead of Level, or one can run incompatible procedures in condition -->
 		BlockPos origin = pos;
@@ -123,8 +130,8 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 			return false;
 		</#if>
 
-		<#if data.hasPlacedFeature() && (hardcodedElements?size > 0)>
-            <#list hardcodedElements as element>
+		<#if data.hasPlacedFeature() && (allHardcodedElements?size > 0)>
+            <#list allHardcodedElements as element>
             ${element}
             </#list>
 		</#if>
