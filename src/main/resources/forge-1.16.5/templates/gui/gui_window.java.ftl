@@ -221,7 +221,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 				if (<@procedureOBJToConditionCode component.displayCondition/>)
 			</#if>
 			this.font.func_243248_b(ms,
-				<#if hasProcedure(component.text)><@procedureOBJToStringCode component.text/><#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
+				<#if hasProcedure(component.text)>new StringTextComponent(<@procedureOBJToStringCode component.text/>)<#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
 				${component.gx(data.width)}, ${component.gy(data.height)}, ${component.color.getRGB()});
 		</#list>
 	}

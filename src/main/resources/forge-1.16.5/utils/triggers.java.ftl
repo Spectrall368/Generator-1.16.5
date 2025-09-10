@@ -14,7 +14,7 @@
 		@Override @OnlyIn(Dist.CLIENT) public void addInformation(ItemStack itemstack, <#if isBlock>IBlockReader<#else>World</#if> world, List<ITextComponent> list, ITooltipFlag flag) {
 		super.addInformation(itemstack, world, list, flag);
 		<#if hasProcedure(procedure)>
-			Entity entity = Minecraft.getInstance().player;
+			Entity entity = itemstack.getAttachedEntity() != null ? itemstack.getAttachedEntity() : Minecraft.getInstance().player;
 			String hoverText = <@procedureCode procedure, {
 				"x": "entity.getPosX()",
 				"y": "entity.getPosY()",
@@ -22,7 +22,7 @@
 				"entity": "entity",
 				"world": "entity.world",
 				"itemstack": "itemstack"
- 			}, false/>;
+			}, false/>;
  			if (hoverText != null) {
  				for (String line : hoverText.split("\n")) {
  					list.add(new StringTextComponent(line));
