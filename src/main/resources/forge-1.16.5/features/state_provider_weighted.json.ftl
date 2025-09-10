@@ -1,1 +1,1 @@
-/*@BlockStateProvider*/new WeightedBlockStateProvider(WeightedList.<BlockState>builder()<#list input_list$entry as entry>.func_226313_a_(${entry}.getDefaultState(), ${field_list$weight[entry?index]})</#list>.build())
+/*@BlockStateProvider*/new WeightedBlockStateProvider(WeightedList.<BlockState>func_226309_a_()<#list input_list$entry as entry>.func_226313_a_(${entry}.getDefaultState(), ${field_list$weight[entry?index]})</#list>.build())

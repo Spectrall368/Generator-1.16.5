@@ -149,7 +149,7 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?repl
 			3
 			<#else>
 			4
-			</#if> >= state.getHarvestLevel();
+			</#if> >= blockstate.getHarvestLevel();
 		}
 
 		@Override public float getDestroySpeed(ItemStack itemstack, BlockState blockstate) {

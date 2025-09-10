@@ -42,7 +42,7 @@
 package ${package}.world.structures;
 
 public class ${name}Structure extends ${JavaModName}StructureBase {
-    private static final StructureConfiguration INSTANCE = new StructureConfiguration(${[data.size, 7]?min}, StructureConfiguration.<#if data.useStartHeight>${data.startHeightProviderType?replace("UNIFORM", "UniformHeight")?replace("VERY_BIASED_TO_BOTTOM", "VeryBiasedToBottomHeight")?replace("BIASED_TO_BOTTOM", "BiasedToBottomHeight")?replace("TRAPEZOID", "TrapezoidHeight")}.of(${data.startHeightMin}, ${data.startHeightMax}<#if data.startHeightProviderType?contains("BIASED_TO_BOTTOM")>, 1</#if>)<#else>ConstantHeight.of(0)</#if>, Optional.<#if !data.useStartHeight>of(Heightmap.Type.${data.surfaceDetectionType}<#else>empty(</#if>), ${data.maxDistanceFromCenter});
+    private static final StructureConfiguration INSTANCE = new StructureConfiguration(${[data.size, 7]?min}, StructureConfiguration.<#if data.useStartHeight>${data.startHeightProviderType?replace("UNIFORM", "UniformHeight")?replace("VERY_BIASED_TO_BOTTOM", "VeryBiasedToBottomHeight")?replace("BIASED_TO_BOTTOM", "BiasedToBottomHeight")?replace("TRAPEZOID", "TrapezoidHeight")}.of(${data.startHeightMin}, ${data.startHeightMax})<#else>ConstantHeight.of(0)</#if>, Optional.<#if !data.useStartHeight>of(Heightmap.Type.${data.surfaceDetectionType}<#else>empty(</#if>), ${data.maxDistanceFromCenter});
 
     public ${name}Structure() {
         super("${registryname}");
