@@ -896,7 +896,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 					}
 					<#else>
 					(entityType, world, reason, pos, random) -> {
-					    return world.getFluidState(pos.down()).isIn(FluidTags.WATER) && world.getBlockState(pos.up()).isIn(Blocks.WATER) && pos.getY() >= (world.getSeaLevel() - 13) && pos.getY() <= world.getSeaLevel();
+					    return world.getFluidState(pos.down()).isIn(FluidTags.WATER) && world.getBlockState(pos.up()).matchesBlock(Blocks.WATER) && pos.getY() >= (world.getSeaLevel() - 13) && pos.getY() <= world.getSeaLevel();
                     }
 					</#if>
 			);
