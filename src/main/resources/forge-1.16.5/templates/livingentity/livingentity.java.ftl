@@ -879,7 +879,8 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 						return <@procedureOBJToConditionCode data.spawningCondition/>;
 					}
 					<#else>
-					SquidEntity::func_223365_b
+					(entityType, world, reason, pos, random) ->
+							(world.getBlockState(pos).matchesBlock(Blocks.WATER) && world.getBlockState(pos.up()).matchesBlock(Blocks.WATER))
 					</#if>
 			);
 			<#else>
@@ -893,7 +894,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 						return <@procedureOBJToConditionCode data.spawningCondition/>;
 					}
 					<#else>
-					MonsterEntity::canMonsterSpawn
+					(entityType, world, reason, pos, random) ->
+								(world.getDifficulty() != Difficulty.PEACEFUL && MonsterEntity.isValidLightLevel(world, pos, random)
+										&& MobEntity.canSpawnOn(entityType, world, reason, pos, random))
 					</#if>
 			);
 			</#if>
