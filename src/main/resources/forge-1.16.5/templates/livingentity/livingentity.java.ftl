@@ -843,16 +843,17 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 			<#if data.mobSpawningType == "creature">
 			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-					<#if hasProcedure(data.spawningCondition)>
+				<#if hasProcedure(data.spawningCondition)>
 					(entityType, world, reason, pos, random) -> {
 						int x = pos.getX();
 						int y = pos.getY();
 						int z = pos.getZ();
 						return <@procedureOBJToConditionCode data.spawningCondition/>;
 					}
-					<#else>
-					(entityType, world, reason, pos, random) -> (world.getBlockState(pos.down()).getMaterial() == Material.ORGANIC && world.getLightSubtracted(pos, 0) > 8)
-					</#if>
+				<#else>
+					(entityType, world, reason, pos, random) ->
+							(world.getBlockState(pos.down()).getMaterial() == Material.ORGANIC && world.getLightSubtracted(pos, 0) > 8)
+				</#if>
 			);
 			<#elseif data.mobSpawningType == "ambient" || data.mobSpawningType == "misc">
 			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
@@ -868,7 +869,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 					MobEntity::canSpawnOn
 					</#if>
 			);
-			<#elseif data.mobSpawningType == "waterCreature" || data.mobSpawningType == "waterAmbient" || data.mobSpawningType == "undergroundWaterCreature">
+			<#elseif data.mobSpawningType == "waterCreature" || data.mobSpawningType == "waterAmbient">
 			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 					<#if hasProcedure(data.spawningCondition)>
@@ -883,6 +884,22 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 							(world.getBlockState(pos).matchesBlock(Blocks.WATER) && world.getBlockState(pos.up()).matchesBlock(Blocks.WATER))
 					</#if>
 			);
+			<#elseif data.mobSpawningType == "undergroundWaterCreature">
+			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
+					EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+					<#if hasProcedure(data.spawningCondition)>
+					(entityType, world, reason, pos, random) -> {
+						int x = pos.getX();
+						int y = pos.getY();
+						int z = pos.getZ();
+						return <@procedureOBJToConditionCode data.spawningCondition/>;
+					}
+					<#else>
+					(entityType, world, reason, pos, random) -> {
+					    return world.getFluidState(pos.down()).isIn(FluidTags.WATER) && world.getBlockState(pos.up()).isIn(Blocks.WATER) && pos.getY() >= (world.getSeaLevel() - 13) && pos.getY() <= world.getSeaLevel();
+                    }
+					</#if>
+			);
 			<#else>
 			EntitySpawnPlacementRegistry.register(${JavaModName}Entities.${REGISTRYNAME}.get(),
 					EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
@@ -894,7 +911,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 						return <@procedureOBJToConditionCode data.spawningCondition/>;
 					}
 					<#else>
-					(entityType, world, reason, pos, random) ->
+						(entityType, world, reason, pos, random) ->
 								(world.getDifficulty() != Difficulty.PEACEFUL && MonsterEntity.isValidLightLevel(world, pos, random)
 										&& MobEntity.canSpawnOn(entityType, world, reason, pos, random))
 					</#if>
