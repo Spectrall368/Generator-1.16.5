@@ -8,7 +8,6 @@ tasks.named('processResources') {
     filesMatching('plugin.json') {
         expand(
                 version: project.version,
-                pluginSupportedVersion: project.pluginSupportedVersion,
                 mcreatorVersionShort: project.mcreatorVersionShort,
                 pluginVersion: project.pluginVersion
         )
