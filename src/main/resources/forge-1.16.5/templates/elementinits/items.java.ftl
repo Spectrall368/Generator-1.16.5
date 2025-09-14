@@ -44,35 +44,46 @@ package ${package}.init;
 <#assign orderedCustomItems = []>
 <#assign orderedVanillaItems = []>
 <#assign orderedNullItems = []>
-<#assign itemList = items>
 
-<#list itemList as item>
+<#assign itemsWithTabs = []>
+<#list items as item>
     <#if item.creativeTabs == "[]">
         <#assign orderedNullItems = orderedNullItems + [item]>
+    <#else>
+        <#assign itemsWithTabs = itemsWithTabs + [item]>
     </#if>
 </#list>
 
-<#assign itemList = itemList?filter(item -> !orderedNullItems?seq_contains(item))>
+<#assign itemsByName = {}>
+<#list itemsWithTabs as item>
+    <#assign itemsByName = itemsByName + {item.getModElement().getName(): item}>
+</#list>
 
+<#assign processedItems = {}>
 <#list tabMap.keySet() as tabType>
-	<#assign tab = tabType>
-	<#assign isCustom = tabType?starts_with('CUSTOM:')>
+    <#assign isCustom = tabType?starts_with('CUSTOM:')>
+    <#assign tab = isCustom?then("CUSTOM:" + w.getWorkspace().getModElementByName(tabType.replace("CUSTOM:", "")).getGeneratableElement().getModElement().getName(), tabType)>
+    <#assign currentTabItems = tabMap.get(tab)>
+    <#assign prevElement = "">
 
-	<#if isCustom>
-		<#assign tab = "CUSTOM:" + w.getWorkspace().getModElementByName(tabType.replace("CUSTOM:", "")).getGeneratableElement().getModElement().getName()>
-	</#if>
+    <#list currentTabItems as tabElement>
+        <#assign tabEName = tabElement?replace("CUSTOM:", "")?keep_before(".")>
 
-	<#list tabMap.get(tab) as tabElement>
-		<#assign tabEName = tabElement?replace("CUSTOM:", "")?keep_before(".")>
+        <#if tabEName != prevElement && itemsByName[tabEName]??>
+            <#assign item = itemsByName[tabEName]>
+            <#assign currentTabs><@CreativeTabs item.creativeTabs/></#assign>
 
-		<#if prevElement?? && prevElement == tabEName>
-			<#continue>
-		</#if>
-
-		<@setItem isCustom tabType tabEName/>
-
-		<#assign prevElement = tabEName>
-	</#list>
+            <#if currentTabs?trim == generator.map(tabType, "tabs")?trim>
+                <#if isCustom>
+                    <#assign orderedCustomItems = orderedCustomItems + [item]>
+                <#else>
+                    <#assign orderedVanillaItems = orderedVanillaItems + [item]>
+                </#if>
+                <#assign processedItems = processedItems + {tabEName: true}>
+            </#if>
+        </#if>
+        <#assign prevElement = tabEName>
+    </#list>
 </#list>
 
 <#assign orderedItems = orderedCustomItems + orderedVanillaItems + orderedNullItems>
@@ -201,20 +212,3 @@ new Item.Properties()
 .group(<@CreativeTabs block.creativeTabs/>)
 </#macro>
 <#-- @formatter:on -->
-<#macro setItem isCustom tabType itemName>
-	<#list itemList as item>
-	    <#assign currentTabs><@CreativeTabs item.creativeTabs/></#assign>
-
-	    <#if currentTabs?trim == generator.map(tabType, "tabs")?trim>
-			<#if item.getModElement().getName() == itemName>
-				<#if isCustom>
-					<#assign orderedCustomItems = orderedCustomItems + [item]>
-				<#else>
-					<#assign orderedVanillaItems = orderedVanillaItems + [item]>
-				</#if>
-				<#assign itemList = itemList?filter(n -> n != item)>
-				<#break>
-			</#if>
-		</#if>
-	</#list>
-</#macro>
