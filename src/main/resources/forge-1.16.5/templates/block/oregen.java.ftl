@@ -106,32 +106,6 @@ public class ${name}Feature extends OreFeature {
 	  	}
 	}
 
-    <#if data.restrictionBiomes?has_content && cond>
-	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, OreFeatureConfig config) {
-		    RegistryKey<World> dimensionType = world.getWorld().getDimensionKey();
-			boolean dimensionCriteria = false;
-			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
-	            <#assign biomeName = fixNamespace(restrictionBiome)>
-				<#if biomeName == "#minecraft:is_overworld">
-				    if(dimensionType == World.OVERWORLD)
-					    dimensionCriteria = true;
-				<#elseif biomeName == "#minecraft:is_nether">
-				    if(dimensionType == World.THE_NETHER)
-						dimensionCriteria = true;
-				<#else>
-					if(dimensionType == World.THE_END)
-			    		dimensionCriteria = true;
-				</#if>
-	    	</#list>
-
-			if(!dimensionCriteria)
-			    return false;
-
-
-	    return super.generate(world, generator, random, pos, config);
-	}
-    </#if>
-
 	public static final Set<ResourceLocation> GENERATE_BIOMES =
 	<#if data.restrictionBiomes?has_content && !cond>
 	ImmutableSet.of(
@@ -145,6 +119,28 @@ public class ${name}Feature extends OreFeature {
 	<#else>
 	null
 	</#if>;
+
+	<#if data.restrictionBiomes?has_content && cond>
+	private final Set<RegistryKey<World>> generate_dimensions = ImmutableSet.of(
+			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
+	        <#assign biomeName = fixNamespace(restrictionBiome)>
+			<#if biomeName == "#minecraft:is_overworld">
+				World.OVERWORLD
+			<#elseif biomeName == "#minecraft:is_nether">
+				World.THE_NETHER
+			<#else>
+				World.THE_END
+			</#if><#sep>,
+		</#list>
+	);
+
+	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, OreFeatureConfig config) {
+		if (!generate_dimensions.contains(world.getWorld().getDimensionKey()))
+			return false;
+
+		return super.generate(world, generator, random, origin, config);
+	}
+	</#if>
 }
 <#-- @formatter:on -->
 <#function expandBiomeTag biomeTag>

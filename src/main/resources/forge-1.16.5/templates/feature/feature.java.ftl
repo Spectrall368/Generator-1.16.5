@@ -99,15 +99,15 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	</#if>;
 
     <#if data.restrictionBiomes?has_content && cond>
-	private final Set<RegistryKey<DimensionType>> generateDimensions = ImmutableSet.of(
+	private final Set<RegistryKey<World>> generateDimensions = ImmutableSet.of(
 			<#list w.filterBrokenReferences(data.restrictionBiomes) as restrictionBiome>
 	        <#assign biomeName = fixNamespace(restrictionBiome)>
 			<#if biomeName == "#minecraft:is_overworld">
-				DimensionType.OVERWORLD
+				World.OVERWORLD
 			<#elseif biomeName == "#minecraft:is_nether">
-				DimensionType.THE_NETHER
+				World.THE_NETHER
 			<#else>
-				DimensionType.THE_END
+				World.THE_END
 			</#if><#sep>,
 		</#list>
 	);
