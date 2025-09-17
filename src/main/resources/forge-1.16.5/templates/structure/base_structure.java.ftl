@@ -48,7 +48,7 @@ public class ${JavaModName}StructureBase extends Structure<StructureConfiguratio
         return null;
     }
 
-    public Set<RegistryKey<DimensionType>> getDimensions() {
+    public Set<RegistryKey<World>> getDimensions() {
         return null;
     }
 
