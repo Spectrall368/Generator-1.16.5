@@ -317,7 +317,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 				"z": "this.getPosZ()",
 				"entity": "this",
 				"world": "this.world",
-				"damagesource": "source"
+				"damagesource": "this.getLastDamageSource()"
 			}/>
 		</#if>
 
