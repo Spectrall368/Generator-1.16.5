@@ -139,3 +139,4 @@ feature_custom_structure:
   - StructureModFeature
   - StructureModFeatureConfiguration
   - StructureModFeatureConfiguration.CODEC
+  - StructureModFeature.STRUCTURE_FEATURE.get()
