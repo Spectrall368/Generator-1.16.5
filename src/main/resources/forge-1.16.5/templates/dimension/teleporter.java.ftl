@@ -50,17 +50,17 @@ package ${package}.world.teleporter;
 		this.entityEnterPos = entityEnterPos;
 	}
 
-	@Override ${mcc.getMethod("net.minecraft.world.Teleporter", "getExistingPortal", "BlockPos", "boolean")
+	${mcc.getMethod("net.minecraft.world.Teleporter", "getExistingPortal", "BlockPos", "boolean")
 		.replace("PointOfInterestType.NETHER_PORTAL", "poi")
 		.replace("TicketType.PORTAL", "CUSTOM_PORTAL")
 		.replace("Blocks.NETHER_PORTAL", JavaModName + "Blocks." + registryname?upper_case + "_PORTAL.get()")}
 
-	@Override ${mcc.getMethod("net.minecraft.world.Teleporter", "makePortal", "BlockPos", "Direction.Axis")
+	${mcc.getMethod("net.minecraft.world.Teleporter", "makePortal", "BlockPos", "Direction.Axis")
 		.replace("Blocks.OBSIDIAN", mappedBlockToBlock(data.portalFrame)?string)
 		.replace(",blockstate,18);", ", blockstate, 18);\nthis.world.getPointOfInterestManager().add(blockpos$mutable, poi);")
 		.replace("Blocks.NETHER_PORTAL", JavaModName + "Blocks." + registryname?upper_case + "_PORTAL.get()")}
 
-	@Override ${mcc.getMethod("net.minecraft.world.Teleporter", "checkRegionForPlacement", "BlockPos", "BlockPos.Mutable", "Direction", "int")}
+	${mcc.getMethod("net.minecraft.world.Teleporter", "checkRegionForPlacement", "BlockPos", "BlockPos.Mutable", "Direction", "int")}
 
 	@Override public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld server, float yaw, Function<Boolean, Entity> repositionEntity) {
 		PortalInfo portalinfo = getPortalInfo(entity, server);
