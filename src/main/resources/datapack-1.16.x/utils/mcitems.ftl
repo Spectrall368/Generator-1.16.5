@@ -1,17 +1,25 @@
+<#function mappedBlockToBlockStateProvider mappedBlock>
+    <#if mappedBlock?starts_with("/*@BlockStateProvider*/")>
+        <#return mappedBlock?replace("/*@BlockStateProvider*/", "")>
+    <#else>
+        <#return '{"type": "minecraft:simple_state_provider", "state": ' + mappedBlock + '}'>
+    </#if>
+</#function>
+
 <#function transformExtension mappedBlock>
     <#assign extension = mappedBlock?keep_after_last(".")?replace("body", "chestplate")?replace("legs", "leggings")>
     <#return (extension?has_content)?then("_" + extension, "")>
 </#function>
 
-<#function mappedMCItemToItemObjectJSON mappedBlock>
+<#function mappedMCItemToItemObjectJSON mappedBlock itemKey="item">
     <#if mappedBlock.getUnmappedValue().startsWith("CUSTOM:")>
         <#assign customelement = generator.getRegistryNameFromFullName(mappedBlock.getUnmappedValue())!""/>
         <#if customelement?has_content>
-            <#return "\"item\": \"" + "${modid}:" + customelement
+            <#return "\"" + itemKey + "\": \"" + "${modid}:" + customelement
             + transformExtension(mappedBlock)
             + "\"">
         <#else>
-            <#return "\"item\": \"minecraft:air\"">
+            <#return "\"" + itemKey + "\": \"minecraft:air\"">
         </#if>
     <#elseif mappedBlock.getUnmappedValue().startsWith("TAG:")>
         <#return "\"tag\": \"" + mappedBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":")?lower_case + "\"">
@@ -20,9 +28,9 @@
         <#if mapped.startsWith("#")>
             <#return "\"tag\": \"" + mapped.replace("#", "") + "\"">
         <#elseif mapped.contains(":")>
-            <#return "\"item\": \"" + mapped + "\"">
+            <#return "\"" + itemKey + "\": \"" + mapped + "\"">
         <#else>
-            <#return "\"item\": \"minecraft:" + mapped + "\"">
+            <#return "\"" + itemKey + "\": \"minecraft:" + mapped + "\"">
         </#if>
     </#if>
 </#function>
