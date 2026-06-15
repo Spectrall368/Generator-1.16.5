@@ -65,8 +65,8 @@ package ${package}.network;
 			buffer.writeString((String) message.elementState);
 		} else if (message.elementType == 1) {
 			buffer.writeBoolean((boolean) message.elementState);
-		} else if (message.elementType == 2 && message.elementState instanceof Number n) {
-			buffer.writeDouble(n.doubleValue());
+		} else if (message.elementType == 2 && message.elementState instanceof Number) {
+			buffer.writeDouble(((Number) message.elementState).doubleValue());
 		}
 	}
 
