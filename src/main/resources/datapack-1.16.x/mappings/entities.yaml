@@ -127,7 +127,6 @@ EntityFox:
   - FoxEntity
   - EntityType.FOX
   - fox
-EntityFlying: FlyingEntity
 EntityGhast:
   - GhastEntity
   - EntityType.GHAST

@@ -85,7 +85,7 @@ package ${package}.client.renderer;
 	<#assign humanoid = true>
 </#if>
 <#assign model = model + "<" + name + "Entity>">
-<#compress>
+<@javacompress>
 @OnlyIn(Dist.CLIENT)
 public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer<${name}Entity, ${model}> {
 
@@ -104,7 +104,7 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 		this.addLayer(new LayerRenderer<${name}Entity, ${model}>(this) {
 			final ResourceLocation LAYER_TEXTURE = new ResourceLocation("${modid}:textures/entities/${layer.texture}");
 
-			<#compress>
+			<@javacompress>
 			@Override public void render(MatrixStack poseStack, IRenderTypeBuffer bufferSource, int light,
 						${name}Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 				<#if hasProcedure(layer.condition)>
@@ -130,7 +130,7 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 
 				<#if hasProcedure(layer.condition)>}</#if>
 			}
-			</#compress>
+			</@javacompress>
 		});
 		</#list>
 	}
@@ -184,4 +184,4 @@ public class ${name}Renderer extends <#if humanoid>Biped<#else>Mob</#if>Renderer
 	}
 	</#if>
 }
-</#compress>
+</@javacompress>

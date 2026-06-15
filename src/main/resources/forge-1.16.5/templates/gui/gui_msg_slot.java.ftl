@@ -33,7 +33,6 @@
 package ${package}.network;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}SlotMessage {
-
 	private final int slotID, x, y, z, changeType, meta;
 
 	public ${name}SlotMessage(int slotID, int x, int y, int z, int changeType, int meta) {
@@ -46,12 +45,7 @@ package ${package}.network;
 	}
 
 	public ${name}SlotMessage(PacketBuffer buffer) {
-		this.slotID = buffer.readInt();
-		this.x = buffer.readInt();
-		this.y = buffer.readInt();
-		this.z = buffer.readInt();
-		this.changeType = buffer.readInt();
-		this.meta = buffer.readInt();
+		this(buffer.readInt(), buffer.readInt(), buffer.readInt(), buffer.readInt(), buffer.readInt(), buffer.readInt());
 	}
 
 	public static void buffer(${name}SlotMessage message, PacketBuffer buffer) {

@@ -32,7 +32,7 @@
 package ${package}.block.entity;
 <#include "../procedures.java.ftl">
 
-<#compress>
+<@javacompress>
 public class ${name}BlockEntity extends LockableLootTileEntity implements ISidedInventory {
 
 	private NonNullList<ItemStack> stacks = NonNullList.withSize(${data.inventorySize}, ItemStack.EMPTY);
@@ -241,5 +241,5 @@ public class ${name}BlockEntity extends LockableLootTileEntity implements ISided
 			handler.invalidate();
 	}
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->

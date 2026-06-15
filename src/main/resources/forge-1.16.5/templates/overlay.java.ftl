@@ -32,7 +32,7 @@
 <#include "procedures.java.ftl">
 package ${package}.client.screens;
 
-@Mod.EventBusSubscriber({Dist.CLIENT}) public class ${name}Overlay {
+@Mod.EventBusSubscriber(Dist.CLIENT) public class ${name}Overlay {
 
 	@SubscribeEvent(priority = EventPriority.${data.priority})
 	<#if generator.map(data.overlayTarget, "screens") == "Ingame">

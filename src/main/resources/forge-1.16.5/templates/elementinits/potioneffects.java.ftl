@@ -48,7 +48,7 @@ package ${package}.init;
 
 	<#if mobHurt?size != 0>
 	@SubscribeEvent public static void onMobHurt(LivingHurtEvent event) {
-        <#compress>
+        <@javacompress>
         LivingEntity entity = event.getEntityLiving();
 		<#list mobHurt as effect>
 		if (entity.isPotionActive(${JavaModName}MobEffects.${effect.getModElement().getRegistryNameUpper()}.get())) {
@@ -64,13 +64,13 @@ package ${package}.init;
 			}/>
         }<#sep>else
         </#list>
-        </#compress>
+        </@javacompress>
     }
 	</#if>
 
 	<#if mobRemoved?size != 0>
 	@SubscribeEvent public static void onMobRemoved(LivingDeathEvent event) {
-        <#compress>
+        <@javacompress>
         LivingEntity entity = event.getEntityLiving();
 		<#list mobRemoved as effect>
 		if (entity.isPotionActive(${JavaModName}MobEffects.${effect.getModElement().getRegistryNameUpper()}.get())) {
@@ -84,7 +84,7 @@ package ${package}.init;
 			}/>
         }<#sep>else
         </#list>
-        </#compress>
+        </@javacompress>
     }
 	</#if>
 }

@@ -33,7 +33,7 @@
 <#include "../procedures.java.ftl">
 package ${package}.entity;
 
-<#compress>
+<@javacompress>
 @OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem {
 
@@ -240,5 +240,5 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 		return entityarrow;
 	}
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->

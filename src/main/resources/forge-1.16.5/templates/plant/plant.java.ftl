@@ -35,7 +35,7 @@
 <#include "../mcitems.ftl">
 package ${package}.block;
 
-<#compress>
+<@javacompress>
 <#assign interfaces = []>
 <#if data.isBonemealable && data.plantType != "sapling">
 	<#assign interfaces += ["IGrowable"]>
@@ -198,6 +198,15 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	}
 	</#if>
 
+	<#if data.strippingResult?? && !data.strippingResult.isEmpty()>
+	@Override public BlockState getToolModifiedState(BlockState blockstate, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType itemAbility) {
+		if (ToolType.AXE == itemAbility && stack.canPerformAction(itemAbility)) {
+			return ${mappedBlockToBlock(data.strippingResult)}.withPropertiesOf(blockstate);
+		}
+		return super.getToolModifiedState(blockstate, world, pos, player, stack, itemAbility);
+	}
+	</#if>
+
 	<#if data.creativePickItem?? && !data.creativePickItem.isEmpty()>
 	@Override public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		return ${mappedMCItemToItemStackCode(data.creativePickItem, 1)};
@@ -205,6 +214,16 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	<#elseif !data.hasBlockItem>
 	@Override public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		return ItemStack.EMPTY;
+	}
+	</#if>
+
+	<#if data.xpAmountMax != 0>
+	@Override public int getExpDrop(BlockState state, IWorldReader level, BlockPos pos, int fortuneLevel, int silkTouchLevel) {
+		<#if data.xpAmountMin == data.xpAmountMax>
+		return ${data.xpAmountMin};
+		<#else>
+		return ((World) level).rand.nextInt(${data.xpAmountMax} - ${data.xpAmountMin} + 1) + ${data.xpAmountMin};
+		</#if>
 	}
 	</#if>
 
@@ -328,6 +347,8 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 
 	<@onEntityWalksOn data.onEntityWalksOn/>
 
+	<@onEntityFallsOn data.onEntityFallsOn/>
+
 	<@onHitByProjectile data.onHitByProjectile/>
 
 	<#if data.isBonemealable && data.plantType != "sapling">
@@ -403,7 +424,7 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 		</#if>
 	</#if>
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->
 <#function getPlantClass plantType>
 	<#if plantType == "normal"><#return "Flower">

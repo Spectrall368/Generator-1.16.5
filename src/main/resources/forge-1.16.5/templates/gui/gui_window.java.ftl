@@ -37,8 +37,9 @@ package ${package}.client.gui;
 <#assign buttons = data.getComponentsOfType("Button")>
 <#assign imageButtons = data.getComponentsOfType("ImageButton")>
 <#assign tooltips = data.getComponentsOfType("Tooltip")>
+<#assign sliders = data.getComponentsOfType("Slider")>
 
-<#compress>
+<@javacompress>
 public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${JavaModName}Screens.ScreenAccessor {
 
 	private final World world;
@@ -48,19 +49,23 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 	private boolean menuStateUpdateActive = false;
 
 	<#list textFields as component>
-	TextFieldWidget ${component.getName()};
+	private TextFieldWidget ${component.getName()};
 	</#list>
 
 	<#list checkboxes as component>
-	CheckboxButton ${component.getName()};
+	private CheckboxButton ${component.getName()};
 	</#list>
 
 	<#list buttons as component>
-	Button ${component.getName()};
+	private Button ${component.getName()};
 	</#list>
 
 	<#list imageButtons as component>
-	ImageButton ${component.getName()};
+	private ImageButton ${component.getName()};
+	</#list>
+
+	<#list sliders as component>
+	private ${JavaModName}Screens.ForgeSlider ${component.getName()};
 	</#list>
 
 	public ${name}Screen(${name}Menu container, PlayerInventory inventory, ITextComponent text) {
@@ -86,7 +91,24 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 		}
 		</#if>
 
-		<#-- updateMenuState is not implemented for checkboxes, as there is no procedure block to set checkbox state currently -->
+		<#if checkboxes?has_content>
+		if (elementType == 1 && elementState instanceof Boolean) {
+			<#list checkboxes as component>
+				<#if !component?is_first>else</#if> if (name.equals("${component.getName()}")) {
+					if (${component.getName()}.isChecked() != ((Boolean) elementState)) ${component.getName()}.onPress();
+				}
+			</#list>
+		}
+		</#if>
+
+		<#if sliders?has_content>
+		if (elementType == 2 && elementState instanceof Number) {
+			<#list sliders as component>
+				<#if !component?is_first>else</#if> if (name.equals("${component.getName()}"))
+					${component.getName()}.setValue(((Number) elementState).doubleValue());
+			</#list>
+		}
+		</#if>
 
 		menuStateUpdateActive = false;
 	}
@@ -109,7 +131,6 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 		${component.getName()}.render(ms, mouseX, mouseY, partialTicks);
 		</#list>
 
-		<#compress>
 		<#list data.getComponentsOfType("EntityModel") as component>
 			<#assign followMouse = component.followMouseMovement>
 			<#assign x = component.gx(data.width)>
@@ -123,7 +144,6 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 					<#if followMouse>(float) Math.atan((this.guiTop + ${y + 21 - 50} - mouseY) / 40.0)<#else>0</#if>, (LivingEntity) <@procedureOBJToConditionCode component.entityModel/>);
 			}
 		</#list>
-		</#compress>
 
 		<#if tooltips?has_content>
 		boolean customTooltipShown = false;
@@ -202,6 +222,13 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 
 		return super.keyPressed(key, b, c);
 	}
+
+	<#if sliders?has_content> <#-- AbstractContainerScreen overrides it for slots only, causing a bug with Sliders, so we override it again -->
+	@Override public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		return (this.getFocused() != null && this.isDragging() && button == 0) ? this.getFocused().mouseDragged(mouseX, mouseY, button, dragX, dragY)
+			: super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+	}
+	</#if>
 
 	<#if textFields?has_content>
 	@Override public void resize(Minecraft minecraft, int width, int height) {
@@ -296,6 +323,28 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 
 			this.addButton(${component.getName()});
 		</#list>
+
+		<#assign slid = 0>
+		<#list sliders as component>
+			${component.getName()} = new ${JavaModName}Screens.ForgeSlider(this.guiLeft + ${component.gx(data.width)}, this.guiTop + ${component.gy(data.height)},
+				${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())}, new TranslatableComponent(
+				"gui.${modid}.${registryname}.${component.getName()}_prefix"), new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}_suffix"),
+				${component.min}, ${component.max}, ${component.value}, ${component.step}, 0, true) {
+					@Override protected void applyValue() {
+						if (!menuStateUpdateActive)
+							menu.sendMenuStateUpdate(entity, 2, "${component.getName()}", this.getValue(), false);
+						<#if hasProcedure(component.whenSliderMoves)>
+							${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}SliderMessage(${slid}, x, y, z, this.getValue()));
+							${name}SliderMessage.handleSliderAction(entity, ${btid}, x, y, z, this.getValue());
+						</#if>
+					}
+				};
+			this.addButton(${component.getName()});
+			if (!menuStateUpdateActive)
+				menu.sendMenuStateUpdate(entity, 2, "${component.getName()}", ${component.getName()}.getValue(), false);
+
+			<#assign slid +=1>
+		</#list>
 	}
 
 	<#if buttons?filter(component -> hasProcedure(component.displayCondition))?size != 0 || imageButtons?filter(component -> hasProcedure(component.displayCondition))?size != 0 || textFields?has_content>
@@ -319,7 +368,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 	</#if>
 
 }
-</#compress>
+</@javacompress>
 
 <#macro buttonOnClick component>
 e -> {

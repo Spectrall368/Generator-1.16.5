@@ -31,7 +31,7 @@
 <#-- @formatter:off -->
 package ${package}.item.inventory;
 
-<#compress>
+<@javacompress>
 @Mod.EventBusSubscriber public class ${name}InventoryCapability implements ICapabilitySerializable<CompoundNBT> {
 
 	@SubscribeEvent public static void onItemDropped(ItemTossEvent event) {
@@ -78,5 +78,5 @@ package ${package}.item.inventory;
 		return inventory.orElseThrow(RuntimeException::new);
 	}
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->

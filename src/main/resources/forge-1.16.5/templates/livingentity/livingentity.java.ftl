@@ -188,7 +188,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 	@Override protected void registerData() {
 		super.registerData();
 		<#list data.entityDataEntries as entry>
-			this.dataManager.register(DATA_${entry.property().getName()}, ${entry.value()?is_string?then("\"" + entry.value() + "\"", entry.value())});
+			this.dataManager.register(DATA_${entry.property().getName()}, ${entry.value()?is_string?then("\"" + JavaConventions.escapeStringForJava(entry.value()) + "\"", entry.value())});
 		</#list>
 	}
 	</#if>

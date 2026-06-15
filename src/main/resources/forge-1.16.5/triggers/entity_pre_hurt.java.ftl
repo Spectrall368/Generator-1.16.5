@@ -2,7 +2,7 @@
 @Mod.EventBusSubscriber public class ${name}Procedure {
 	@SubscribeEvent public static void onEntityAttacked(LivingHurtEvent event) {
 		if (event != null && event.getEntity() != null) {
-			<#assign dependenciesCode><#compress>
+			<#assign dependenciesCode>
 			<@procedureDependenciesCode dependencies, {
 				"x": "event.getEntity().getPosX()",
 				"y": "event.getEntity().getPosY()",
@@ -14,7 +14,7 @@
 				"sourceentity": "event.getSource().getTrueSource()",
 				"event": "event"
 				}/>
-			</#compress></#assign>
+			</#assign>
 			execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
 		}
 	}

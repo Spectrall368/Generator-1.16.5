@@ -40,7 +40,7 @@ package ${package}.init;
 
 	@SubscribeEvent
 	public static void furnaceFuelBurnTimeEvent(FurnaceFuelBurnTimeEvent event) {
-		<#compress>
+		<@javacompress>
 		ItemStack itemstack = event.getItemStack();
 		<#list itemextensions?filter(e -> e.enableFuel) as extension>
 			if (itemstack.getItem() == ${mappedMCItemToItem(extension.item)}
@@ -52,7 +52,7 @@ package ${package}.init;
 				</#if>
 			<#sep>else
 		</#list>
-		</#compress>
+		</@javacompress>
 	}
 }
 <#-- @formatter:on -->

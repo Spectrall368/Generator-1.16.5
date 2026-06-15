@@ -1,0 +1,102 @@
+_default:
+  - Effects.SPEED
+  - "minecraft:speed"
+_mcreator_map_template:
+  - "@JavaModNameMobEffects.@REGISTRYNAME.get()"
+  - "@modid:@registryname"
+SPEED:
+  - Effects.SPEED
+  - "minecraft:speed"
+SLOWNESS:
+  - Effects.SLOWNESS
+  - "minecraft:slowness"
+HASTE:
+  - Effects.HASTE
+  - "minecraft:haste"
+MINING_FATIGUE:
+  - Effects.MINING_FATIGUE
+  - "minecraft:mining_fatigue"
+STRENGTH:
+  - Effects.STRENGTH
+  - "minecraft:strength"
+INSTANT_HEALTH:
+  - Effects.INSTANT_HEALTH
+  - "minecraft:instant_health"
+INSTANT_DAMAGE:
+  - Effects.INSTANT_DAMAGE
+  - "minecraft:instant_damage"
+JUMP_BOOST:
+  - Effects.JUMP_BOOST
+  - "minecraft:jump_boost"
+NAUSEA:
+  - Effects.NAUSEA
+  - "minecraft:nausea"
+REGENERATION:
+  - Effects.REGENERATION
+  - "minecraft:regeneration"
+RESISTANCE:
+  - Effects.RESISTANCE
+  - "minecraft:resistance"
+FIRE_RESISTANCE:
+  - Effects.FIRE_RESISTANCE
+  - "minecraft:fire_resistance"
+WATER_BREATHING:
+  - Effects.WATER_BREATHING
+  - "minecraft:water_breathing"
+INVISIBILITY:
+  - Effects.INVISIBILITY
+  - "minecraft:invisibility"
+BLINDNESS:
+  - Effects.BLINDNESS
+  - "minecraft:blindness"
+NIGHT_VISION:
+  - Effects.NIGHT_VISION
+  - "minecraft:night_vision"
+HUNGER:
+  - Effects.HUNGER
+  - "minecraft:hunger"
+WEAKNESS:
+  - Effects.WEAKNESS
+  - "minecraft:weakness"
+POISON:
+  - Effects.POISON
+  - "minecraft:poison"
+WITHER:
+  - Effects.WITHER
+  - "minecraft:wither"
+HEALTH_BOOST:
+  - Effects.HEALTH_BOOST
+  - "minecraft:health_boost"
+ABSORPTION:
+  - Effects.ABSORPTION
+  - "minecraft:absorption"
+SATURATION:
+  - Effects.SATURATION
+  - "minecraft:saturation"
+GLOWING:
+  - Effects.GLOWING
+  - "minecraft:glowing"
+LEVITATION:
+  - Effects.LEVITATION
+  - "minecraft:levitation"
+LUCK:
+  - Effects.LUCK
+  - "minecraft:luck"
+UNLUCK:
+  - Effects.UNLUCK
+  - "minecraft:unluck"
+SLOW_FALLING:
+  - Effects.SLOW_FALLING
+  - "minecraft:slow_falling"
+CONDUIT_POWER:
+  - Effects.CONDUIT_POWER
+  - "minecraft:conduit_power"
+DOLPHINS_GRACE:
+  - Effects.DOLPHINS_GRACE
+  - "minecraft:dolphins_grace"
+BAD_OMEN:
+  - Effects.BAD_OMEN
+  - "minecraft:bad_omen"
+HERO_OF_THE_VILLAGE:
+  - Effects.HERO_OF_THE_VILLAGE
+  - "minecraft:hero_of_the_village"

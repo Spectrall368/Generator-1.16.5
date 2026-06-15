@@ -33,7 +33,6 @@
 package ${package}.client.renderer.block;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${name}Renderer extends TileEntityRenderer<${name}BlockEntity> {
-
 	private final CustomHierarchicalModel model;
 	private final ResourceLocation texture;
 
@@ -44,7 +43,7 @@ package ${package}.client.renderer.block;
 	}
 
 	@Override public void render(${name}BlockEntity blockEntity, float partialTick, MatrixStack poseStack, IRenderTypeBuffer renderer, int light, int overlayLight) {
-		<#compress>
+		<@javacompress>
 		poseStack.push();
 		poseStack.scale(-1, -1, 1);
 		poseStack.translate(-0.5, -0.5, 0.5);
@@ -55,20 +54,20 @@ package ${package}.client.renderer.block;
         	    switch (facing) {
 					case NORTH: break;
 					case EAST:
-						poseStack.rotate(Axis.YP.rotationDegrees(90));
+						poseStack.rotate(Vector3f.YP.rotationDegrees(90));
 						break;
 					case WEST: 
-						poseStack.rotate(Axis.YP.rotationDegrees(-90));
+						poseStack.rotate(Vector3f.YP.rotationDegrees(-90));
 						break;
 					case SOUTH:
-						poseStack.rotate(Axis.YP.rotationDegrees(180));
+						poseStack.rotate(Vector3f.YP.rotationDegrees(180));
 						break;
         	    	<#if data.rotationMode == 2 || data.rotationMode == 4>
         	    		case UP:
-							poseStack.rotate(Axis.XN.rotationDegrees(90));
+							poseStack.rotate(Vector3f.XN.rotationDegrees(90));
 							break;
         	    		case DOWN:
-							poseStack.rotate(Axis.XN.rotationDegrees(-90));
+							poseStack.rotate(Vector3f.XN.rotationDegrees(-90));
 							break;
 					</#if>
 				}
@@ -77,10 +76,10 @@ package ${package}.client.renderer.block;
 					switch (state.get(${name}Block.FACE)) {
 						case FLOOR: break;
 						case WALL:
-							poseStack.rotate(Axis.XP.rotationDegrees(90));
+							poseStack.rotate(Vector3f.XP.rotationDegrees(90));
 							break;
 						case CEILING:
-							poseStack.rotate(Axis.XP.rotationDegrees(180));
+							poseStack.rotate(Vector3f.XP.rotationDegrees(180));
 							break;
 					};
 				}
@@ -88,11 +87,11 @@ package ${package}.client.renderer.block;
 			<#else>
         	    switch (state.get(${name}Block.AXIS)) {
 					case X:
-						poseStack.rotate(Axis.ZN.rotationDegrees(90));
+						poseStack.rotate(Vector3f.ZN.rotationDegrees(90));
 						break;
 					case Y: break;
 					case Z:
-						poseStack.rotate(Axis.XP.rotationDegrees(90));
+						poseStack.rotate(Vector3f.XP.rotationDegrees(90));
 						break;
 				}
 			</#if>
@@ -102,7 +101,7 @@ package ${package}.client.renderer.block;
 		model.setupBlockEntityAnim(blockEntity, blockEntity.getWorld().getGameTime() + partialTick);
 		model.render(poseStack, builder, light, overlayLight, 1, 1, 1, 1);
 		poseStack.pop();
-		</#compress>
+		</@javacompress>
 	}
 
 	@SubscribeEvent public static void registerBlockEntityRenderers(FMLClientSetupEvent event) {
@@ -118,10 +117,6 @@ package ${package}.client.renderer.block;
 	}
 
 	private static final class CustomHierarchicalModel extends ${data.customModelName.split(":")[0]} {
-		public CustomHierarchicalModel() {
-			super();
-		}
-
 		public void setupBlockEntityAnim(${name}BlockEntity blockEntity, float ageInTicks) {
 			super.setRotationAngles(null, 0, 0, ageInTicks, 0, 0);
 		}

@@ -59,21 +59,43 @@ package ${package}.init;
 		</#if>
 	</#if>
 </#list>
+<#assign chunks = blocks?chunk(2500)>
+<#assign has_chunks = chunks?size gt 1>
 <#assign noteBlockInstrument = blocks?filter(block -> block.noteBlockInstrument?? && block.noteBlockInstrument != "harp")>
 
 <#if noteBlockInstrument?size != 0>@Mod.EventBusSubscriber </#if>public class ${JavaModName}Blocks {
 
 	public static final DeferredRegister<Block> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, ${JavaModName}.MODID);
 
+	<@javacompress>
 	<#list blocks as block>
 		<#if block.getModElement().getTypeString() == "dimension">
-            public static final RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()}_PORTAL =
-				REGISTRY.register("${block.getModElement().getRegistryName()}_portal", ${block.getModElement().getName()}PortalBlock::new);
+            public static <#if !has_chunks>final</#if> RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()}_PORTAL;
 		<#else>
-			public static final RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()} =
-				REGISTRY.register("${block.getModElement().getRegistryName()}", ${block.getModElement().getName()}Block::new);
+			public static <#if !has_chunks>final</#if> RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()};
 		</#if>
 	</#list>
+	</@javacompress>
+
+	<#list chunks as sub_blocks>
+	<#if has_chunks>public static void register${sub_blocks?index}()<#else>static</#if> {
+		<#list sub_blocks as block>
+			<#if block.getModElement().getTypeString() == "dimension">
+        	    ${block.getModElement().getRegistryNameUpper()}_PORTAL =
+					REGISTRY.register("${block.getModElement().getRegistryName()}_portal", ${block.getModElement().getName()}PortalBlock::new);
+			<#else>
+				${block.getModElement().getRegistryNameUpper()} =
+					REGISTRY.register("${block.getModElement().getRegistryName()}", ${block.getModElement().getName()}Block::new);
+			</#if>
+		</#list>
+	}
+	</#list>
+
+	<#if has_chunks>
+	static {
+		<#list 0..chunks?size-1 as i>register${i}();</#list>
+	}
+	</#if>
 
 	// Start of user code block custom blocks
 	// End of user code block custom blocks
@@ -124,14 +146,14 @@ package ${package}.init;
 
 	<#if noteBlockInstrument?size != 0>
 	@SubscribeEvent public static void onNoteBlockPlay(NoteBlockEvent.Play event) {
-        <#compress>
+        <@javacompress>
         Block below = event.getWorld().getBlockState(event.getPos().down()).getBlock();
 		<#list noteBlockInstrument as block>
 		if (below == ${JavaModName}Blocks.${block.getModElement().getRegistryNameUpper()}.get()) {
             event.setInstrument(${generator.map(block.noteBlockInstrument, "noteblockinstruments")});
         }<#sep>else
 		</#list>
-        </#compress>
+        </@javacompress>
     }
 	</#if>
 }

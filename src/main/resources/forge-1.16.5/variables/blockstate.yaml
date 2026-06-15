@@ -16,7 +16,7 @@ scopes:
     set: |
       <#include "mcitems.ftl">
       ${JavaModName}Variables.WorldVariables.get(world).${name} = ${mappedBlockToBlockStateCode(value)};
-      ${JavaModName}Variables.WorldVariables.get(world).syncData(world);
+      <@tail>${JavaModName}Variables.WorldVariables.get(world).markSyncDirty();</@tail>
   global_map:
     init: public BlockState ${var.getName()} = ${generator.map(var.getValue(), "blocksitems")}.getDefaultState();
     read: ${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
@@ -25,36 +25,30 @@ scopes:
     set: |
       <#include "mcitems.ftl">
       ${JavaModName}Variables.MapVariables.get(world).${name} = ${mappedBlockToBlockStateCode(value)};
-      ${JavaModName}Variables.MapVariables.get(world).syncData(world);
+      <@tail>${JavaModName}Variables.MapVariables.get(world).markSyncDirty();</@tail>
   player_lifetime:
     init: public BlockState ${var.getName()} = ${generator.map(var.getValue(), "blocksitems")}.getDefaultState();
-    read: instance.${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
-    write: nbt.put("${var.getName()}", NBTUtil.writeBlockState(instance.${var.getName()}));
-    get: |
-      /*@BlockState*/((${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES_CAPABILITY, null)
-        .orElse(new ${JavaModName}Variables.PlayerVariables())).${name})
+    read: ${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
+    write: nbt.put("${var.getName()}", NBTUtil.writeBlockState(${var.getName()}));
+    get: /*@BlockState*/${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElseGet(${JavaModName}Variables.PlayerVariables::new).${name}
     set: |
       <#include "mcitems.ftl">
-      {
-        BlockState _setval = ${mappedBlockToBlockStateCode(value)};
-        ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-          capability.${name} = _setval;
-          capability.syncPlayerVariables(${entity});
-        });
-      }
+      <@head>{${JavaModName}Variables.PlayerVariables _playerVars = ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElse(null);
+        if (_playerVars != null) {</@head>
+            _playerVars.${name} = ${mappedBlockToBlockStateCode(value)};
+            <@tail>_playerVars.markSyncDirty();
+        }
+      }</@tail>
   player_persistent:
     init: public BlockState ${var.getName()} = ${generator.map(var.getValue(), "blocksitems")}.getDefaultState();
-    read: instance.${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
-    write: nbt.put("${var.getName()}", NBTUtil.writeBlockState(instance.${var.getName()}));
-    get: |
-      /*@BlockState*/((${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES_CAPABILITY, null)
-        .orElse(new ${JavaModName}Variables.PlayerVariables())).${name})
+    read: ${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
+    write: nbt.put("${var.getName()}", NBTUtil.writeBlockState(${var.getName()}));
+    get: /*@BlockState*/${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElseGet(${JavaModName}Variables.PlayerVariables::new).${name}
     set: |
       <#include "mcitems.ftl">
-      {
-        BlockState _setval = ${mappedBlockToBlockStateCode(value)};
-        ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-          capability.${name} = _setval;
-          capability.syncPlayerVariables(${entity});
-        });
-      }
+      <@head>{${JavaModName}Variables.PlayerVariables _playerVars = ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElse(null);
+        if (_playerVars != null) {</@head>
+            _playerVars.${name} = ${mappedBlockToBlockStateCode(value)};
+            <@tail>_playerVars.markSyncDirty();
+        }
+      }</@tail>

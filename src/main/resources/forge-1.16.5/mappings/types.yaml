@@ -13,3 +13,4 @@ dimensiontype: RegistryKey<World>
 actionresulttype: ActionResultType
 cmdcontext: CommandContext<CommandSource>
 damagesource: DamageSource
+vector: Vector3d

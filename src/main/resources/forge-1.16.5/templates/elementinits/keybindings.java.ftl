@@ -35,7 +35,7 @@
  */
 package ${package}.init;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT}) public class ${JavaModName}KeyMappings {
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${JavaModName}KeyMappings {
 
     <#list keybinds as keybind>
 	public static final KeyBinding ${keybind.getModElement().getRegistryNameUpper()} = new KeyBinding(
@@ -55,7 +55,7 @@ package ${package}.init;
 		</#list>
 	}
 
-	@Mod.EventBusSubscriber({Dist.CLIENT}) public static class KeyEventListener {
+	@Mod.EventBusSubscriber(Dist.CLIENT) public static class KeyEventListener {
 
 		@SubscribeEvent public static void onKeyInput(InputEvent.KeyInputEvent event) {
 			if (Minecraft.getInstance().currentScreen == null) {

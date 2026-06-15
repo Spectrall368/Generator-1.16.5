@@ -1,7 +1,7 @@
 <#include "procedures.java.ftl">
-@Mod.EventBusSubscriber(value = {Dist.CLIENT}) public class ${name}Procedure {
+@Mod.EventBusSubscriber(Dist.CLIENT) public class ${name}Procedure {
 	@SubscribeEvent public static void onRightClick(PlayerInteractEvent.RightClickEmpty event) {
-		<#assign dependenciesCode><#compress>
+		<#assign dependenciesCode>
 			<@procedureDependenciesCode dependencies, {
 				"x": "event.getPos().getX()",
 				"y": "event.getPos().getY()",
@@ -9,7 +9,7 @@
 				"world": "event.getWorld()",
 				"entity": "event.getPlayer()"
 			}/>
-		</#compress></#assign>
+		</#assign>
 		<#-- fix #5491, event is fired for both hands always, so we can filter by either -->
 		if (event.getHand() != Hand.MAIN_HAND) return;
 		${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}Message());
@@ -29,7 +29,7 @@
 			context.enqueueWork(() -> {
 				if (!context.getSender().world.isBlockLoaded(context.getSender().getPosition()))
 					return;
-				<#assign dependenciesCode><#compress>
+				<#assign dependenciesCode>
 					<@procedureDependenciesCode dependencies, {
 						"x": "context.getSender().getPosX()",
 						"y": "context.getSender().getPosY()",
@@ -37,7 +37,7 @@
 						"world": "context.getSender().world",
 						"entity": "context.getSender()"
 					}/>
-				</#compress></#assign>
+				</#assign>
 				execute(${dependenciesCode});
 			});
 			context.setPacketHandled(true);

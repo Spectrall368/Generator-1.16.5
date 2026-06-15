@@ -62,6 +62,8 @@ list_templates:
 tags:
   - tag: ITEMS:minecraft:music_discs
     condition: isMusicDisc
+  - tag: ITEMS:minecraft:piglin_loved
+    condition: isPiglinCurrency
 
 localizationkeys:
   - key: item.@modid.@registryname
@@ -75,4 +77,4 @@ localizationkeys:
   - fromlist: data.getFixedSpecialInformation()
     key: item.@modid.@registryname.description_@item_index
 
-field_exclusions: [musicDiscLengthInTicks]
+field_exclusions: [musicDiscLengthInTicks, animations]

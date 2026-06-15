@@ -31,7 +31,7 @@
 <#-- @formatter:off -->
 package ${package}.block.grower;
 
-<#compress>
+<@javacompress>
 public class ${name}TreeGrower extends <#if (data.megaTrees[0]?has_content) || (data.megaTrees[1]?has_content)>Big</#if>Tree {
 	protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomSource, boolean hasFlower) {
 		<#if data.secondaryTreeChance != 0 && (data.trees[1]?has_content || data.flowerTrees[1]?has_content)>
@@ -58,7 +58,7 @@ public class ${name}TreeGrower extends <#if (data.megaTrees[0]?has_content) || (
 	}
 	</#if>
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->
 <#macro toTreeKey tree="">
 <#if tree?has_content>

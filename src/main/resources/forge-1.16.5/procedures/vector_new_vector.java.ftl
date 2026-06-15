@@ -1,0 +1,1 @@
+(new Vector3d(${input$x}, ${input$y}, ${input$z}))

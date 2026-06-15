@@ -58,7 +58,7 @@ package ${package}.world.features;
 </#list>
 <#assign nonHardcodedConfiguration = configurationcode?replace(placementPattern, "", "r")>
 <#assign allHardcodedElements = placementHardcodedElements + configurationHardcodedElements>
-<#compress>
+<@javacompress>
 public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	private static ${name}Feature FEATURE = null;
 	private static ConfiguredFeature<?, ?> CONFIGURED_FEATURE = null;
@@ -153,7 +153,7 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 		</#if>
 	}
 	</#if>
-}</#compress>
+}</@javacompress>
 <#-- @formatter:on -->
 <#function expandBiomeTag biomeTag>
     <#local result = []>

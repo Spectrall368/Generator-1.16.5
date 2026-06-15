@@ -36,8 +36,8 @@ package ${package}.world.inventory;
 
 import ${package}.${JavaModName};
 
-<#compress>
-<#if hasProcedure(data.onTick)>
+<@javacompress>
+<#if hasProcedure(data.onTick) || hasProcedure(data.onOpen)>
 @Mod.EventBusSubscriber
 </#if>
 public class ${name}Menu extends Container implements ${JavaModName}Menus.MenuAccessor {
@@ -180,10 +180,6 @@ public class ${name}Menu extends Container implements ${JavaModName}Menus.MenuAc
 			for (int si = 0; si < 9; ++si)
 				this.addSlot(new Slot(inv, si, ${coffx} + 8 + si * 18, ${coffy} + 142));
 		</#if>
-
-		<#if hasProcedure(data.onOpen)>
-			<@procedureOBJToCode data.onOpen/>
-		</#if>
 	}
 
 	@Override public boolean canInteractWith(PlayerEntity player) {
@@ -305,17 +301,33 @@ public class ${name}Menu extends Container implements ${JavaModName}Menus.MenuAc
 	}
 
 	<#if hasProcedure(data.onTick)>
-		@SubscribeEvent public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-			PlayerEntity entity = event.player;
-			if(event.phase == TickEvent.Phase.END && entity.openContainer instanceof ${name}Menu) {
-				World world = ((${name}Menu) entity.openContainer).world;
-				double x = ((${name}Menu) entity.openContainer).x;
-				double y = ((${name}Menu) entity.openContainer).y;
-				double z = ((${name}Menu) entity.openContainer).z;
-				<@procedureOBJToCode data.onTick/>
-			}
+	@SubscribeEvent public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+		Player entity = event.player;
+		if(event.phase == TickEvent.Phase.END && entity.openContainer instanceof ${name}Menu) {
+			${name}Menu menu = (${name}Menu) entity.openContainer;
+			World world = menu.world;
+			double x = menu.x;
+			double y = menu.y;
+			double z = menu.z;
+			<@procedureOBJToCode data.onTick/>
 		}
+	}
 	</#if>
+
+	<#if hasProcedure(data.onOpen)>
+	@SubscribeEvent public static void onContainerOpen(PlayerContainerEvent.Open event) {
+		PlayerEntity entity = event.getEntity();
+		if(event.getContainer() instanceof ${name}Menu) {
+			${name}Menu menu = (${name}Menu) event.getContainer();
+			World world = menu.world;
+			double x = menu.x;
+			double y = menu.y;
+			double z = menu.z;
+			<@procedureOBJToCode data.onOpen/>
+		}
+	}
+	</#if>
+
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->

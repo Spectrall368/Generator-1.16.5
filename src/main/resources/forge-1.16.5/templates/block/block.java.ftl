@@ -2,29 +2,29 @@
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
  # Copyright (C) 2020-2024, Pylo, opensource contributors
- # 
+ #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
  # the Free Software Foundation, either version 3 of the License, or
  # (at your option) any later version.
- # 
+ #
  # This program is distributed in the hope that it will be useful,
  # but WITHOUT ANY WARRANTY; without even the implied warranty of
  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  # GNU General Public License for more details.
- # 
+ #
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <https://www.gnu.org/licenses/>.
- # 
+ #
  # Additional permission for code generator templates (*.ftl files)
- # 
- # As a special exception, you may create a larger work that contains part or 
- # all of the MCreator code generator templates (*.ftl files) and distribute 
- # that work under terms of your choice, so long as that work isn't itself a 
- # template for code generation. Alternatively, if you modify or redistribute 
- # the template itself, you may (at your option) remove this special exception, 
- # which will cause the template and the resulting code generator output files 
- # to be licensed under the GNU General Public License without this special 
+ #
+ # As a special exception, you may create a larger work that contains part or
+ # all of the MCreator code generator templates (*.ftl files) and distribute
+ # that work under terms of your choice, so long as that work isn't itself a
+ # template for code generation. Alternatively, if you modify or redistribute
+ # the template itself, you may (at your option) remove this special exception,
+ # which will cause the template and the resulting code generator output files
+ # to be licensed under the GNU General Public License without this special
  # exception.
 -->
 
@@ -43,14 +43,17 @@
         <#assign blockSetType = "LEAVES">
     </#if>
 </#if>
+<#if data.blockBase?has_content && data.blockBase == "Wall">
+	<#assign filteredCustomProperties = []>
+</#if>
 package ${package}.block;
 
-<#compress>
+<@javacompress>
 public class ${name}Block extends
 	<#if data.hasGravity>
 		FallingBlock
 	<#elseif data.blockBase?has_content && data.blockBase == "Button">
-		<#if blockSetType == "OAK">Wood<#else>Stone</#if>ButtonBlock
+		net.minecraft.block.<#if blockSetType == "OAK">Wood<#else>Stone</#if>ButtonBlock
 	<#elseif data.blockBase?has_content>
 		${data.blockBase}Block
 	<#else>
@@ -61,7 +64,7 @@ public class ${name}Block extends
 	<#if data.isWaterloggable>
 		<#assign interfaces += ["IWaterLoggable"]>
 	</#if>
-	<#if data.isBonemealable>
+	<#if data.isBonemealable && !(data.blockBase?has_content && data.blockBase == "TrapDoor")>
 		<#assign interfaces += ["IGrowable"]>
 	</#if>
 	<#if interfaces?size gt 0>
@@ -190,6 +193,9 @@ public class ${name}Block extends
 				super(() -> Blocks.AIR.getDefaultState(), <@blockProperties/>);
 			<#elseif data.blockBase == "PressurePlate">
 				super(Sensitivity.<#if data.blockSetType == "OAK">EVERYTHING<#else>MOBS</#if>, <@blockProperties/>);
+			<#elseif data.blockBase == "FlowerPot">
+				super(() -> (FlowerPotBlock) Blocks.FLOWER_POT, () -> ${mappedBlockToBlock(data.pottedPlant)}, <@blockProperties/>);
+				((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation("${mappedMCItemToRegistryName(data.pottedPlant)}"), () -> this);
 			<#else>
 				super(<@blockProperties/>);
 			</#if>
@@ -232,42 +238,6 @@ public class ${name}Block extends
 	<#elseif data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
 	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${REGISTRYNAME}.get(), RenderType.getCutout());
-	}
-	</#if>
-
-	<#if data.blockBase?has_content && data.blockBase == "Fence">
-	@Override public boolean canConnect(BlockState state, boolean checkattach, Direction face) {
-    	  	boolean flag = state.getBlock() instanceof FenceBlock && state.getMaterial() == this.material;
-    	  	boolean flag1 = state.getBlock() instanceof FenceGateBlock && FenceGateBlock.isParallel(state, face);
-    	  	return !cannotAttach(state.getBlock()) && checkattach || flag || flag1;
-   	}
-   	<#elseif data.blockBase?has_content && data.blockBase == "Wall">
-	private static final VoxelShape CENTER_POLE_SHAPE = Block.makeCuboidShape(7.0D, 0.0D, 7.0D, 9.0D, 16.0D, 9.0D);
-	private static final VoxelShape WALL_CONNECTION_NORTH_SIDE_SHAPE = Block.makeCuboidShape(7.0D, 0.0D, 0.0D, 9.0D, 16.0D, 9.0D);
-	private static final VoxelShape WALL_CONNECTION_SOUTH_SIDE_SHAPE = Block.makeCuboidShape(7.0D, 0.0D, 7.0D, 9.0D, 16.0D, 16.0D);
-	private static final VoxelShape WALL_CONNECTION_WEST_SIDE_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 7.0D, 9.0D, 16.0D, 9.0D);
-	private static final VoxelShape WALL_CONNECTION_EAST_SIDE_SHAPE = Block.makeCuboidShape(7.0D, 0.0D, 7.0D, 16.0D, 16.0D, 9.0D);
-
-	private boolean shouldConnect(BlockState state, boolean checkattach, Direction face) {
-      		boolean flag = state.getBlock() instanceof WallBlock || state.getBlock() instanceof FenceGateBlock && FenceGateBlock.isParallel(state, face);
-      		return !cannotAttach(state.getBlock()) && checkattach || flag;
-   	}
-
-   	@Override ${mcc.getMethod("net.minecraft.block.WallBlock", "getStateForPlacement", "BlockItemUseContext")}
-   	@Override ${mcc.getMethod("net.minecraft.block.WallBlock", "updatePostPlacement", "BlockState", "Direction", "BlockState", "IWorld", "BlockPos", "BlockPos")}
-   	${mcc.getMethod("net.minecraft.block.WallBlock", "func_235625_a_", "IWorldReader", "BlockState", "BlockPos", "BlockState")}
-   	${mcc.getMethod("net.minecraft.block.WallBlock", "func_235627_a_", "IWorldReader", "BlockPos", "BlockState", "BlockPos", "BlockState", "Direction")}
-	${mcc.getMethod("net.minecraft.block.WallBlock", "func_235626_a_", "IWorldReader", "BlockState", "BlockPos", "BlockState", "boolean", "boolean", "boolean", "boolean")}
-	${mcc.getMethod("net.minecraft.block.WallBlock", "func_235630_a_", "BlockState", "boolean", "boolean", "boolean", "boolean", "VoxelShape")}
-	${mcc.getMethod("net.minecraft.block.WallBlock", "func_235633_a_", "boolean", "VoxelShape", "VoxelShape")}
-	${mcc.getMethod("net.minecraft.block.WallBlock", "func_235628_a_", "BlockState", "BlockState", "VoxelShape")}
-
-	private static boolean hasHeightForProperty(BlockState state, Property<WallHeight> heightProperty) {
-			return state.get(heightProperty) != WallHeight.NONE;
-	}
-
-	private static boolean compareShapes(VoxelShape shape1, VoxelShape shape2) {
-			return !VoxelShapes.compare(shape2, shape1, IBooleanFunction.ONLY_FIRST);
 	}
 	</#if>
 
@@ -535,20 +505,33 @@ public class ${name}Block extends
 	}
 	</#if>
 
+	<#if data.strippingResult?? && !data.strippingResult.isEmpty()>
+	@Override public BlockState getToolModifiedState(BlockState blockstate, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType itemAbility) {
+		if (ToolType.AXE == itemAbility && stack.canPerformAction(itemAbility)) {
+			return ${mappedBlockToBlock(data.strippingResult)}.withPropertiesOf(blockstate);
+		}
+		return super.getToolModifiedState(blockstate, world, pos, player, stack, itemAbility);
+	}
+	</#if>
+
 	<#if data.creativePickItem?? && !data.creativePickItem.isEmpty()>
 	@Override public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		return ${mappedMCItemToItemStackCode(data.creativePickItem, 1)};
 	}
-	<#elseif !data.hasBlockItem>
+	<#elseif !data.hasBlockItem && (data.blockBase! != "FlowerPot")>
 	@Override public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
 		return ItemStack.EMPTY;
 	}
 	</#if>
 
-	<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
-	@Override public MaterialColor getMaterialColor() {
-        	return MaterialColor.${generator.map(data.colorOnMap, "mapcolors")};
-    	}
+	<#if data.xpAmountMax != 0>
+	@Override public int getExpDrop(BlockState state, IWorldReader level, BlockPos pos, int fortuneLevel, int silkTouchLevel) {
+		<#if data.xpAmountMin == data.xpAmountMax>
+		return ${data.xpAmountMin};
+		<#else>
+		return ((World) level).rand.nextInt(${data.xpAmountMax} - ${data.xpAmountMin} + 1) + ${data.xpAmountMin};
+		</#if>
+	}
 	</#if>
 
 	<#if generator.map(data.aiPathNodeType, "pathnodetypes") != "DEFAULT">
@@ -626,6 +609,8 @@ public class ${name}Block extends
 
 	<@onEntityWalksOn data.onEntityWalksOn/>
 
+	<@onEntityFallsOn data.onEntityFallsOn/>
+
 	<@onHitByProjectile data.onHitByProjectile/>
 
 	<@onBlockPlacedBy data.onBlockPlayedBy/>
@@ -669,7 +654,7 @@ public class ${name}Block extends
 	}
 	</#if>
 
-	<#if data.isBonemealable>
+	<#if data.isBonemealable && !(data.blockBase?has_content && data.blockBase == "TrapDoor")>
 	<@bonemealEvents data.isBonemealTargetCondition, data.bonemealSuccessCondition, data.onBonemealSuccess/>
 	</#if>
 
@@ -794,5 +779,5 @@ public class ${name}Block extends
 		</#if>
 	</#list>
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->

@@ -31,7 +31,7 @@
 <#-- @formatter:off -->
 <#include "procedures.java.ftl">
 package ${package}.client.particle;
-<#compress>
+<@javacompress>
 
 @OnlyIn(Dist.CLIENT) public class ${name}Particle extends SpriteTexturedParticle {
 
@@ -138,5 +138,5 @@ package ${package}.client.particle;
 		</#if>
 	}
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->
