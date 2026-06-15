@@ -302,7 +302,7 @@ public class ${name}Menu extends Container implements ${JavaModName}Menus.MenuAc
 
 	<#if hasProcedure(data.onTick)>
 	@SubscribeEvent public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		Player entity = event.player;
+		PlayerEntity entity = event.player;
 		if(event.phase == TickEvent.Phase.END && entity.openContainer instanceof ${name}Menu) {
 			${name}Menu menu = (${name}Menu) entity.openContainer;
 			World world = menu.world;
@@ -316,7 +316,7 @@ public class ${name}Menu extends Container implements ${JavaModName}Menus.MenuAc
 
 	<#if hasProcedure(data.onOpen)>
 	@SubscribeEvent public static void onContainerOpen(PlayerContainerEvent.Open event) {
-		PlayerEntity entity = event.getEntity();
+		PlayerEntity entity = event.getPlayer();
 		if(event.getContainer() instanceof ${name}Menu) {
 			${name}Menu menu = (${name}Menu) event.getContainer();
 			World world = menu.world;

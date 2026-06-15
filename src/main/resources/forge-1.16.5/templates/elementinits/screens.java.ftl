@@ -50,7 +50,7 @@ import java.text.DecimalFormat;
 		void updateMenuState(int elementType, String name, Object elementState);
 	}
 
-	public static class ForgeSlider extends AbstractSliderButton {
+	public static class ForgeSlider extends AbstractSlider {
       protected ITextComponent prefix;
       protected ITextComponent suffix;
 
@@ -85,7 +85,7 @@ import java.text.DecimalFormat;
             builder.append('0');
 
           this.format = new DecimalFormat(builder.toString());
-        } else if (Mth.equal(this.stepSize, Math.floor(this.stepSize))) {
+        } else if (MathHelper.epsilonEquals(this.stepSize, Math.floor(this.stepSize))) {
           this.format = new DecimalFormat("0");
         } else {
           this.format = new DecimalFormat(Double.toString(this.stepSize).replaceAll("\\d", "0"));
@@ -94,7 +94,7 @@ import java.text.DecimalFormat;
         this.updateMessage();
       }
 
-      public ForgeSlider(int x, int y, int width, int height, Component prefix, Component suffix, double minValue, double maxValue, double currentValue, boolean drawString) {
+      public ForgeSlider(int x, int y, int width, int height, ITextComponent prefix, ITextComponent suffix, double minValue, double maxValue, double currentValue, boolean drawString) {
         this(x, y, width, height, prefix, suffix, minValue, maxValue, currentValue, 1D, 0, drawString);
       }
 
@@ -153,7 +153,7 @@ import java.text.DecimalFormat;
       private void setSliderValue(double value) {
         double oldValue = this.value;
         this.value = this.snapToNearest(value);
-        if (!Mth.equal(oldValue, this.value))
+        if (!MathHelper.epsilonEquals(oldValue, this.value))
           this.applyValue();
 
         this.updateMessage();
@@ -161,25 +161,25 @@ import java.text.DecimalFormat;
 
       private double snapToNearest(double value) {
         if (stepSize <= 0D)
-          return Mth.clamp(value, 0D, 1D);
+          return MathHelper.clamp(value, 0D, 1D);
 
-        value = Mth.lerp(Mth.clamp(value, 0D, 1D), this.minValue, this.maxValue);
+        value = MathHelper.lerp(MathHelper.clamp(value, 0D, 1D), this.minValue, this.maxValue);
 
         value = (stepSize * Math.round(value / stepSize));
 
         if (this.minValue > this.maxValue) {
-          value = Mth.clamp(value, this.maxValue, this.minValue);
+          value = MathHelper.clamp(value, this.maxValue, this.minValue);
         } else {
-          value = Mth.clamp(value, this.minValue, this.maxValue);
+          value = MathHelper.clamp(value, this.minValue, this.maxValue);
         }
 
-        return Mth.map(value, this.minValue, this.maxValue, 0D, 1D);
+        return MathHelper.map(value, this.minValue, this.maxValue, 0D, 1D);
       }
 
       @Override
       protected void updateMessage() {
         if (this.drawString) {
-          this.setMessage(new StringTextComponent("").append(prefix).append(this.getValueString()).append(suffix));
+          this.setMessage(new StringTextComponent("").appendSibling(prefix).appendText(this.getValueString()).appendSibling(suffix));
         } else {
           this.setMessage(StringTextComponent.EMPTY);
         }

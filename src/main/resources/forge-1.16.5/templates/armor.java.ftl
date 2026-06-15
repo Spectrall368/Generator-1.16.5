@@ -88,7 +88,7 @@ public abstract class ${name}Item extends ArmorItem {
 
 		@Override @OnlyIn(Dist.CLIENT) public BipedModel getArmorModel(LivingEntity living, ItemStack stack, EquipmentSlotType slot, BipedModel defaultModel) {
 		    if (armorModel == null) {
-		        armorModel = new BipedModel();
+		        armorModel = new BipedModel(1);
 		        armorModel.bipedHead = new ${data.helmetModelName}().${data.helmetModelPart};
 		        armorModel.bipedHeadwear = new ${data.helmetModelName}().${data.helmetModelPart};
 		        armorModel.isSneak = living.isSneaking();
@@ -130,7 +130,7 @@ public abstract class ${name}Item extends ArmorItem {
 
 		@Override @OnlyIn(Dist.CLIENT) public BipedModel getArmorModel(LivingEntity living, ItemStack stack, EquipmentSlotType slot, BipedModel defaultModel) {
 		    if (armorModel == null) {
-		        armorModel = new BipedModel();
+		        armorModel = new BipedModel(1);
 		        armorModel.bipedBody = new ${data.bodyModelName}().${data.bodyModelPart};
 
 		        <#if data.armsModelPartL?has_content>
@@ -179,7 +179,7 @@ public abstract class ${name}Item extends ArmorItem {
 
 		@Override @OnlyIn(Dist.CLIENT) public BipedModel getArmorModel(LivingEntity living, ItemStack stack, EquipmentSlotType slot, BipedModel defaultModel) {
 		    if (armorModel == null) {
-		        armorModel = new BipedModel();
+		        armorModel = new BipedModel(1);
 
 		        <#if data.leggingsModelPartL?has_content>
 		        armorModel.bipedLeftLeg = new ${data.leggingsModelName}().${data.leggingsModelPartL};
@@ -227,7 +227,7 @@ public abstract class ${name}Item extends ArmorItem {
 
 		@Override @OnlyIn(Dist.CLIENT) public BipedModel getArmorModel(LivingEntity living, ItemStack stack, EquipmentSlotType slot, BipedModel defaultModel) {
 		    if (armorModel == null) {
-		        armorModel = new BipedModel();
+		        armorModel = new BipedModel(1);
 
 		        <#if data.bootsModelPartL?has_content>
 		        armorModel.bipedLeftLeg = new ${data.bootsModelName}().${data.bootsModelPartL};

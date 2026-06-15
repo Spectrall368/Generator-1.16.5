@@ -114,7 +114,7 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
 		if (!generate_dimensions.contains(world.getWorld().getDimensionKey()))
 			return false;
 
-		return super.generate(world, generator, random, origin, config);
+		return super.generate(world, generator, random, pos, config);
 	}
 	</#if>
 }

@@ -63,7 +63,7 @@ package ${package}.network;
 		context.setPacketHandled(true);
 	}
 
-	public static void handleSliderAction(Player entity, int sliderID, int x, int y, int z, double value) {
+	public static void handleSliderAction(PlayerEntity entity, int sliderID, int x, int y, int z, double value) {
 		World world = entity.world;
 
 		// security measure to prevent arbitrary chunk generation

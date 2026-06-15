@@ -41,7 +41,7 @@ public class ${name}Item extends BucketItem {
 		);
 	}
 
-	@Override public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+	@Override public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
 	    return new FluidBucketWrapper(stack);
 	}
 

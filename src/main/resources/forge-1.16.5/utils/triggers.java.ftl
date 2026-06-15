@@ -262,20 +262,9 @@
 </#if>
 </#macro>
 
+<#-- Not supported -->
 <#macro onItemEntityDestroyed procedure="">
 <#if hasProcedure(procedure)>
-@Override public void onDestroyed(ItemEntity entity) {
-	super.onDestroyed(entity);
-	<@procedureCode procedure, {
-		"x": "entity.getX()",
-		"y": "entity.getY()",
-		"z": "entity.getZ()",
-		"world": "entity.level",
-		"entity": "entity",
-		"itemstack": "entity.getItem()",
-		"damagesource": "DamageSource.GENERIC"
-	}/>
-}
 </#if>
 </#macro>
 
