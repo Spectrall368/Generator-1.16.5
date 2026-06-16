@@ -1,1 +1,1 @@
-(${input$vector1}.${field$vector_opcodes}(${input$vector2}))
+(${input$vector1}.${field$vector_opcodes?replace("multiply", "mul")}(${input$vector2}))

@@ -114,9 +114,8 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 	</#if>
 
 	<#if featuretype == "feature_simple_block" || (data.hasPlacedFeature() && ((data.restrictionBiomes?has_content && cond) || data.hasGenerationConditions() || (allHardcodedElements?size > 0)))>
-	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos pos, ${configuration} config) {
+	@Override public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos origin, ${configuration} config) {
 		<#-- #4781 - we need to use WorldGenLevel instead of Level, or one can run incompatible procedures in condition -->
-		BlockPos origin = pos;
 		<#if data.restrictionBiomes?has_content && cond>
 		if (!generateDimensions.contains(world.getWorld().getDimensionKey()))
 			return false;

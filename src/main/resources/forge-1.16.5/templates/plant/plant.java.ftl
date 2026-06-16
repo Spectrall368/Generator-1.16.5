@@ -200,8 +200,8 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 
 	<#if data.strippingResult?? && !data.strippingResult.isEmpty()>
 	@Override public BlockState getToolModifiedState(BlockState blockstate, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType itemAbility) {
-		if (ToolType.AXE == itemAbility && stack.canPerformAction(itemAbility)) {
-			return ${mappedBlockToBlock(data.strippingResult)}.withPropertiesOf(blockstate);
+		if (ToolType.AXE == itemAbility) {
+			return ${mappedBlockToBlock(data.strippingResult)}.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS));
 		}
 		return super.getToolModifiedState(blockstate, world, pos, player, stack, itemAbility);
 	}

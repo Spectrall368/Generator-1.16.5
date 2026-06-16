@@ -430,15 +430,15 @@
 
 <#macro onEntityFallsOn procedure="">
 <#if hasProcedure(data.onEntityFallsOn)>
-@Override public void onFallenUpon(World world, BlockState blockstate, BlockPos pos, Entity entity, float distance) {
-	super.onFallenUpon(world, blockstate, pos, entity, distance);
+@Override public void onFallenUpon(World world, BlockPos pos, Entity entity, float distance) {
+	super.onFallenUpon(world, pos, entity, distance);
 	<@procedureCode data.onEntityFallsOn, {
 		"x": "pos.getX()",
 		"y": "pos.getY()",
 		"z": "pos.getZ()",
 		"world": "world",
 		"entity": "entity",
-		"blockstate": "blockstate",
+		"blockstate": "world.getBlockState(pos)",
 		"distance": "distance"
 	}/>
 }

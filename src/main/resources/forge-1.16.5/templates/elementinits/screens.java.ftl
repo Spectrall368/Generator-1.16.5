@@ -70,7 +70,7 @@ import java.text.DecimalFormat;
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.stepSize = Math.abs(stepSize);
-        this.value = this.snapToNearest((currentValue - minValue) / (maxValue - minValue));
+        this.sliderValue = this.snapToNearest((currentValue - minValue) / (maxValue - minValue));
         this.drawString = drawString;
 
         if (stepSize == 0D) {
@@ -91,7 +91,7 @@ import java.text.DecimalFormat;
           this.format = new DecimalFormat(Double.toString(this.stepSize).replaceAll("\\d", "0"));
         }
 
-        this.updateMessage();
+        this.func_230979_b_();
       }
 
       public ForgeSlider(int x, int y, int width, int height, ITextComponent prefix, ITextComponent suffix, double minValue, double maxValue, double currentValue, boolean drawString) {
@@ -99,7 +99,7 @@ import java.text.DecimalFormat;
       }
 
       public double getValue() {
-        return this.value * (maxValue - minValue) + minValue;
+        return this.sliderValue * (maxValue - minValue) + minValue;
       }
 
       public long getValueLong() {
@@ -111,8 +111,8 @@ import java.text.DecimalFormat;
       }
 
       public void setValue(double value) {
-        this.value = this.snapToNearest((value - this.minValue) / (this.maxValue - this.minValue));
-        this.updateMessage();
+        this.sliderValue = this.snapToNearest((value - this.minValue) / (this.maxValue - this.minValue));
+        this.func_230979_b_();
       }
 
       public String getValueString() {
@@ -138,7 +138,7 @@ import java.text.DecimalFormat;
             flag = !flag;
           float f = flag ? -1F : 1F;
           if (stepSize <= 0D)
-            this.setSliderValue(this.value + (f / (this.width - 8)));
+            this.setSliderValue(this.sliderValue + (f / (this.width - 8)));
           else
             this.setValue(this.getValue() + f * this.stepSize);
         }
@@ -151,12 +151,12 @@ import java.text.DecimalFormat;
       }
 
       private void setSliderValue(double value) {
-        double oldValue = this.value;
-        this.value = this.snapToNearest(value);
-        if (!MathHelper.epsilonEquals(oldValue, this.value))
-          this.applyValue();
+        double oldValue = this.sliderValue;
+        this.sliderValue = this.snapToNearest(value);
+        if (!MathHelper.epsilonEquals(oldValue, this.sliderValue))
+          this.func_230972_a_();
 
-        this.updateMessage();
+        this.func_230979_b_();
       }
 
       private double snapToNearest(double value) {
@@ -177,7 +177,7 @@ import java.text.DecimalFormat;
       }
 
       @Override
-      protected void updateMessage() {
+      protected void func_230979_b_() {
         if (this.drawString) {
           this.setMessage(new StringTextComponent("").appendSibling(prefix).appendText(this.getValueString()).appendSibling(suffix));
         } else {
@@ -186,7 +186,7 @@ import java.text.DecimalFormat;
       }
 
       @Override
-      protected void applyValue() {}
+      protected void func_230972_a_() {}
     }
 }
 <#-- @formatter:on -->

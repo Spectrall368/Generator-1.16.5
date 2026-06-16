@@ -330,7 +330,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 				${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())}, new TranslatableComponent(
 				"gui.${modid}.${registryname}.${component.getName()}_prefix"), new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}_suffix"),
 				${component.min}, ${component.max}, ${component.value}, ${component.step}, 0, true) {
-					@Override protected void applyValue() {
+					@Override protected void func_230972_a_() {
 						if (!menuStateUpdateActive)
 							menu.sendMenuStateUpdate(entity, 2, "${component.getName()}", this.getValue(), false);
 						<#if hasProcedure(component.whenSliderMoves)>
