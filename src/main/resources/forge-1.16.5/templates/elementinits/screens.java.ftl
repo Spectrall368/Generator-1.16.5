@@ -173,7 +173,7 @@ import java.text.DecimalFormat;
           value = MathHelper.clamp(value, this.minValue, this.maxValue);
         }
 
-        return MathHelper.lerp(MathHelper.pct(value, this.minValue, this.maxValue), 0D, 1D);
+        return MathHelper.lerp(MathHelper.func_233020_c_(value, this.minValue, this.maxValue), 0D, 1D);
       }
 
       @Override
