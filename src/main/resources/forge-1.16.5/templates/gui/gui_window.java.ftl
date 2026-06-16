@@ -225,7 +225,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 
 	<#if sliders?has_content> <#-- AbstractContainerScreen overrides it for slots only, causing a bug with Sliders, so we override it again -->
 	@Override public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		return (this.getFocused() != null && this.isDragging() && button == 0) ? this.getFocused().mouseDragged(mouseX, mouseY, button, dragX, dragY)
+		return (this.getListener() != null && this.isDragging() && button == 0) ? this.getListener().mouseDragged(mouseX, mouseY, button, dragX, dragY)
 			: super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
 	</#if>
@@ -327,12 +327,12 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 		<#assign slid = 0>
 		<#list sliders as component>
 			${component.getName()} = new ${JavaModName}Screens.ForgeSlider(this.guiLeft + ${component.gx(data.width)}, this.guiTop + ${component.gy(data.height)},
-				${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())}, new TranslatableComponent(
+				${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())}, new TranslationTextComponent(
 				"gui.${modid}.${registryname}.${component.getName()}_prefix"), new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}_suffix"),
 				${component.min}, ${component.max}, ${component.value}, ${component.step}, 0, true) {
 					@Override protected void func_230972_a_() {
 						if (!menuStateUpdateActive)
-							menu.sendMenuStateUpdate(entity, 2, "${component.getName()}", this.getValue(), false);
+							container.sendMenuStateUpdate(entity, 2, "${component.getName()}", this.getValue(), false);
 						<#if hasProcedure(component.whenSliderMoves)>
 							${JavaModName}.PACKET_HANDLER.sendToServer(new ${name}SliderMessage(${slid}, x, y, z, this.getValue()));
 							${name}SliderMessage.handleSliderAction(entity, ${btid}, x, y, z, this.getValue());
@@ -341,7 +341,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 				};
 			this.addButton(${component.getName()});
 			if (!menuStateUpdateActive)
-				menu.sendMenuStateUpdate(entity, 2, "${component.getName()}", ${component.getName()}.getValue(), false);
+				container.sendMenuStateUpdate(entity, 2, "${component.getName()}", ${component.getName()}.getValue(), false);
 
 			<#assign slid +=1>
 		</#list>

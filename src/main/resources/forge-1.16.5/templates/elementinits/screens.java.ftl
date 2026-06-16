@@ -173,13 +173,13 @@ import java.text.DecimalFormat;
           value = MathHelper.clamp(value, this.minValue, this.maxValue);
         }
 
-        return MathHelper.map(value, this.minValue, this.maxValue, 0D, 1D);
+        return MathHelper.lerp(MathHelper.pct(value, this.minValue, this.maxValue), 0D, 1D);
       }
 
       @Override
       protected void func_230979_b_() {
         if (this.drawString) {
-          this.setMessage(new StringTextComponent("").appendSibling(prefix).appendText(this.getValueString()).appendSibling(suffix));
+          this.setMessage(new StringTextComponent("").append(prefix).appendString(this.getValueString()).append(suffix));
         } else {
           this.setMessage(StringTextComponent.EMPTY);
         }
