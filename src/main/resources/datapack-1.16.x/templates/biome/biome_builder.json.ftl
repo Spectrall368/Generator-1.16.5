@@ -1,4 +1,4 @@
-<#include "../mcitems.ftl">
+<#include "../mcitems_json.ftl">
 {
   "config": {
     "top_material": ${mappedMCItemToBlockStateJSON(data.groundBlock)},

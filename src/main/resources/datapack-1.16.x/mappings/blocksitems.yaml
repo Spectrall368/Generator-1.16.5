@@ -1432,6 +1432,9 @@ Blocks.STRIPPED_ACACIA_WOOD:
 Blocks.STRIPPED_DARK_OAK_WOOD:
   - Blocks.STRIPPED_DARK_OAK_WOOD
   - "stripped_dark_oak_wood"
+Blocks.BED:
+  - Blocks.WHITE_BED
+  - "white_bed"
 Blocks.ORANGE_BED:
   - Blocks.ORANGE_BED
   - "orange_bed"
@@ -2920,9 +2923,6 @@ Items.SUGAR:
 Items.CAKE:
   - Items.CAKE
   - "cake"
-Items.BED:
-  - Items.WHITE_BED
-  - "white_bed"
 Items.COOKIE:
   - Items.COOKIE
   - "cookie"
