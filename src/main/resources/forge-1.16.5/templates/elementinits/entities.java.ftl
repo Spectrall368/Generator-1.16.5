@@ -68,7 +68,7 @@ package ${package}.init;
 	<#if w.getGElementsOfType("specialentity")?size != 0>
 			public static final RegistryObject<EntityType<${JavaModName}Boat>> ${JavaModName?upper_case}_BOAT =
 				register("boat", EntityType.Builder.<${JavaModName}Boat>
-					create(${JavaModName}Boat::new, EntityClassification.MISC).size(1.375f, 0.5625f).clientTrackingRange(10));
+					create(${JavaModName}Boat::new, EntityClassification.MISC).size(1.375f, 0.5625f).trackingRange(10));
 	</#if>
 
 	// Start of user code block custom entities

@@ -40,7 +40,7 @@ public class ${JavaModName}Boat extends BoatEntity {
 		this(${JavaModName}Entities.${JavaModName?upper_case}_BOAT.get(), world);
 	}
 
-	public ${JavaModName}Boat(EntityType<? extends Boat> entityType, World level) {
+	public ${JavaModName}Boat(EntityType<? extends BoatEntity> entityType, World level) {
 		super(entityType, level);
 	}
 

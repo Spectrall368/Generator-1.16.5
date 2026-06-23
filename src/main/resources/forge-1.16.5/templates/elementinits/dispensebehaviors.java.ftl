@@ -125,7 +125,7 @@ package ${package}.init;
 
 	<#if specialentities?size != 0>
 	public static class ${JavaModName}BoatDispenseItemBehavior extends DefaultDispenseItemBehavior {
-	    private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
+	    private final DefaultDispenseItemBehavior dispenseItemBehaviour = new DefaultDispenseItemBehavior();
 	    private final ${JavaModName}Boat.Type type;
 
 	    public ${JavaModName}BoatDispenseItemBehavior(${JavaModName}Boat.Type type) {

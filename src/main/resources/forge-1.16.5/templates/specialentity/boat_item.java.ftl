@@ -38,7 +38,7 @@ public class ${JavaModName}BoatItem extends Item {
 	private final ${JavaModName}Boat.Type type;
 
 	public ${JavaModName}BoatItem(${JavaModName}Boat.Type type, Item.Properties properties) {
-		super(properties.stacksTo(1));
+		super(properties.maxStackSize(1));
 		this.type = type;
 	}
 
