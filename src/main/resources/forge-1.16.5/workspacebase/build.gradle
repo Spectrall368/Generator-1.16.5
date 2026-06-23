@@ -34,6 +34,7 @@ minecraft {
 
             if (file("src/main/resources/${modid}.mixins.json").exists()) {
                 arg "-mixin.config=${modid}.mixins.json"
+                arg "-mixin.debug.verbose=true"
             }
 
             mods {
@@ -53,12 +54,12 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
-dependencies {
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-}
+if (file("src/main/resources/${modid}.mixins.json").exists()) {
+    dependencies {
+        annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    }
 
-jar {
-    if (file("src/main/resources/${modid}.mixins.json").exists()) {
+    jar {
         manifest.attributes([
                 "MixinConfigs": "${modid}.mixins.json"
         ])
