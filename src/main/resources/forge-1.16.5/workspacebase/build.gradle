@@ -34,7 +34,6 @@ minecraft {
 
             if (file("src/main/resources/${modid}.mixins.json").exists()) {
                 arg "-mixin.config=${modid}.mixins.json"
-                arg "-mixin.debug.verbose=true"
             }
 
             mods {
