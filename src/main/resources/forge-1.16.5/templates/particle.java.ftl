@@ -104,7 +104,7 @@ package ${package}.client.particle;
 
 	<#if hasProcedure(data.scale)>
 	@Override public float getScale(float scale) {
-		return <#if data.fixedScale>0.15f<#else>super.getQuadSize(scale)</#if> * (float) <@procedureCode data.scale, {
+		return <#if data.fixedScale>0.15f<#else>super.getScale(scale)</#if> * (float) <@procedureCode data.scale, {
             "x": "this.posX",
             "y": "this.posY",
             "z": "this.posZ",
@@ -117,7 +117,7 @@ package ${package}.client.particle;
 
 	<#if hasProcedure(data.rotationProvider)>
 	@Override public void renderParticle(IVertexBuilder buffer, ActiveRenderInfo camera, float partialTicks) {
-		Vec3 vec = <@procedureCode data.rotationProvider, {
+		Vector3d vec = <@procedureCode data.rotationProvider, {
 			"world": "this.world",
             "x": "this.posX",
             "y": "this.posY",
@@ -137,8 +137,8 @@ package ${package}.client.particle;
 		this.renderRotatedQuad(buffer, camera, flippedTilt, partialTicks);
 	}
 
-	private static Quaternion fromYXZ(float y, float x, float z) {
-		Quaternion quat = ONE.copy();
+	private static Quaternion fromXYZ(float y, float x, float z) {
+		Quaternion quat = Quaternion.ONE.copy();
 		quat.multiply(new Quaternion(0.0F, (float) Math.sin((double) (y / 2.0F)), 0.0F, (float) Math.cos((double) (y / 2.0F))));
 		quat.multiply(new Quaternion((float) Math.sin((double) (x / 2.0F)), 0.0F, 0.0F, (float) Math.cos((double) (x / 2.0F))));
 		quat.multiply(new Quaternion(0.0F, 0.0F, (float) Math.sin((double) (z / 2.0F)), (float) Math.cos((double) (z / 2.0F))));

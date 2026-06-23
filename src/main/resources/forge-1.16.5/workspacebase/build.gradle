@@ -32,6 +32,10 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
+            if (file("src/main/resources/${modid}.mixins.json").exists()) {
+                arg "-mixin.config=${modid}.mixins.json"
+            }
+
             mods {
                 mcreator {
                     source sourceSets.main
@@ -47,6 +51,18 @@ dependencies {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+dependencies {
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+jar {
+    if (file("src/main/resources/${modid}.mixins.json").exists()) {
+        manifest.attributes([
+                "MixinConfigs": "${modid}.mixins.json"
+        ])
+    }
 }
 
 apply from: 'mcreator.gradle'

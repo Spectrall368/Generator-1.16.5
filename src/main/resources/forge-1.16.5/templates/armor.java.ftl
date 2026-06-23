@@ -256,7 +256,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Boots extends ${name}Item {
 
 		public Boots() {
-			super(EquipmentSlotType.FEET, new Item.Properties().group(<@CreativeTabs data.creativeTabs/>)<#if data.bootsImmuneToFire>.isImmuneToFire()<#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>);
+			super(EquipmentSlotType.FEET, new Item.Properties().group(<@CreativeTabs data.creativeTabs/>)<#if data.bootsImmuneToFire>.isImmuneToFire()</#if><#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>);
 		}
 
 		<#if data.bootsModelName != "Default" && data.getBootsModel()??>

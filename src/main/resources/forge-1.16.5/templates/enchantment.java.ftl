@@ -62,7 +62,7 @@ public class ${name}Enchantment extends Enchantment {
 		</#if>
 
 	public ${name}Enchantment() {
-		this(${generator.map(data.supportedSlots, "equipmentslots", 2)});
+		this(${generator.map(data.supportedSlots, "equipmentslots")});
 	}
 
 	private ${name}Enchantment(EquipmentSlotType... slots) {

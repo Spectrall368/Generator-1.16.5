@@ -26,8 +26,8 @@
 			NetworkEvent.Context context = contextSupplier.get();
 			context.enqueueWork(() -> {
 				if (!context.getSender().world.getChunkProvider().chunkExists(
-					SectionPos.toChunk(MathHelper.floor(context.getSender().posX)),
-					SectionPos.toChunk(MathHelper.floor(context.getSender().posZ))
+					SectionPos.toChunk(MathHelper.floor(context.getSender().getPosX())),
+					SectionPos.toChunk(MathHelper.floor(context.getSender().getPosZ()))
 				)) return;
 				<#assign dependenciesCode>
 					<@procedureDependenciesCode dependencies, {

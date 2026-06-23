@@ -288,7 +288,7 @@ public class ${name}Item extends FishingRodItem {
             <#assign validModifiers += [modifier]>
             private static final UUID UUID_${validModifiers?size-1} = UUID.fromString("${w.getUUID(registryname + "_" + (validModifiers?size-1))}");
 
-            <#assign eq = generator.map(modifier.equipmentSlot, "equipmentslots", 2)>
+            <#assign eq = generator.map(modifier.equipmentSlot, "equipmentslots")>
             <#if eq?contains("()")>
                 <#assign hasGlobal = true>
             <#else>
@@ -375,7 +375,7 @@ public class ${name}Item extends FishingRodItem {
             <#assign currentSlot = "">
 
             <#list sortedModifiers as modifier>
-                <#assign eq = generator.map(modifier.equipmentSlot, "equipmentslots", 2)>
+                <#assign eq = generator.map(modifier.equipmentSlot, "equipmentslots")>
 
                 <#if modifier.equipmentSlot != currentSlot>
 

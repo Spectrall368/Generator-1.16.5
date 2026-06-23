@@ -118,7 +118,7 @@ import ${package}.${JavaModName};
             if (event.phase == TickEvent.Phase.END && event.world instanceof ServerWorld) {
                 WorldVariables worldVariables = WorldVariables.get((ServerWorld) event.world);
                 if (worldVariables._syncDirty) {
-                    ${JavaModName}.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(((ServerWorld) event.world).dimension::getType), new SavedDataSyncMessage(1, worldVariables));
+                    ${JavaModName}.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(((ServerWorld) event.world)::getDimensionKey), new SavedDataSyncMessage(1, worldVariables));
                     worldVariables._syncDirty = false;
                 }
 
