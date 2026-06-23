@@ -187,12 +187,12 @@ package ${package}.init;
 	}
 
     private static void modify(TileEntityType<?> blockEntityType, Block... blocksToAdd) {
-        Set<Block> currentValidBlocks = new HashSet<>(Collections.unmodifiableSet(((BlockEntityTypeAccessor) blockEntityType).getValidBlocks()));
+        Set<Block> currentValidBlocks = new HashSet<>(Collections.unmodifiableSet(blockEntityType.validBlocks));
 
         for (Block block : blocksToAdd)
             currentValidBlocks.add(block);
 
-        ((BlockEntityTypeAccessor) blockEntityType).setValidBlocks(currentValidBlocks);
+        blockEntityType.validBlocks = currentValidBlocks;
     }
 	</#if>
 }

@@ -480,9 +480,6 @@ global_templates:
   - template: elementinits/woodtypes.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameWoodTypes.java"
     condition: "${w.getGElementsOfType('block')?filter(e -> e.isSign())?size != 0}"
-  - template: block/mixin_sign.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/mixin/BlockEntityTypeAccessor.java"
-    condition: "${w.getGElementsOfType('block')?filter(e -> e.isSign())?size != 0}"
 
 list_templates:
   - name: "Block states"

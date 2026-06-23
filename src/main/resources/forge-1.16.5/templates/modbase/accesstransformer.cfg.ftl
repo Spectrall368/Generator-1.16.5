@@ -22,5 +22,9 @@ public-f net.minecraft.world.gen.FlatGenerationSettings field_202247_j #STRUCTUR
 public-f net.minecraft.world.gen.settings.DimensionStructuresSettings field_236193_d_ #structures
 </#if>
 
+<#if w.getGElementsOfType('block')?filter(e -> e.isSign())?size != 0>
+public-f net.minecraft.tileentity.TileEntityType field_223046_I # validBlocks
+</#if>
+
 # Start of user code block custom ATs
 # End of user code block custom ATs
