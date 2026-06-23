@@ -41,7 +41,7 @@ public class ${JavaModName}BoatRenderer extends EntityRenderer<${JavaModName}Boa
 		this.shadowSize = 0.8F;
 	}
 
-	@Override ${mcc.getMethod("net.minecraft.client.renderer.entity.BoatRenderer", "render", "BoatEntity", "double", "double", "double", "float", "float").replace("BoatEntity", JavaModName + "Boat")}
+	@Override ${mcc.getMethod("net.minecraft.client.renderer.entity.BoatRenderer", "render", "BoatEntity", "float", "float", "MatrixStack", "IRenderTypeBuffer", "int").replace("BoatEntity", JavaModName + "Boat")}
 
 	@Override protected ResourceLocation getEntityTexture(${JavaModName}Boat entity) {
 		return BOAT_TEXTURES[entity.getModType().ordinal()];
