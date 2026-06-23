@@ -193,8 +193,10 @@ public class ${name}Entity extends AbstractArrowEntity implements IRendersAsItem
 			}/>
 		</#if>
 
+		<#if !data.disableDiscarding>
 		if (this.inGround)
 			this.remove();
+		</#if>
 	}
 
 	public static ${name}Entity shoot(World world, LivingEntity entity, Random source) {

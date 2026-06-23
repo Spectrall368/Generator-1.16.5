@@ -4,3 +4,47 @@ scopes:
     init: ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
     get: ${name}
     set: ${name} = ${opt.removeParentheses(value)};
+  global_session:
+    init: public static Vector3d ${var.getName()} = Vector3d.ZERO;
+    get: ${JavaModName}Variables.${name}
+    set: ${JavaModName}Variables.${name} = ${opt.removeParentheses(value)};
+  global_world:
+    init: public Vector3d ${var.getName()} = Vector3d.ZERO;
+    read: ${var.getName()} = ${JavaModName}Variables.read(nbt.getCompound("${var.getName()}"));
+    write: nbt.put("${var.getName()}", ${JavaModName}Variables.write(${var.getName()}, new CompoundNBT()));
+    get: ${JavaModName}Variables.WorldVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.WorldVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      <@tail>${JavaModName}Variables.WorldVariables.get(world).markSyncDirty();</@tail>
+  global_map:
+    init: public Vector3d ${var.getName()} = Vector3d.ZERO;
+    read: ${var.getName()} = ${JavaModName}Variables.read(nbt.getCompound("${var.getName()}"));
+    write: nbt.put("${var.getName()}", ${JavaModName}Variables.write(${var.getName()}, new CompoundNBT()));
+    get: ${JavaModName}Variables.MapVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.MapVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      <@tail>${JavaModName}Variables.MapVariables.get(world).markSyncDirty();</@tail>
+  player_lifetime:
+    init: public Vector3d ${var.getName()} = Vector3d.ZERO;
+    read: ${var.getName()} = ${JavaModName}Variables.read(nbt.getCompound("${var.getName()}"));
+    write: nbt.put("${var.getName()}", ${JavaModName}Variables.write(${var.getName()}, new CompoundNBT()));
+    get: ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElseGet(${JavaModName}Variables.PlayerVariables::new).${name}
+    set: |
+      <@head>{${JavaModName}Variables.PlayerVariables _playerVars = ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElse(null);
+        if (_playerVars != null) {</@head>
+            _playerVars.${name} = ${opt.removeParentheses(value)};
+            <@tail>_playerVars.markSyncDirty();
+        }
+      }</@tail>
+  player_persistent:
+    init: public Vector3d ${var.getName()} = Vector3d.ZERO;
+    read: ${var.getName()} = ${JavaModName}Variables.read(nbt.getCompound("${var.getName()}"));
+    write: nbt.put("${var.getName()}", ${JavaModName}Variables.write(${var.getName()}, new CompoundNBT()));
+    get: ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElseGet(${JavaModName}Variables.PlayerVariables::new).${name}
+    set: |
+      <@head>{${JavaModName}Variables.PlayerVariables _playerVars = ${entity}.getCapability(${JavaModName}Variables.PLAYER_VARIABLES).orElse(null);
+        if (_playerVars != null) {</@head>
+            _playerVars.${name} = ${opt.removeParentheses(value)};
+            <@tail>_playerVars.markSyncDirty();
+        }
+      }</@tail>

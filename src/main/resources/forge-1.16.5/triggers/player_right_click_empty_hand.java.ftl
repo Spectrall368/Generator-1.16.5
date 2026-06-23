@@ -27,8 +27,10 @@
 		public static void handler(${name}Message message, Supplier<NetworkEvent.Context> contextSupplier) {
 			NetworkEvent.Context context = contextSupplier.get();
 			context.enqueueWork(() -> {
-				if (!context.getSender().world.isBlockLoaded(context.getSender().getPosition()))
-					return;
+				if (!context.getSender().world.getChunkProvider().chunkExists(
+					SectionPos.toChunk(MathHelper.floor(context.getSender().posX)),
+					SectionPos.toChunk(MathHelper.floor(context.getSender().posZ))
+				)) return;
 				<#assign dependenciesCode>
 					<@procedureDependenciesCode dependencies, {
 						"x": "context.getSender().getPosX()",

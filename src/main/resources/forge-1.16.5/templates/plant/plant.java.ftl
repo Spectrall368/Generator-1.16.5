@@ -43,13 +43,16 @@ package ${package}.block;
 <#if data.isWaterloggable()>
 	<#assign interfaces += ["IWaterLoggable"]>
 </#if>
-public class ${name}Block extends ${getPlantClass(data.plantType)}Block
-	<#if interfaces?size gt 0>
-		implements ${interfaces?join(",")}
-	</#if>{
+public class ${name}Block extends ${getPlantClass(data.plantType)}Block <#if interfaces?size gt 0>implements ${interfaces?join(",")}</#if> {
+
 	<#if data.isWaterloggable()>
-		public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	</#if>
+
+	<#if data.customBoundingBox && data.boundingBoxes??>
+	private static final VoxelShape SHAPE = <@boundingBoxWithRotation data/>;
+	</#if>
+
 	public ${name}Block() {
 		super(<#if data.plantType == "normal">
 		${generator.map(data.suspiciousStewEffect, "effects")}, ${data.suspiciousStewDuration},
@@ -96,14 +99,13 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 		.setLightLevel(s -> ${data.luminance})
 		</#if>
 		<#if data.isSolid>
-		.notSolid()
-			<#if (data.customBoundingBox && data.boundingBoxes??) || (data.offsetType != "NONE")>
-			.variableOpacity()
-			</#if>
+			.notSolid()
+			<#if data.offsetType != "NONE">.variableOpacity()</#if>
 		<#else>
-		.doesNotBlockMovement()
+			.doesNotBlockMovement()
 		</#if>
 		);
+
 		<#if data.isWaterloggable()>
 		<@initStateProperties/>
 		</#if>
@@ -138,12 +140,9 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 
 	<#if data.customBoundingBox && data.boundingBoxes??>
 	@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-		<#if data.isBoundingBoxEmpty()>
-			return VoxelShapes.empty();
-		<#else>
-			<#if !data.disableOffset> Vector3d offset = state.getOffset(world, pos); </#if>
-			<@boundingBoxWithRotation data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.disableOffset 0/>
-		</#if>
+		<#assign offset = !data.shouldDisableOffset() && !data.isBoundingBoxEmpty()>
+		<#if offset>Vector3d offset = state.getOffset(world, pos);</#if>
+		return SHAPE<#if offset>.withOffset(offset.x, offset.y, offset.z)</#if>;
 	}
 	</#if>
 

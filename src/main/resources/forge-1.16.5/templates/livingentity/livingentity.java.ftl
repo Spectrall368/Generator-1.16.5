@@ -103,6 +103,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 		stepHeight = ${data.stepHeight}f;
 		experienceValue = ${data.xpAmount};
 		setNoAI(${(!data.hasAI)});
+		<#if data.flyingMob>
+		jumpMovementFactor = ${data.movementSpeed}f;
+		</#if>
 
 		<#if data.mobLabel?has_content>
         	setCustomName(new StringTextComponent("${data.mobLabel}"));
@@ -672,7 +675,19 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 		}
     </#if>
 
-	<#if data.breedable>
+	<#if ["Pig", "Villager", "Wolf", "Cow", "Chicken", "Ocelot", "Squid", "Horse"]?seq_contains(extendsClass)>
+		@Override public ${extendsClass}Entity func_241840_a(ServerWorld serverWorld, AgeableEntity ageable) {
+			${name}Entity retval = ${JavaModName}Entities.${REGISTRYNAME}.get().create(serverWorld);
+			<#if data.aiBase == "Wolf">
+			if (this.isTamed()) {
+				retval.setOwnerId(this.getOwnerId());
+				retval.setTamed(true);
+			}
+			</#if>
+			retval.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(retval.getPosition()), SpawnReason.BREEDING, null, null);
+			return retval;
+		}
+	<#elseif data.breedable>
         @Override public AgeableEntity func_241840_a(ServerWorld serverWorld, AgeableEntity ageable) {
 			${name}Entity retval = ${JavaModName}Entities.${REGISTRYNAME}.get().create(serverWorld);
 			retval.onInitialSpawn(serverWorld, serverWorld.getDifficultyForLocation(retval.getPosition()), SpawnReason.BREEDING, null, null);
@@ -680,7 +695,11 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 		}
 
 		@Override public boolean isBreedingItem(ItemStack stack) {
+			<#if data.breedTriggerItems?has_content>
 			return ${mappedMCItemsToIngredient(data.breedTriggerItems)}.test(stack);
+			<#else>
+			return false;
+			</#if>
 		}
     </#if>
 
@@ -800,7 +819,7 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
 				this.limbSwing += this.limbSwingAmount;
 				return;
 			}
-			this.jumpMovementFactor = 0.02F;
+			this.jumpMovementFactor = <#if data.flyingMob>${data.movementSpeed}<#else>0.02</#if>F;
 			</#if>
 
 			super.travel(dir);
@@ -828,12 +847,9 @@ public class ${name}Entity extends ${extendsClass}Entity <#if interfaces?size gt
    	@Override public void setNoGravity(boolean ignored) {
 		super.setNoGravity(true);
 	}
-    </#if>
 
-    <#if data.flyingMob>
-    public void livingTick() {
+   	@Override public void livingTick() {
 		super.livingTick();
-
 		this.setNoGravity(true);
 	}
     </#if>

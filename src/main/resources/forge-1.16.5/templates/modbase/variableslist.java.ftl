@@ -3,7 +3,26 @@ package ${package}.network;
 
 import ${package}.${JavaModName};
 
+<#assign foundVector = false>
+<#list variables as var>
+    <#if var.getType() == "vector" && var.getScope().name() != "GLOBAL_SESSION">
+        <#assign foundVector = true>
+        <#break>
+    </#if>
+</#list>
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}Variables {
+	<#if foundVector>
+	public static Vector3d read(CompoundNBT compound) {
+		return new Vector3d(compound.getDouble("x"), compound.getDouble("y"), compound.getDouble("z"));
+	}
+
+	public static CompoundNBT write(Vector3d vec, CompoundNBT nbt) {
+		nbt.putDouble("x", vec.getX());
+		nbt.putDouble("y", vec.getY());
+		nbt.putDouble("z", vec.getZ());
+		return nbt;
+	}
+	</#if>
 
 	<#if w.hasVariablesOfScope("GLOBAL_SESSION")>
 		<#list variables as var>

@@ -39,7 +39,7 @@ description="${JavaConventions.escapeStringForJava(settings.getDescription())}"
 [[dependencies.${settings.getModID()}]]
     modId="${e}"
     mandatory=true
-    versionRange="[0,)"
+    versionRange="${settings.getVersionRange(e)}"
     ordering="NONE"
     side="BOTH"
 </#list>
@@ -48,7 +48,7 @@ description="${JavaConventions.escapeStringForJava(settings.getDescription())}"
 [[dependencies.${settings.getModID()}]]
     modId="${e}"
     mandatory=false
-    versionRange="[0,)"
+    versionRange="${settings.getVersionRange(e)}"
     ordering="NONE"
     side="BOTH"
 </#list>
