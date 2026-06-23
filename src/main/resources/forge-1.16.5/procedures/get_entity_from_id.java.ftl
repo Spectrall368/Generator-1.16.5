@@ -1,0 +1,1 @@
+(world instanceof World ? ((World) world).getEntityByID(${opt.toInt(input$id)}) : null)

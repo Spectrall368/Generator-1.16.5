@@ -41,6 +41,8 @@ import net.minecraft.client.renderer.ItemRenderer;
 	private final Map<Integer, EntityModel<?>> models = new HashMap<>();
 	private final long start;
 
+	private final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation("${data.texture.format("%s:textures/item/%s")}.png");
+
 	public ${name}ItemRenderer() {
 		this.transformSource = new ItemStack(${JavaModName}Items.${REGISTRYNAME}.get());
 
@@ -60,7 +62,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 
 	@Override public void func_239207_a_(ItemStack itemstack, ItemCameraTransforms.TransformType displayContext, MatrixStack poseStack, IRenderTypeBuffer bufferSource, int packedLight, int packedOverlay) {
 		EntityModel<?> model = this.models.get(0);
-		ResourceLocation texture = new ResourceLocation("${data.texture.format("%s:textures/item/%s")}.png");
+		ResourceLocation texture = DEFAULT_TEXTURE;
 		<#list data.getModels() as model>
 			<#if model.hasCustomJAVAModel()>
 			if (<#list model.stateMap.entrySet() as entry>

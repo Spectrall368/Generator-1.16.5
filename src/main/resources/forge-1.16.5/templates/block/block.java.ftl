@@ -34,13 +34,21 @@
 <#include "../procedures.java.ftl">
 <#include "../triggers.java.ftl">
 <#assign filteredCustomProperties = data.customProperties?filter(e ->
-	e.property().getName().startsWith("CUSTOM:") || generator.map(e.property().getName(), "blockstateproperties") != "")>
-<#assign blockSetType = "null">
+ 	e.property().getName().startsWith("CUSTOM:") || generator.map(e.property().getName(), "blockstateproperties") != "")>
+<#assign blockSetType = "REDSTONE_LIGHT">
 <#if data.blockBase?has_content>
-    <#if data.blockBase == "PressurePlate" || data.blockBase == "TrapDoor" || data.blockBase == "Door" || data.blockBase == "Button">
-        <#assign blockSetType = data.blockSetType>
+    <#if data.blockBase == "PressurePlate" || data.blockBase == "TrapDoor" || data.blockBase == "Door" || data.blockBase == "Fence" || data.blockBase == "Button">
+        <#assign blockSetType = data.blockSetType?replace("STONE", "ROCK")?replace("OAK", "NETHER_WOOD")>
+    <#elseif data.blockBase == "Stairs" || data.blockBase == "Slab" || data.blockBase == "Wall">
+        <#assign blockSetType = "ROCK">
     <#elseif data.blockBase == "Leaves">
         <#assign blockSetType = "LEAVES">
+    <#elseif data.blockBase == "Pane">
+        <#assign blockSetType = "GLASS">
+    <#elseif data.isSign() || data.blockBase == "FenceGate">
+        <#assign blockSetType = "NETHER_WOOD">
+    <#elseif data.blockBase == "FlowerPot" || data.blockBase == "EndRod">
+        <#assign blockSetType = "MISCELLANEOUS">
     </#if>
 </#if>
 <#if data.blockBase?has_content && data.blockBase == "Wall">
@@ -49,16 +57,7 @@
 package ${package}.block;
 
 <@javacompress>
-public class ${name}Block extends
-	<#if data.hasGravity>
-		FallingBlock
-	<#elseif data.blockBase?has_content && data.blockBase == "Button">
-		net.minecraft.block.<#if blockSetType == "OAK">Wood<#else>Stone</#if>ButtonBlock
-	<#elseif data.blockBase?has_content>
-		${data.blockBase}Block
-	<#else>
-		Block
-	</#if>
+public class ${getClassName()}Block extends ${getBlockClass(data.blockBase)}
 
 	<#assign interfaces = []>
 	<#if data.isWaterloggable>
@@ -107,13 +106,18 @@ public class ${name}Block extends
 		</#if>
 	</#list>
 
+	<#assign defaultStateCustomShape = data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube()>
+	<#assign statesWithCustomShape = data.getDefinedStatesWithCustomShape()>
+	<#if defaultStateCustomShape || statesWithCustomShape?has_content>
+		<#if data.rotationMode == 0 && !statesWithCustomShape?has_content><#-- shape not state dependent -->
+		private static final VoxelShape SHAPE = <@boundingBoxWithRotation data/>;
+		<#else>
+		private final ImmutableMap<BlockState, VoxelShape> shapes = this.makeShapes();
+		</#if>
+	</#if>
+
 	<#macro blockProperties>
-	    AbstractBlock.Properties.create(Material.
-	    <#if blockSetType == "null">
-	    REDSTONE_LIGHT
-	    <#else>
-	    ${blockSetType?replace("OAK", "NETHER_WOOD")?replace("STONE", "ROCK")}
-	    </#if>
+	    AbstractBlock.Properties.create(Material.${blockSetType}
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
 		    , MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
 		</#if>)
@@ -137,8 +141,8 @@ public class ${name}Block extends
 		<#else>
 			.hardnessAndResistance(${data.hardness}f, ${data.resistance}f)
 		</#if>
-		<#if data.luminance != 0>
-			.setLightLevel(s -> ${data.luminance})
+		<#if hasProcedure(data.luminance) || data.luminance.getFixedValue() != 0>
+			.setLightLevel(blockstate -> <#if hasProcedure(data.luminance)>(int) <@procedureOBJToNumberCode data.luminance/><#else>${data.luminance.getFixedValue()}</#if>)
 		</#if>
 		<#if data.requiresCorrectTool>
 			.setRequiresTool()
@@ -167,14 +171,15 @@ public class ${name}Block extends
 		<#if data.jumpFactor != 1.0>
 			.jumpFactor(${data.jumpFactor}f)
 		</#if>
-		<#if data.hasTransparency || (data.blockBase?has_content && data.blockBase == "Leaves")>
+		<#if (data.hasTransparency || data.blockBase! == "Leaves") && !data.isNotColidable> <#-- No collision implies no occlusion -->
 			.notSolid()
 		</#if>
 		<#if data.tickRandomly>
 			.tickRandomly()
 		</#if>
 		<#if data.emissiveRendering>
-			.setNeedsPostProcessing((bs, br, bp) -> true).setEmmisiveRendering((bs, br, bp) -> true)
+			.setNeedsPostProcessing((bs, br, bp) -> true)
+			.setEmmisiveRendering((bs, br, bp) -> true)
 		</#if>
 		<#if data.hasTransparency>
 			.setOpaque((bs, br, bp) -> false)
@@ -183,11 +188,15 @@ public class ${name}Block extends
 			.variableOpacity()
 		</#if>
 		<#if data.blockBase?has_content && data.blockBase == "Leaves">
-			.setSuffocates((bs, br, bp) -> false).setBlocksVision((bs, br, bp) -> false)
+			.setSuffocates((bs, br, bp) -> false)
+			.setBlocksVision((bs, br, bp) -> false)
+		</#if>
+		<#if var_extends_class! == "WallSignBlock">
+			.lootFrom(${JavaModName}Blocks.${REGISTRYNAME}.get())
 		</#if>
 	</#macro>
 
-	public ${name}Block() {
+	public ${getClassName()}Block() {
 		<#if data.blockBase?has_content>
 			<#if data.blockBase == "Stairs">
 				super(() -> Blocks.AIR.getDefaultState(), <@blockProperties/>);
@@ -196,6 +205,8 @@ public class ${name}Block extends
 			<#elseif data.blockBase == "FlowerPot">
 				super(() -> (FlowerPotBlock) Blocks.FLOWER_POT, () -> ${mappedBlockToBlock(data.pottedPlant)}, <@blockProperties/>);
 				((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation("${mappedMCItemToRegistryName(data.pottedPlant)}"), () -> this);
+			<#elseif data.isSign()>
+				super(<@blockProperties/>, ${JavaModName}WoodTypes.${REGISTRYNAME}_WOOD_TYPE);
 			<#else>
 				super(<@blockProperties/>);
 			</#if>
@@ -241,7 +252,45 @@ public class ${name}Block extends
 	}
 	</#if>
 
-   	<#if data.renderType() == 4>
+	<#if defaultStateCustomShape || statesWithCustomShape?has_content>
+		<#if data.rotationMode != 0 || statesWithCustomShape?has_content>
+		private ImmutableMap<BlockState, VoxelShape> makeShapes() {
+			return this.getShapeForEachState(state -> {
+				<#list statesWithCustomShape as state>
+				<#if !state?is_first>else </#if>if (
+    				<#list state.stateMap.keySet() as property>
+						<#assign value = state.stateMap.get(property)>
+						<#if property.getClass().getSimpleName().equals("StringType")>
+							<#assign value = generator.map(property.getName(), "blockstateproperties", 2) + "." + value?upper_case>
+						</#if>
+						state.get(${property.getName().replace("CUSTOM:", "")?upper_case}) == ${value}<#sep>&&
+					</#list>
+				) {
+					<#if data.rotationMode == 0>return</#if> <@boundingBoxWithRotation state data.rotationMode data.enablePitch/><#if data.rotationMode == 0>;</#if>
+				}
+				</#list>
+				<#if data.rotationMode == 0>return</#if> <@boundingBoxWithRotation data data.rotationMode data.enablePitch/><#if data.rotationMode == 0>;</#if>
+			});
+		}
+
+		private ImmutableMap<BlockState, VoxelShape> getShapeForEachState(Function<BlockState, VoxelShape> func) {
+			return stateContainer.getValidStates().stream().collect(ImmutableMap.toImmutableMap(Function.identity(), func));
+		}
+		</#if>
+
+		@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+			<#assign offset = !data.shouldDisableOffset() && !data.isBoundingBoxEmpty()>
+			<#if offset>Vector3d offset = state.getOffset(world, pos);</#if>
+
+			<#if data.rotationMode == 0 && !statesWithCustomShape?has_content><#-- shape not state dependent -->
+			return SHAPE<#if offset>.withOffset(offset.x, offset.y, offset.z)</#if>;
+			<#else><#-- shape is state dependent -->
+			return shapes.get(state)<#if offset>.withOffset(offset.x, offset.y, offset.z)</#if>;
+			</#if>
+		}
+	</#if>
+
+	<#if data.renderType() == 4>
    	@Override public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.INVISIBLE;
    	}
@@ -277,32 +326,27 @@ public class ${name}Block extends
 	}
 	</#if>
 
-	<#if (!data.blockBase?has_content || data.blockBase == "Leaves") && data.lightOpacity == 0>
-	@Override public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
-		return <#if data.isWaterloggable>state.getFluidState().isEmpty()<#else>true</#if>;
-	}
-	</#if>
+	<#if data.hasCustomOpacity>
+		<#if (!data.blockBase?has_content || data.blockBase == "Leaves") && data.lightOpacity == 0>
+		@Override public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+			return <#if data.isWaterloggable>state.getFluidState().isEmpty()<#else>true</#if>;
+		}
+		</#if>
 
-	<#if !data.blockBase?has_content || data.blockBase == "Leaves" || data.lightOpacity != 0>
-	@Override public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return ${data.lightOpacity};
-	}
+		<#if !data.blockBase?has_content || data.blockBase == "Leaves" || data.lightOpacity != 15>
+		@Override public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
+			<#if data.isWaterloggable && data.lightOpacity == 0> <#-- Prevent fully transparent blocks from overriding water opacity -->
+				return propagatesSkylightDown(state, worldIn, pos) ? 0 : 1;
+			<#else>
+				return ${data.lightOpacity};
+			</#if>
+		}
+		</#if>
 	</#if>
 
 	<#if data.hasTransparency && !data.blockBase?has_content>
 	@Override public VoxelShape getRaytraceShape(BlockState state, IBlockReader world, BlockPos pos) {
 		return VoxelShapes.empty();
-	}
-	</#if>
-
-	<#if data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube()>
-	@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-		<#if data.isBoundingBoxEmpty()>
-			return VoxelShapes.empty();
-		<#else>
-			<#if !data.shouldDisableOffset()>Vector3d offset = state.getOffset(world, pos);</#if>
-			<@boundingBoxWithRotation data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.shouldDisableOffset() data.rotationMode data.enablePitch/>
-		</#if>
 	}
 	</#if>
 
@@ -775,9 +819,33 @@ public class ${name}Block extends
 			@Override public String getString() {
 				return this.name;
 			}
+
+			@Override public String toString() {
+				return this.name;
+			}
 		}
 		</#if>
 	</#list>
 }
 </@javacompress>
 <#-- @formatter:on -->
+
+<#function getClassName>
+	<#if var_extends_class! == "WallSignBlock"><#return data.getWallName()>
+	<#else><#return name>
+	</#if>
+</#function>
+
+<#function getBlockClass blockBase="">
+	<#if var_extends_class??><#return var_extends_class>
+	<#elseif data.hasGravity><#return "FallingBlock">
+	<#elseif blockBase == "Button">
+		<#if blockSetType != "NETHER_WOOD">
+            <#return "net.minecraft.block.StoneButtonBlock">
+        <#else>
+            <#return "net.minecraft.block.WoodButtonBlock">
+        </#if>
+	<#elseif blockBase == "Sign" || blockBase == "HangingSign"><#return "StandingSignBlock">
+	<#else><#return blockBase + "Block">
+	</#if>
+</#function>

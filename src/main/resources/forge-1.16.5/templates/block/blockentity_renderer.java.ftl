@@ -105,14 +105,6 @@ package ${package}.client.renderer.block;
 	}
 
 	@SubscribeEvent public static void registerBlockEntityRenderers(FMLClientSetupEvent event) {
-		renders();
-	}
-
-	@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerBlockEntityModels(ModelRegistryEvent event) {
-		renders();
-	}
-
-	private static void renders() {
 		ClientRegistry.bindTileEntityRenderer(${JavaModName}BlockEntities.${REGISTRYNAME}.get(), ${name}Renderer::new);
 	}
 

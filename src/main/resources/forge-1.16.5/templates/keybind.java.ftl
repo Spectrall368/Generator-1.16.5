@@ -43,8 +43,7 @@ import ${package}.${JavaModName};
 	}
 
 	public ${name}Message(PacketBuffer buffer) {
-		this.type = buffer.readInt();
-		this.pressedms = buffer.readInt();
+		this(buffer.readInt(), buffer.readInt());
 	}
 
 	public static void buffer(${name}Message message, PacketBuffer buffer) {
@@ -70,7 +69,7 @@ import ${package}.${JavaModName};
 		double z = entity.getPosZ();
 
 		// security measure to prevent arbitrary chunk generation
-		if (!world.isBlockLoaded(entity.getPosition()))
+		if (!world.getChunkProvider().chunkExists(SectionPos.toChunk(MathHelper.floor(x)), SectionPos.toChunk(MathHelper.floor(z))))
 			return;
 
 		<#if hasProcedure(data.onKeyPressed)>

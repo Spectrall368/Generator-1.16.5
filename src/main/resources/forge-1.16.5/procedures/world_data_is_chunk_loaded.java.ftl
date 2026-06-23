@@ -1,2 +1,2 @@
 <#include "mcelements.ftl">
-(world.isBlockLoaded(${toBlockPos(input$x,input$y,input$z)}))
+(world.getChunkProvider().chunkExists(SectionPos.toChunk(MathHelper.floor(${opt.removeParentheses(input$x)})), SectionPos.toChunk(MathHelper.floor(${opt.removeParentheses(input$z)}))))

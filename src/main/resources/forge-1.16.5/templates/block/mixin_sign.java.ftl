@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2026, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,19 +29,16 @@
 -->
 
 <#-- @formatter:off -->
-/*
- *    MCreator note: This file will be REGENERATED on each build.
- */
-package ${package}.init;
+package ${package}.mixin;
 
-public class ${JavaModName}Enchantments {
+import org.spongepowered.asm.mixin.Mutable;
 
-	public static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, ${JavaModName}.MODID);
+@Mixin(TileEntityType.class) public interface BlockEntityTypeAccessor {
+    @Mutable
+    @Accessor("validBlocks")
+    void setValidBlocks(Set<Block> validBlocks);
 
-	<#list enchantments as enchantment>
-	public static final RegistryObject<Enchantment> ${enchantment.getModElement().getRegistryNameUpper()} =
-		REGISTRY.register("${enchantment.getModElement().getRegistryName()}", ${enchantment.getModElement().getName()}Enchantment::new);
-	</#list>
-
+    @Accessor("validBlocks")
+    Set<Block> getValidBlocks();
 }
 <#-- @formatter:on -->

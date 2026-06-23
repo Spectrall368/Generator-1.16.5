@@ -43,7 +43,7 @@ package ${package}.init;
 
 	<#list potioneffects as effect>
 	public static final RegistryObject<Effect> ${effect.getModElement().getRegistryNameUpper()} =
-			REGISTRY.register("${effect.getModElement().getRegistryName()}", () -> new ${effect.getModElement().getName()}MobEffect());
+			REGISTRY.register("${effect.getModElement().getRegistryName()}", ${effect.getModElement().getName()}MobEffect::new);
 	</#list>
 
 	<#if mobHurt?size != 0>
@@ -60,7 +60,7 @@ package ${package}.init;
 				"entity": "entity",
 				"amplifier": "entity.getActivePotionEffect(" + JavaModName + "MobEffects." + effect.getModElement().getRegistryNameUpper() + ".get()).getAmplifier()",
 				"damagesource": "event.getSource()",
-				"damage": "event.getAmount()"
+				"amount": "event.getAmount()"
 			}/>
         }<#sep>else
         </#list>

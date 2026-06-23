@@ -39,14 +39,6 @@
 	<#else>COMMON
 	</#if>
 </#macro>
-<#macro slotsCode slots>
-	<#if slots == "any">new EquipmentSlotType[] { EquipmentSlotType.HEAD, EquipmentSlotType.CHEST, EquipmentSlotType.LEGS, EquipmentSlotType.FEET, EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND }
-	<#elseif slots == "hand">new EquipmentSlotType[] { EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND }
-	<#elseif slots == "armor">new EquipmentSlotType[] { EquipmentSlotType.HEAD, EquipmentSlotType.CHEST, EquipmentSlotType.LEGS, EquipmentSlotType.FEET }
-	<#elseif slots == "body">new EquipmentSlotType[] { EquipmentSlotType.CHEST }
-	<#else>new EquipmentSlotType[] { EquipmentSlotType.${slots?upper_case} }
-	</#if>
-</#macro>
 package ${package}.enchantment;
 
 public class ${name}Enchantment extends Enchantment {
@@ -70,7 +62,11 @@ public class ${name}Enchantment extends Enchantment {
 		</#if>
 
 	public ${name}Enchantment() {
-		super(Enchantment.Rarity.<@weightToRarity data.weight/>, ENCHANTMENT_CATEGORY, <@slotsCode data.supportedSlots/>);
+		this(${generator.map(data.supportedSlots, "equipmentslots", 2)});
+	}
+
+	private ${name}Enchantment(EquipmentSlotType... slots) {
+		super(Enchantment.Rarity.<@weightToRarity data.weight/>, ENCHANTMENT_CATEGORY, slots);
 	}
 
 	@Override public int getMinEnchantability(int level) {

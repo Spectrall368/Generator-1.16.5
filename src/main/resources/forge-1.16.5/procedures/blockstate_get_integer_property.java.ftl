@@ -1,2 +1,3 @@
 <#include "mcitems.ftl">
-/*@int*/(${mappedBlockToBlock(input$block)}.getStateContainer().getProperty(${input$property}) instanceof IntegerProperty ? ${mappedBlockToBlockStateCode(input$block)}.get((IntegerProperty) ${mappedBlockToBlock(input$block)}.getStateContainer().getProperty(${input$property})) : -1)
+<@addTemplate file="utils/blockstate_props/property_from_string.java.ftl"/>
+/*@int*/(getPropertyByName(${mappedBlockToBlockStateCode(input$block)}, ${input$property}) instanceof IntegerProperty ? ${mappedBlockToBlockStateCode(input$block)}.get((IntegerProperty) getPropertyByName(${mappedBlockToBlockStateCode(input$block)}, ${input$property})) : -1)

@@ -157,17 +157,8 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 	}
 	</#if>
 
-	<#if data.enableMeleeDamage>
-		@Override public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
-			if (equipmentSlot == EquipmentSlotType.MAINHAND) {
-				ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-				builder.putAll(super.getAttributeModifiers(equipmentSlot));
-				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Item modifier", ${data.damageVsEntity - 1}d, AttributeModifier.Operation.ADDITION));
-				builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Item modifier", -2.4, AttributeModifier.Operation.ADDITION));
-				return builder.build();
-			}
-			return super.getAttributeModifiers(equipmentSlot);
-		}
+	<#if data.enableMeleeDamage || (data.attributeModifiers?size gt 0)>
+	<@itemAttributeModifiers data.enableMeleeDamage/>
 	</#if>
 
 	<@hasGlow data.glowCondition/>
@@ -178,10 +169,17 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 	}
 	</#if>
 
+	<#if data.damageCount != 0 && data.repairItems?has_content>
+	@Override public boolean getIsRepairable(ItemStack itemstack, ItemStack repairitem) {
+		return ${mappedMCItemsToIngredient(data.repairItems)}.test(repairitem);
+	}
+	</#if>
+
 	<@addSpecialInformation data.specialInformation, "item." + modid + "." + registryname/>
 
 	<#assign shouldExplicitlyCallStartUsing = !data.isFood && (data.useDuration > 0)> <#-- ranged items handled in if below so no need to check for that here too -->
-	<#if hasProcedure(data.onRightClickedInAir) || data.hasInventory() || data.enableRanged || shouldExplicitlyCallStartUsing>
+	<#assign rightClickingOpensGUI = data.openGUIOnRightClick?? && (hasProcedure(data.openGUIOnRightClick) || data.openGUIOnRightClick.getFixedValue())>
+	<#if hasProcedure(data.onRightClickedInAir) || data.enableRanged || shouldExplicitlyCallStartUsing || (data.hasInventory() && rightClickingOpensGUI)>
 	@Override public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity entity, Hand hand) {
 		<#if data.enableRanged>
 		ActionResult<ItemStack> ar = ActionResult.resultFail(entity.getHeldItem(hand));
@@ -201,15 +199,25 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 			}, false/>)
 			</#if>
 			if (entity.abilities.isCreativeMode || findAmmo(entity) != ItemStack.EMPTY) {
-				ar = ActionResult.resultSuccess(entity.getHeldItem(hand));
+				ar = ActionResult.resultConsume(entity.getHeldItem(hand));
 				entity.setActiveHand(hand);
 			}
 		<#elseif shouldExplicitlyCallStartUsing>
 			entity.setActiveHand(hand);
 		</#if>
 
-		<#if data.hasInventory()>
+		<#if data.hasInventory() && rightClickingOpensGUI>
 		if(entity instanceof ServerPlayerEntity) {
+			<#if hasProcedure(data.openGUIOnRightClick)>
+			if (<@procedureCode data.openGUIOnRightClick, {
+				"x": "entity.getPosX()",
+				"y": "entity.getPosY()",
+				"z": "entity.getPosZ()",
+				"world": "entity.world",
+				"entity": "(ServerPlayerEntity) entity",
+				"itemstack": "ar.getObject()"
+			}, false/>) {
+			</#if>
 			NetworkHooks.openGui((ServerPlayerEntity) entity, new INamedContainerProvider() {
 				@Override public ITextComponent getDisplayName() {
 					return new StringTextComponent("${data.name}");
@@ -225,6 +233,7 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 				buf.writeBlockPos(entity.getPosition());
 				buf.writeByte(hand == Hand.MAIN_HAND ? 0 : 1);
 			});
+			<#if hasProcedure(data.openGUIOnRightClick)>}</#if>
 		}
 		</#if>
 
@@ -423,4 +432,157 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 	}
 </#macro>
 </@javacompress>
+<#macro itemAttributeModifiers includeMeleeAttributes=false>
+    <#assign slots = []>
+    <#assign hasGlobal = false>
+    <#assign validModifiers = []>
+    <#list data.attributeModifiers as modifier>
+        <#if modifier.amount != 0>
+            <#assign validModifiers += [modifier]>
+            private static final UUID UUID_${validModifiers?size-1} = UUID.fromString("${w.getUUID(registryname + "_" + (validModifiers?size-1))}");
+
+            <#assign eq = generator.map(modifier.equipmentSlot, "equipmentslots", 2)>
+            <#if eq?contains("()")>
+                <#assign hasGlobal = true>
+            <#else>
+                <#if !slots?seq_contains(eq)>
+                    <#assign slots += [eq]>
+                </#if>
+            </#if>
+        </#if>
+    </#list>
+
+    <#assign validDamage = (data.damageVsEntity - 1) != 0 && (data.damageVsEntity - 1)?string != "-0">
+    <#assign validAtkSpeed = (data.attackSpeed - 4) != 0 && (data.attackSpeed - 4)?string != "-0">
+    <#assign hasMelee = includeMeleeAttributes && (validDamage || validAtkSpeed)>
+
+    <#if hasMelee>
+        <#if !slots?seq_contains("EquipmentSlotType.MAINHAND")>
+            <#assign slots += ["EquipmentSlotType.MAINHAND"]>
+        </#if>
+    </#if>
+
+    <#assign isSingleSlot = (slots?size == 1) && !hasGlobal>
+
+    <#if isSingleSlot>
+    <#assign singleEq = slots[0]>
+
+    @Override public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack) {
+        <#if !singleEq?contains("()")>
+        if (<#if singleEq?contains(",")>Arrays.asList(${singleEq}).contains(equipmentSlot)<#else>equipmentSlot == ${singleEq}</#if>) {
+        </#if>
+
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.putAll(super.getAttributeModifiers(equipmentSlot, stack));
+
+        <#if hasMelee>
+            <#if validDamage>
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Item modifier", ${data.damageVsEntity - 1}, AttributeModifier.Operation.ADDITION));
+            </#if>
+
+            <#if validAtkSpeed>
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Item modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
+            </#if>
+        </#if>
+
+        <#list validModifiers as modifier>
+        builder.put(${modifier.attribute}, new AttributeModifier(UUID_${modifier?index}, "Item modifier", ${modifier.amount}, AttributeModifier.Operation.${getAttributeOperation(modifier.operation)}));
+        </#list>
+
+        return builder.build();
+
+        <#if !singleEq?contains("()")>
+        }
+        return super.getAttributeModifiers(equipmentSlot, stack);
+        </#if>
+    }
+    <#else>
+        <#assign hasAnyModifier = (validModifiers?size > 0)>
+        <#if hasAnyModifier || hasMelee>
+        @Override public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot, ItemStack stack) {
+            <#if hasGlobal>
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            builder.putAll(super.getAttributeModifiers(equipmentSlot, stack));
+            <#else>
+            Multimap<Attribute, AttributeModifier> defaultModifiers = super.getAttributeModifiers(equipmentSlot, stack);
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = null;
+            </#if>
+
+            <#if hasMelee>
+            if (equipmentSlot == EquipmentSlotType.MAINHAND) {
+                <#if !hasGlobal>
+                builder = initializeBuilder(builder, defaultModifiers);
+                </#if>
+
+                <#if validDamage>
+                builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Item modifier", ${data.damageVsEntity - 1}, AttributeModifier.Operation.ADDITION));
+                </#if>
+
+                <#if validAtkSpeed>
+                builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Item modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
+                </#if>
+            }
+            </#if>
+
+            <#assign sortedModifiers = validModifiers?sort_by("equipmentSlot")>
+            <#assign currentSlot = "">
+
+            <#list sortedModifiers as modifier>
+                <#assign eq = generator.map(modifier.equipmentSlot, "equipmentslots", 2)>
+
+                <#if modifier.equipmentSlot != currentSlot>
+
+                    <#if currentSlot != "" && !prevGlobal>
+                }
+                    </#if>
+
+                    <#assign currentSlot = modifier.equipmentSlot>
+                    <#assign prevGlobal = eq?contains("()")>
+
+                    <#if !prevGlobal>
+                if (<#if eq?contains(",")>Arrays.asList(${eq}).contains(equipmentSlot)<#else>equipmentSlot == ${eq}</#if>) {
+                    </#if>
+
+                    <#if !hasGlobal>
+                    builder = initializeBuilder(builder, defaultModifiers);
+                    </#if>
+
+                </#if>
+
+                builder.put(${modifier.attribute}, new AttributeModifier(UUID_${validModifiers?seq_index_of(modifier)}, "Item modifier", ${modifier.amount}, AttributeModifier.Operation.${getAttributeOperation(modifier.operation)}));
+            </#list>
+
+            <#if currentSlot != "" && !prevGlobal>
+            }
+            </#if>
+
+            <#if hasGlobal>
+            return builder.build();
+            <#else>
+            return builder != null ? builder.build() : defaultModifiers;
+            </#if>
+        }
+
+            <#if !hasGlobal>
+            private static ImmutableMultimap.Builder<Attribute, AttributeModifier> initializeBuilder(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder,Multimap<Attribute, AttributeModifier> defaults) {
+                if (builder == null) {
+                    builder = ImmutableMultimap.builder();
+                    builder.putAll(defaults);
+                }
+
+                return builder;
+            }
+            </#if>
+        </#if>
+    </#if>
+</#macro>
 <#-- @formatter:on -->
+<#function getAttributeOperation operation>
+ 	<#if operation == "ADD_VALUE">
+ 		<#return "ADDITION">
+ 	<#elseif operation == "ADD_MULTIPLIED_BASE">
+ 		<#return "MULTIPLY_BASE">
+ 	<#else>
+ 		<#return "MULTIPLY_TOTAL">
+ 	</#if>
+</#function>

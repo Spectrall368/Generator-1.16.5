@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2025, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,19 +29,17 @@
 -->
 
 <#-- @formatter:off -->
+
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
+
 package ${package}.init;
 
-public class ${JavaModName}Enchantments {
-
-	public static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, ${JavaModName}.MODID);
-
-	<#list enchantments as enchantment>
-	public static final RegistryObject<Enchantment> ${enchantment.getModElement().getRegistryNameUpper()} =
-		REGISTRY.register("${enchantment.getModElement().getRegistryName()}", ${enchantment.getModElement().getName()}Enchantment::new);
+public class ${JavaModName}WoodTypes {
+	<@javacompress>
+	<#list blocks?filter(e -> e.isSign()) as block>
+	public static final WoodType ${block.getModElement().getRegistryNameUpper()}_WOOD_TYPE = WoodType.register(WoodType.create("${modid}:${block.getModElement().getRegistryName()}"));
 	</#list>
-
+	</@javacompress>
 }
-<#-- @formatter:on -->

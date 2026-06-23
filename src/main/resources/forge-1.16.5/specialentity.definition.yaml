@@ -1,0 +1,20 @@
+templates:
+  - template: json/special_entity_item.json.ftl
+    writer: json
+    name: "@MODASSETSROOT/models/item/@registryname.json"
+
+global_templates:
+  - template: specialentity/boat_item.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/item/@JavaModNameBoatItem.java"
+  - template: specialentity/boat.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/entity/@JavaModNameBoat.java"
+  - template: specialentity/boat_renderer.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/client/renderer/@JavaModNameBoatRenderer.java"
+  # Dispense behaviors are controlled by generator.yaml
+
+tags:
+  - tag: ITEMS:minecraft:boats
+
+localizationkeys:
+  - key: item.@modid.@registryname
+    mapto: name

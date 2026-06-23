@@ -50,7 +50,7 @@ package ${package}.init;
 			</#if>
 		</#if>
 	<#elseif block.getModElement().getTypeString() == "plant">
-        <#assign hasTransparentBlocks = true> <#-- Plants always have cutout transparency -->
+	        <#assign hasTransparentBlocks = true> <#-- Plants always have cutout transparency -->
 		<#if block.tintType != "No tint">
 			<#assign hasTintedBlocks = true>
 			<#if block.isItemTinted && block.hasBlockItem>
@@ -59,11 +59,14 @@ package ${package}.init;
 		</#if>
 	</#if>
 </#list>
+
+<#assign signs = w.getGElementsOfType("block")?filter(e -> e.isSign())>
+
 <#assign chunks = blocks?chunk(2500)>
 <#assign has_chunks = chunks?size gt 1>
 <#assign noteBlockInstrument = blocks?filter(block -> block.noteBlockInstrument?? && block.noteBlockInstrument != "harp")>
 
-<#if noteBlockInstrument?size != 0>@Mod.EventBusSubscriber </#if>public class ${JavaModName}Blocks {
+<#if signs?size != 0>@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)</#if>public class ${JavaModName}Blocks {
 
 	public static final DeferredRegister<Block> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, ${JavaModName}.MODID);
 
@@ -73,6 +76,9 @@ package ${package}.init;
             public static <#if !has_chunks>final</#if> RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()}_PORTAL;
 		<#else>
 			public static <#if !has_chunks>final</#if> RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()};
+			<#if (block.getModElement().getTypeString() == "block") && block.isSign()>
+				public static <#if !has_chunks>final</#if> RegistryObject<Block> ${block.getWallRegistryNameUpper()};
+			</#if>
 		</#if>
 	</#list>
 	</@javacompress>
@@ -86,6 +92,10 @@ package ${package}.init;
 			<#else>
 				${block.getModElement().getRegistryNameUpper()} =
 					REGISTRY.register("${block.getModElement().getRegistryName()}", ${block.getModElement().getName()}Block::new);
+				<#if (block.getModElement().getTypeString() == "block") && block.isSign()>
+					${block.getWallRegistryNameUpper()} =
+						REGISTRY.register("${block.getWallRegistryName()}", ${block.getWallName()}Block::new);
+				</#if>
 			</#if>
 		</#list>
 	}
@@ -100,7 +110,7 @@ package ${package}.init;
 	// Start of user code block custom blocks
 	// End of user code block custom blocks
 
-	<#if hasTransparentBlocks || hasTintedBlocks || hasTintedBlockItems>
+	<#if hasTransparentBlocks || hasTintedBlocks || hasTintedBlockItems || (signs?size != 0)>
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public static class BlocksClientSideHandler {
         <#if hasTransparentBlocks>
 	    @SubscribeEvent public static void clientSetup(FMLClientSetupEvent event) {
@@ -141,19 +151,48 @@ package ${package}.init;
 			</#list>
 		}
 		</#if>
+
+		<#if signs?size != 0>
+		@SubscribeEvent public static void clientSignSetup(FMLClientSetupEvent event) {
+			<#list signs as block>
+				Atlases.addWoodType(${JavaModName}WoodTypes.${block.getModElement().getRegistryNameUpper()}_WOOD_TYPE);
+			</#list>
+		}
+		</#if>
 	}
 	</#if>
 
 	<#if noteBlockInstrument?size != 0>
-	@SubscribeEvent public static void onNoteBlockPlay(NoteBlockEvent.Play event) {
-        <@javacompress>
-        Block below = event.getWorld().getBlockState(event.getPos().down()).getBlock();
-		<#list noteBlockInstrument as block>
-		if (below == ${JavaModName}Blocks.${block.getModElement().getRegistryNameUpper()}.get()) {
-            event.setInstrument(${generator.map(block.noteBlockInstrument, "noteblockinstruments")});
-        }<#sep>else
-		</#list>
-        </@javacompress>
+	@Mod.EventBusSubscriber public static class BlocksHandler {
+        @SubscribeEvent public static void onNoteBlockPlay(NoteBlockEvent.Play event) {
+            <#compress>
+            Block below = event.getWorld().getBlockState(event.getPos().down()).getBlock();
+            <#list noteBlockInstrument as block>
+            if (below == ${JavaModName}Blocks.${block.getModElement().getRegistryNameUpper()}.get()) {
+                event.setInstrument(${generator.map(block.noteBlockInstrument, "noteblockinstruments")});
+            }<#sep>else
+            </#list>
+            </#compress>
+        }
+    }
+	</#if>
+
+	<#if signs?size != 0>
+	@SubscribeEvent public static void registerSigns(FMLCommonSetupEvent event) {
+		event.enqueueWork(() -> {
+            <#list signs as block>
+                modify(TileEntityType.SIGN, ${block.getModElement().getRegistryNameUpper()}.get(), ${block.getWallRegistryNameUpper()}.get());
+            </#list>
+		});
+	}
+
+    private static void modify(TileEntityType<?> blockEntityType, Block... blocksToAdd) {
+        Set<Block> currentValidBlocks = new HashSet<>(Collections.unmodifiableSet(((BlockEntityTypeAccessor) blockEntityType).getValidBlocks()));
+
+        for (Block block : blocksToAdd)
+            currentValidBlocks.add(block);
+
+        ((BlockEntityTypeAccessor) blockEntityType).setValidBlocks(currentValidBlocks);
     }
 	</#if>
 }

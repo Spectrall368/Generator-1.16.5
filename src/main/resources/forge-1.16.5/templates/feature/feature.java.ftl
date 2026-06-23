@@ -121,18 +121,18 @@ public class ${name}Feature extends ${generator.map(featuretype, "features")} {
 			return false;
 		</#if>
 
+		<#if data.hasPlacedFeature() && (allHardcodedElements?size > 0)>
+            <#list allHardcodedElements as element>
+            ${element}
+            </#list>
+		</#if>
+
 		<#if hasProcedure(data.generateCondition)>
 		int x = origin.getX();
 		int y = origin.getY();
 		int z = origin.getZ();
 		if (!<@procedureOBJToConditionCode data.generateCondition/>)
 			return false;
-		</#if>
-
-		<#if data.hasPlacedFeature() && (allHardcodedElements?size > 0)>
-            <#list allHardcodedElements as element>
-            ${element}
-            </#list>
 		</#if>
 
 		<#if featuretype == "feature_simple_block">

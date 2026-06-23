@@ -64,6 +64,18 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 	private ImageButton ${component.getName()};
 	</#list>
 
+	<#if data.renderBgLayer>
+	private static final ResourceLocation BACKGROUND = new ResourceLocation("${modid}:textures/screens/${registryname}.png");
+	</#if>
+
+	<#list data.getComponentsOfType("Image") as component>
+	private static final ResourceLocation IMAGE_${component?index} = new ResourceLocation("${modid}:textures/screens/${component.image}");
+	</#list>
+
+	<#list data.getComponentsOfType("Sprite") as component>
+	private static final ResourceLocation SPRITE_${component?index} = new ResourceLocation("${modid}:textures/screens/${component.sprite}");
+	</#list>
+
 	<#list sliders as component>
 	private ${JavaModName}Screens.ForgeSlider ${component.getName()};
 	</#list>
@@ -117,10 +129,6 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 	@Override public boolean isPauseScreen() {
 		return true;
 	}
-	</#if>
-
-	<#if data.renderBgLayer>
-	private static final ResourceLocation texture = new ResourceLocation("${modid}:textures/screens/${registryname}.png");
 	</#if>
 
 	@Override public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
@@ -179,13 +187,13 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 		RenderSystem.defaultBlendFunc();
 
 		<#if data.renderBgLayer>
-			Minecraft.getInstance().getTextureManager().bindTexture(texture);
+			Minecraft.getInstance().getTextureManager().bindTexture(BACKGROUND);
 			this.blit(ms, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize);
 		</#if>
 
 		<#list data.getComponentsOfType("Image") as component>
 			<#if hasProcedure(component.displayCondition)>if (<@procedureOBJToConditionCode component.displayCondition/>) {</#if>
-				Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.image}"));
+				Minecraft.getInstance().getTextureManager().bindTexture(IMAGE_${component?index});
 					this.blit(ms, this.guiLeft + ${component.gx(data.width)}, this.guiTop + ${component.gy(data.height)}, 0, 0,
 					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())},
 					${component.getWidth(w.getWorkspace())}, ${component.getHeight(w.getWorkspace())});
@@ -194,7 +202,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 
 		<#list data.getComponentsOfType("Sprite") as component>
 			<#if hasProcedure(component.displayCondition)>if (<@procedureOBJToConditionCode component.displayCondition/>) {</#if>
-				Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("${modid}:textures/screens/${component.sprite}"));
+				Minecraft.getInstance().getTextureManager().bindTexture(SPRITE_${component?index});
 					this.blit(ms, this.guiLeft + ${component.gx(data.width)}, this.guiTop + ${component.gy(data.height)},
 					<#if (component.getTextureWidth(w.getWorkspace()) > component.getTextureHeight(w.getWorkspace()))>
 						<@getSpriteByIndex component "width"/>, 0
@@ -247,7 +255,7 @@ public class ${name}Screen extends ContainerScreen<${name}Menu> implements ${Jav
 			<#if hasProcedure(component.displayCondition)>
 				if (<@procedureOBJToConditionCode component.displayCondition/>)
 			</#if>
-			this.font.func_243248_b(ms,
+			this.font.<#if component.hasShadow>func_243246_a<#else>func_243248_b</#if>(ms,
 				<#if hasProcedure(component.text)>new StringTextComponent(<@procedureOBJToStringCode component.text/>)<#else>new TranslationTextComponent("gui.${modid}.${registryname}.${component.getName()}")</#if>,
 				${component.gx(data.width)}, ${component.gy(data.height)}, ${component.color.getRGB()});
 		</#list>

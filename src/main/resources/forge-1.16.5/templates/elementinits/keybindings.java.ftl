@@ -39,7 +39,12 @@ package ${package}.init;
 
     <#list keybinds as keybind>
 	public static final KeyBinding ${keybind.getModElement().getRegistryNameUpper()} = new KeyBinding(
-			"key.${modid}.${keybind.getModElement().getRegistryName()}", GLFW.GLFW_KEY_${generator.map(keybind.triggerKey, "keybuttons")},
+			"key.${modid}.${keybind.getModElement().getRegistryName()}",
+			<#if keybind.triggerKey?starts_with("MOUSE")>
+				InputConstants.Type.MOUSE, GLFW.GLFW_${generator.map(keybind.triggerKey, "keybuttons")},
+			<#else>
+				GLFW.GLFW_KEY_${generator.map(keybind.triggerKey, "keybuttons")},
+			</#if>
 			"key.categories.${keybind.keyBindingCategoryKey}");
     </#list>
 

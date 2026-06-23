@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2022, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -34,21 +34,20 @@
  */
 package ${package}.init;
 
-<#assign hasLivingEntities = w.hasElementsOfType("livingentity")>
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}Entities {
 
-<#if hasLivingEntities>
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-</#if>
-public class ${JavaModName}Entities {
 	public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, ${JavaModName}.MODID);
+
+	<#assign hasLivingEntities = false>
 
 	<#list entities as entity>
 		<#if entity.getModElement().getTypeString() == "projectile">
 			public static final RegistryObject<EntityType<${entity.getModElement().getName()}Entity>> ${entity.getModElement().getRegistryNameUpper()} =
 				register("${entity.getModElement().getRegistryName()}", EntityType.Builder.<${entity.getModElement().getName()}Entity>
-					create(${entity.getModElement().getName()}Entity::new, EntityClassification.MISC).setCustomClientFactory(${entity.getModElement().getName()}Entity::new)
+						create(${entity.getModElement().getName()}Entity::new, EntityClassification.MISC).setCustomClientFactory(${entity.getModElement().getName()}Entity::new)
 						.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).size(${entity.modelWidth}f, ${entity.modelHeight}f));
-		<#else>
+		<#elseif entity.getModElement().getTypeString() == "livingentity">
+			<#assign hasLivingEntities = true>
 			public static final RegistryObject<EntityType<${entity.getModElement().getName()}Entity>> ${entity.getModElement().getRegistryNameUpper()} =
 				register("${entity.getModElement().getRegistryName()}", EntityType.Builder.<${entity.getModElement().getName()}Entity>
 						create(${entity.getModElement().getName()}Entity::new, ${generator.map(entity.mobSpawningType, "mobspawntypes")})
@@ -66,8 +65,14 @@ public class ${JavaModName}Entities {
 		</#if>
 	</#list>
 
+	<#if w.getGElementsOfType("specialentity")?size != 0>
+			public static final RegistryObject<EntityType<${JavaModName}Boat>> ${JavaModName?upper_case}_BOAT =
+				register("boat", EntityType.Builder.<${JavaModName}Boat>
+					create(${JavaModName}Boat::new, EntityClassification.MISC).size(1.375f, 0.5625f).clientTrackingRange(10));
+	</#if>
+
 	// Start of user code block custom entities
-	// End of user code block custom entities
+ 	// End of user code block custom entities
 
 	private static <T extends Entity> RegistryObject<EntityType<T>> register(String registryname, EntityType.Builder<T> entityTypeBuilder) {
 		return REGISTRY.register(registryname, () -> (EntityType<T>) entityTypeBuilder.build(registryname));

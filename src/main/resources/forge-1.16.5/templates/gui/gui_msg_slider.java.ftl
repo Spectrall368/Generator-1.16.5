@@ -67,7 +67,7 @@ package ${package}.network;
 		World world = entity.world;
 
 		// security measure to prevent arbitrary chunk generation
-		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
+		if (!world.getChunkProvider().chunkExists(SectionPos.toChunk(MathHelper.floor(x)), SectionPos.toChunk(MathHelper.floor(z))))
 			return;
 
 		<#assign slid = 0>

@@ -38,6 +38,7 @@ package ${package}.init;
 
 <#assign hasBlocks = false>
 <#assign hasDoubleBlocks = false>
+<#assign hasSigns = false>
 <#assign hasItemsWithProperties = w.getGElementsOfType("item")?filter(e -> e.customProperties?has_content)?size != 0
 	|| w.getGElementsOfType("tool")?filter(e -> e.toolType == "Shield")?size != 0>
 <#assign tabMap = w.getCreativeTabMap()>
@@ -139,6 +140,10 @@ public class ${JavaModName}Items {
 					REGISTRY.register("${item.getModElement().getRegistryName()}_spawn_egg",
 						() -> new ForgeSpawnEggItem(${JavaModName}Entities.${item.getModElement().getRegistryNameUpper()},
 						${item.spawnEggBaseColor.getRGB()}, ${item.spawnEggDotColor.getRGB()}, new Item.Properties().group(<@CreativeTabs item.creativeTabs/>)));
+			<#elseif item.getModElement().getTypeString() == "specialentity">
+				${item.getModElement().getRegistryNameUpper()} =
+					REGISTRY.register("${item.getModElement().getRegistryName()}",
+						() -> new ${JavaModName}BoatItem(${JavaModName}Boat.Type.${item.getModElement().getRegistryNameUpper()}, new Item.Properties().group(<@CreativeTabs item.creativeTabs/>)));
 			<#elseif item.getModElement().getTypeString() == "dimension" && item.hasIgniter()>
 				${item.getModElement().getRegistryNameUpper()} =
 					REGISTRY.register("${item.getModElement().getRegistryName()}", ${item.getModElement().getName()}Item::new);
@@ -150,12 +155,17 @@ public class ${JavaModName}Items {
 				<#if item.isDoubleBlock()>
 					<#assign hasDoubleBlocks = true>
 					${item.getModElement().getRegistryNameUpper()} =
-					doubleBlock<#if !customProp>CMT</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
+					doubleBlock<#if !customProp>Tab</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
+					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
+				<#elseif (item.getModElement().getTypeString() == "block") && ((item.blockBase! == "Sign") || (item.blockBase! == "HangingSign"))>
+					<#assign hasSigns = true>
+					${item.getModElement().getRegistryNameUpper()} =
+					signBlock<#if !customProp>Tab</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, ${JavaModName}Blocks.${item.getWallRegistryNameUpper()},
 					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
 				<#else>
 					<#assign hasBlocks = true>
 					${item.getModElement().getRegistryNameUpper()} =
-					block<#if !customProp>CMT</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
+					block<#if !customProp>Tab</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
 					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
 				</#if>
 			<#else>
@@ -176,7 +186,7 @@ public class ${JavaModName}Items {
 	// End of user code block custom items
 
 	<#if hasBlocks>
-	private static RegistryObject<Item> blockCMT(RegistryObject<Block> block, ItemGroup tab) {
+	private static RegistryObject<Item> blockTab(RegistryObject<Block> block, ItemGroup tab) {
 		return block(block, new Item.Properties().group(tab));
 	}
 
@@ -186,12 +196,22 @@ public class ${JavaModName}Items {
 	</#if>
 
 	<#if hasDoubleBlocks>
-	private static RegistryObject<Item> doubleBlockCMT(RegistryObject<Block> block, ItemGroup tab) {
+	private static RegistryObject<Item> doubleBlockTab(RegistryObject<Block> block, ItemGroup tab) {
 		return doubleBlock(block, new Item.Properties().group(tab));
 	}
 
 	private static RegistryObject<Item> doubleBlock(RegistryObject<Block> block, Item.Properties properties) {
 		return REGISTRY.register(block.getId().getPath(), () -> new TallBlockItem(block.get(), properties));
+	}
+	</#if>
+
+	<#if hasSigns>
+	private static RegistryObject<Item> signBlockTab(RegistryObject<Block> block, RegistryObject<Block> wallBlock, ItemGroup tab) {
+		return signBlock(block, wallBlock, new Item.Properties().group(tab));
+	}
+
+	private static RegistryObject<Item> signBlock(RegistryObject<Block> block, RegistryObject<Block> wallBlock, Item.Properties properties) {
+		return REGISTRY.register(block.getId().getPath(), () -> new SignItem(properties, block.get(), wallBlock.get()));
 	}
 	</#if>
 

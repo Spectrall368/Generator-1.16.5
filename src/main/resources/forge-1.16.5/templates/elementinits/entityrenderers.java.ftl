@@ -37,14 +37,6 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${JavaModName}EntityRenderers {
 
 	@SubscribeEvent public static void render(FMLClientSetupEvent event) {
-		${JavaModName}EntityRenderers.renders();
-	}
-
-	@SubscribeEvent @OnlyIn(Dist.CLIENT) public static void registerModels(ModelRegistryEvent event) {
-		${JavaModName}EntityRenderers.renders();
-	}
-
-	private static void renders() {
 	<#list entities as entity>
 		<#if entity.getModElement().getTypeString() == "projectile">
 			<#if entity.isCustomModel()>
@@ -52,13 +44,17 @@ package ${package}.init;
 			<#else>
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), renderManager -> new SpriteRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
 			</#if>
-		<#else>
+		<#elseif entity.getModElement().getTypeString() == "livingentity">
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
 			<#if entity.hasCustomProjectile()>
 			RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), renderManager -> new SpriteRenderer(renderManager, Minecraft.getInstance().getItemRenderer()));
 			</#if>
 		</#if>
 	</#list>
+
+	<#if w.getGElementsOfType("specialentity")?size != 0>
+	    RenderingRegistry.registerEntityRenderingHandler(${JavaModName}Entities.${JavaModName?upper_case}_BOAT.get(), ${JavaModName}BoatRenderer::new);
+	</#if>
 	}
 }
 <#-- @formatter:on -->

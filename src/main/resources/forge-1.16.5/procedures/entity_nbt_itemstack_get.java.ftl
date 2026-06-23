@@ -1,0 +1,1 @@
+/*@ItemStack*/(ItemStack.read(${input$entity}.getPersistentData().getCompound(${input$tagName})))
