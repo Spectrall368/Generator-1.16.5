@@ -132,9 +132,9 @@ package ${package}.init;
 	        this.type = type;
 	    }
 
-	    @Override ${mcc.getMethod("net.minecraft.core.dispenser.BoatDispenseItemBehavior", "dispenseStack", "IBlockSource", "ItemStack").replace("Boat", JavaModName + "Boat")}
+	    @Override ${mcc.getMethod("net.minecraft.dispenser.DispenseBoatBehavior", "dispenseStack", "IBlockSource", "ItemStack").replace("BoatEntity", JavaModName + "Boat")}
 
-	    @Override ${mcc.getMethod("net.minecraft.core.dispenser.BoatDispenseItemBehavior", "playDispenseSound", "IBlockSource")}
+	    @Override ${mcc.getMethod("net.minecraft.dispenser.DispenseBoatBehavior", "playDispenseSound", "IBlockSource")}
 	}
 	</#if>
 }</@javacompress>
