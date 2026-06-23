@@ -58,7 +58,7 @@ public class ${name}Feature extends <#if data.plantType == "normal" && data.gene
                     <#if data.plantType == "double">DoublePlantBlockPlacer.PLACER
                     <#elseif data.plantType == "normal">SimpleBlockPlacer.PLACER
                     <#else>new ColumnBlockPlacer(2, 2)</#if>)
-                    <#if data.plantType == "growapable">.xspread(4).yspread(0).zspread(4).func_227317_b_()</#if>
+                    <#if data.plantType == "growapable">.xSpread(4).ySpread(0).zSpread(4).func_227317_b_()</#if>
                     <#if data.plantType == "double" && data.generationType == "Flower">.func_227317_b_()</#if>
                     .tries(${data.patchSize}).build())
                     .func_242731_b(${data.frequencyOnChunks})
