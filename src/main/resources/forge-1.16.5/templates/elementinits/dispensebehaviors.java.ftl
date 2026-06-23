@@ -82,7 +82,7 @@ package ${package}.init;
 			}
 			<#else>
 			new DefaultDispenseItemBehavior() {
-				public ItemStack dispenseStack(IBlockSource blockSource, ItemStack stack) {
+				public ItemStack dispenseStack(IBlockSource blockSource, ItemStack itemstack) {
 					<#if hasProcedure(extension.dispenseResultItemstack)>
 						<#if hasReturnValueOf(extension.dispenseResultItemstack, "itemstack")>
 							return <@procedureCode extension.dispenseResultItemstack, {
