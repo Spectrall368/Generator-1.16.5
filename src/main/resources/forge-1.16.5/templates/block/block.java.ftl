@@ -234,21 +234,15 @@ public class ${getClassName()}Block extends ${getBlockClass(data.blockBase)}
 		</#if>
 	}
 
-	<#if data.transparencyType != "SOLID">
+	<#if data.transparencyType != "SOLID" || data.hasTransparency>
 	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
-		<#if data.transparencyType == "CUTOUT">
-		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${REGISTRYNAME}.get(), RenderType.getCutout());
-		<#elseif data.transparencyType == "CUTOUT_MIPPED">
+		<#if data.transparencyType == "CUTOUT_MIPPED">
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${REGISTRYNAME}.get(), RenderType.getCutoutMipped());
 		<#elseif data.transparencyType == "TRANSLUCENT">
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${REGISTRYNAME}.get(), RenderType.getTranslucent());
-		<#else>
-		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${REGISTRYNAME}.get(), RenderType.getSolid());
-		</#if>
-	}
-	<#elseif data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
-	@OnlyIn(Dist.CLIENT) public static void registerRenderLayer() {
+		<#elseif data.transparencyType == "CUTOUT" || data.hasTransparency> <#-- for cases when user selected SOLID but checked transparency -->
 		RenderTypeLookup.setRenderLayer(${JavaModName}Blocks.${REGISTRYNAME}.get(), RenderType.getCutout());
+		</#if>
 	}
 	</#if>
 

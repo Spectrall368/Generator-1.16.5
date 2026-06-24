@@ -1,1 +1,1 @@
-(${field$min} + random.nextInt(random.nextInt(${field$max} - ${field$min} + 1) + 1))
+(${field$min} + ${JavaModName}Features.RAND.nextInt(${JavaModName}Features.RAND.nextInt(${field$max} - ${field$min} + 1) + 1))

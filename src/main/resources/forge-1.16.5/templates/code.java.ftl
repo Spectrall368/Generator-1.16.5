@@ -29,7 +29,7 @@
 -->
 
 <#-- @formatter:off -->
-/**
+/*
  * The code of this mod element is always locked.
  *
  * You can register new events in this class too.
@@ -53,12 +53,10 @@ package ${package};
 		new ${name}();
 	}
 
-    @Mod.EventBusSubscriber private static class ${name}ForgeBusEvents {
-		@SubscribeEvent public static void serverLoad(ServerStartingEvent event) {
-		}
+	@OnlyIn(Dist.CLIENT) @SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
+	}
 
-		@OnlyIn(Dist.CLIENT) @SubscribeEvent public static void clientLoad(FMLClientSetupEvent event) {
-		}
+	@SubscribeEvent public static void serverLoad(FMLServerStartingEvent event) {
 	}
 }
 <#-- @formatter:on -->
