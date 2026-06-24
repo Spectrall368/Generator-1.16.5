@@ -36,7 +36,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 
 <@javacompress>
 @OnlyIn(Dist.CLIENT) public class ${name}ItemRenderer extends ItemStackTileEntityRenderer {
-	private final ItemStack transformSource;
+	private final Supplier<ItemStack> transformSource;
 
 	private final Map<Integer, EntityModel<?>> models = new HashMap<>();
 	private final long start;
@@ -44,7 +44,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 	private final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation("${data.texture.format("%s:textures/item/%s")}.png");
 
 	public ${name}ItemRenderer() {
-		this.transformSource = new ItemStack(${JavaModName}Items.${REGISTRYNAME}.get());
+		this.transformSource = Suppliers.memoize(() -> new ItemStack(${JavaModName}Items.${REGISTRYNAME}.get()));
 
 		this.start = System.currentTimeMillis();
 
