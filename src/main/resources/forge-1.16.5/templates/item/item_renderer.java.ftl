@@ -77,7 +77,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 		if (model == null) return;
 
 		poseStack.push();
-		Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(this.transformSource, null, null).handlePerspective(displayContext, poseStack);
+		Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(this.transformSource.get(), null, null).handlePerspective(displayContext, poseStack);
 		poseStack.translate(0.5, isInventory(displayContext) ? 1.5 : 2, 0.5);
 		poseStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
 		poseStack.scale(1, 1, displayContext == ItemCameraTransforms.TransformType.GUI ? -1 : 1);
