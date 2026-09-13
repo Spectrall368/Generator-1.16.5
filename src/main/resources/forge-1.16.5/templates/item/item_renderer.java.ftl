@@ -77,7 +77,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 		if (model == null) return;
 
 		poseStack.push();
-		Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(this.transformSource.get(), null, null).handlePerspective(displayContext, poseStack);
+		Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(this.transformSource.get(), null, null).getItemCameraTransforms().getTransform(displayContext).apply(isLeftHand(displayContext), poseStack);
 		poseStack.translate(0.5, isInventory(displayContext) ? 1.5 : 2, 0.5);
 		poseStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
 		poseStack.scale(1, 1, displayContext == ItemCameraTransforms.TransformType.GUI ? -1 : 1);
@@ -85,6 +85,10 @@ import net.minecraft.client.renderer.ItemRenderer;
 		model.setRotationAngles(null, 0, 0, (System.currentTimeMillis() - start) / 50.0f, 0, 0);
 		model.render(poseStack, vertexConsumer, packedLight, packedOverlay, 1, 1, 1, 1);
 		poseStack.pop();
+	}
+
+	private static boolean isLeftHand(ItemCameraTransforms.TransformType type) {
+		return type == ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND || type == ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND;
 	}
 
 	private static boolean isInventory(ItemCameraTransforms.TransformType type) {
